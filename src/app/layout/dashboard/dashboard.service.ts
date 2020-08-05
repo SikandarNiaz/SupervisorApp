@@ -46,7 +46,7 @@ export class DashboardService {
 
   login(credentials: any) {
     // let body=JSON.stringify(credentials)
-    const url = this.ip + 'pictureLogin';
+    const url = this.ip + 'portal/auth/login';
     return this.http.post(url, credentials);
     // .pipe(
     //   timeout(60000),
@@ -83,7 +83,7 @@ export class DashboardService {
       body = this.UrlEncodeMaker(obj);
       // `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
     }
-    const url = this.ip + 'dashboardDataCBL';
+    const url = this.ip + 'dashboardDatajson';
     return this.http.post(url, body, this.httpOptions);
     // .pipe(
     //   timeout(60000),
@@ -93,6 +93,12 @@ export class DashboardService {
     //   })
     // );
 
+  }
+
+  getShopData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + 'shopData';
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 
   checkDate() {
@@ -222,12 +228,25 @@ export class DashboardService {
     // );
   }
 
+  getPrograms() {
+
+    const filter = JSON.stringify({act: 5);
+    const url = this.ip + 'loadFilters';
+    return this.http.post(url, filter);
+
+  }
+
 
   getRegions() {
     const url = this.ip + 'loadFilters';
     const filter = JSON.stringify({act: 13});
     return this.http.post(url, filter);
 
+  }
+  getSurveyors(programId){
+    const url = this.ip + 'loadFilters';
+    const filter = JSON.stringify({act: 4, programId: programId});
+    return this.http.post(url, filter);
   }
 
   getCities(regionId) {

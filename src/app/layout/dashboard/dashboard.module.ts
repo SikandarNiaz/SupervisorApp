@@ -56,6 +56,7 @@ import { DashboardTableauComponent } from './Tableau/dashboard-tableau/dashboard
 import { ProductivityTableauComponent } from './Tableau/productivity-tableau/productivity-tableau.component';
 import { SkuDashboardComponent } from './Tableau/sku-dashboard/sku-dashboard.component';
 import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
+import { AssignShopsComponent } from './innerComponents/assign-shops/assign-shops.component';
 @NgModule({
     imports: [
         FormsModule,
@@ -98,6 +99,6 @@ ReactiveFormsModule
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
           AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent]
+          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent]
 })
 export class DashboardModule {}

@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
 
 
 // doughnut chart
-public doughnutChartLabels: any[] = ['Haleeb', 'Competition', ];
+public doughnutChartLabels: any[] = ['Nivea', 'Competition', ];
   public doughnutChartData: any = [
     [350, 450]
   ];
