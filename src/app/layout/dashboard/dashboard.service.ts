@@ -227,10 +227,18 @@ export class DashboardService {
     //   })
     // );
   }
+  
+  getShops(zoneId, regionId) {
+
+    const filter = JSON.stringify({act: 6, zoneId: zoneId, regionId: regionId});
+    const url = this.ip + 'loadFilters';
+    return this.http.post(url, filter);
+  
+  }
 
   getPrograms() {
 
-    const filter = JSON.stringify({act: 5);
+    const filter = JSON.stringify({act: 5});
     const url = this.ip + 'loadFilters';
     return this.http.post(url, filter);
 
@@ -411,5 +419,15 @@ export class DashboardService {
   getKey(obj) {
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(this.ip + 'tableauTicket',  body, this.httpOptions);
+  }
+  getAttendanceData(obj){
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + 'merchandiserAttendanceDetail';
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  getBAList(obj){
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + 'BAList';
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 }

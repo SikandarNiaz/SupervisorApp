@@ -57,6 +57,8 @@ import { ProductivityTableauComponent } from './Tableau/productivity-tableau/pro
 import { SkuDashboardComponent } from './Tableau/sku-dashboard/sku-dashboard.component';
 import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
 import { AssignShopsComponent } from './innerComponents/assign-shops/assign-shops.component';
+import { MerchandiserAttendenceDetailComponent } from './innerComponents/merchandiser-attendence-detail/merchandiser-attendence-detail.component';
+import { InterceptionSummaryComponent } from './innerComponents/interception-summary/interception-summary.component';
 @NgModule({
     imports: [
         FormsModule,
@@ -99,6 +101,6 @@ ReactiveFormsModule
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
           AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent]
+          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent, MerchandiserAttendenceDetailComponent, InterceptionSummaryComponent]
 })
 export class DashboardModule {}

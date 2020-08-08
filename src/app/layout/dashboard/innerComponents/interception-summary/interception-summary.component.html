@@ -1,0 +1,183 @@
+<div class="animated slideInLeft">
+<mat-card class="mb-20">
+
+  <mat-card-content>
+      <mat-card-title>
+          {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+      </mat-card-title>
+
+      <section class="example-section">
+
+
+          <mat-form-field class="example-margin mr-10-IMP">
+
+              <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                  <mat-option [value]="zone" *ngFor="let zone of zones">{{zone.title}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="regions.length>0 && selectedZone.id !==-1" class="example-margin mr-10-IMP">
+              <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="regionChange()">
+                  <mat-option [value]="region" *ngFor="let region of regions">{{region.title}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="stores.length>0" class="example-margin mr-10-IMP">
+              <mat-select placeholder="Store Name" name='storeType' [(ngModel)]="selectedStore" (ngModelChange)="getTabsData()">
+                  <mat-option [value]="-1">ALL</mat-option>
+                  <mat-option [value]="store" *ngFor="let store of stores">{{store.title}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+
+
+
+          <mat-form-field class="example-full-width mr-10-IMP">
+              <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" (ngModelChange)="getTabsData()" placeholder="Choose a start date" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="example-full-width mr-10-IMP">
+              <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" (ngModelChange)="getTabsData()" placeholder="Choose a end date" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+      </section>
+
+
+  </mat-card-content>
+</mat-card>
+
+
+
+
+
+<div class="row web-view">
+  <!-- <p>web view</p> -->
+  <div class="col-md-12">
+      <mat-card>
+          <mat-card-header style="justify-content: flex-end;">
+
+          </mat-card-header>
+          <mat-card-content>
+              <div class="row">
+               
+                  <div class="col-md-3">
+                      <div>
+                          <app-stat [bgClass]="'success'" [icon]="'thumb_up'" [count]="0" [label]="'Successful'"></app-stat>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div>
+                        <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="0" [label]="'Total Unit Sale'"></app-stat>
+                    </div>
+                </div>
+
+                  <div class="col-md-3">
+                      <div>
+                          <app-stat [bgClass]="'purple'" [icon]="'assignment'" [count]="0" [label]="'Successful/Day'"></app-stat>
+                      </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div>
+                        <app-stat [bgClass]="'danger'" [icon]="'assignment'" [count]="0" [label]="'Unit Sale/Day'"></app-stat>
+                    </div>
+                </div>
+
+
+
+
+
+              </div>
+          </mat-card-content>
+      </mat-card>
+  </div>
+</div>
+
+<ng-container *ngIf="tableData.length>0">
+    <div class="animated slideInLeft">
+        <mat-card class="mb-20" style="border-top: 1px solid #AFAFAF;">
+
+            <mat-card-content>
+
+                <section class="example-section">
+                    <!-- <div class="row text-center">
+                        <div class="col-md-12">
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+                        </div>
+                    </div> -->
+
+                    <table class="table table-hover">
+
+                        <thead>
+                            <tr>
+                                <th (click)="sortIt('m_code')" style="cursor: pointer">BA Code
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('m_code')}}
+                                    </i>
+                                </th>
+                                <th (click)="sortIt('full_name')" style="cursor: pointer">BA Name
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('full_name')}}
+                                    </i></th>
+
+                                    <th (click)="sortIt('region')" style="cursor: pointer">Region Name
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('region')}}
+                                        </i></th>
+                                <th (click)="sortIt('completed')" style="cursor: pointer">Completed Interceptions
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('completed')}}
+                                    </i></th>
+                                <th (click)="sortIt('successfull')" style="cursor: pointer">Successful Interceptions
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('successfull')}}
+                                    </i></th>
+    
+                                <!-- <th></th> -->
+
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="tableData.length>0">
+                            <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
+                            <tr *ngFor="let item of tableData | orderBy: sortBy : sortOrder">
+                                <td>{{item?.m_code}}</td>
+                                <td>{{item?.full_name}}</td>
+                                <td>{{item?.region}}</td>
+                                <td style="color:blue;cursor:pointer">{{item?.completed}}</td>
+                                <td style="color:blue;cursor:pointer">
+                                        {{item?.successfull}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </section>
+
+
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+</ng-container>
+<div class="row " *ngIf="loadingData">
+    <div class="col-md-12 text-center">
+        <div class="img-center">
+            <img src="assets/images/basicloader.gif" alt="" srcset="">
+        </div>
+    </div>
+</div>
+
+<div class="row " *ngIf="!loadingData && tableData.length==0">
+    <div class="col-md-12 text-center">
+
+        <div class="alert alert-info">
+            <p>No Data Found</p>
+        </div>
+    </div>
+</div>
+
+
+</div>

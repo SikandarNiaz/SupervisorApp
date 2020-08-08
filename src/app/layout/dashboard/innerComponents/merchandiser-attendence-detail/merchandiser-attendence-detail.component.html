@@ -1,0 +1,110 @@
+<mat-card class="mb-20">
+
+  <mat-card-content>
+      <mat-card-title>
+          {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i>
+      </mat-card-title>
+      <section class="example-section">
+          <mat-form-field class="example-full-width mr-10-IMP">
+              <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" (ngModelChange)="getData()" placeholder="Choose a start date" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="example-full-width mr-10-IMP">
+              <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" (ngModelChange)="getData()" placeholder="Choose a end date" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+      </section>
+  </mat-card-content>
+</mat-card>
+
+<ng-container *ngIf="tableData.length>0">
+
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 id="dialog-child-name" class="modal-title pull-left">{{selectedItem.full_name}}</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+          </div>
+
+          <div class="modal-body text-center">
+              <img src="{{ip}}{{selectedItem.day_start_image_url}}" alt="" style=" width: 100%; height: 500px; ">
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="container-fluid" *ngIf="tableData.length>0">
+  <div class="row">
+
+  </div>
+  <div class="row js">
+      <ng-container *ngFor="let item of tableData;let i=index">
+          <mat-card class=" col-md-3 example-card card2 ml-3 mt-3">
+           
+              <div class="ribbon">
+                      <img mat-card-image class="small" src="{{ip}}{{item.day_start_image_url}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
+                  
+              </div>
+
+
+              
+              
+              <mat-card-content>
+                  <table class="table" style="cursor:pointer" >
+
+                      <tr>
+                          <!-- test -->
+                          <th>BA Code</th>
+                          <td>{{item?.m_code}}</td>
+                      </tr>
+                      <tr>
+                          <th>BA Name</th>
+                          <td>{{item?.full_name}}</td>
+                      </tr>
+                      <tr>
+                          <th>Start Time</th>
+                          <td>{{item?.day_start_time}}</td>
+                      </tr>
+                      <tr>
+                          <th>End Time</th>
+                          <td>{{item?.day_end_time}}</td>
+                      </tr>
+                     
+                  </table>
+                 
+              </mat-card-content>
+              
+          </mat-card>
+      </ng-container>
+  </div>
+</div>
+</ng-container>
+
+
+<div class="row " *ngIf="loading">
+    <div class="col-md-12 text-center">
+        <div class="img-center">
+            <img src="assets/images/basicloader.gif" alt="" srcset="">
+        </div>
+    </div>
+</div>
+
+<div class="row " *ngIf="!loading && tableData.length==0">
+    <div class="col-md-12 text-center">
+
+        <div class="alert alert-info">
+            <p>No Data Found</p>
+        </div>
+        <!-- <div class="img-center">
+            <img src="assets/images/basicloader.gif" alt="" srcset="">
+        </div> -->
+    </div>
+</div>

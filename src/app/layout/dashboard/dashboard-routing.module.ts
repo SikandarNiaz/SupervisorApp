@@ -36,8 +36,8 @@ import { ProductivityTableauComponent } from './Tableau/productivity-tableau/pro
 import { SkuDashboardComponent } from './Tableau/sku-dashboard/sku-dashboard.component';
 import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
 import { AssignShopsComponent } from './innerComponents/assign-shops/assign-shops.component';
-
-
+import { MerchandiserAttendenceDetailComponent } from './innerComponents/merchandiser-attendence-detail/merchandiser-attendence-detail.component';
+import { InterceptionSummaryComponent } from './innerComponents/interception-summary/interception-summary.component';
 
 
 const routes: Routes = [
@@ -77,7 +77,9 @@ const routes: Routes = [
             {path: 'productivity-tableau', component: ProductivityTableauComponent},
             {path: 'sku-dashboard', component: SkuDashboardComponent},
             { path: 'capturedAbnormalUnvisited', component: UniqueBasedProductivityReportComponent },
-            { path: 'assign-shops', component: AssignShopsComponent }
+            { path: 'assign-shops', component: AssignShopsComponent },
+            { path: 'merchandiserAttendanceDetail', component: MerchandiserAttendenceDetailComponent },
+            { path: 'interception-status', component: InterceptionSummaryComponent }
 
 
 
