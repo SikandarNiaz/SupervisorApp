@@ -29,8 +29,8 @@ export class FilterBarComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
     this.zones = JSON.parse(localStorage.getItem('zoneList'));
-    this.categoryList = JSON.parse(localStorage.getItem('assetList'));
-    this.channels = JSON.parse(localStorage.getItem('channelList'));
+    // this.categoryList = JSON.parse(localStorage.getItem('assetList'));
+    // this.channels = JSON.parse(localStorage.getItem('channelList'));
     // this.regions = JSON.parse(localStorage.getItem('regionList'));
     this.form = formBuilder.group({
       selectedRegionUp: this.selectedRegionUp,
@@ -90,9 +90,13 @@ export class FilterBarComponent implements OnInit {
   impactTypeList: any = [];
   response: any = '';
   shopWiseCount: any = [];
-
+surveyorList:any=[];
+selectedSurveyor: any=[];
+brandList:any=[];
+selectedBrand:any={};
   queryList: any = [];
   selectedQuery: any = {};
+  
 
   selectedRegionUp: any = new FormControl({}, [Validators.required]);
   // date = new FormControl(new Date());
@@ -164,6 +168,9 @@ export class FilterBarComponent implements OnInit {
 
     if (this.router.url === '/dashboard/upload_routes_new') {
       this.getAllRegions();
+    }
+    if(this.router.url === '/dashboard/daily-contact-report' || this.router.url === '/dashboard/cc-productivity-report' || this.router.url === '/dashboard/ce-raw-data'){
+      this.getSurveyorsAndBrands();
     }
   }
 
@@ -326,6 +333,137 @@ export class FilterBarComponent implements OnInit {
       this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
     }
   }
+
+  getCCProductivityReport()
+  {
+
+    if (this.endDate >= this.startDate) {
+      this.loadingData = true;
+      this.loadingReportMessage = true;
+      const obj = {
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+        surveyorId: this.arrayMaker(this.selectedSurveyor),
+        brandId: this.selectedBrand.id || -1,
+        reportId:3,
+        reqType: 'angularRequest'
+      };
+      
+      const url = 'ddsProductivityReport';
+      const body = this.httpService.UrlEncodeMaker(obj);
+      this.httpService.getKeyForProductivityReport(body, url).subscribe(
+        data => {
+          console.log(data, 'query list');
+          const res: any = data;
+
+          if (res) {
+            const obj2 = {
+              key: res.key,
+              fileType: res.fileType
+            };
+            const url = 'downloadReport';
+            this.getproductivityDownload(obj2, url);
+          } else {
+            this.clearLoading();
+
+            this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+          }
+        },
+        error => {
+          this.clearLoading();
+        }
+      );
+    } else {
+      this.clearLoading();
+      this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+    }
+
+  }
+  getDailyContactReport() {
+    if (this.endDate >= this.startDate) {
+      this.loadingData = true;
+      this.loadingReportMessage = true;
+      const obj = {
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+        surveyorId: this.arrayMaker(this.selectedSurveyor),
+        brandId: this.selectedBrand.id || -1,
+        reportId:1,
+        reqType: 'angularRequest'
+      };
+      
+      const url = 'ceSurveyDetail';
+      const body = this.httpService.UrlEncodeMaker(obj);
+      this.httpService.getKeyForProductivityReport(body, url).subscribe(
+        data => {
+          console.log(data, 'query list');
+          const res: any = data;
+
+          if (res) {
+            const obj2 = {
+              key: res.key,
+              fileType: res.fileType
+            };
+            const url = 'downloadReport';
+            this.getproductivityDownload(obj2, url);
+          } else {
+            this.clearLoading();
+
+            this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+          }
+        },
+        error => {
+          this.clearLoading();
+        }
+      );
+    } else {
+      this.clearLoading();
+      this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+    }
+  }
+  getBADashboardReport(){
+    if (this.endDate >= this.startDate) {
+      this.loadingData = true;
+      this.loadingReportMessage = true;
+      const obj = {
+        startDate: moment(this.startDate).format('YYYY-MM-DD'),
+        endDate: moment(this.endDate).format('YYYY-MM-DD'),
+        surveyorId: this.arrayMaker(this.selectedSurveyor),
+        brandId: this.selectedBrand.id || -1,
+        reportId:11,
+        reqType: 'angularRequest'
+      };
+      
+      const url = 'ceRawData';
+      const body = this.httpService.UrlEncodeMaker(obj);
+      this.httpService.getKeyForProductivityReport(body, url).subscribe(
+        data => {
+          console.log(data, 'query list');
+          const res: any = data;
+
+          if (res) {
+            const obj2 = {
+              key: res.key,
+              fileType: res.fileType
+            };
+            const url = 'downloadReport';
+            this.getproductivityDownload(obj2, url);
+          } else {
+            this.clearLoading();
+
+            this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+          }
+        },
+        error => {
+          this.clearLoading();
+        }
+      );
+    } else {
+      this.clearLoading();
+      this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+    }
+  }
+
 
   uploadData(post) {
     const formData = new FormData();
@@ -1348,6 +1486,29 @@ export class FilterBarComponent implements OnInit {
       this.toastr.info('Plz Enter a Valid Date and Type', 'Required Fields');
     }
   }
+getSurveyorsAndBrands(){
+  this.loadingData = true;
 
+    this.httpService.getSurveyorsAndBrands().subscribe(
+      data => {
+        const res: any = data;
+        if (res) {
+          this.surveyorList = res.surveyorList;
+          this.brandList = res.brandList;
+        } else {
+          this.clearLoading();
+
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+
+        setTimeout(() => {
+          this.loadingData = false;
+        }, 500);
+      },
+      error => {
+        this.clearLoading();
+      }
+    );
+}
 
 }

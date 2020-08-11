@@ -430,4 +430,14 @@ export class DashboardService {
     const url = this.ip + 'BAList';
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+  getSurveyorsAndBrands(){
+    const filter = JSON.stringify({act: 7});
+    const url = this.ip + 'loadFilters';
+    return this.http.post(url, filter);
+  }
+  getDashboardStats(obj){
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + 'interceptionSummary';
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
 }

@@ -59,6 +59,10 @@ import { UniqueBasedProductivityReportComponent } from './innerComponents/unique
 import { AssignShopsComponent } from './innerComponents/assign-shops/assign-shops.component';
 import { MerchandiserAttendenceDetailComponent } from './innerComponents/merchandiser-attendence-detail/merchandiser-attendence-detail.component';
 import { InterceptionSummaryComponent } from './innerComponents/interception-summary/interception-summary.component';
+import { CcProductivityReportComponent } from './innerComponents/cc-productivity-report/cc-productivity-report.component';
+import { DailyContactReportComponent } from './innerComponents/daily-contact-report/daily-contact-report.component';
+import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
+
 @NgModule({
     imports: [
         FormsModule,
@@ -101,6 +105,6 @@ ReactiveFormsModule
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
           AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent, MerchandiserAttendenceDetailComponent, InterceptionSummaryComponent]
+          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent, MerchandiserAttendenceDetailComponent, InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, CeRawDataComponent]
 })
 export class DashboardModule {}

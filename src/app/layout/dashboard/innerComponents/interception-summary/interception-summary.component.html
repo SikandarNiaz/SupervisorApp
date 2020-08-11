@@ -123,18 +123,26 @@
                                         {{getArrowType('full_name')}}
                                     </i></th>
 
-                                    <th (click)="sortIt('region')" style="cursor: pointer">Region Name
+                                    <th (click)="sortIt('WorkingDays')" style="cursor: pointer">Working Days
                                         <i class="material-icons arrow material-icons-arrow">
-                                            {{getArrowType('region')}}
+                                            {{getArrowType('WorkingDays')}}
                                         </i></th>
-                                <th (click)="sortIt('completed')" style="cursor: pointer">Completed Interceptions
+                                <th (click)="sortIt('Successful')" style="cursor: pointer">Successful Int
                                     <i class="material-icons arrow material-icons-arrow">
-                                        {{getArrowType('completed')}}
+                                        {{getArrowType('Successful')}}
                                     </i></th>
-                                <th (click)="sortIt('successfull')" style="cursor: pointer">Successful Interceptions
-                                    <i class="material-icons arrow material-icons-arrow">
-                                        {{getArrowType('successfull')}}
-                                    </i></th>
+                                    <th (click)="sortIt('successful_per_day')" style="cursor: pointer">Successful/Day
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('successful_per_day')}}
+                                        </i></th>
+                                        <th (click)="sortIt('TotalSale')" style="cursor: pointer">Unit Sale
+                                            <i class="material-icons arrow material-icons-arrow">
+                                                {{getArrowType('TotalSale')}}
+                                            </i></th>
+                                            <th (click)="sortIt('Successful')" style="cursor: pointer">Unit Sale/Day
+                                                <i class="material-icons arrow material-icons-arrow">
+                                                    {{getArrowType('Successful')}}
+                                                </i></th>
     
                                 <!-- <th></th> -->
 
@@ -146,10 +154,12 @@
                             <tr *ngFor="let item of tableData | orderBy: sortBy : sortOrder">
                                 <td>{{item?.m_code}}</td>
                                 <td>{{item?.full_name}}</td>
-                                <td>{{item?.region}}</td>
-                                <td style="color:blue;cursor:pointer">{{item?.completed}}</td>
+                                <td>{{item?.WorkingDays}}</td>
                                 <td style="color:blue;cursor:pointer">
-                                        {{item?.successfull}}</td>
+                                        {{item?.Successful}}</td>
+                                        <td style="color:blue;cursor:pointer">{{item?.successful_per_day}}</td>
+                                        <td style="color:blue;cursor:pointer">{{item?.TotalSale}}</td>
+                                        <td style="color:blue;cursor:pointer">{{item?.unit_sale_per_day}}</td>
                             </tr>
                         </tbody>
                     </table>

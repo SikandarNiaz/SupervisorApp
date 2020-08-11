@@ -21,9 +21,15 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   ip: any = this.configFile.ip;
   tableData: any = [];
   headingsList: any = [];
-  loading = true;
+  obj:any={};
+  loading = false;
   reevaluatorRole: any;
   userType: any;
+  zones:any=[];
+  regions:any=[];
+  loadingData:boolean;
+  selectedZone:any={};
+  selectedRegion:any={};
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   startDate = new Date();
@@ -38,7 +44,14 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   tableTitle = '';
   params: any = {};
   constructor(private router: Router, private toastr: ToastrService, private httpService: DashboardService, private activeRoute: ActivatedRoute) {
-   }
+    this.zones = JSON.parse(localStorage.getItem('zoneList'));
+    this.activeRoute.queryParams.subscribe(p => {
+      console.log('active params', p);
+      this.params = p;
+      this.getData(this.params);
+    }); 
+  
+  }
 
    showChildModal(): void {
     this.childModal.show();
@@ -54,19 +67,29 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
 
   ngOnInit() {
     // this.getTableData();
-    this.getData();
-
-
   }
 
-  getData() {
+  getData(params) {
 this.loading=true;
- const obj = {
-      startDate: moment(this.startDate).format('YYYY-MM-DD'),
-      endDate:  moment(this.endDate).format('YYYY-MM-DD'),
+if(params.surveyorId){
+  this.obj = {
+    surveyorId: params.surveyorId,
+    regionId: -1,
+    zoneId: -1
+  };
+}
+else
+{
+  this.obj = {
+    startDate: moment(this.startDate).format('YYYY-MM-DD'),
+    endDate:  moment(this.endDate).format('YYYY-MM-DD'),
+    surveyorId: -1,
+    regionId: this.selectedRegion.id || -1,
+    zoneId: this.selectedZone.id || -1
+  };
+}
 
-    };
-    this.httpService.getAttendanceData(obj).subscribe(data => {
+    this.httpService.getAttendanceData(this.obj).subscribe(data => {
       // console.log(data);
       this.tableData = data;
       if (this.tableData.length === 0) {
@@ -88,5 +111,25 @@ this.loading=true;
       window.open(`${environment.hash}dashboard/evaluation/list/details/${item.survey_id}/${item.shop_id}`, '_blank');
     }
 
+}
+
+zoneChange() {
+  this.getData(this.params);
+  this.loading = true;
+  this.httpService.getRegion(this.selectedZone.id).subscribe(
+    data => {
+      const res: any = data;
+      if (res) {
+        this.regions = res;
+      } else {
+        this.loading=false;
+        this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+      }
+      this.loading = false;
+    },
+    error => {
+      this.loading=false;
+    }
+  );
 }
 }

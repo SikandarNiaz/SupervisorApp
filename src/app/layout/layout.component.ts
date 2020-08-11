@@ -18,7 +18,7 @@ export class LayoutComponent implements OnInit {
         ).subscribe((e: NavigationEnd) => {
             this.url = e.url;
             // tslint:disable-next-line:triple-equals
-            if (e.url == '/dashboard/productivity-tableau' || e.url == '/dashboard/dashboard-tableau') {
+            if (e.url == '/dashboard/performance-dashboard' || e.url == '/dashboard/dashboard-tableau') {
                 this.hideSideBar = true;
             }
         });

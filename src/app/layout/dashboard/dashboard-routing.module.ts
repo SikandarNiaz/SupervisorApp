@@ -38,6 +38,9 @@ import { UniqueBasedProductivityReportComponent } from './innerComponents/unique
 import { AssignShopsComponent } from './innerComponents/assign-shops/assign-shops.component';
 import { MerchandiserAttendenceDetailComponent } from './innerComponents/merchandiser-attendence-detail/merchandiser-attendence-detail.component';
 import { InterceptionSummaryComponent } from './innerComponents/interception-summary/interception-summary.component';
+import { DailyContactReportComponent } from './innerComponents/daily-contact-report/daily-contact-report.component';
+import { CcProductivityReportComponent } from './innerComponents/cc-productivity-report/cc-productivity-report.component';
+import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
 
 
 const routes: Routes = [
@@ -74,12 +77,15 @@ const routes: Routes = [
             {path: 'upload_routes_new', component: UploadRoutesNewComponent},
             {path: 'merchandiser-planned-calls', component: MerchandiserPlannedCallsComponent},
             {path: 'dashboard-tableau', component: DashboardTableauComponent},
-            {path: 'productivity-tableau', component: ProductivityTableauComponent},
+            {path: 'performance-dashboard', component: ProductivityTableauComponent},
             {path: 'sku-dashboard', component: SkuDashboardComponent},
             { path: 'capturedAbnormalUnvisited', component: UniqueBasedProductivityReportComponent },
             { path: 'assign-shops', component: AssignShopsComponent },
             { path: 'merchandiserAttendanceDetail', component: MerchandiserAttendenceDetailComponent },
-            { path: 'interception-status', component: InterceptionSummaryComponent }
+            { path: 'interception-status', component: InterceptionSummaryComponent },
+            { path: 'daily-contact-report', component: DailyContactReportComponent },
+            { path: 'cc-productivity-report', component: CcProductivityReportComponent },
+            { path: 'ce-raw-data', component: CeRawDataComponent }
 
 
 
