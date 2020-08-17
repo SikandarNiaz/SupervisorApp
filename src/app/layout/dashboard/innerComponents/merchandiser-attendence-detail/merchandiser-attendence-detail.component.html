@@ -45,7 +45,7 @@
           </div>
 
           <div class="modal-body text-center">
-              <img src="{{ip}}{{selectedItem.day_start_image_url}}" alt="" style=" width: 100%; height: 500px; ">
+              <img src="{{ip}}{{selectedItem.day_start_image_url}}" alt="" style=" width: 80%; height: 500px; ">
           </div>
       </div>
   </div>
@@ -82,13 +82,14 @@
                           <td>{{item?.full_name}}</td>
                       </tr>
                       <tr>
+                        <th>Store Name</th>
+                        <td>{{item?.shop_title}}</td>
+                    </tr>
+                      <tr>
                           <th>Start Time</th>
                           <td>{{item?.day_start_time}}</td>
                       </tr>
-                      <tr>
-                          <th>End Time</th>
-                          <td>{{item?.day_end_time}}</td>
-                      </tr>
+                     
                      
                   </table>
                  

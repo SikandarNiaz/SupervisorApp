@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     public router: Router) {
     console.log(this.zones);
      }
-  title = 'Interception';
+  title = 'Productivity';
   loadingData: boolean;
   selectedZone: any = {};
   selectedRegion: any = {};
@@ -37,14 +37,14 @@ export class HomeComponent implements OnInit {
   zones: any = [];
     tableData: any=[];
   ngOnInit() {
-    this.getTabsData();
     this.getZoneList();
+    this.getStores();
+    this.getTabsData();
   }
 
   zoneChange() {
-    this.loadingData = true;
     this.getTabsData();
-  
+    this.loadingData = true;
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       data => {
         const res: any = data;
@@ -52,9 +52,9 @@ export class HomeComponent implements OnInit {
           this.regions = res;
         } else {
           this.loadingData=false;
-
           this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
         }
+        this.getStores();
 
         setTimeout(() => {
           this.loadingData = false;
@@ -67,9 +67,9 @@ export class HomeComponent implements OnInit {
   }
 
   regionChange(){
-    this.loadingData = true;
-   this.selectedStore.id=-1;
    this.getTabsData();
+   this.loadingData = true;
+   this.selectedStore.id=-1;
   this.httpService.getShops(this.selectedZone.id, this.selectedRegion.id).subscribe(
     data => {
       const res: any = data;
@@ -172,4 +172,27 @@ export class HomeComponent implements OnInit {
     window.open(`${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${item.id}`, '_blank');
   }
 
+  getStores(){
+    this.getTabsData();
+    this.loadingData = true;
+   this.httpService.getShops(this.selectedZone.id || -1, this.selectedRegion.id || -1).subscribe(
+     data => {
+       const res: any = data;
+       if (res) {
+         this.stores = res;
+       } else {
+         this.loadingData=false;
+ 
+         this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+       }
+ 
+       setTimeout(() => {
+         this.loadingData = false;
+       }, 500);
+     },
+     error => {
+       this.loadingData=false;
+     }
+   );
+}
 }

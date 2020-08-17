@@ -144,7 +144,7 @@
         </mat-card-title>
         <section class="example-section">
             <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="CC" name='cc' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
+                <mat-select placeholder="BA" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
                     <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
                             Select All
                           </button>

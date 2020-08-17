@@ -23,8 +23,8 @@ export class LayoutComponent implements OnInit {
             }
         });
         let url: any = new Array();
-        url = this.router.url.split('/');
-        const t: any = url.find(d => d === 'shop_detail');
+        url = this.router.url.split(/[?/]/);
+        const t: any = url.find(d => d === 'merchandiserAttendanceDetail');
         const r: any = url.find(d => d === 'details');
         if (t || r) {
             this.hideSideBar = true;

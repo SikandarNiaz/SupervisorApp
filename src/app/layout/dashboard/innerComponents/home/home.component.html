@@ -11,13 +11,13 @@
     
               <mat-form-field class="example-margin mr-10-IMP">
     
-                  <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                  <mat-select placeholder="Cluster" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
                       <mat-option [value]="zone" *ngFor="let zone of zones">{{zone.title}}</mat-option>
                   </mat-select>
               </mat-form-field>
     
               <mat-form-field *ngIf="regions.length>0 && selectedZone.id !==-1" class="example-margin mr-10-IMP">
-                  <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="regionChange()">
+                  <mat-select placeholder="City" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="getStores()">
                       <mat-option [value]="region" *ngFor="let region of regions">{{region.title}}</mat-option>
                   </mat-select>
               </mat-form-field>
@@ -54,43 +54,55 @@
     <div class="row web-view">
       <!-- <p>web view</p> -->
       <div class="col-md-12">
-          <mat-card *ngIf="!loadingData && dashboardData">
+          <mat-card *ngIf="!loadingData">
               <mat-card-header style="justify-content: flex-end;">
     
               </mat-card-header>
               <mat-card-content>
-                  <div class="row justify-content-lg-center">
-                    <div class="col-lg-2">
+                  <div class="row">
+                    <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'success'" [icon]="'assignment'" [count]="dashboardData?.TotalInterceptions" [label]="'Iterceptions'"></app-stat>
+                            <app-stat [bgClass]="'info'" [icon]="'list_alt'" [count]="dashboardData?.total_cc" [label]="'BA Count'"></app-stat>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div>
+                            <app-stat [bgClass]="'primary'" [icon]="'assignment'" [count]="dashboardData?.TotalInterceptions" [label]="'Interceptions'"></app-stat>
                         </div>
                     </div>
 
 
-                      <div class="col-lg-2">
+                      <div class="col-md-2">
                           <div>
                               <app-stat [bgClass]="'success'" [icon]="'thumb_up'" [count]="dashboardData?.Successful" [label]="'Successful'"></app-stat>
                           </div>
                       </div>
-                     
-    
-    
-    
-                      <div class="col-lg-2">
+
+                      <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'info'" [icon]="'thumb_up'" [count]="dashboardData?.Successful_Per_Day" [label]="'Successful/Day'"></app-stat>
+                            <app-stat [bgClass]="'danger'" [icon]="'thumb_up'" [count]="dashboardData?.successful_percentage" [label]="'Successful %'"></app-stat>
                         </div>
                     </div>
+
+                      <div class="col-md-2">
+                        <div>
+                            <app-stat [bgClass]="'danger'" [icon]="'thumb_up'" [count]="dashboardData?.Successful_Per_Day" [label]="'Successful/Day'"></app-stat>
+                        </div>
+                    </div>
+                    
+                
+                     
     
-                      <div class="col-lg-2">
+                      <div class="col-md-2">
                           <div>
-                              <app-stat [bgClass]="'purple'" [icon]="'money'" [count]="dashboardData?.Unit_Sale" [label]="'Unit Sale'"></app-stat>
+                              <app-stat [bgClass]="'purple'" [icon]="'local_atm'" [count]="dashboardData?.Unit_Sale" [label]="'Unit Sale'"></app-stat>
                           </div>
                       </div>
     
-                      <div class="col-lg-2">
+                      <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'danger'" [icon]="'money'" [count]="dashboardData?.Unit_Sale_Per_Day" [label]="'Unit Sale/Day'"></app-stat>
+                            <app-stat [bgClass]="'warn'" [icon]="'local_atm'" [count]="dashboardData?.Unit_Sale_Per_Day" [label]="'Unit Sale/Day'"></app-stat>
                         </div>
                     </div>
     
@@ -104,7 +116,7 @@
       </div>
     </div>
     
-    <ng-container *ngIf="tableData.length>0">
+    <ng-container *ngIf="tableData.length>0 && !loadingData">
         <div class="animated slideInLeft">
             <mat-card class="mb-20" style="border-top: 1px solid #AFAFAF;">
     
@@ -131,25 +143,31 @@
                                             <i class="material-icons arrow material-icons-arrow">
                                                 {{getArrowType('WorkingDays')}}
                                             </i></th>
-                                            <th (click)="sortIt('TotalInterception')" style="cursor: pointer">Interceptions
+                                            <th (click)="sortIt('TotalInterception')" style="cursor: pointer">Total Interceptions
                                                 <i class="material-icons arrow material-icons-arrow">
                                                     {{getArrowType('TotalInterception')}}
                                                 </i></th>
-                                    <th (click)="sortIt('Successful')" style="cursor: pointer">Successful Int
+                                    <th (click)="sortIt('Successful')" style="cursor: pointer">Successful Interceptions   
                                         <i class="material-icons arrow material-icons-arrow">
                                             {{getArrowType('Successful')}}
                                         </i></th>
-                                        <th (click)="sortIt('successful_per_day')" style="cursor: pointer">Successful/Day
+                                        <th (click)="sortIt('successful_percentage')" style="cursor: pointer">Successful %
+                                            <i class="material-icons arrow material-icons-arrow">
+                                                {{getArrowType('successful_percentage')}}
+                                            </i></th>
+                                        <th (click)="sortIt('successful_per_day')" style="cursor: pointer">Avg Successful
                                             <i class="material-icons arrow material-icons-arrow">
                                                 {{getArrowType('successful_per_day')}}
                                             </i></th>
-                                            <th (click)="sortIt('TotalSale')" style="cursor: pointer">Unit Sale
+                                  
+                                            <th (click)="sortIt('TotalSale')" style="cursor: pointer">Unit Sold
                                                 <i class="material-icons arrow material-icons-arrow">
                                                     {{getArrowType('TotalSale')}}
                                                 </i></th>
-                                                <th (click)="sortIt('Successful')" style="cursor: pointer">Unit Sale/Day
+                                                
+                                                <th (click)="sortIt('unit_sale_per_day')" style="cursor: pointer">Avg Unit Sold
                                                     <i class="material-icons arrow material-icons-arrow">
-                                                        {{getArrowType('Successful')}}
+                                                        {{getArrowType('unit_sale_per_day')}}
                                                     </i></th>
         
                                     <!-- <th></th> -->
@@ -167,6 +185,8 @@
                                     
                                     <td style="color:blue;">
                                             {{item?.Successful}}</td>
+                                            
+                                            <td style="color:blue;">{{item?.successful_percentage}}</td>
                                             <td style="color:blue;">{{item?.successful_per_day}}</td>
                                             <td style="color:blue;">{{item?.TotalSale}}</td>
                                             <td style="color:blue;">{{item?.unit_sale_per_day}}</td>

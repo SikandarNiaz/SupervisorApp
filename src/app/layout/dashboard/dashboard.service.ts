@@ -440,4 +440,5 @@ export class DashboardService {
     const url = this.ip + 'interceptionSummary';
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+
 }
