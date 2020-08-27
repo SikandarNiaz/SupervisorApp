@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('zoneId', res.user.zone_id);
             localStorage.setItem('menu', JSON.stringify(res.list));
             localStorage.setItem('Reevaluator', res.ReEvaluator);
-
+            localStorage.setItem('projectType', res.projectType);
             this.router.navigate(['/dashboard']);
 
             setTimeout(() => {
