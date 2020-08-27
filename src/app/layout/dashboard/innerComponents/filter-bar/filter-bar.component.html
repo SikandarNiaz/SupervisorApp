@@ -1501,8 +1501,7 @@
 
 
 
-<!-- daily evaluation report -->
-<mat-card class="mb-20" *ngIf="router.url==='/dashboard/daily_evaluation_report'">
+<mat-card class="mb-20" *ngIf="router.url==='/dashboard/daily_evaluation_report' || router.url==='/dashboard/export-data'">
 
     <mat-card-content>
         <mat-card-title>
@@ -1531,20 +1530,6 @@
                 </mat-select>
             </mat-form-field>
 
-            <!-- <mat-form-field *ngIf="channels.length>0" class="example-margin mr-10-IMP">
-
-                <mat-select placeholder="Channel" name='channel' [(ngModel)]="selectedChannel" multiple #channelSelect="ngModel" [compareWith]="equals">
-                    <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(channelSelect, channels)">
-                        Select All
-                      </button>
-                        <button mat-raised-button color="warn" class="ml-1 mat-accent fill text-sm" (click)="deselectAll(channelSelect)">
-                        Deselect All
-                      </button>
-                    </mat-option>
-
-                    <mat-option [value]="channel" *ngFor="let channel of channels">{{channel.title}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
             <mat-form-field class="example-full-width mr-10-IMP">
                 <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
