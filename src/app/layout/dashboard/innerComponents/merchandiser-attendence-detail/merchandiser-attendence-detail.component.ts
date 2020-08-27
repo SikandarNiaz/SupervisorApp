@@ -71,9 +71,11 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
 
   getData(params) {
 this.loading=true;
-if(params.surveyorId){
+if(params.surveyorId && params.startDate && params.endDate){
   this.obj = {
     surveyorId: params.surveyorId,
+    startDate: params.startDate,
+    endDate: params.endDate,
     regionId: -1,
     zoneId: -1
   };
