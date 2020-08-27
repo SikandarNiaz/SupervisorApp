@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   stores: any=[];
   sortOrder = true;
   sortBy: 'm_code';
+  projectType='';
   selectedStore: any={};
   endDate = new Date();
   zones: any = [];
@@ -40,6 +41,7 @@ export class HomeComponent implements OnInit {
     this.getZoneList();
     this.getStores();
     this.getTabsData();
+    this.projectType=localStorage.getItem('projectType');
   }
 
   zoneChange() {
@@ -169,7 +171,7 @@ export class HomeComponent implements OnInit {
 
 
   goToNewPage(item){
-    window.open(`${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${item.id}`, '_blank');
+    window.open(`${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${item.id}&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(this.endDate)}`, '_blank');
   }
 
   getStores(){
