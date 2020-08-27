@@ -1559,10 +1559,12 @@
         </section>
 
         <section class="example-section">
-            <!-- [disabled]="selectedChannel.length<1" -->
-            <button mat-raised-button color="warn" (click)="dailyEvaluationRport()">Download</button>
-            <!-- <span *ngIf="selectedChannel.length<1" class="channel-message"><small>(channel selection is mandatory)</small></span> -->
-
+            <ng-container *ngIf="router.url==='/dashboard/daily_evaluation_report'">
+                <button  mat-raised-button color="warn" (click)="dailyEvaluationRport()">Download</button>
+            </ng-container>
+            <ng-container *ngIf="router.url==='/dashboard/export-data'">
+            <button  mat-raised-button color="warn" (click)="downloadExportData()">Download</button>
+        </ng-container>
         </section>
 
 

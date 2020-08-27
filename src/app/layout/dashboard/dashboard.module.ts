@@ -62,6 +62,7 @@ import { InterceptionSummaryComponent } from './innerComponents/interception-sum
 import { CcProductivityReportComponent } from './innerComponents/cc-productivity-report/cc-productivity-report.component';
 import { DailyContactReportComponent } from './innerComponents/daily-contact-report/daily-contact-report.component';
 import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
+import { ExportDataReportComponent } from './innerComponents/export-data-report/export-data-report.component';
 
 @NgModule({
     imports: [
@@ -105,6 +106,6 @@ ReactiveFormsModule
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
           AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent, MerchandiserAttendenceDetailComponent, InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, CeRawDataComponent]
+          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent, MerchandiserAttendenceDetailComponent, InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, CeRawDataComponent, ExportDataReportComponent]
 })
 export class DashboardModule {}

@@ -41,6 +41,7 @@ import { InterceptionSummaryComponent } from './innerComponents/interception-sum
 import { DailyContactReportComponent } from './innerComponents/daily-contact-report/daily-contact-report.component';
 import { CcProductivityReportComponent } from './innerComponents/cc-productivity-report/cc-productivity-report.component';
 import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
+import { ExportDataReportComponent } from './innerComponents/export-data-report/export-data-report.component';
 
 
 const routes: Routes = [
@@ -85,7 +86,8 @@ const routes: Routes = [
             { path: 'interception-status', component: InterceptionSummaryComponent },
             { path: 'daily-contact-report', component: DailyContactReportComponent },
             { path: 'cc-productivity-report', component: CcProductivityReportComponent },
-            { path: 'ce-raw-data', component: CeRawDataComponent }
+            { path: 'ce-raw-data', component: CeRawDataComponent },
+            { path: 'export-data', component: ExportDataReportComponent }
 
 
 
