@@ -62,11 +62,6 @@ export class DashboardService {
     return this.http.post(url, obj, this.httpOptions);
   }
 
-  removePlanedCall(obj) {
-    obj = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'remove-plan-call';
-    return this.http.post(url, obj, this.httpOptions);
-  }
 
   UrlEncodeMaker(obj) {
     let url = '';
@@ -83,7 +78,7 @@ export class DashboardService {
       body = this.UrlEncodeMaker(obj);
       // `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
     }
-    const url = this.ip + 'dashboardDatajson';
+    const url = this.ip + 'dashboardDatajson';   // ---------> DashboardDataControllerJson
     return this.http.post(url, body, this.httpOptions);
     // .pipe(
     //   timeout(60000),
@@ -101,68 +96,14 @@ export class DashboardService {
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
-  checkDate() {
-    // let date=new Date()
-    // let today=localStorage.getItem('today');
-    // if(today && moment(date).format('YYYY-MM-DD')!==today){
-    //   localStorage.clear();
-    //   alert('Your session is expired ,please login again.');
-    //   this.router.navigate(['/login']);
-    // }
-  }
 
-  getLineChartData() {
-    const url = this.ip + 'completionData';
-    return this.http.post(url, {}, this.httpOptions);
-    // .pipe(
-    //   timeout(60000),
-    //   catchError(e => {
-    //     this.toastr.error('Due to limited connectivity your request could not be completed, please try again', 'Request Timeout');
-    //     return of(null);
-    //   })
-    // );
-  }
-
-  getTableList(obj) {
-    const body = this.UrlEncodeMaker(obj);
-    // `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&merchandiserId=${obj.merchandiserId}`;
-    const url = this.ip + 'completedShopListCBL';
-    return this.http.post(url, body, this.httpOptions);
-    // .pipe(
-    //   timeout(60000),
-    //   catchError(e => {
-    //     this.toastr.error('Due to limited connectivity your request could not be completed, please try again', 'Request Timeout');
-    //     return of(null);
-    //   })
-    // );
-  }
-
-  getMerchandiserListForEvaluation(obj) {
-
-    const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'merchandiserList';
-    return this.http.post(url, urlEncode, this.httpOptions);
-  }
-
-  merchandiserShopListCBL(obj) {
-    const body = `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
-    const url = this.ip + 'merchandiserShopListCBL';
-    return this.http.post(url, body, this.httpOptions);
-    // .pipe(
-    //   timeout(60000),
-    //   catchError(e => {
-    //     this.toastr.error('Due to limited connectivity your request could not be completed, please try again', 'Request Timeout');
-    //     return of(null);
-    //   })
-    // );
-  }
 
   //#region FILTER CALL
   getZone() {
 
     this.user_id = localStorage.getItem('user_id');
     const filter = JSON.stringify({act: 0, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
+    const url = this.ip + 'loadFilters';  // -----------> JsonFilterController
     return this.http.post(url, filter);
     // .pipe(
     //   timeout(60000),
@@ -195,11 +136,6 @@ export class DashboardService {
     return this.http.post(url, obj);
   }
 
-  displayRouteStatus(obj) {
-
-    const url = this.ip + 'shopWiseRouteCount';
-    return this.http.post(url, obj);
-  }
 
   deleteRoutes(obj) {
 
@@ -207,17 +143,12 @@ export class DashboardService {
     return this.http.post(url, obj);
   }
 
-  getRemarksList() {
-    const filter = JSON.stringify({act: 11});
-    const url = this.ip + 'loadFilters';
-    return this.http.post(url, filter);
-  }
 
   getRegion(zoneId) {
     this.user_id = localStorage.getItem('user_id');
 
     const filter = JSON.stringify({act: 1, zoneId: zoneId, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     return this.http.post(url, filter);
     // .pipe(
     //   timeout(60000),
@@ -227,72 +158,34 @@ export class DashboardService {
     //   })
     // );
   }
-  
-  getShops(zoneId, regionId) {
 
-    const filter = JSON.stringify({act: 6, zoneId: zoneId, regionId: regionId});
-    const url = this.ip + 'loadFilters';
-    return this.http.post(url, filter);
-  
-  }
 
   getPrograms() {
 
     const filter = JSON.stringify({act: 5});
-    const url = this.ip + 'loadFilters';
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     return this.http.post(url, filter);
 
   }
 
 
   getRegions() {
-    const url = this.ip + 'loadFilters';
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     const filter = JSON.stringify({act: 13});
     return this.http.post(url, filter);
 
   }
   getSurveyors(programId){
-    const url = this.ip + 'loadFilters';
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     const filter = JSON.stringify({act: 4, programId: programId});
     return this.http.post(url, filter);
   }
 
-  getCities(regionId) {
-    this.user_id = localStorage.getItem('user_id');
 
-    const filter = JSON.stringify({act: 2, regionId: regionId, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
-    return this.http.post(url, filter);
-    // .pipe(
-    //   timeout(60000),
-    //   catchError(e => {
-    //     this.toastr.error('Due to limited connectivity your request could not be completed, please try again', 'Request Timeout');
-    //     return of(null);
-    //   })
-    // );
-  }
-
-  getProducts(categoryId) {
-    this.user_id = localStorage.getItem('user_id');
-
-    const filter = JSON.stringify({act: 5, category: categoryId, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
-    return this.http.post(url, filter);
-    // .pipe(
-    //   timeout(60000),
-    //   catchError(e => {
-    //     this.toastr.error('Due to limited connectivity your request could not be completed, please try again', 'Request Timeout');
-    //     return of(null);
-    //   })
-    // );
-  }
-
-  getAreas(channelId) {
-    this.user_id = localStorage.getItem('user_id');
-
-    const filter = JSON.stringify({act: 3, channelId: channelId, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
-    return this.http.post(url, filter);
+  getKeyForProductivityReport(body, reportUrl) {
+    this.updatedDownloadStatus(true);
+    const url = this.ip + reportUrl;
+    return this.http.post(url, body, this.httpOptions);
     // .pipe(
     //   timeout(60000),
     //   catchError(e => {
@@ -319,21 +212,16 @@ export class DashboardService {
     // );
   }
 
-  //#endregion
+  getTableList(obj) {
+    const body = this.UrlEncodeMaker(obj);
+       const url = this.ip + 'completedShopListCBL';
+    return this.http.post(url, body, this.httpOptions);
+  }
 
-
-  downloadMerchandiserPDF(obj) {
-    const httpParams = new FormData();
-    httpParams.append('reportType', '');
-    httpParams.append('zoneId', obj.zoneId);
-    httpParams.append('regionId', obj.regionId);
-    httpParams.append('startDate', obj.startDate);
-    httpParams.append('surveyorId', obj.surveyorId);
-
-
-    const url = this.ip + `cbl-pdf`;
-    const o = `surveyorId=${obj.surveyorId}&startDate=${obj.startDate}`;
-    return this.http.post(url, o, this.httpOptions);
+  merchandiserShopListCBL(obj) {
+    const body = `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
+    const url = this.ip + 'merchandiserShopListCBL';
+    return this.http.post(url, body, this.httpOptions);
     // .pipe(
     //   timeout(60000),
     //   catchError(e => {
@@ -343,10 +231,12 @@ export class DashboardService {
     // );
   }
 
-  getKeyForProductivityReport(body, reportUrl) {
-    this.updatedDownloadStatus(true);
-    const url = this.ip + reportUrl;
-    return this.http.post(url, body, this.httpOptions);
+  getCities(regionId) {
+    this.user_id = localStorage.getItem('user_id');
+
+    const filter = JSON.stringify({act: 2, regionId: regionId, userId: this.user_id});
+    const url = this.ip + 'loadFilters';
+    return this.http.post(url, filter);
     // .pipe(
     //   timeout(60000),
     //   catchError(e => {
@@ -393,25 +283,11 @@ export class DashboardService {
   }
 
 
-  updateImeiStatus(obj) {
-    const body = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'add-imei-update-imei-status';
-    return this.http.post(url, body, this.httpOptions);
+  displayRouteStatus(obj) {
+
+    const url = this.ip + 'shopWiseRouteCount';
+    return this.http.post(url, obj);
   }
-
-  getImeis() {
-    const url = this.ip + 'add-imei-update-imei-status';
-    return this.http.get(url, this.httpOptions);
-  }
-
-  uploadImei(obj) {
-    const url = this.ip + 'add-imei-update-imei-status';
-    // @ts-ignore
-    return this.http.post(url, obj
-    );
-  }
-
-
   uploadRoutes(obj) {
     const url = this.ip + 'UploadRoutesControllerNew';
     return this.http.post(url, obj);
@@ -422,23 +298,32 @@ export class DashboardService {
   }
   getAttendanceData(obj){
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'merchandiserAttendanceDetail';
+    const url = this.ip + 'merchandiserAttendanceDetail';   // -------> MerchandiserAttendanceDetailController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
   getBAList(obj){
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'BAList';
+    const url = this.ip + 'BAList';  // ------> BAListController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
   getSurveyorsAndBrands(){
     const filter = JSON.stringify({act: 7});
-    const url = this.ip + 'loadFilters';
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
   getDashboardStats(obj){
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'interceptionSummary';
+    const url = this.ip + 'interceptionSummary';   // ------> InterceptionSummaryDataController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+
+  getShops(zoneId, regionId) {
+
+    const filter = JSON.stringify({act: 6, zoneId: zoneId, regionId: regionId});
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  
+  }
+
 
 }

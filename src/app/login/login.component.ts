@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('regionId', res.user.regionId);
             localStorage.setItem('zoneId', res.user.zone_id);
             localStorage.setItem('menu', JSON.stringify(res.list));
-            localStorage.setItem('Reevaluator', res.ReEvaluator);
+            localStorage.setItem('Evaluator', res.Evaluator);
             localStorage.setItem('projectType', res.projectType);
             this.router.navigate(['/dashboard']);
 

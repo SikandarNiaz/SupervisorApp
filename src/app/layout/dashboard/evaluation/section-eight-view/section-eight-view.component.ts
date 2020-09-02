@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { config } from 'src/assets/config';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {EvaluationService} from '../evaluation.service';
+import { EvaluationService } from '../evaluation.service';
 import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
@@ -14,10 +14,11 @@ import { ModalDirective } from 'ngx-bootstrap';
 export class SectionEightViewComponent implements OnInit {
 
   @Input('data') data;
+  // @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('childModal') childModal: ModalDirective;
   @Output('showModal') showModal: any = new EventEmitter<any>();
   @Input('isEditable') isEditable: any;
-  @Output('productList') productForEmit: any = new EventEmitter<any>();
+  @Output('assetTypeId') assetTypeForEmit: any = new EventEmitter<any>();
   selectedShop: any = {};
   selectedImage: any = {};
   // ip=environment.ip;
@@ -33,46 +34,32 @@ export class SectionEightViewComponent implements OnInit {
   availability: any;
   changeColor: boolean;
   updatingMSL: boolean;
+  selectedProduct: any = {};
   colorUpdateList: any = [];
+  selectedSku: any;
   surveyId: any;
-  flag = 0;
   evaluatorId: any;
   MSLCount = 0;
-  MSLNAvailabilityCount: number;
-  facing: any;
-  availableDepth: any;
-  desiredDepth: any;
-  stock: any;
-  total: any;
-
-  selectedProduct: any = {};
-  selectedFacing: any;
-  selectedSku: any;
   loadingData: boolean;
   loading = false;
+  MSLNAvailabilityCount: number;
+  facing: any;
+  totalDesiredFacing: any;
+
+  statusArray: any = [{ title: 'Yes', value: '1' }, { title: 'No', value: '0' }];
 
   constructor(private router: Router, private toastr: ToastrService, private httpService: EvaluationService) { }
 
   ngOnInit() {
-    const arr = this.router.url.split('/');
-    this.surveyId = +arr[arr.length - 1];
-    this.evaluatorId = localStorage.getItem('user_id');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
-      this.selectedImage = this.data.imageList[0];
-      this.products = this.data.chillerTable || [];
+      this.products = this.data.sectionMap;
     }
 
-if (this.products.length > 0) {
-      this.facing = this.getFacingCount(this.products);
-      this.availableDepth = this.getAvailDepthCount(this.products);
-      this.desiredDepth = this.getDesDepthCount(this.products);
-      this.stock = this.getStockCount(this.products);
-      this.total = this.getTotalCount(this.availableDepth, this.desiredDepth);
-      }
 
   }
 
@@ -80,6 +67,20 @@ if (this.products.length > 0) {
     this.selectedImage = img;
 
   }
+
+
+  getAvailabilityCount(products) {
+    const sum = [];
+    products.forEach(element => {
+      if (element.available_sku === 1) {
+      sum.push(element);
+      }
+
+    });
+    return sum.length;
+  }
+
+
   getFacingCount(products) {
     let sum = 0;
     products.forEach(el => {
@@ -88,107 +89,89 @@ if (this.products.length > 0) {
     return sum;
 }
 
-getAvailDepthCount(products) {
-  let sum = 0;
-  products.forEach(el => {
-    sum =  + el.unit_available + sum;
-  });
-  return sum;
-}
+  getMSLNAvailbilityCount(products) {
+    const pro = [];
+    const msl = [];
+    products.forEach(p => {
+      let obj = {};
+     if (p.MSL === 'Yes'  && p.available_sku === 1 ) {
+       obj = {
+         available_sku: p.available_sku,
+         MSL: p.MSL
+       };
+       pro.push(obj);
 
-getDesDepthCount(products) {
-  let sum = 0;
-  products.forEach(el => {
-    sum = sum + el.desiredDepth;
-  });
-  return sum;
-}
+     }
 
-getStockCount(products) {
-  let sum = 0;
-  products.forEach(el => {
-    sum = sum + el.stock;
-  });
-  return sum;
-}
+     if (p.MSL === 'Yes') {
+       msl.push(p);
+     }
 
-getTotalCount(availableDepth, desiredDepth) {
-  const percentage = ((availableDepth / desiredDepth) * 100).toFixed(1);
-  return percentage;
-}
-
-    showChildModal(shop): void {
-    this.selectedShop = shop;
-    this.selectedFacing = this.selectedShop.face_unit;
-    this.showModal.emit(this.selectedShop);
-    // this.childModal.show();
+   });
+  this.MSLCount = msl.length;
+    return  pro.length;
   }
 
-
-  showChillerChildModal(product, value) {
-    if (value === 1) {
-      this.flag = 1;
-    } else {
-      this.flag = 2;
-    }
-    this.selectedProduct = product;
-      this.childModal.show();
-
-
-}
-
-  hideChildModal() {
-    this.childModal.hide();
+  updateString(value) {
+    return value ? 'Yes' : 'No';
   }
+  unsorted() { }
 
-
-  toggleValue(product, flag) {
+  changeSku(value) {
     this.loading = true;
     if (this.isEditable) {
       this.changeColor = true;
-      this.colorUpdateList.push(product.id);
-       const obj = {
-        msdId: product.detailId,
-        facing: product.face_unit,
-        unit_available: product.unit_available,
-        surveyId: product.surveyId,
-        evaluatorId: this.evaluatorId,
-        flag: flag
+      this.updatingMSL = true;
+
+      this.colorUpdateList.push(value.id);
+      const obj = {
+        msdId: value.id,
+        facing: -1,
+        unitAvailable: !!value.available_sku ? 0 : 1,
+        surveyId: this.surveyId,
+        evaluatorId: this.evaluatorId
       };
-  this.httpService.updateChillerData(obj).subscribe((data: any) => {
+
+
+
+      // return value?'YES':'NO';
+
+  this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
     if (data.success) {
       this.loading = false;
       this.toastr.success('Data Updated Successfully');
-      this.childModal.hide();
-      const key = data.detailId;
+      // this.products=data.productList;
+      const key = data.msdId;
       this.products.forEach(e => {
-        if (key === e.detailId) {
-          const i = this.products.findIndex(p => p.detailId === key);
+
+      // for (const key of this.colorUpdateList) {
+        if (key === e.id) {
+          const i = this.products.findIndex(p => p.id === key);
           const obj = {
-            id: e.detailId,
-            stock: e.stock,
-            unit_available: e.unit_available,
+            id: e.id,
+            available_sku: (e.available_sku === 0) ? e.available_sku = 1 : e.available_sku = 0,
+            MSL: e.MSL,
             product_title: e.product_title,
             face_unit: e.face_unit,
+            desired_facing: e.desired_facing,
+            category_title: e.category_title,
             color: 'red'
           };
 
-
           this.products.splice(i, 1, obj);
+
           // console.log(this.products[i])
         }
-        localStorage.setItem('productList', JSON.stringify(this.products));
 
 
-      this.facing = this.getFacingCount(this.products);
-      this.availableDepth = this.getAvailDepthCount(this.products);
-      this.total = this.getTotalCount(this.availableDepth, this.desiredDepth);
+
+
+      // }
+
+      this.availability = this.getAvailabilityCount(this.products);
+      this.MSLNAvailabilityCount = this.getMSLNAvailbilityCount(this.products);
 
       });
-
-       this.productForEmit.emit(this.products);
-      // this.toastr.success('Status updated successfully.','Update MSL');
-      this.updatingMSL = false;
 
 
     } else {
@@ -197,6 +180,94 @@ getTotalCount(availableDepth, desiredDepth) {
   });
 
     }
+  }
+
+
+
+  changeFacing(value) {
+
+    this.loading = true;
+    if (this.isEditable) {
+      this.changeColor = true;
+      this.updatingMSL = true;
+
+      this.colorUpdateList.push(value.id);
+      const obj = {
+        msdId: value.id,
+        facing: value.face_unit,
+        unitAvailable: -1,
+        surveyId: this.surveyId,
+        evaluatorId: this.evaluatorId
+      };
+
+
+
+      // return value?'YES':'NO';
+
+  this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
+    if (data.success) {
+      this.loading = false;
+      this.toastr.success('Data Updated Successfully');
+      // this.products=data.productList;
+      const key = data.msdId;
+      this.products.forEach(e => {
+
+      // for (const key of this.colorUpdateList) {
+        if (key === e.id) {
+          const i = this.products.findIndex(p => p.id === key);
+          const obj = {
+            id: e.id,
+            available_sku: e.available_sku,
+            MSL: e.MSL,
+            product_title: e.product_title,
+            face_unit: e.face_unit,
+            desired_facing: e.desired_facing,
+            category_title: e.category_title,
+            color: 'red'
+          };
+
+          this.products.splice(i, 1, obj);
+
+          // console.log(this.products[i])
+        }
+
+
+
+
+      // }
+
+      this.facing = this.getFacingCount(this.products);
+      });
+
+    } else {
+      this.toastr.error(data.message, 'Update Data');
+    }
+  });
+
+    }
+  }
+
+
+  showChildModal(shop): void {
+    this.selectedShop = shop;
+    this.showModal.emit(this.selectedShop);
+    // this.childModal.show();
+  }
+
+  showFacingChildModal(product) {
+    if (this.isEditable) {
+    this.selectedProduct = product;
+    // if (this.selectedProduct.available_sku > 0 ) {
+    //   this.selectedProduct.face_unit = 0;
+    // } else {
+    //   this.selectedProduct.face_unit = 1;
+    // }
+    this.childModal.show();
+  }
+
 }
+ hideChildModal() {
+    this.childModal.hide();
+  }
 }
 

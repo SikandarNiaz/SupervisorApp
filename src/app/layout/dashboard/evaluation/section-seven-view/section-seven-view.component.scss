@@ -5,8 +5,11 @@ div.ngxImageZoomContainer {
 .tableFixHead {
     // overflow-y: auto;
     // height: 100px;
-    height: 645px;
+    // height: 450px;
+    
+    max-height: 450px;
     overflow: scroll;
+
 }
 
 .max-width-150>td {
@@ -42,7 +45,6 @@ div.ngxImageZoomContainer {
 
 table {
     font-size: 15px !important;
-    line-height: 0px !important
 }
 
 .background-color {

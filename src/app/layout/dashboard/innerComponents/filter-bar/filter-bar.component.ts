@@ -29,9 +29,6 @@ export class FilterBarComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
     this.zones = JSON.parse(localStorage.getItem('zoneList'));
-    // this.categoryList = JSON.parse(localStorage.getItem('assetList'));
-    // this.channels = JSON.parse(localStorage.getItem('channelList'));
-    // this.regions = JSON.parse(localStorage.getItem('regionList'));
     this.form = formBuilder.group({
       selectedRegionUp: this.selectedRegionUp,
       selectedOption: this.selectedOption,
@@ -112,12 +109,6 @@ selectedBrand:any={};
   selectedRemark = 0;
   remarksList = [];
 
-  // @ViewChild('remarksModal') remarksModal: ModalDirective;
-  // showRemarksModal(){this.remarksModal.show(); }
-  // hideRemarksModal(){
-  //   // removePlanedCall(item)
-  //   this.remarksModal.hide();
-  //     }
 
   applyFilter(filterValue: string) {
     this.tableData = this.tableData.filter(f => f.shop_title);
@@ -150,7 +141,6 @@ selectedBrand:any={};
     this.endDate = new Date();
   }
   ngOnInit() {
-    this.httpService.checkDate();
     console.log('router', this.router.url);
     this.lastVisit = this.dataService.getLastVisit();
     this.mustHave = this.dataService.getYesNo();
@@ -158,8 +148,6 @@ selectedBrand:any={};
     this.impactTypeList = this.dataService.getImpactType();
     if (this.router.url !== '/dashboard/raw_data') { this.getZone();
     }
-
-    if (this.router.url === '/dashboard/productivity_report' || this.router.url === '/dashboard/merchandiser_attendance') { this.getTabsData(); }
 
     if (this.router.url === '/dashboard/raw_data') { this.getQueryTypeList(); }
 

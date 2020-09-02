@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { DetailsPageComponent } from './details-page/details-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { EvaluationDetailComponent } from './evaluation-detail/evaluation-detail.component';
 
 const routes: Routes = [
   { path: '',redirectTo:'list' ,pathMatch:'full' },
   { path: 'list', component:MainPageComponent,
 children:[
   { path: '', redirectTo:'home',pathMatch:'full'},
-  { path: 'home',component:DetailsPageComponent },
+  { path: 'home',component:EvaluationDetailComponent },
   { path: 'details/:id',component:HomeComponent },
 
 ] },

@@ -51,27 +51,20 @@ export class SectionSevenViewComponent implements OnInit {
   constructor(private router: Router, private toastr: ToastrService, private httpService: EvaluationService) { }
 
   ngOnInit() {
-    const arr = this.router.url.split('/');
-    this.surveyId = +arr[arr.length - 1];
-    this.evaluatorId = localStorage.getItem('user_id');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
+      this.products = this.data.sectionMap;
       this.selectedImage = this.data.imageList[0];
-      this.products = this.data.skuTable || [];
-      if (this.products.length > 0) {
-      this.availability = this.getAvailabilityCount(this.products);
-      this.facing = this.getFacingCount(this.products);
-      }
-      console.log('is editable', this.isEditable);
-      this.MSLNAvailabilityCount = this.getMSLNAvailbilityCount(this.products);
     }
 
 
   }
+
+  unsorted() { }
 
   setSelectedImage(img) {
     this.selectedImage = img;

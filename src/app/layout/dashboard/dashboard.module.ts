@@ -11,33 +11,19 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './innerComponents/home/home.component';
-import { ShopListComponent } from './innerComponents/shop-list/shop-list.component';
-import { SummaryComponent } from './innerComponents/summary/summary.component';
-import { ProductivityComponent } from './innerComponents/productivity/productivity.component';
 import { FilterBarComponent } from './innerComponents/filter-bar/filter-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DetailsComponent } from './innerComponents/details/details.component';
-import { DailyVisitReportComponent } from './innerComponents/daily-visit-report/daily-visit-report.component';
 import { ShopDetailComponent } from './innerComponents/shop-detail/shop-detail.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { MslDashboardComponent } from './innerComponents/msl-dashboard/msl-dashboard.component';
-import { ProductivityDashboardComponent } from './innerComponents/productivity-dashboard/productivity-dashboard.component';
 import { ChartsModule as Ng2Charts } from 'ng2-charts';
-import { TposmDeploymentReportComponent } from './innerComponents/tposm-deployment-report/tposm-deployment-report.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { LineChartComponent } from './innerComponents/home/line-chart/line-chart.component';
 import { UpdatePasswordComponent } from './user/update-password/update-password.component';
 import { RawDataComponent } from './raw-data/raw-data.component';
 import { MatTableComponent } from './innerComponents/mat-table/mat-table.component';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { DataAvailabilityComponent } from './data-availability/data-availability.component';
 import { ButtonsModule } from 'ngx-bootstrap';
-import { MerchandiserListComponent } from './innerComponents/merchandiser-list/merchandiser-list.component';
-import { AbnormalityComponent } from './innerComponents/abnormality/abnormality.component';
-import { TimeAnalysisReportComponent } from './innerComponents/time-analysis-report/time-analysis-report.component';
 import {NgxPaginationModule} from 'ngx-pagination';
-import { MerchandiserAttendanceComponent } from './innerComponents/merchandiser-attendance/merchandiser-attendance.component';
-import { DailyEvaluationReportComponent } from './innerComponents/daily-evaluation-report/daily-evaluation-report.component';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { EmailManagerComponent } from './innerComponents/email-manager/email-manager.component';
 import { MessageStatusListComponent } from './innerComponents/email-manager/childComponents/message-status-list/message-status-list.component';
@@ -46,16 +32,11 @@ import { UploadRoutesComponent } from './innerComponents/upload-routes/upload-ro
 import { SingleRouteDetailComponent } from './innerComponents/upload-routes/routes-inner-pages/single-route-detail/single-route-detail.component';
 import { ShopsForSingleRouteComponent } from './innerComponents/upload-routes/routes-inner-pages/shops-for-single-route/shops-for-single-route.component';
 import { AddEditGroupComponent } from './innerComponents/email-manager/childComponents/add-edit-group/add-edit-group.component';
-import { AddDeviceComponent } from './innerComponents/add-device/add-device.component';
-import { SupervisorWwwrSummaryComponent } from './innerComponents/supervisor-wwwr-summary/supervisor-wwwr-summary.component';
-import { ShopListReportComponent } from './innerComponents/shop-list-report/shop-list-report.component';
 import { UploadRoutesNewComponent } from './innerComponents/upload-routes-new/upload-routes-new.component';
-import { MerchandiserPlannedCallsComponent } from './innerComponents/merchandiser-planned-calls/merchandiser-planned-calls.component';
 import { TableauHelperComponent } from './Tableau/tableau-helper/tableau-helper.component';
 import { DashboardTableauComponent } from './Tableau/dashboard-tableau/dashboard-tableau.component';
 import { ProductivityTableauComponent } from './Tableau/productivity-tableau/productivity-tableau.component';
 import { SkuDashboardComponent } from './Tableau/sku-dashboard/sku-dashboard.component';
-import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
 import { AssignShopsComponent } from './innerComponents/assign-shops/assign-shops.component';
 import { MerchandiserAttendenceDetailComponent } from './innerComponents/merchandiser-attendence-detail/merchandiser-attendence-detail.component';
 import { InterceptionSummaryComponent } from './innerComponents/interception-summary/interception-summary.component';
@@ -98,14 +79,16 @@ ReactiveFormsModule
 
 
     ],
-    declarations: [DashboardComponent, HomeComponent, ShopListComponent,
-        SummaryComponent, ProductivityComponent, FilterBarComponent,
-        DetailsComponent, DailyVisitReportComponent, ShopDetailComponent,
-         MslDashboardComponent, ProductivityDashboardComponent,
-          TposmDeploymentReportComponent, LineChartComponent,
+    declarations: [DashboardComponent, HomeComponent, 
+        FilterBarComponent, ShopDetailComponent,
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
-          DataAvailabilityComponent, MerchandiserListComponent,
-          AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, UniqueBasedProductivityReportComponent, AssignShopsComponent, MerchandiserAttendenceDetailComponent, InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, CeRawDataComponent, ExportDataReportComponent]
+          DataAvailabilityComponent,  EmailManagerComponent, 
+          MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent,
+           SingleRouteDetailComponent, ShopsForSingleRouteComponent,
+           AddEditGroupComponent, UploadRoutesNewComponent, TableauHelperComponent, 
+          DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent,
+           AssignShopsComponent, MerchandiserAttendenceDetailComponent, 
+          InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, 
+          CeRawDataComponent, ExportDataReportComponent]
 })
 export class DashboardModule {}

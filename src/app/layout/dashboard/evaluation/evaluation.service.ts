@@ -43,14 +43,14 @@ export class EvaluationService {
 
   getShopDetails(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'evaluationShop';
+    const url = this.ip + 'evaluationManager';   // -------> EvaluationManager
     return this.http.post(url, urlencoded, this.httpOptions);
   }
 
   evaluateShop(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
     const url = this.ip + 'evaluateSingleShop';
-    return this.http.post(url, obj);
+    return this.http.post(url, urlencoded, this.httpOptions);
   }
   updateMSLStatus(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
@@ -71,6 +71,20 @@ export class EvaluationService {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + 'update-shopsos';
     return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+
+
+  getSurveyorsAndBrands(){
+    const filter = JSON.stringify({act: 7});
+    const url = this.ip + 'loadFilters'; // ----> JsonFilterController
+    return this.http.post(url, filter);
+  }
+
+  getBADataForEvaluation(obj){
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + 'surveyShopList'; // ----> SurveyShopListController
+    return this.http.post(url, urlencoded, this.httpOptions);
   }
 
 }

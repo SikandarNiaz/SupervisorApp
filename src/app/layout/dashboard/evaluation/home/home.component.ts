@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { EvaluationService } from '../evaluation.service';
+import {Location} from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
   existingRemarks: any = [];
   selectedRemarks: any = true;
   selectedRemarksList: any = [];
-  evaluationRemarks: any = [];
+  evaluationRemarks: any = [{id : 1, title: 'Approved'}, {id:2, title:'Disapproved'}];
   selectedCriteria: any = {};
   evaluationArray: any = [];
   productList: any = [];
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit {
   selectedEvaluationRemark = -1;
   j = -1;
   i = 0;
+  p:any={};
   cloneArray: any = [];
   isFromShop = true;
   rotationDegree = 0;
@@ -60,8 +62,8 @@ export class HomeComponent implements OnInit {
   isDragging = false;
   selectedSoS: any = {};
   productivityCount: any;
-  surveyorId = -1;
   reevaluatorRole: any;
+  evaluatorRole: any;
 
   constructor(
     private router: Router,
@@ -69,6 +71,7 @@ export class HomeComponent implements OnInit {
     private activatedRoutes: ActivatedRoute,
     private httpService: EvaluationService,
     private evaluationService: EvaluationService,
+    private readonly location: Location
 
   ) {
     this.surveyId;
@@ -76,7 +79,9 @@ export class HomeComponent implements OnInit {
     this.activatedRoutes.queryParams.subscribe(q => {
       if (q.location) { this.isFromShop = false; }
     });
+    
     this.activatedRoutes.params.subscribe(params => {
+      this.p = params;
       this.surveyId = params.id;
 
       const obj = {
@@ -109,8 +114,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
+    this.location.replaceState('/details/');
     this.userType = localStorage.getItem('user_type');
     this.reevaluatorRole = localStorage.getItem('Reevaluator');
+    this.evaluatorRole= localStorage.getItem('Evaluator');
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -143,113 +150,72 @@ export class HomeComponent implements OnInit {
       this.rotationDegree += 90;
     }
   }
+
   getData(obj) {
     this.httpService.getShopDetails(obj).subscribe(
       data => {
         if (data) {
           this.data = data;
-
+         if (this.p.isEditable) {
+          this.isEditable = false;
           document.title = this.data.section[0].sectionTitle;
-          if (this.data.criteria) {
-            this.evaluationArray = this.data.criteria;
-            this.cloneArray = this.evaluationArray.slice();
-            this.totalAchieveScore = this.getTotalAchieveScore();
-          }
+         } else {
+          document.title = this.data.section[0].sectionTitle;
 
-          // console.log(this.data)
-          this.remarksList = this.data.remarks;
-          this.productList = this.data.productList || [];
-          this.existingRemarks = this.data.ExistingRemarks || [];
-          this.evaluationRemarks = this.data.EvaluationRemarks || [];
+           this.isEditable = true;
+         }
 
-          localStorage.setItem('productList', JSON.stringify(this.productList));
-
-           if (this.existingRemarks.length > 0) {
-            this.existingRemarks.forEach(element1 => {
-              if (element1.id > 0) {
-                const obj = {
-                  id: element1.id,
-                  description: element1.description,
-                  criteriaId: element1.criteriaId,
-                  isChecked: element1.isChecked
-                };
-            this.remarksList.forEach(element => {
-              const i = this.remarksList.findIndex(e => e.id === element1.id);
-              if (i !== -1) {
-                this.remarksList.splice(i, 1, obj);
-               }
-
-            });
-          }
-          });
-        }
-
-
-
-        if (this.existingRemarks.length > 0) {
-          for (const element1 of this.existingRemarks) {
-            for (const element of this.cloneArray) {
-              if (element1.criteriaId === element.id) {
-                if (this.cloneArray[this.i].remarkId) {
-                this.cloneArray[this.i].remarkId.push(element1.id);
-                this.i++;
-                } else {
-                  this.cloneArray[this.i].remarkId = [];
-                  this.cloneArray[this.i].remarkId.push(element1.id);
-                  this.i++;
-                }
-            } else {
-            this.i++;
-            }
-          }
-          this.i = 0;
-        }
-      }
-
-
-        //   if (this.existingRemarks.length > 0) {
-        //     this.existingRemarks.forEach(element1 => {
-        //       if (element1.id > 0) {
-        //       this.selectedRemarksList.push(element1.id);
-        //     this.cloneArray.forEach(element => {
-        //       const i = this.cloneArray.findIndex(e => e.id === element1.criteriaId);
-        //       this.cloneArray[i].remarkId = this.selectedRemarksList;
-        //     });
-        //   }
-        //   });
-        // }
-
-
-      //   if (this.existingRemarks.length > 0) {
-      //     this.existingRemarks.forEach(element1 => {
-      //       if (element1.id > 0) {
-      //     this.cloneArray.forEach(element => {
-      //       const i = this.cloneArray.findIndex(e => e.id === element1.criteriaId);
-      //       if (this.cloneArray[i].remarkId) {
-      //       this.cloneArray[i].remarkId.push(element1.id);
-
-      //       } else {
-      //         this.selectedRemarksList.push(element1.id);
-      //         this.cloneArray[i].remarkId = this.selectedRemarksList;
-      //         this.selectedRemarksList.length = 0;
-      //       }
-      //     });
-
-      //   }
-      //   });
-      // }
-
-
-
-
-          this.msl = this.data.msl;
-          this.isEditable = this.data.isEditable || this.isEditable;
-          if (this.productList.length > 0) { this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(this.productList)); } // Math.round(this.getAvailabilityCount(this.productList));
-          if (this.data.criteria) { this.calculateScore(); }
         }
       },
       error => {}
     );
+  }
+
+
+  setRemarksForReEvaluation() {
+    if (this.existingRemarks.length > 0) {
+      for (const element1 of this.existingRemarks) {
+        for (const element of this.cloneArray) {
+          if (element1.criteriaId === element.id) {
+            if (this.cloneArray[this.i].remarkId) {
+            this.cloneArray[this.i].remarkId.push(element1.id);
+            this.i++;
+            } else {
+              this.cloneArray[this.i].remarkId = [];
+              this.cloneArray[this.i].remarkId.push(element1.id);
+              this.i++;
+            }
+        } else {
+        this.i++;
+        }
+      }
+      this.i = 0;
+    }
+  }
+  }
+
+
+  checkEvaluatedRemarks() {
+    if (this.existingRemarks.length > 0) {
+      this.existingRemarks.forEach(element1 => {
+        if (element1.id > 0) {
+          const obj = {
+            id: element1.id,
+            description: element1.description,
+            criteriaId: element1.criteriaId,
+            remarkType: element1.remarkType,
+            isChecked: element1.isChecked
+          };
+      this.remarksList.forEach(element => {
+        const i = this.remarksList.findIndex(e => e.id === element1.id);
+        if (i !== -1) {
+          this.remarksList.splice(i, 1, obj);
+         }
+  
+      });
+    }
+    });
+  }
   }
 
   calculateMSLAgain(products) {
@@ -355,7 +321,7 @@ export class HomeComponent implements OnInit {
         delete element.totalAchievedScore;
         return score;
       } else {
-      if (element.achievedScore >= 0 && element.id !== 5) {
+      if (element.achievedScore >= 0) {
         score = score + element.achievedScore;
       }
     }
@@ -387,7 +353,7 @@ export class HomeComponent implements OnInit {
     this.selectedIndex = index;
     // console.dir(event.checked)
     if (event.checked) {
-      if (criteria.id === 14) {
+      if (criteria.id === 9) {
         this.isCritical = false;
       } else {
         this.isNoNCritical = true;
@@ -507,22 +473,10 @@ export class HomeComponent implements OnInit {
 
     if (req) {
 
-      for (const element of this.data.shopDetails.tagsList) {
-        // tslint:disable-next-line:triple-equals
-        if (element.heading == 'surveyorId') {
-          this.surveyorId = element.value;
-        }
-      }
-      // tslint:disable-next-line:triple-equals
-      if (this.userType == this.reevaluatorRole) {
         const obj = {
-          criteria: this.cloneArray,
-          surveyId: this.surveyId,
-          surveyorId: this.surveyorId,
+          shopId: this.surveyId,
           evaluatorId: user_id,
           evaluationRemark: this.selectedEvaluationRemark,
-          msl: Math.round(this.availabilityCount),
-          status: this.checkForSlectedRemarks(this.cloneArray)
         };
 
         this.evaluationService.evaluateShop(obj).subscribe(
@@ -551,44 +505,7 @@ export class HomeComponent implements OnInit {
             this.toastr.error(error.message, 'Error');
           }
         );
-      } else {
-        const obj = {
-          criteria: this.cloneArray,
-          surveyId: this.surveyId,
-          surveyorId: this.surveyorId,
-          evaluatorId: user_id,
-          msl: Math.round(this.availabilityCount),
-          status: this.checkForSlectedRemarks(this.cloneArray)
-        };
-
-        this.evaluationService.evaluateShop(obj).subscribe(
-          (data: any) => {
-            // console.log('evaluated shop data',data);
-            this.loading = false;
-            // tslint:disable-next-line:triple-equals
-            if (data.success == 'true') {
-              this.toastr.success('shop evaluated successfully ');
-              this.evaluationArray = [];
-              this.cloneArray = [];
-              this.indexList = [];
-              setTimeout(() => {
-                window.close();
-              }, 2000);
-            } else {
-              this.toastr.error(data.errorMessage, 'Error');
-            }
-          },
-          error => {
-            // console.log('evaluated shop error',error)
-            // window.close()
-            this.loading = false;
-            this.toastr.error(error.message, 'Error');
-          }
-        );
-
-      }
-
-      }
+    }
   }
 
 

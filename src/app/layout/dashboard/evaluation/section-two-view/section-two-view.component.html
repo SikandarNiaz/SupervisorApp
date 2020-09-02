@@ -14,9 +14,6 @@
         <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
 
         <img src="{{ip}}{{selectedImage?.url}}" width="400 " height="400" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item">
-        <div class="row justify-content-center" style="word-break: break-word !important">
-            <div for="cat" class="cat" style="word-break: break-word"><strong>Retailer Rem:</strong>{{selectedImage?.retailerRemarks}}</div>
-        </div>
     </div>
 
     <div class="col-md-6">
@@ -25,12 +22,10 @@
             <ng-container *ngFor="let img of data?.imageList ;let i=index ">
                 <div class="col-md-4 mb-1 card  ml-4" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer">
                     <img src="{{ip}}{{img.url}} " width="50 " height="50 " class="img-thumbnail side-image">
-                    <div class="row justify-content-center" style="word-break: break-word !important" (click)="openSurvey(img)">
-                        <div for="date"><strong>Date:</strong>{{img?.visitDate}}</div>
+                    <div class="row justify-content-center" style="word-break: break-word !important">
+                        <div for="date"><strong>Date:</strong>{{img?.visitDateTime}}</div>
                         <br>
-                        <div for="time"><strong>Time Spent:</strong>{{img?.time}}</div>
-                        <br>
-                        <div for="shop" style="word-break: break-word"><strong>Remarks:</strong> {{img?.shopRemarks}}</div>
+                        <div for="shop" style="word-break: break-word"><strong>Remarks:</strong> {{img?.remarks}}</div>
 
 
                     </div>
