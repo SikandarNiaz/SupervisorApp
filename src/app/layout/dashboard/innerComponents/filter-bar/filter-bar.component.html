@@ -1501,15 +1501,16 @@
 
 
 
-<mat-card class="mb-20" *ngIf="router.url==='/dashboard/daily_evaluation_report' || router.url==='/dashboard/export-data'">
+<mat-card class="mb-20" *ngIf="router.url==='/dashboard/export-data'">
 
     <mat-card-content>
         <mat-card-title>
             {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
             <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small>
         </mat-card-title>
+                    <!-- filters wrt Project -->
         <section class="example-section">
-
+            <ng-container *ngIf="projectType=='NIVEA'">
 
             <mat-form-field class="example-margin mr-10-IMP">
                 <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
@@ -1528,6 +1529,23 @@
                     </ng-container>
                 </mat-select>
             </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="projectType=='PGJORDAN'">
+        <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
+            <mat-select placeholder="Code" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
+                <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
+                        Select All
+                      </button>
+                    <button mat-raised-button color="warn" class="ml-1 mat-accent fill text-sm" (click)="deselectAll(surveyorSelect)">
+                        Deselect All
+                      </button>
+                </mat-option>
+
+                <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList">{{surveyor.fullName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        </ng-container>
 
             <mat-form-field class="example-full-width mr-10-IMP">
                 <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
@@ -1543,11 +1561,11 @@
         </section>
 
         <section class="example-section">
-            <ng-container *ngIf="router.url==='/dashboard/daily_evaluation_report'">
-                <button  mat-raised-button color="warn" (click)="dailyEvaluationRport()">Download</button>
-            </ng-container>
-            <ng-container *ngIf="router.url==='/dashboard/export-data'">
+            <ng-container *ngIf="projectType=='NIVEA'">
             <button  mat-raised-button color="warn" (click)="downloadExportData()">Download</button>
+        </ng-container>
+        <ng-container *ngIf="projectType=='PGJORDAN'">
+            <button  mat-raised-button color="warn" (click)="downloadPGExportData()">Download</button>
         </ng-container>
         </section>
 

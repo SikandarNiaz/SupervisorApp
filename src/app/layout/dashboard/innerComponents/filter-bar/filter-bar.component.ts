@@ -44,7 +44,7 @@ export class FilterBarComponent implements OnInit {
   configFile = config;
 
   ip: any = this.configFile.ip;
-
+selectedReportUrl='';
   distributionList: any = [];
   selectedDistribution: any = {};
   storeType: any = ['Elite', 'Platinum', 'Gold', 'Silver', 'Others'];
@@ -66,7 +66,7 @@ export class FilterBarComponent implements OnInit {
   endDate = new Date();
   areas: any = [];
   regionId = -1;
-
+  projectType:any;
   selectedArea: any = {};
   lastVisit: any = [];
   selectedLastVisit = 1;
@@ -142,6 +142,7 @@ selectedBrand:any={};
   }
   ngOnInit() {
     console.log('router', this.router.url);
+    this.projectType=localStorage.getItem('projectType');
     this.lastVisit = this.dataService.getLastVisit();
     this.mustHave = this.dataService.getYesNo();
     this.mustHaveAll = this.dataService.getYesNoAll();
@@ -157,7 +158,8 @@ selectedBrand:any={};
     if (this.router.url === '/dashboard/upload_routes_new') {
       this.getAllRegions();
     }
-    if(this.router.url === '/dashboard/daily-contact-report' || this.router.url === '/dashboard/cc-productivity-report' || this.router.url === '/dashboard/ce-raw-data'){
+    if(this.router.url === '/dashboard/daily-contact-report' || this.router.url === '/dashboard/cc-productivity-report' 
+    || this.router.url === '/dashboard/ce-raw-data' || this.router.url === '/dashboard/export-data'){
       this.getSurveyorsAndBrands();
     }
   }
@@ -276,6 +278,9 @@ selectedBrand:any={};
       this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
     }
   }
+
+  
+
 
   getBrandSKUOOS() {
     if (this.endDate >= this.startDate) {
@@ -486,9 +491,8 @@ selectedBrand:any={};
       this.loadingData = true;
       this.loadingReportMessage = true;
       // tslint:disable-next-line:triple-equals
-      if(this.selectedQuery.type==1) {
       const obj = {
-        typeId: this.selectedQuery.id,
+        queryId: this.selectedQuery.id,
         startDate: moment(this.startDate).format('YYYY-MM-DD'),
         endDate: moment(this.endDate).format('YYYY-MM-DD')
       };
@@ -505,8 +509,15 @@ selectedBrand:any={};
               key: res.key,
               fileType: res.fileType
             };
-            const url = 'downloadcsvReport';
-            this.getproductivityDownload(obj2, url);
+            // tslint:disable-next-line:triple-equals
+            if(this.selectedQuery.type==1){
+              this.selectedReportUrl = 'downloadCsvReport';
+            }
+            else{
+              this.selectedReportUrl = 'downloadReport';
+            }
+
+            this.getproductivityDownload(obj2, this.selectedReportUrl);
           } else {
             this.clearLoading();
 
@@ -517,46 +528,7 @@ selectedBrand:any={};
           this.clearLoading();
         }
       );
-    }
-    else
-    {
-      const obj = {
-        typeId: this.selectedQuery.id,
-        title: this.selectedQuery.title,
-        sheetName: this.selectedQuery.sheet_name,
-        templatePath : this.selectedQuery.template_url,
-        heading: this.selectedQuery.heading,
-        query: this.selectedQuery.query,
-        startDate: moment(this.startDate).format('YYYY-MM-DD'),
-        endDate: moment(this.endDate).format('YYYY-MM-DD')
-      };
-
-      const url = 'pivot-data';
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        data => {
-          console.log(data, 'pivot data');
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: 'json.fileType'
-            };
-            const url = 'downloadReport';
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
-          }
-        },
-        error => {
-          this.clearLoading();
-        }
-      );
-    }
-   } else {
+    } else {
       this.clearLoading();
       this.toastr.info('End date must be greater than start date', 'Date Selection');
     }
@@ -564,7 +536,43 @@ selectedBrand:any={};
 
 
 
+  getReportData(){
+    const obj = {
+      typeId: this.selectedQuery.id,
+      title: this.selectedQuery.title,
+      sheetName: this.selectedQuery.sheet_name,
+      templatePath : this.selectedQuery.template_url,
+      heading: this.selectedQuery.heading,
+      query: this.selectedQuery.query,
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD')
+    };
 
+    const url = 'dashboard-data';
+    const body = this.httpService.UrlEncodeMaker(obj);
+    this.httpService.getKeyForProductivityReport(body, url).subscribe(
+      data => {
+        console.log(data, 'pivot data');
+        const res: any = data;
+
+        if (res) {
+          const obj2 = {
+            key: res.key,
+            fileType: 'json.fileType'
+          };
+          const url = 'downloadReport';
+          this.getproductivityDownload(obj2, url);
+        } else {
+          this.clearLoading();
+
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+      },
+      error => {
+        this.clearLoading();
+      }
+    );
+  }
   //#region filters logic
 
   getZone() {
@@ -1074,7 +1082,7 @@ selectedBrand:any={};
     const all = arr.filter(a => a === 'all');
     const result: any = [];
     if (all[0] === 'all') {
-      arr = this.channels;
+      arr = this.surveyorList;
     }
     arr.forEach(e => {
       result.push(e.id);
@@ -1542,5 +1550,48 @@ getSurveyorsAndBrands(){
       }
     );
 }
+
+
+downloadPGExportData() {
+  if (this.endDate >= this.startDate) {
+    this.loadingData = true;
+    this.loadingReportMessage = true;
+    const obj = {
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD'),
+      surveyorId: this.arrayMaker(this.selectedSurveyor),
+    };
+
+    const url = 'export-data-report';
+    const body = this.httpService.UrlEncodeMaker(obj);
+    this.httpService.getKeyForProductivityReport(body, url).subscribe(
+      data => {
+        console.log(data, 'evaluation data');
+        const res: any = data;
+
+        if (res) {
+          const obj2 = {
+            key: res.key,
+            fileType: 'json.fileType'
+          };
+          const url = 'downloadReport';
+          this.getproductivityDownload(obj2, url);
+        } else {
+          this.clearLoading();
+
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+      },
+      error => {
+        this.clearLoading();
+      }
+    );
+  } else {
+    this.clearLoading();
+    this.toastr.info('End date must be greater than start date', 'Date Selection');
+  }
+}
+
+
 
 }
