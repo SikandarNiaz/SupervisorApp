@@ -1,9 +1,6 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
-import { EvaluationService } from '../evaluation.service';
-import { ToastrService } from 'ngx-toastr';
 import { config } from 'src/assets/config';
 
 @Component({
@@ -11,59 +8,60 @@ import { config } from 'src/assets/config';
   templateUrl: './section-one-view.component.html',
   styleUrls: ['./section-one-view.component.scss']
 })
-export class SectionOneViewComponent implements OnInit, OnChanges {
+export class SectionOneViewComponent implements OnInit {
 
   @Input('data') data;
-  @Input('productList') productList;
   @ViewChild('childModal') childModal: ModalDirective;
   @Output('showModal') showModal: any = new EventEmitter<any>();
-  @Output('productList') productForEmit: any = new EventEmitter<any>();
   @Input('isEditable') isEditable: any;
   selectedShop: any = {};
+  selectedImage: any = {};
   // ip=environment.ip;
   configFile = config;
+  reevaluatorRole: any;
+  userType: any;
 
   ip: any = this.configFile.ip;
-  products: any = [];
-  surveyId = 0;
-  updatingMSL = false;
-  changeColor = false;
-  colorUpdateList: any = [];
-  availability: any;
+  hover = 'hover';
+  zoomOptions = {
+    Mode: 'hover'
+  };
+  zoomedImage = 'https://image.shutterstock.com/image-photo/micro-peacock-feather-hd-imagebest-260nw-1127238569.jpg';
 
 
-  constructor() {
-    // var arr=router.url.split('/');
-    // this.surveyId=+arr[arr.length-1]
-    // console.log(this.surveyId)
-   }
-
-
+  constructor() { }
 
   ngOnInit() {
+    this.reevaluatorRole = localStorage.getItem('Reevaluator');
+    this.userType = localStorage.getItem('user_type');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
     this.data = changes.data.currentValue;
-    // this.products=changes.productList.currentValue;
-    // if(this.products.length>0)
-    // this.availability=this.getAvailabilityCount(this.products);
-    // console.log('is editable',this.isEditable)
-    // this.getMSLCount(this.products)
+    this.selectedImage = this.data.imageList[0];
 
   }
+
+  openSurvey(img) {
+    // tslint:disable-next-line:triple-equals
+    window.open(`${environment.hash}dashboard/evaluation/list/details/${img.surveyId}`, '_blank');
+
+  }
+
+  setSelectedImage(img) {
+    this.selectedImage = img;
+  }
+
+
   showChildModal(shop): void {
     this.selectedShop = shop;
-    this.showModal.emit(this.selectedShop);
+    this.showModal.emit(this.selectedImage);
+
     // this.childModal.show();
   }
 
   hideChildModal(): void {
     // this.childModal.hide();
   }
-
-
-
-
 }

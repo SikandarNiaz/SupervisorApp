@@ -44,13 +44,12 @@ export class EvaluationService {
   getShopDetails(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
     const url = this.ip + 'evaluationManager';   // -------> EvaluationManager
-    return this.http.post(url, urlencoded, this.httpOptions);
+      return this.http.post(url, urlencoded, this.httpOptions);
   }
 
   evaluateShop(obj) {
-    const urlencoded = this.UrlEncodeMaker(obj);
     const url = this.ip + 'evaluateSingleShop';
-    return this.http.post(url, urlencoded, this.httpOptions);
+    return this.http.post(url, obj);
   }
   updateMSLStatus(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);

@@ -1,8 +1,6 @@
-import { Component, OnInit, Input, ViewChild, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
-import { environment } from 'src/environments/environment';
-import { config } from 'src/assets/config';
-
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+declare const google: any;
 @Component({
   selector: 'section-two-view',
   templateUrl: './section-two-view.component.html',
@@ -11,57 +9,24 @@ import { config } from 'src/assets/config';
 export class SectionTwoViewComponent implements OnInit {
 
   @Input('data') data;
-  @ViewChild('childModal') childModal: ModalDirective;
-  @Output('showModal') showModal: any = new EventEmitter<any>();
-  @Input('isEditable') isEditable: any;
-  selectedShop: any = {};
-  selectedImage: any = {};
-  // ip=environment.ip;
-  configFile = config;
-  reevaluatorRole: any;
-  userType: any;
+  locations: any = [];
+  centerPoint: any = [];
+  lat: any;
+  long: any;
+  locationMap: any;
+  mapSrc: SafeResourceUrl;
+  url: any;
 
-  ip: any = this.configFile.ip;
-  hover = 'hover';
-  zoomOptions = {
-    Mode: 'hover'
-  };
-  zoomedImage = 'https://image.shutterstock.com/image-photo/micro-peacock-feather-hd-imagebest-260nw-1127238569.jpg';
+  constructor(public sanitizer: DomSanitizer) { }
 
-
-  constructor() { }
-
-  ngOnInit() {
-    this.reevaluatorRole = localStorage.getItem('Reevaluator');
-    this.userType = localStorage.getItem('user_type');
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-
     this.data = changes.data.currentValue;
-    this.selectedImage = this.data.imageList[0];
-
-  }
-
-  openSurvey(img) {
-    // tslint:disable-next-line:triple-equals
-    window.open(`${environment.hash}dashboard/evaluation/list/details/${img.surveyId}`, '_blank');
-
-  }
-
-  setSelectedImage(img) {
-    this.selectedImage = img;
-  }
-
-
-  showChildModal(shop): void {
-    this.selectedShop = shop;
-    this.showModal.emit(this.selectedImage);
-
-    // this.childModal.show();
-  }
-
-  hideChildModal(): void {
-    // this.childModal.hide();
+    this.locationMap= this.data.sectionMap;
+    this.lat=this.locationMap.latitude;
+    this.long=this.locationMap.longitude;
+    this.url = 'https://maps.google.com/maps?q=' + this.lat + '%2C' + this.long + '&t=&z=13&ie=UTF8&iwloc=&output=embed';
+    this.mapSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
   }
 }

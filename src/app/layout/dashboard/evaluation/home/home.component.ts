@@ -38,8 +38,9 @@ export class HomeComponent implements OnInit {
   existingRemarks: any = [];
   selectedRemarks: any = true;
   selectedRemarksList: any = [];
-  evaluationRemarks: any = [{id : 1, title: 'Approved'}, {id:2, title:'Disapproved'}];
+  evaluationRemarks: any = [];
   selectedCriteria: any = {};
+  evaluationStatus=-1;
   evaluationArray: any = [];
   productList: any = [];
   msl: any;
@@ -64,6 +65,8 @@ export class HomeComponent implements OnInit {
   productivityCount: any;
   reevaluatorRole: any;
   evaluatorRole: any;
+  selectedRemarkArray:any=[];
+
 
   constructor(
     private router: Router,
@@ -156,16 +159,15 @@ export class HomeComponent implements OnInit {
       data => {
         if (data) {
           this.data = data;
-         if (this.p.isEditable) {
-          this.isEditable = false;
           document.title = this.data.section[0].sectionTitle;
-         } else {
-          document.title = this.data.section[0].sectionTitle;
-
-           this.isEditable = true;
+          // tslint:disable-next-line:triple-equals
+          if (this.data.criteria && this.userType==this.evaluatorRole) {
+            this.evaluationArray = this.data.criteria;
+            this.cloneArray = this.evaluationArray.slice();
+          }
+          this.remarksList = this.data.remarks;
          }
 
-        }
       },
       error => {}
     );
@@ -263,17 +265,14 @@ export class HomeComponent implements OnInit {
       id: criteria.id,
       title: criteria.title,
       score: criteria.score,
-      criteriaMapId: criteria.criteriaMapId,
-      // achievedScore: (criteria.isEditable)? (this.criteriaDesireScore==criteria.score)?0:this.criteriaDesireScore : 0,
-
-      achievedScore: criteria.isEditable ? this.criteriaDesireScore : 0,
-      isEditable: criteria.isEditable,
       isChecked: 1
     };
     this.cloneArray.forEach(element => {
       const i = this.cloneArray.findIndex(e => e.id === criteria.id);
       this.cloneArray.splice(i, 1, obj);
     });
+    this.selectedRemarkArray=remarks;
+    this.evaluationStatus=2;
     // this.subtractScore(this.selectedCriteria);
     // this.evaluationArray.push(obj);
     console.log('evaluation array clone', this.cloneArray);
@@ -351,55 +350,25 @@ export class HomeComponent implements OnInit {
   counter(event, criteria, index) {
 
     this.selectedIndex = index;
+    this.j=index;
     // console.dir(event.checked)
     if (event.checked) {
-      if (criteria.id === 9) {
-        this.isCritical = false;
-      } else {
-        this.isNoNCritical = true;
-        this.isCritical = true;
-      }
-      // this.score=this.score-Math.abs(criteria.score);
-      // this.updateAchieveScore(criteria.id);
-      // this.totalAchieveScore=this.getTotalAchieveScore()
 
-      // this.totalAchieveScore =
-      //   this.criteriaDesireScore > 0
-      //     ? this.totalAchieveScore - Math.abs(this.criteriaDesireScore)
-      //     : this.totalAchieveScore - Math.abs(criteria.achievedScore);
       this.indexList.push(index);
-      this.updateAchieveScore(criteria.id);
 
       this.selectedCriteria = criteria;
-      if (!criteria.isEditable) {
-        this.subtractScore(this.selectedCriteria);
-      }
+      // tslint:disable-next-line:triple-equals
+        if(criteria.type!=1){
       this.showRemarksModal();
-    } else {
-      this.totalAchieveScore = this.totalAchieveScore + Math.abs(criteria.score);
-
-      const i = this.indexList.indexOf(index);
-      this.indexList.splice(i, 1);
-
-      if (this.evaluationArray.length > 0) {
-        const obj = {
-          remarkId: [],
-          id: criteria.id,
-          title: criteria.title,
-          score: criteria.score,
-          criteriaMapId: criteria.criteriaMapId,
-          achievedScore: criteria.score > criteria.achievedScore || criteria.score < 0 ? criteria.score : criteria.achievedScore,
-          isEditable: criteria.isEditable,
-          isChecked: 0
-        };
-        const e = this.evaluationArray.findIndex(i => i.id === criteria.id);
-        this.cloneArray.splice(e, 1, obj);
-        console.log('unchecked evaluation array', this.cloneArray);
-        this.selectedRemarksList = [];
-        this.updateAchieveScore(criteria.id);
-        this.checkForCritical(criteria);
+      }
+      else{
+        this.selectedRemarkArray=[];
+        this.evaluationStatus=1;
       }
     }
+    else{
+      this.evaluationStatus=-1;
+    } 
   }
 
   cancelCriteriaSelection() {
@@ -420,18 +389,16 @@ export class HomeComponent implements OnInit {
         id: criteria.id,
         title: criteria.title,
         score: criteria.score,
-        criteriaMapId: criteria.criteriaMapId,
-        achievedScore: criteria.score > criteria.achievedScore ? criteria.score : criteria.achievedScore,
-        isEditable: criteria.isEditable,
+        type:criteria.type,
         isChecked: 0
       };
       const e = this.evaluationArray.findIndex(i => i.id === criteria.id);
       this.cloneArray.splice(e, 1, obj);
       console.log('unchecked evaluation array,using cancel button', this.cloneArray);
     }
-
-    this.checkForCritical(criteria);
-
+    this.selectedRemarkArray=[];
+    this.j=-1;
+    this.evaluationStatus=-1;
     this.hideRemarkModalForCancelOption();
   }
   checkForCritical(criteria) {
@@ -473,20 +440,20 @@ export class HomeComponent implements OnInit {
 
     if (req) {
 
+      // tslint:disable-next-line:triple-equals
         const obj = {
-          shopId: this.surveyId,
+          criteria: this.selectedRemarkArray,
+          surveyId: this.surveyId,
           evaluatorId: user_id,
-          evaluationRemark: this.selectedEvaluationRemark,
+          status: this.evaluationStatus
         };
 
         this.evaluationService.evaluateShop(obj).subscribe(
           (data: any) => {
             // console.log('evaluated shop data',data);
             this.loading = false;
-
             // tslint:disable-next-line:triple-equals
             if (data.success == 'true') {
-              this.hideRemarksModalWithNoChange();
               this.toastr.success('shop evaluated successfully ');
               this.evaluationArray = [];
               this.cloneArray = [];
@@ -505,24 +472,21 @@ export class HomeComponent implements OnInit {
             this.toastr.error(error.message, 'Error');
           }
         );
-    }
+
+      }
+
   }
 
 
 
   checkForSlectedRemarks(list) {
     let result = 1;
-    list.forEach(element => {
-      if (element.remarkId && element.remarkId.length > 0) {
-      result = 2;
-      }
+   if(list.length>0){
+     result=2;
+   }
 
-    });
-
-
-    return result;
-
-  }
+   return result;
+    }
   updateSoS() {
 
     if (this.selectedSoS.total_com_height <= 0) {
@@ -574,15 +538,6 @@ export class HomeComponent implements OnInit {
 
   showRemarksModal() {
     this.criteriaDesireScore = 0;
-
-    if (this.existingRemarks.length > 0) {
-      this.existingRemarks.forEach(element => {
-              if (element.id > 0 && element.criteriaId === this.selectedCriteria.id) {
-                this.selectedRemarksList.push(element.id);
-              }
-            });
-    }
-
     this.remarksModal.show();
   }
 
