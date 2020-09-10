@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div>
+
+    <div class="row">
+
+        <div class="col-md-12 text-center">
+            <h4><u>{{data?.sectionTitle }} </u><i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i></h4>
+        </div>
+
+
+      
+        <div class="col-12 tableFixHead">
+          
+            <table class="table table-bordered table-hover w-100" >
+                <thead style="background:lightgray">
+                    <tr>
+                        <!-- <th>Brand Title</th> -->
+                        <th>Question</th>
+                        <th>Answer
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let product of products | keyvalue: unsorted">
+                         <!-- <td>{{product?.category_title}}</td> -->
+                        <td style="width:700px !important; word-wrap:break-word;">{{product.key}}</td>
+                        
+                        
+                        <!-- <td style="width:250px !important" style="cursor:pointer" [ngStyle]="{'background-color':product.color}" (click)="toggleValue(product)">
+                            {{updateString(product?.available_sku)}}
+                        </td> -->
+
+                        <td style="width:300px !important; word-wrap:break-word;">{{product.value}}</td>
+
+
+                        <!-- <td (click)="product.available_sku = (!product.available_sku)">{{toggleValue(product?.available_sku)}}</td> -->
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+   
+</div>
+
+
+
+
+
+
+
+

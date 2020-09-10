@@ -1,0 +1,105 @@
+<div class="container-fluid animated slideInLeft">
+    <mat-card class="mb-20">
+
+        <mat-card-content>
+            <mat-card-title>
+                {{title| uppercase}} <i color="primary" [ngClass]="{'fa fa-cog fa-spin':loading}"></i>
+            </mat-card-title>
+            <section class="example-section">
+                <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
+                    <mat-select placeholder="Code" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
+                        <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
+                                Select All
+                              </button>
+                            <button mat-raised-button color="warn" class="ml-1 mat-accent fill text-sm" (click)="deselectAll(surveyorSelect)">
+                                Deselect All
+                              </button>
+                        </mat-option>
+    
+                        <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList">{{surveyor.fullName}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field class="example-full-width mr-10-IMP">
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                    <mat-datepicker #picker0></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="example-full-width mr-10-IMP">
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" placeholder="Choose a end date" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+    
+            </section>
+    
+            <section class="example-section">
+                <button  [disabled]="selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getSurveyShopDetails()">Show Survey Detail</button>
+                <span *ngIf="selectedSurveyor.length<1" class="alert-message"><small>(surveyor selection is mandatory)</small></span>
+            </section>
+    
+        </mat-card-content>
+    </mat-card>
+    
+ 
+    <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="dialog-child-name" class="modal-title pull-left">{{selectedItem.shop_title}}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
+    
+                <div class="modal-body text-center">
+                    <img src="{{ip}}{{selectedItem.shop_image_url}}" alt="" style=" width: 100%; height: 500px; ">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="container-fluid" *ngIf="tableData.length>0">
+        <div class="row">
+    
+        </div>
+        <div class="row js">
+            <ng-container *ngFor="let item of tableData;let i=index">
+                <mat-card class=" col-md-3 example-card card2 ml-3 mt-3">
+       <ng-container *ngIf="type==1">
+            <img mat-card-image class="small" src="{{ip}}{{item.image_url}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
+        </ng-container>
+                    
+                    
+                    <mat-card-content  (click)="goToEvaluationPage(item)">
+                        <table class="table" style="cursor:pointer" >
+    
+                            <tr>
+                                <!-- test -->
+                                <th>Code</th>
+                                <td>{{item?.m_code}}</td>
+                            </tr>
+                            <tr>
+                                <th>BA Name</th>
+                                <td>{{item?.full_name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Shop Name</th>
+                                <td>{{item?.shop_title}}</td>
+                            </tr>
+                            <tr>
+                                <th>Visit DateTime</th>
+                                <td>{{item?.visitDateTime}}</td>
+                            </tr>
+                        </table>
+                       
+                    </mat-card-content>
+                    
+                </mat-card>
+            </ng-container>
+            <!-- <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator> -->
+    
+        </div>
+    </div>
+</div>
