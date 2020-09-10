@@ -7,13 +7,13 @@
       <section class="example-section">
         <mat-form-field class="example-margin mr-10-IMP">
     
-            <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+            <mat-select placeholder="Cluster" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
                 <mat-option [value]="zone" *ngFor="let zone of zones">{{zone.title}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field *ngIf="regions.length>0 && selectedZone.id !==-1" class="example-margin mr-10-IMP">
-            <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)=" getData(params);">
+            <mat-select placeholder="City" name='region' [(ngModel)]="selectedRegion" (ngModelChange)=" getData(params);">
                 <mat-option [value]="region" *ngFor="let region of regions">{{region.title}}</mat-option>
             </mat-select>
         </mat-form-field>

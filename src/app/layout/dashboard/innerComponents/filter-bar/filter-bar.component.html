@@ -158,7 +158,7 @@
             </mat-form-field>
 
             <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
-                <mat-select  placeholder="Brands" name='brands' [(ngModel)]="selectedBrand">
+                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand">
                     <mat-option [value]="0" selected>ALL</mat-option>
                     <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
                 </mat-select>

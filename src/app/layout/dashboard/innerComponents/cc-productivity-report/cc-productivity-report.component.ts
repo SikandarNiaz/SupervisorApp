@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cc-productivity-report.component.scss']
 })
 export class CcProductivityReportComponent implements OnInit {
-  title='CC Productivity Report';
+  title='Productivity Report';
   constructor() { }
 
   ngOnInit() {

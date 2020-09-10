@@ -28,6 +28,14 @@
                       <mat-option [value]="store" *ngFor="let store of stores">{{store.title}}</mat-option>
                   </mat-select>
               </mat-form-field>
+              <ng-container *ngIf="projectType=='NFL'">
+              <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
+                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand" (ngModelChange)="getTabsData()">
+                    <mat-option [value]="-1" selected>All</mat-option>
+                    <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
     
     
     

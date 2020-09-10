@@ -28,7 +28,9 @@ export class HomeComponent implements OnInit {
   maxDate = new Date();
   startDate = new Date();
   regions: any = [];
+  selectedBrand:any={};
   dashboardData :any={};
+  brandList:any=[];
   stores: any=[];
   sortOrder = true;
   sortBy: 'm_code';
@@ -40,6 +42,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getZoneList();
     this.getStores();
+    this.getSurveyorsAndBrands();
     this.getTabsData();
     this.projectType=localStorage.getItem('projectType');
   }
@@ -123,7 +126,8 @@ export class HomeComponent implements OnInit {
       endDate:moment(this.endDate).format('YYYY-MM-DD'),
       zoneId: this.selectedZone.id || -1,
       regionId: this.selectedRegion.id || -1,
-      shopId: this.selectedStore.id || -1
+      shopId: this.selectedStore.id || -1,
+      brandId: this.selectedBrand.id || -1
     };
 
     this.httpService.getBAList(obj).subscribe((data: any) => {
@@ -143,7 +147,8 @@ export class HomeComponent implements OnInit {
       endDate:moment(this.endDate).format('YYYY-MM-DD'),
       zoneId: this.selectedZone.id || -1,
       regionId: this.selectedRegion.id || -1,
-      shopId: this.selectedStore.id || -1
+      shopId: this.selectedStore.id || -1,
+      brandId: this.selectedBrand.id || -1
     };
 
     this.httpService.getDashboardStats(obj).subscribe((data: any) => {
@@ -196,5 +201,28 @@ export class HomeComponent implements OnInit {
        this.loadingData=false;
      }
    );
+}
+getSurveyorsAndBrands(){
+  this.loadingData = true;
+
+    this.httpService.getSurveyorsAndBrands().subscribe(
+      data => {
+        const res: any = data;
+        if (res) {
+          this.brandList = res.brandList;
+        } else {
+          this.loadingData = false;
+
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+
+        setTimeout(() => {
+          this.loadingData = false;
+        }, 500);
+      },
+      error => {
+        this.loadingData = false;
+      }
+    );
 }
 }

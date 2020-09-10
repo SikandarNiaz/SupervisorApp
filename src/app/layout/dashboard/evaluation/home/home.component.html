@@ -67,7 +67,7 @@
       </div>
       </div>
       
-          <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
+          <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging && userType==evaluatorRole; else elseBlock">
             <div class="card">
               <div class="row">
                 <div class="col-md-12">
@@ -108,10 +108,7 @@
               </div>
       
               <hr>
-      
-      
-      
-      
+            
               <div class="row justify-content-center">
                 <ng-container class="mt-2 justify-content-center " *ngIf="data?.shopDetails?.tagsList">
                   <div class="col-md-11 mt-1 ">
@@ -126,11 +123,26 @@
                   </div>
                 </ng-container>
               </div> 
-      
+
             </div>
-          
           </div>
 
+          <ng-template #elseBlock>
+          <div class="row justify-content-center">
+            <ng-container class="mt-2 justify-content-center " *ngIf="data?.shopDetails?.tagsList">
+              <div class="col-md-11 mt-1 ">
+                <table class="table table-bordered sm-table">
+                  <tr *ngFor="let tab of data?.shopDetails?.tagsList;let j=index ">
+                    <th style="background: lightgray; ">{{tab.heading}}</th>
+                    <td style="word-break: break-word ">{{tab.value}}</td>
+                  </tr>
+  
+                </table>
+  
+              </div>
+            </ng-container>
+          </div> 
+          </ng-template>
           
       
         </div>
