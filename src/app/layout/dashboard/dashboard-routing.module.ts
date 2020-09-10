@@ -63,8 +63,8 @@ const routes: Routes = [
     { path: 'shop_detail/:id', component: ShopDetailComponent },
 
     { path: 'evaluation', loadChildren: './evaluation/evaluation.module#EvaluationModule' },
-    { path: 'evaluation_portal', loadChildren: './evaluation/evaluation.module#EvaluationModule' },
-
+    { path: 'ce_evaluation', loadChildren: './ce-evaluation/ce-evaluation.module#CeEvaluationModule' },
+    { path: 'ce_supervisor_evaluation', loadChildren: './ce-evaluation/ce-evaluation.module#CeEvaluationModule' },
 ];
 
 @NgModule({
