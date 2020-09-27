@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
   userType: any;
   isEditable: any = false;
   selectedIndex = -1;
+  survey: any;
   criteriaDesireScore: any = 0;
   totalAchieveScore = 0;
   MSLCount: number;
@@ -162,7 +163,8 @@ export class HomeComponent implements OnInit {
       data => {
         if (data) {
           this.data = data;
-          document.title = this.data.section[0].sectionTitle;
+          this.survey=this.data.shopDetails.surveyDetails;
+          document.title = this.survey.username + ' - ' + this.survey.surveyor.fullName;
           // tslint:disable-next-line:triple-equals
           if (this.data.criteria && this.userType==this.evaluatorRole) {
             this.evaluationArray = this.data.criteria;

@@ -24,10 +24,11 @@ import { SectionOneViewComponent } from './section-one-view/section-one-view.com
 import { SectionTwoViewComponent } from './section-two-view/section-two-view.component';
 import { SectionThreeViewComponent } from './section-three-view/section-three-view.component';
 import { SectionFourViewComponent } from './section-four-view/section-four-view.component';
-
+import { SectionFiveViewComponent } from './section-five-view/section-five-view.component';
+import { BarRatingModule } from 'ngx-bar-rating';
 
 @NgModule({
-  declarations: [MainPageComponent, EvaluationDetailComponent, HomeComponent, SectionOneViewComponent, SectionTwoViewComponent, SectionThreeViewComponent, SectionFourViewComponent],
+  declarations: [MainPageComponent, EvaluationDetailComponent, HomeComponent, SectionOneViewComponent, SectionTwoViewComponent, SectionThreeViewComponent, SectionFourViewComponent, SectionFiveViewComponent],
   imports: [
     CommonModule,
     CeEvaluationRoutingModule,
@@ -46,7 +47,8 @@ import { SectionFourViewComponent } from './section-four-view/section-four-view.
     MatFormFieldModule,
     MatExpansionModule,
     MatButtonModule, MatIconModule, MatTableModule, MatSelectModule, MatNativeDateModule,
-   MatMenuModule,MatDatepickerModule
+   MatMenuModule,MatDatepickerModule,
+   BarRatingModule
 
 
   ]

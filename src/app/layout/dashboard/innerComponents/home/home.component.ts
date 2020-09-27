@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
      }
   title = 'Productivity';
   loadingData: boolean;
+  loading:boolean;
   selectedZone: any = {};
   selectedRegion: any = {};
   minDate = new Date(2000, 0, 1);
@@ -43,37 +44,38 @@ export class HomeComponent implements OnInit {
     this.getZoneList();
     this.getStores();
     this.getSurveyorsAndBrands();
-    this.getTabsData();
+    this.getDashboardData();
     this.projectType=localStorage.getItem('projectType');
   }
 
   zoneChange() {
-    this.getTabsData();
-    this.loadingData = true;
+    this.loading = true;
+    this.selectedRegion.id=-1;
+    this.getDashboardData();
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       data => {
         const res: any = data;
         if (res) {
           this.regions = res;
         } else {
-          this.loadingData=false;
+          this.loading=false;
           this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
         }
         this.getStores();
 
         setTimeout(() => {
-          this.loadingData = false;
+          this.loading = false;
         }, 500);
       },
       error => {
-        this.loadingData=false;
+        this.loading=false;
       }
     );
   }
 
   regionChange(){
-   this.getTabsData();
-   this.loadingData = true;
+   this.loading = true;
+   this.getDashboardData();
    this.selectedStore.id=-1;
   this.httpService.getShops(this.selectedZone.id, this.selectedRegion.id).subscribe(
     data => {
@@ -81,46 +83,45 @@ export class HomeComponent implements OnInit {
       if (res) {
         this.stores = res;
       } else {
-        this.loadingData=false;
+        this.loading=false;
 
         this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
       }
 
       setTimeout(() => {
-        this.loadingData = false;
+        this.loading = false;
       }, 500);
     },
     error => {
-      this.loadingData=false;
+      this.loading=false;
     }
   );
   }
 
   getZoneList(){
-    this.loadingData = true;
+    this.loading = true;
   this.httpService.getZone().subscribe(
     data => {
       const res: any = data;
       if (res) {
         this.zones = res.zoneList;
       } else {
-        this.loadingData=false;
+        this.loading=false;
 
         this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
       }
 
       setTimeout(() => {
-        this.loadingData = false;
+        this.loading = false;
       }, 500);
     },
     error => {
-      this.loadingData=false;
+      this.loading=false;
     }
   );
   }
   getTabsData()
   {
-    this.loadingData = true;
     const obj = {
       startDate:moment(this.startDate).format('YYYY-MM-DD'),
       endDate:moment(this.endDate).format('YYYY-MM-DD'),
@@ -134,9 +135,8 @@ export class HomeComponent implements OnInit {
       // console.log('merchandiser list for evaluation',data);
       if (data) {
         this.tableData = data;
-        this.getDashboardData();
-        this.loadingData = false;
       }
+      this.loading = false;
     });
   }
   getDashboardData()
@@ -150,12 +150,14 @@ export class HomeComponent implements OnInit {
       shopId: this.selectedStore.id || -1,
       brandId: this.selectedBrand.id || -1
     };
-
+    this.loading=true;
+    this.getTabsData();
     this.httpService.getDashboardStats(obj).subscribe((data: any) => {
+      this.loadingData=false;
       if (data) {
         this.dashboardData = data;
-        this.loadingData=false;
       }
+      this.loading=false;
     });
   }
 
@@ -180,30 +182,30 @@ export class HomeComponent implements OnInit {
   }
 
   getStores(){
-    this.getTabsData();
-    this.loadingData = true;
+    this.getDashboardData();
+    this.loading = true;
    this.httpService.getShops(this.selectedZone.id || -1, this.selectedRegion.id || -1).subscribe(
      data => {
        const res: any = data;
        if (res) {
          this.stores = res;
        } else {
-         this.loadingData=false;
+         this.loading=false;
  
          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
        }
  
        setTimeout(() => {
-         this.loadingData = false;
+         this.loading = false;
        }, 500);
      },
      error => {
-       this.loadingData=false;
+       this.loading=false;
      }
    );
 }
 getSurveyorsAndBrands(){
-  this.loadingData = true;
+  this.loading = true;
 
     this.httpService.getSurveyorsAndBrands().subscribe(
       data => {
@@ -211,17 +213,17 @@ getSurveyorsAndBrands(){
         if (res) {
           this.brandList = res.brandList;
         } else {
-          this.loadingData = false;
+          this.loading = false;
 
           this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
         }
 
         setTimeout(() => {
-          this.loadingData = false;
+          this.loading = false;
         }, 500);
       },
       error => {
-        this.loadingData = false;
+        this.loading = false;
       }
     );
 }

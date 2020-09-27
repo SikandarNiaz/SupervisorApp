@@ -306,11 +306,19 @@ export class DashboardService {
     const url = this.ip + 'BAList';  // ------> BAListController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
-  getSurveyorsAndBrands(){
-    const filter = JSON.stringify({act: 7});
+  getBrands(){
+    const filter = JSON.stringify({act: 9});
     const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
+
+
+  getSurveyorByBrands(brandId){
+    const filter = JSON.stringify({act: 10, brandId: brandId});
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  }
+
   getDashboardStats(obj){
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + 'interceptionSummary';   // ------> InterceptionSummaryDataController
@@ -323,6 +331,13 @@ export class DashboardService {
     const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
     return this.http.post(url, filter);
   
+  }
+
+
+  getSurveyorsAndBrands(){
+     const filter = JSON.stringify({act: 7});
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    return this.http.post(url, filter);
   }
 
 

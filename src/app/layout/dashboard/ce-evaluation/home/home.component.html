@@ -22,18 +22,7 @@
                               </button>
               </div>
           </div> -->
-          <div class="icon-bar">
-              <button type="button" class="btn btn-primary" (click)="this.isDragging = !this.isDragging">
-                  <span *ngIf="!this.isDragging" title="expand view">
-                      <i class="fa fa-arrow-right"></i>
-                  </span>
-                  <span *ngIf="this.isDragging" title="colapse view">
-                      <i class="fa fa-arrow-left"></i>
-                  </span>
-
-              </button> 
-              
-            </div>
+     
             <div class="content">
           <div class="row justify-content-center-between ">
               
@@ -60,6 +49,10 @@
                   </ng-container>
 
 
+                  <ng-container *ngIf="sec?.imageViewType===5">
+                    <section-five-view class="width-100" [data]="sec" (showModal)="showChildModal($event)">
+                    </section-five-view>
+                </ng-container>
 
               </ng-container>
           </div>
@@ -92,16 +85,18 @@
         <div class="modal-dialog-cat ">
           <div class="modal-content" (click)="rotateImage()" style="cursor:pointer" title="click to rotate Image"
             [ngClass]="{'rotated-image-0': rotationDegree==0, 'rotated-image-90': rotationDegree==90, 'rotated-image-180': rotationDegree==180, 'rotated-image-270': rotationDegree==270, 'rotated-image-360': rotationDegree==360}">
+        
             <div class="modal-body" style="padding:10px">
               <!--  -->
               <ngx-image-zoom [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250"
                 [enableLens]="true" [circularLens]="true" [thumbImage]=ip+selectedShop?.url [fullImage]=ip+selectedShop?.url>
               </ngx-image-zoom>
+      
+              <!-- <img src="{{ip}}{{selectedShop?.url}}" alt="" srcset=""> -->
             </div>
           </div>
         </div>
       </div>
-      
       <!-- remarks modal -->
       <div bsModal #remarksModal="bs-modal" [config]="{backdrop: 'static',keyboard:false}" class="modal fade" tabindex="-1"
         role="dialog" aria-labelledby="dialog-child-name">

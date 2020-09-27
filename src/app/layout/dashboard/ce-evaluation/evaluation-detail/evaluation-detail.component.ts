@@ -23,6 +23,10 @@ export class EvaluationDetailComponent implements OnInit {
   ip: any = this.configFile.ip;
   tableData: any = [];
   loading : boolean;
+  zones: any=[];
+  selectedZone:any={};
+  regions:any=[];
+  selectedRegion:any={};
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   startDate = new Date();
@@ -37,10 +41,11 @@ export class EvaluationDetailComponent implements OnInit {
     }else if(this.router.url== '/dashboard/ce_supervisor_evaluation/list/home'){
       this.type=2;
     }
+    this.zones = JSON.parse(localStorage.getItem('zoneList'));
    }
 
   ngOnInit() {
-    this.getSurveyorsAndBrands();
+    this.getSurveyors();
   }
 
   showChildModal(): void {
@@ -54,17 +59,16 @@ export class EvaluationDetailComponent implements OnInit {
     this.selectedItem = item;
 
   }
-  getSurveyorsAndBrands(){
+  getSurveyors(){
     this.loading = true;
-  
-      this.httpService.getSurveyorsAndBrands().subscribe(
+
+      this.httpService.getSurveyorsByZoneAndRegion(this.selectedZone.id || -1, this.selectedRegion.id || -1).subscribe(
         data => {
           const res: any = data;
           if (res) {
-            this.surveyorList = res.surveyorList;
+            this.surveyorList = res;
           } else {
             this.loading=false;
-  
             this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
           }
   
@@ -84,8 +88,10 @@ export class EvaluationDetailComponent implements OnInit {
       startDate: moment(this.startDate).format('YYYY-MM-DD'),
       endDate: moment(this.endDate).format('YYYY-MM-DD'),
       surveyorId: this.arrayMaker(this.selectedSurveyor),
+      regionId: this.selectedRegion.id || -1, 
+      zoneId: this.selectedZone.id || -1,
       type: this.type
-    }
+    };
     this.httpService.getBADataForEvaluation(obj).subscribe(data => {
       // console.log(data);
       this.tableData = data;
@@ -93,7 +99,6 @@ export class EvaluationDetailComponent implements OnInit {
         this.loading = false;
         this.toastr.info('No record found.');
         setTimeout(() => {
-          this.toastr.info('Request Timed Out');
 
         }, 3000);
       }
@@ -140,6 +145,30 @@ export class EvaluationDetailComponent implements OnInit {
       window.open(`${environment.hash}dashboard/ce_supervisor_evaluation/list/details/${item.survey_id}/${this.type}`, '_blank');
     }
   
+  }
+
+  zoneChange() {
+    this.loading = true;
+    this.selectedRegion.id=-1;
+    this.getSurveyors();
+    this.httpService.getRegion(this.selectedZone.id).subscribe(
+      data => {
+        const res: any = data;
+        if (res) {
+          this.regions = res;
+        } else {
+          this.loading=false;
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      error => {
+        this.loading=false;
+      }
+    );
   }
 
 }

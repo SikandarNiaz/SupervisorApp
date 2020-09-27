@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CeEvaluationService } from '../ce-evaluation.service';
 import { ModalDirective } from 'ngx-bootstrap';
 
+
 @Component({
   selector: 'section-four-view',
   templateUrl: './section-four-view.component.html',
@@ -270,4 +271,6 @@ export class SectionFourViewComponent implements OnInit {
  hideChildModal() {
     this.childModal.hide();
   }
+  isNumber(val)
+   { return typeof val === 'number'; }
 }

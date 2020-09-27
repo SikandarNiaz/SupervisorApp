@@ -84,6 +84,22 @@ export class CeEvaluationService {
     const urlencoded = this.UrlEncodeMaker(obj);
     const url = this.ip + 'surveyShopList'; // ----> SurveyShopListController
     return this.http.post(url, urlencoded, this.httpOptions);
+ 
   }
 
+
+  getRegion(zoneId) {
+    this.user_id = localStorage.getItem('user_id');
+
+    const filter = JSON.stringify({act: 1, zoneId: zoneId, userId: this.user_id});
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  
+  }
+
+  getSurveyorsByZoneAndRegion(zoneId,regionId){
+    const filter = JSON.stringify({act: 13, zoneId: zoneId, regionId: regionId});
+    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  }
 }

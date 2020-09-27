@@ -160,7 +160,7 @@ selectedBrand:any={};
     }
     if(this.router.url === '/dashboard/daily-contact-report' || this.router.url === '/dashboard/cc-productivity-report' 
     || this.router.url === '/dashboard/ce-raw-data' || this.router.url === '/dashboard/export-data'){
-      this.getSurveyorsAndBrands();
+      this.getBrands();
     }
   }
 
@@ -1526,15 +1526,38 @@ selectedBrand:any={};
       this.toastr.info('Plz Enter a Valid Date and Type', 'Required Fields');
     }
   }
-getSurveyorsAndBrands(){
+getBrands(){
   this.loadingData = true;
 
-    this.httpService.getSurveyorsAndBrands().subscribe(
+    this.httpService.getBrands().subscribe(
       data => {
         const res: any = data;
         if (res) {
-          this.surveyorList = res.surveyorList;
-          this.brandList = res.brandList;
+          this.brandList = res;
+        } else {
+          this.clearLoading();
+
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+
+        setTimeout(() => {
+          this.loadingData = false;
+        }, 500);
+      },
+      error => {
+        this.clearLoading();
+      }
+    );
+}
+
+getSurveyorByBrands(){
+  this.loadingData = true;
+
+    this.httpService.getSurveyorByBrands(this.selectedBrand.id).subscribe(
+      data => {
+        const res: any = data;
+        if (res) {
+          this.surveyorList = res;
         } else {
           this.clearLoading();
 
@@ -1590,8 +1613,33 @@ downloadPGExportData() {
     this.clearLoading();
     this.toastr.info('End date must be greater than start date', 'Date Selection');
   }
+
+
 }
 
+getSurveyorsAndBrands(){
+  this.loadingData = true;
 
+    this.httpService.getSurveyorsAndBrands().subscribe(
+      data => {
+        const res: any = data;
+        if (res) {
+          this.surveyorList = res.surveyorList;
+          this.brandList = res.brandList;
+        } else {
+          this.clearLoading();
+
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+        }
+
+        setTimeout(() => {
+          this.loadingData = false;
+        }, 500);
+      },
+      error => {
+        this.clearLoading();
+      }
+    );
+}
 
 }

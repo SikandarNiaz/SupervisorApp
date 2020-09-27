@@ -138,11 +138,18 @@
 
     <mat-card-content>
         <mat-card-title>
-            {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            {{title| uppercase}} <i [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
             <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small>
 
         </mat-card-title>
         <section class="example-section">
+
+            <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
+                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand" (ngModelChange)="getSurveyorByBrands()">
+                    <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
                 <mat-select placeholder="BA" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
                     <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
@@ -154,13 +161,6 @@
                     </mat-option>
 
                     <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList">{{surveyor.fullName}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
-                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand">
-                    <mat-option [value]="0" selected>ALL</mat-option>
-                    <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
                 </mat-select>
             </mat-form-field>
             
@@ -179,17 +179,15 @@
 
         <section class="example-section">
             <ng-container *ngIf="router.url==='/dashboard/daily-contact-report'">
-            <button  [disabled]="selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getDailyContactReport()">Download</button>
+            <button  [disabled]="!selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getDailyContactReport()">Download</button>
         </ng-container>
         <ng-container *ngIf="router.url==='/dashboard/cc-productivity-report'">
-            <button   [disabled]="selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getCCProductivityReport()">Download</button>
+            <button   [disabled]=" !selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getCCProductivityReport()">Download</button>
         </ng-container>
         <ng-container *ngIf="router.url==='/dashboard/ce-raw-data'">
-            <button   [disabled]="selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getBADashboardReport()">Download</button>
+            <button   [disabled]="!selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getBADashboardReport()">Download</button>
         </ng-container>
 
-
-            <span *ngIf="selectedSurveyor.length<1" class="channel-message"><small>(surveyor selection is mandatory)</small></span>
         </section>
 
     </mat-card-content>

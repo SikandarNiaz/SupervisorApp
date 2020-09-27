@@ -6,6 +6,17 @@
                 {{title| uppercase}} <i color="primary" [ngClass]="{'fa fa-cog fa-spin':loading}"></i>
             </mat-card-title>
             <section class="example-section">
+              <mat-form-field class="example-margin mr-10-IMP">
+                <mat-select placeholder="Cluster" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                    <mat-option [value]="zone" *ngFor="let zone of zones">{{zone.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field *ngIf="regions.length>0 && selectedZone.id !==-1" class="example-margin mr-10-IMP">
+                <mat-select placeholder="City" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="getSurveyors()">
+                    <mat-option [value]="region" *ngFor="let region of regions">{{region.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
                 <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
                     <mat-select placeholder="Code" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
                         <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
@@ -19,7 +30,8 @@
                         <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList">{{surveyor.fullName}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                
+            </section>
+            <section class="example-section">
                 <mat-form-field class="example-full-width mr-10-IMP">
                     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
                     <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
@@ -35,7 +47,6 @@
     
             <section class="example-section">
                 <button  [disabled]="selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getSurveyShopDetails()">Show Survey Detail</button>
-                <span *ngIf="selectedSurveyor.length<1" class="alert-message"><small>(surveyor selection is mandatory)</small></span>
             </section>
     
         </mat-card-content>
@@ -53,7 +64,7 @@
                 </div>
     
                 <div class="modal-body text-center">
-                    <img src="{{ip}}{{selectedItem.shop_image_url}}" alt="" style=" width: 100%; height: 500px; ">
+                    <img src="{{ip}}{{selectedItem.image_url}}" alt="" style=" width: 100%; height: 500px; ">
                 </div>
             </div>
         </div>
@@ -67,9 +78,8 @@
         <div class="row js">
             <ng-container *ngFor="let item of tableData;let i=index">
                 <mat-card class=" col-md-3 example-card card2 ml-3 mt-3">
-       <ng-container *ngIf="type==1">
+   
             <img mat-card-image class="small" src="{{ip}}{{item.image_url}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
-        </ng-container>
                     
                     
                     <mat-card-content  (click)="goToEvaluationPage(item)">
@@ -84,6 +94,12 @@
                                 <th>BA Name</th>
                                 <td>{{item?.full_name}}</td>
                             </tr>
+                            <ng-container *ngIf="type==2">
+                                <tr>
+                                <th>Sup Name</th>
+                                <td>{{item?.supervisor_name}}</td>
+                            </tr>
+                                </ng-container>
                             <tr>
                                 <th>Shop Name</th>
                                 <td>{{item?.shop_title}}</td>
