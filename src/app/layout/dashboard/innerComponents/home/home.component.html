@@ -1,3 +1,4 @@
+
 <div class="animated slideInLeft" *ngIf="projectType!='PGJORDAN'">
     <mat-card class="mb-20">
     
@@ -70,32 +71,42 @@
                   <div class="row">
                     <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'info'" [icon]="'list_alt'" [count]="dashboardData?.total_cc" [label]="'BA Count'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                            <app-stat *ngIf="!loadingData" [bgClass]="'info'" [icon]="'list_alt'" [count]="dashboardData?.total_cc" [label]="'BA Count'"></app-stat>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'primary'" [icon]="'assignment'" [count]="dashboardData?.TotalInterceptions" [label]="'Interceptions'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                            <app-stat *ngIf="!loadingData" [bgClass]="'primary'" [icon]="'assignment'" [count]="dashboardData?.TotalInterceptions" [label]="'Interceptions'"></app-stat>
                         </div>
                     </div>
 
 
                       <div class="col-md-2">
                           <div>
-                              <app-stat [bgClass]="'success'" [icon]="'thumb_up'" [count]="dashboardData?.Successful" [label]="'Successful'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                              <app-stat *ngIf="!loadingData" [bgClass]="'success'" [icon]="'thumb_up'" [count]="dashboardData?.Successful" [label]="'Successful'"></app-stat>
                           </div>
                       </div>
 
                       <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'danger'" [icon]="'thumb_up'" [count]="dashboardData?.successful_percentage" [label]="'Successful %'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                            <app-stat *ngIf="!loadingData" [bgClass]="'danger'" [icon]="'thumb_up'" [count]="dashboardData?.successful_percentage" [label]="'Successful %'"></app-stat>
                         </div>
                     </div>
 
                       <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'danger'" [icon]="'thumb_up'" [count]="dashboardData?.Successful_Per_Day" [label]="'Successful/Day'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                            <app-stat *ngIf="!loadingData" [bgClass]="'danger'" [icon]="'thumb_up'" [count]="dashboardData?.Successful_Per_Day" [label]="'Successful/Day'"></app-stat>
                         </div>
                     </div>
                     
@@ -104,13 +115,17 @@
     
                       <div class="col-md-2">
                           <div>
-                              <app-stat [bgClass]="'purple'" [icon]="'local_atm'" [count]="dashboardData?.Unit_Sale" [label]="'Unit Sale'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                              <app-stat *ngIf="!loadingData" [bgClass]="'purple'" [icon]="'local_atm'" [count]="dashboardData?.Unit_Sale" [label]="'Unit Sale'"></app-stat>
                           </div>
                       </div>
     
                       <div class="col-md-2">
                         <div>
-                            <app-stat [bgClass]="'warn'" [icon]="'local_atm'" [count]="dashboardData?.Unit_Sale_Per_Day" [label]="'Unit Sale/Day'"></app-stat>
+                            <app-skeleton-loader *ngIf="loadingData" Cwidth="145" Cheight="100">
+                            </app-skeleton-loader>
+                            <app-stat *ngIf="!loadingData" [bgClass]="'warn'" [icon]="'local_atm'" [count]="dashboardData?.Unit_Sale_Per_Day" [label]="'Unit Sale/Day'"></app-stat>
                         </div>
                     </div>
     
@@ -146,12 +161,10 @@
                                         <i class="material-icons arrow material-icons-arrow">
                                             {{getArrowType('full_name')}}
                                         </i></th>
-                                        <ng-container *ngIf="projectType=='NIVEA'">
                                             <th scope="col" class="text-center" (click)="sortIt('shop_title')" style="cursor: pointer">Store Name
                                                 <i class="material-icons arrow material-icons-arrow">
                                                     {{getArrowType('shop_title')}}
                                                 </i></th>  
-                                        </ng-container>
                                         <th scope="col" class="text-center" (click)="sortIt('WorkingDays')" style="cursor: pointer">Working Days
                                             <i class="material-icons arrow material-icons-arrow">
                                                 {{getArrowType('WorkingDays')}}
@@ -193,9 +206,7 @@
                                 <tr *ngFor="let item of tableData | orderBy: sortBy : sortOrder" (click)="goToNewPage(item)">
                                     <td class="text-center"  style="cursor:pointer">{{item?.m_code}}</td>
                                     <td  class="text-center" style="cursor:pointer">{{item?.full_name}}</td>
-                                    <ng-container *ngIf="projectType=='NIVEA'">
-                                        <td  class="text-center" style="cursor:pointer">{{item?.shop_title}}</td>
-                                    </ng-container>
+                                         <td  class="text-center" style="cursor:pointer">{{item?.shop_title}}</td>
                                     <td  class="text-center" style="color:blue;cursor:pointer">{{item?.WorkingDays}}</td>
                                     <td class="text-center" style="color:blue;">{{item?.TotalInterception}}</td>
                                     

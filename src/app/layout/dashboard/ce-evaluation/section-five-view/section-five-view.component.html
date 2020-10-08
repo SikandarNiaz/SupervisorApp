@@ -15,23 +15,22 @@
       
         </div>
    -->
-      <div class="col-md-12 mb-3 text-center">
-       
+      <div class="col-md-12 text-center mb-3">
               <ng-container *ngFor="let img of data?.imageList ;let i=index ">
                 <ng-container *ngIf="img.title=='VIDEO'">
-                    <video controls #videoPlayer width="300" height="400">
+                    <video style="margin-right: 15px;" controls #videoPlayer width="270" height="400">
                         <source src="{{ip}}{{img?.url}}" type="video/mp4" />
                         Browser not supported
                     </video>
             </ng-container>
 
             <ng-container *ngIf="img.title=='IMAGE'">
-                <img src="{{ip}}{{img?.url}}" (click)="showChildModal(img)" width="300 " height="400">
+                <img  style="margin-right: 15px;" src="{{ip}}{{img?.url}}" width="270" height="400" (click)="showChildModal(img)">
             
           </ng-container>
           <ng-container *ngIf="img.title=='AUDIO'">
             <div>
-          <audio id="audio1" muted="muted" src="{{ip}}{{img?.url}}" type="audio/mp4" controls style="width: 33%; margin-right:5px" >
+          <audio   id="audio1" muted="muted" src="{{ip}}{{img?.url}}" type="audio/mp4" controls style="width: 30%; margin-right:15px" >
           </audio>
         </div>
         </ng-container>
@@ -39,9 +38,7 @@
 
        
       </div>
-  
-  
-  </div>
+    </div>
 
   
   

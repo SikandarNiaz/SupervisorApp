@@ -12,11 +12,13 @@
             <ng-container *ngIf="item.subMenu">
                 <div class="nested-menu">
                     <a mat-list-item (click)="addExpandClass(item.header)" (click)="getIndex(i)">
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='BA Information' ">add</mat-icon>
                         <mat-icon class="sidenav-icon" *ngIf="item.header=='Dashboard' ">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Reporting' ">add</mat-icon>
                         <mat-icon class="sidenav-icon" *ngIf="item.header=='Reports' ">add</mat-icon>
-                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Admin' ">add</mat-icon>
-                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Tableau'">add</mat-icon>
-                        <mat-icon class="sidenav-icon" *ngIf="item.header=='BA Review'">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Supervisor'">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Admin'">add</mat-icon>
+                        <!-- <mat-icon class="sidenav-icon" *ngIf="item.header=='BA Review'">add</mat-icon> -->
                         
                         {{ item.header | translate }}
                     </a>
@@ -24,8 +26,12 @@
                     <ul class="nested submenu" [class.expand]="showMenu == item.header">
 
                         <li *ngFor="let item2 of item.menuList">
+                            <ng-container *ngIf="item2.reportId!=-1 else elseBlock">
+                                <a [routerLinkActive]="'link-active'" routerLink='/dashboard/{{item2.link}}/{{item2.reportId}}'><span>{{ item2.lable | translate }}</span></a>   
+                            </ng-container>
+                            <ng-template #elseBlock>
                             <a [routerLinkActive]="'link-active'" routerLink='/dashboard/{{item2.link}}'><span>{{ item2.lable | translate }}</span></a>
-
+                        </ng-template>
                         </li>
 
                         <li>

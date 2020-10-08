@@ -1,144 +1,154 @@
 <div class="animated slideInLeft">
-<mat-card class="mb-20">
-
-    <mat-card-content>
-        <mat-card-title>
-            {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
-        </mat-card-title>
-        <section class="example-section">
-
-            <mat-form-field class="example-margin mr-10-IMP">
-                <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
-                    <ng-container *ngFor="let zone of zones">
-                        <mat-option *ngIf="zone.id!==-1" [value]="zone">{{zone.title}}</mat-option>
-                    </ng-container>
-
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="getTabsData()">
-                    <ng-container *ngFor="let region of regions">
-                        <mat-option *ngIf="region.id!==-1" [value]="region">{{region.title}}</mat-option>
-
-                    </ng-container>
-
-                </mat-select>
-            </mat-form-field>
-
-
-        </section>
-
-
-    </mat-card-content>
-</mat-card>
-
-<ng-container *ngIf="tabsData.length>0">
-    <div class="animated slideInLeft">
-        <mat-card class="mb-20" style="border-top: 1px solid #AFAFAF;">
-
-            <mat-card-content>
-
-                <section class="example-section">
-                
-
-                    <table class="table table-hover">
-
-                        <thead>
-                            <tr>
-                                    <th class="align-middle">
-                                  </th>
-                                  <th (click)="sortIt('id')" style="cursor: pointer">Shop Id
-                                    <i class="material-icons arrow material-icons-arrow">
-                                        {{getArrowType('id')}}
-                                            </i></th>
-                                <th (click)="sortIt('shop_title')" style="cursor: pointer">Shop Title
-                                    <i class="material-icons arrow material-icons-arrow">
-                                        {{getArrowType('shop_title')}}
-                                    </i>
-                                </th>
-                                <th (click)="sortIt('zone')" style="cursor: pointer">Zone
-                                    <i class="material-icons arrow material-icons-arrow">
-                                        {{getArrowType('zone')}}
-                                            </i></th>
-                                <th (click)="sortIt('region')" style="cursor: pointer">Region
-                                    <i class="material-icons arrow material-icons-arrow">
-                                        {{getArrowType('region')}}
-                                            </i></th>
-                                <!-- <th></th> -->
-
-                            </tr>
-                        </thead>
-
-                        <tbody *ngIf="tabsData.length>0">
-                            <tr *ngFor="let item of tabsData | orderBy: sortBy : sortOrder">
-                                <td>
-                                    <mat-checkbox class="example-margin"></mat-checkbox>
-                                </td>
-                                <td>{{item?.id}}</td>
-                                <td>{{item?.shop_title}}</td>
-                                <td>{{item?.zone}}</td>
-                                <td>{{item?.region}}</td>
-                              
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-
-                </section>
-
-                <section class="example-section">
-                    <button type="submit" mat-raised-button color="warn" (click)="showChildModal()">Assign Shops</button>
-                </section>
-
-            </mat-card-content>
-        </mat-card>
-    </div>
-</ng-container>
-  </div>
-
-  <div bsModal #childModal="bs-modal" [config]="{ignoreBackdropClick: true, keyboard: false, backdrop: 'static'}" class="modal fade" tabindex="-1"
-    role="dialog" aria-labelledby="dialog-child-name">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="dialog-child-name" class="modal-title pull-left">Select Program And BA</h4>
-                <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-               
-                  <div class="form-group">
-                    <label for="Programs">Programs</label>
-                    <select class="form-control" placeholder="Programs" name='program' [(ngModel)]="selectedProgram" (ngModelChange)="getSurveyors(selectedProgram)" >
-                        <ng-container *ngFor="let program of programs">
-                            <option [value]="program.id">{{program.title}}</option>
+    <mat-card class="mb-20">
+    
+        <mat-card-content>
+            <mat-card-title>
+                {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            </mat-card-title>
+            <section class="example-section">
+    
+                <mat-form-field class="example-margin mr-10-IMP">
+                    <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                        <ng-container *ngFor="let zone of zones">
+                            <mat-option [value]="zone">{{zone.title}}</mat-option>
                         </ng-container>
     
-                    </select>
-                    </div>
-                    <div class="form-group"  *ngIf="surveyors.length>0" >
-                     <label for="Surveyor">Surveyors</label>
-                    <select class="form-control" placeholder="Surveyor" name='surveyor' [(ngModel)]="selectedProgram" (ngModelChange)="getSurveyors(selectedProgram)" >
-                        <ng-container *ngFor="let surveyor of surveyors">
-                            <option [value]="surveyor.id">{{surveyor.fullName}}</option>
+                    </mat-select>
+                </mat-form-field>
+    
+                <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
+                    <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion">
+                        <ng-container *ngFor="let region of regions">
+                            <mat-option [value]="region">{{region.title}}</mat-option>
+    
                         </ng-container>
     
-                    </select>
+                    </mat-select>
+                </mat-form-field>
+    
+    
+            </section>
+    <section>
+        <button mat-raised-button color="warn" [disabled]="loading || !selectedZone.id" (click)="getTabsData()">
+            Display Shops
+        </button>
+    </section>
+    
+        </mat-card-content>
+    </mat-card>
+    
+    <ng-container *ngIf="tabsData.length>0">
+        <div class="animated slideInLeft">
+            <mat-card class="mb-20" style="border-top: 1px solid #AFAFAF;">
+    
+                <mat-card-content>
+    
+                    <section class="example-section">
+                    
+    
+                        <table class="table table-hover">
+    
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mat-checkbox (change)="checkUncheckAll($event)" #isAllChecked>
+                                        </mat-checkbox>
+                                      </th>
+                                      <th (click)="sortIt('id')" style="cursor: pointer">Shop Id
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('id')}}
+                                                </i></th>
+                                    <th (click)="sortIt('shop_title')" style="cursor: pointer">Shop Title
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('shop_title')}}
+                                        </i>
+                                    </th>
+                                    <th>Current Tagging
+                                    </th>
+                                    <th (click)="sortIt('zone')" style="cursor: pointer">Zone
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('zone')}}
+                                                </i></th>
+                                    <th (click)="sortIt('region')" style="cursor: pointer">Region
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('region')}}
+                                                </i></th>
+    
+                                </tr>
+                            </thead>
+    
+                            <tbody *ngIf="tabsData.length>0">
+                                <tr *ngFor="let item of tabsData | orderBy: sortBy : sortOrder">
+                                    <td>
+                                        <mat-checkbox name="{{item?.shop_title}}" 
+                                        id="{{item?.id}}"
+                                        (click)="checkUncheckSingle(checked,item)" #checked></mat-checkbox>
+                                    </td>
+                                    <td>{{item?.id}}</td>
+                                    <td>{{item?.shop_title}}</td>
+                                    <td style="word-break: break-word;">{{item?.full_name}}</td>
+                                    <td>{{item?.zone}}</td>
+                                    <td>{{item?.region}}</td>
+                                  
+                                </tr>
+                            </tbody>
+                        </table>
+    
+    
+    
+                    </section>
+    
+                    <section class="example-section">
+                        <button [disabled]="selectedShops.length==0" type="submit" mat-raised-button color="warn" (click)="showChildModal()">Assign Shops</button>
+                    </section>
+    
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </ng-container>
+      </div>
+    
+      <div bsModal #childModal="bs-modal" [config]="{ignoreBackdropClick: true, keyboard: false, backdrop: 'static'}" class="modal fade" tabindex="-1"
+        role="dialog" aria-labelledby="dialog-child-name">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="dialog-child-name" class="modal-title pull-left">Select Program And BA</h4>
+                    <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+                    <button [disabled]="loadingData || loading" type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" [disabled]="loading">
-                    <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
-                    Assign Shops 
-                </button>
-                <button class="btn btn-warning" (click)="hideChildModal()">
-                    Cancel
-                </button>
+                <div class="modal-body">
+                   
+                      <div class="form-group">
+                        <label for="Programs">Select Program</label>
+                        <select class="form-control" placeholder="Select Program" name='program' [(ngModel)]="selectedProgram" (ngModelChange)="getSurveyors()" >
+                            <ng-container *ngFor="let program of programs">
+                                <option [value]="program.id">{{program.title}}</option>
+                            </ng-container>
+        
+                        </select>
+                        </div>
+                        <div class="form-group"  *ngIf="surveyors.length>0" >
+                         <label for="Surveyor">Select BA</label>
+                        <select class="form-control" placeholder="Select BA" name='surveyor' [(ngModel)]="selectedSurveyor"  >
+                            <ng-container *ngFor="let surveyor of surveyors">
+                                <option [value]="surveyor.id">{{surveyor.fullName}}</option>
+                            </ng-container>
+        
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" [disabled]="loadingData || loading || selectedSurveyor==-1" (click)="AssignShops()">
+                        <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
+                        Assign Shops 
+                    </button>
+                    <button [disabled]="loadingData || loading" class="btn btn-warning" (click)="hideChildModal()">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>

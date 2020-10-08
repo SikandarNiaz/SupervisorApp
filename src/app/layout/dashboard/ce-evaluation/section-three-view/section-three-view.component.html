@@ -22,13 +22,7 @@
                     </ngx-image-zoom> -->
 
                     <label class="title" for="title">{{selectedImage?.title}}</label>
-                    <img src="{{ip}}{{selectedImage?.url}}" class="img-thumbnail" style="        height: 450px;  width: 100%;  " (click)="showChildModal(selectedImage)">
-                    <div class="row justify-content-center" style="word-break: break-word !important">
-                <!-- <div>
-                    <div for="cat" class="cat" style="word-break: break-word"><strong>Remarks: </strong>{{selectedImage?.shopRemarks}}</div>
-                    <div for="cat" class="cat" style="word-break: break-word"><strong>Time Spent: </strong>{{selectedImage?.timeStamp}}</div>
-                </div> -->
-                </div>
+                    <img src="{{ip}}{{selectedImage?.url}}" class="img-thumbnail" style="height: 450px;  width: 100%;  " (click)="showChildModal(selectedImage)" onerror="this.onerror=null; this.src=setDefaultImage()">
                 </div>
 
                 <div class="col-12 ml-3 mt-2">
@@ -36,7 +30,7 @@
     
                         <ng-container *ngFor="let img of data?.imageList ;let i=index ">
                             <div class="col-2 mb-1 card  mt-5 mr-2" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer" [ngClass]="{'bgColor': img?.url==selectedImage.url}">
-                                <img src="{{ip}}{{img?.url}} " width="100" class="img-thumbnail side-image" style="height: 80px !important;width: 120px !important;">
+                                <img src="{{ip}}{{img?.url}} " width="100" class="img-thumbnail side-image" style="height: 80px !important;width: 120px !important;" >
                               
                             </div>
                            

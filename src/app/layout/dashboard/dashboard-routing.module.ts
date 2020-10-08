@@ -24,6 +24,7 @@ import { DailyContactReportComponent } from './innerComponents/daily-contact-rep
 import { CcProductivityReportComponent } from './innerComponents/cc-productivity-report/cc-productivity-report.component';
 import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
 import { ExportDataReportComponent } from './innerComponents/export-data-report/export-data-report.component';
+import { BaAttendanceComponent } from './innerComponents/ba-attendance/ba-attendance.component';
 
 
 const routes: Routes = [
@@ -42,7 +43,7 @@ const routes: Routes = [
             { path: 'upload_routes/single_route_details', component: SingleRouteDetailComponent },
             { path: 'upload_routes/shops_for_single_route', component: ShopsForSingleRouteComponent },
             {path: 'upload_routes_new', component: UploadRoutesNewComponent},
-            {path: 'dashboard-tableau', component: DashboardTableauComponent},
+            {path: 'productivity-dashboard', component: DashboardTableauComponent},
             {path: 'performance-dashboard', component: ProductivityTableauComponent},
             {path: 'sku-dashboard', component: SkuDashboardComponent},
             { path: 'assign-shops', component: AssignShopsComponent },
@@ -51,11 +52,9 @@ const routes: Routes = [
             { path: 'daily-contact-report', component: DailyContactReportComponent },
             { path: 'cc-productivity-report', component: CcProductivityReportComponent },
             { path: 'ce-raw-data', component: CeRawDataComponent },
-            { path: 'export-data', component: ExportDataReportComponent }
-
-
-
-
+            { path: 'export-data', component: ExportDataReportComponent },
+            { path: 'raw_data/:reportId',component:RawDataComponent },
+            { path: 'attendance-detail',component:BaAttendanceComponent }
 
         ]
     },

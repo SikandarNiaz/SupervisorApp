@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ce-raw-data.component.scss']
 })
 export class CeRawDataComponent implements OnInit {
-  title='BA Dashboard'
+  title='Performance Dashboard';
   constructor() { }
 
   ngOnInit() {

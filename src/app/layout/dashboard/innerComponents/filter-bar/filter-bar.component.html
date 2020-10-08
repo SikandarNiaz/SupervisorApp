@@ -132,70 +132,6 @@
 
 
 
-
-
-<mat-card class="mb-20" *ngIf="router.url==='/dashboard/daily-contact-report' || router.url==='/dashboard/cc-productivity-report' ||  router.url==='/dashboard/ce-raw-data' ">
-
-    <mat-card-content>
-        <mat-card-title>
-            {{title| uppercase}} <i [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
-            <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small>
-
-        </mat-card-title>
-        <section class="example-section">
-
-            <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
-                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand" (ngModelChange)="getSurveyorByBrands()">
-                    <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="BA" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
-                    <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
-                            Select All
-                          </button>
-                        <button mat-raised-button color="warn" class="ml-1 mat-accent fill text-sm" (click)="deselectAll(surveyorSelect)">
-                            Deselect All
-                          </button>
-                    </mat-option>
-
-                    <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList">{{surveyor.fullName}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            
-            <mat-form-field class="example-full-width mr-10-IMP">
-                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
-                <mat-datepicker #picker0></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field class="example-full-width mr-10-IMP">
-                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" placeholder="Choose a end date" readonly>
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-
-        </section>
-
-        <section class="example-section">
-            <ng-container *ngIf="router.url==='/dashboard/daily-contact-report'">
-            <button  [disabled]="!selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getDailyContactReport()">Download</button>
-        </ng-container>
-        <ng-container *ngIf="router.url==='/dashboard/cc-productivity-report'">
-            <button   [disabled]=" !selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getCCProductivityReport()">Download</button>
-        </ng-container>
-        <ng-container *ngIf="router.url==='/dashboard/ce-raw-data'">
-            <button   [disabled]="!selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getBADashboardReport()">Download</button>
-        </ng-container>
-
-        </section>
-
-    </mat-card-content>
-</mat-card>
-
-
-
-
 <!-- data abnormality  -->
 <mat-card class="mb-20" *ngIf="router.url==='/dashboard/data_abnormality_report' ">
 
@@ -540,7 +476,7 @@
             </mat-form-field>
 
             <mat-form-field *ngIf="productsList.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="product" name='product' [(ngModel)]="selectedProduct" multiple>
+                <mat-select placeholder="product" naprome='product' [(ngModel)]="selectedProduct" multiple>
                     <mat-option [value]="product" *ngFor="let product of productsList">{{product.title}}</mat-option>
                 </mat-select>
             </mat-form-field> -->
@@ -1687,7 +1623,7 @@
         <section class="example-section">
             <form (ngSubmit)="uploadData(form.value)" [formGroup]="form" enctype="multipart/form-data">
             <mat-form-field class="example-margin mr-10-IMP">
-                <mat-select placeholder="Region" name='cityId' [formControl]="selectedRegionUp" [(ngModel)]="regionId" (ngModelChange)="showCount('show')" >
+                <mat-select placeholder="Region" name='cityId' [formControl]="selectedRegionUp" [(ngModel)]="regionId">
                     <ng-container *ngFor="let region of regions">
                         <mat-option [value]="region.id">{{region.title}}</mat-option>
                     </ng-container>
@@ -1842,3 +1778,57 @@
 
     </mat-card-content>
 </mat-card>
+
+
+
+<mat-card class="mb-20" *ngIf="router.url==='/dashboard/daily-contact-report' || router.url==='/dashboard/cc-productivity-report' ||  router.url==='/dashboard/ce-raw-data' || router.url === '/dashboard/attendance-detail' ">
+
+    <mat-card-content>
+        <mat-card-title>
+            {{title| uppercase}} <i [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small>
+
+        </mat-card-title>
+        <section class="example-section">
+            <ng-container *ngIf="router.url==='/dashboard/daily-contact-report' ||  router.url==='/dashboard/ce-raw-data'">
+            <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
+                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand" (ngModelChange)="getSurveyorByBrands()">
+                    <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+
+            <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
+                <mat-select placeholder="BA" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
+                    <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
+                            Select All
+                          </button>
+                        <button mat-raised-button color="warn" class="ml-1 mat-accent fill text-sm" (click)="deselectAll(surveyorSelect)">
+                            Deselect All
+                          </button>
+                    </mat-option>
+
+                    <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList">{{surveyor.fullName}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field class="example-full-width mr-10-IMP">
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width mr-10-IMP">
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" placeholder="Choose a end date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+        </section>
+
+        <section class="example-section">
+            <button [disabled]="!selectedBrand.id && selectedSurveyor.length<1" mat-raised-button color="warn" (click)="getCEReports()">Download</button>
+        </section>
+
+    </mat-card-content>
+</mat-card>
+

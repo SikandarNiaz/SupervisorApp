@@ -7,6 +7,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import {MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepicker';
 
 import { StatModule } from '../../shared/modules/stat/stat.module';
+import { SkeletonLoaderModule } from '../../shared/modules/skeleton/skeleton-loader/skeleton-loader.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -44,6 +45,7 @@ import { CcProductivityReportComponent } from './innerComponents/cc-productivity
 import { DailyContactReportComponent } from './innerComponents/daily-contact-report/daily-contact-report.component';
 import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
 import { ExportDataReportComponent } from './innerComponents/export-data-report/export-data-report.component';
+import { BaAttendanceComponent } from './innerComponents/ba-attendance/ba-attendance.component';
 
 @NgModule({
     imports: [
@@ -74,7 +76,8 @@ import { ExportDataReportComponent } from './innerComponents/export-data-report/
 MatCheckboxModule,
 BsDropdownModule.forRoot(),
 MatMenuModule,
-ReactiveFormsModule
+ReactiveFormsModule,
+SkeletonLoaderModule
 
 
 
@@ -89,6 +92,6 @@ ReactiveFormsModule
           DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent,
            AssignShopsComponent, MerchandiserAttendenceDetailComponent, 
           InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, 
-          CeRawDataComponent, ExportDataReportComponent]
+          CeRawDataComponent, ExportDataReportComponent, BaAttendanceComponent]
 })
 export class DashboardModule {}

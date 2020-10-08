@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./export-data-report.component.scss']
 })
 export class ExportDataReportComponent implements OnInit {
-  title='Export Data Report';
+  title='Performance Dashboard';
   constructor() { }
 
   ngOnInit() {

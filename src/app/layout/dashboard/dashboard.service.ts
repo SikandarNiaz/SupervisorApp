@@ -96,6 +96,11 @@ export class DashboardService {
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
+  assignShops(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + 'assign-shops';          // -----> ShopsAssignController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
 
 
   //#region FILTER CALL
@@ -114,10 +119,10 @@ export class DashboardService {
     // );
   }
 
-  getQueryTypeList() {
+  getQueryTypeList(reportId) {
     this.user_id = localStorage.getItem('user_id');
 
-    const filter = JSON.stringify({act: 12, userId: this.user_id});
+    const filter = JSON.stringify({act: 12, reportId:reportId});
     const url = this.ip + 'loadFilters';
     return this.http.post(url, filter);
   }
@@ -171,13 +176,13 @@ export class DashboardService {
 
   getRegions() {
     const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
-    const filter = JSON.stringify({act: 13});
+    const filter = JSON.stringify({act: 4});
     return this.http.post(url, filter);
 
   }
-  getSurveyors(programId){
+  getSurveyors(programId, zoneId, regionId){
     const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
-    const filter = JSON.stringify({act: 4, programId: programId});
+    const filter = JSON.stringify({act: 13, programId: programId, zoneId: zoneId, regionId: regionId});
     return this.http.post(url, filter);
   }
 

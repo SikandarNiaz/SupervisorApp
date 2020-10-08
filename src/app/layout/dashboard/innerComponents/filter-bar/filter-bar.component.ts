@@ -59,6 +59,7 @@ selectedReportUrl='';
   channels: any = [];
   options: any = ['Yes', 'No'];
 
+  reportId=-1;
   selectedZone: any = {};
   selectedRegion: any = {};
   selectedChannel: any = [];
@@ -152,16 +153,28 @@ selectedBrand:any={};
 
     if (this.router.url === '/dashboard/raw_data') { this.getQueryTypeList(); }
 
-
-    if (this.router.url === '/dashboard/pivot_based_data') { this.getReportTypes(); }
-
     if (this.router.url === '/dashboard/upload_routes_new') {
       this.getAllRegions();
     }
     if(this.router.url === '/dashboard/daily-contact-report' || this.router.url === '/dashboard/cc-productivity-report' 
-    || this.router.url === '/dashboard/ce-raw-data' || this.router.url === '/dashboard/export-data'){
+    || this.router.url === '/dashboard/ce-raw-data' || this.router.url === '/dashboard/export-data' || this.router.url === '/dashboard/attendance-detail'){
       this.getBrands();
+      
+      if(this.router.url === '/dashboard/daily-contact-report'){
+        this.reportId=1;
+      }
+      else if (this.router.url === '/dashboard/cc-productivity-report'){
+        this.reportId=3
+      }
+      else if(this.router.url === '/dashboard/ce-raw-data'){
+        this.reportId=11;
+      }
+      else if(this.router.url === '/dashboard/attendance-detail'){
+        this.reportId=9
+      }
     }
+
+
   }
 
   showCount(action) {
@@ -224,7 +237,7 @@ selectedBrand:any={};
 
 
   getQueryTypeList() {
-    this.httpService.getQueryTypeList().subscribe(
+    this.httpService.getQueryTypeList(-1).subscribe(
       data => {
         console.log('qurry list', data);
         if (data) { this.queryList = data; }
@@ -326,137 +339,6 @@ selectedBrand:any={};
       this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
     }
   }
-
-  getCCProductivityReport()
-  {
-
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format('YYYY-MM-DD'),
-        endDate: moment(this.endDate).format('YYYY-MM-DD'),
-        surveyorId: this.arrayMaker(this.selectedSurveyor),
-        brandId: this.selectedBrand.id || -1,
-        reportId:3,
-        reqType: 'angularRequest'
-      };
-      
-      const url = 'ddsProductivityReport';
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        data => {
-          console.log(data, 'query list');
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: res.fileType
-            };
-            const url = 'downloadReport';
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
-          }
-        },
-        error => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
-    }
-
-  }
-  getDailyContactReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format('YYYY-MM-DD'),
-        endDate: moment(this.endDate).format('YYYY-MM-DD'),
-        surveyorId: this.arrayMaker(this.selectedSurveyor),
-        brandId: this.selectedBrand.id || -1,
-        reportId:1,
-        reqType: 'angularRequest'
-      };
-      
-      const url = 'ceSurveyDetail';
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        data => {
-          console.log(data, 'query list');
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: res.fileType
-            };
-            const url = 'downloadReport';
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
-          }
-        },
-        error => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
-    }
-  }
-  getBADashboardReport(){
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format('YYYY-MM-DD'),
-        endDate: moment(this.endDate).format('YYYY-MM-DD'),
-        surveyorId: this.arrayMaker(this.selectedSurveyor),
-        brandId: this.selectedBrand.id || -1,
-        reportId:11,
-        reqType: 'angularRequest'
-      };
-      
-      const url = 'ceRawData';
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        data => {
-          console.log(data, 'query list');
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: res.fileType
-            };
-            const url = 'downloadReport';
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
-          }
-        },
-        error => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
-    }
-  }
-
 
   uploadData(post) {
     const formData = new FormData();
@@ -1528,7 +1410,7 @@ selectedBrand:any={};
   }
 getBrands(){
   this.loadingData = true;
-
+    this.getSurveyorByBrands();
     this.httpService.getBrands().subscribe(
       data => {
         const res: any = data;
@@ -1553,7 +1435,7 @@ getBrands(){
 getSurveyorByBrands(){
   this.loadingData = true;
 
-    this.httpService.getSurveyorByBrands(this.selectedBrand.id).subscribe(
+    this.httpService.getSurveyorByBrands(this.selectedBrand.id || -1).subscribe(
       data => {
         const res: any = data;
         if (res) {
@@ -1640,6 +1522,50 @@ getSurveyorsAndBrands(){
         this.clearLoading();
       }
     );
+}
+
+
+getCEReports(){
+  if (this.endDate >= this.startDate) {
+    this.loadingData = true;
+    this.loadingReportMessage = true;
+    const obj = {
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD'),
+      surveyorId: this.arrayMaker(this.selectedSurveyor),
+      brandId: this.selectedBrand.id || -1,
+      reportId:this.reportId,
+      reqType: 'angularRequest'
+    };
+    
+    const url = 'ceSurveyDetail';
+    const body = this.httpService.UrlEncodeMaker(obj);
+    this.httpService.getKeyForProductivityReport(body, url).subscribe(
+      data => {
+        console.log(data, 'query list');
+        const res: any = data;
+
+        if (res) {
+          const obj2 = {
+            key: res.key,
+            fileType: res.fileType
+          };
+          const url = 'downloadReport';
+          this.getproductivityDownload(obj2, url);
+        } else {
+          this.clearLoading();
+
+          this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+        }
+      },
+      error => {
+        this.clearLoading();
+      }
+    );
+  } else {
+    this.clearLoading();
+    this.toastr.info('Something went wrong,Please retry', 'dashboard Data Availability Message');
+  }
 }
 
 }

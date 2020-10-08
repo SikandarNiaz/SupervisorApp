@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-tableau.component.scss']
 })
 export class DashboardTableauComponent implements OnInit {
-type = 'dashboard';
+  // put as it is in link column in db
+type = 'productivity-dashboard';
   constructor() { }
 
   ngOnInit() {

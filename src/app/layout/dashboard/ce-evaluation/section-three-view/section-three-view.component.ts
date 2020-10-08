@@ -23,6 +23,7 @@ export class SectionThreeViewComponent implements OnInit {
   selectedImage: any = {};
   // ip=environment.ip;
   configFile = config;
+  noImage=config.no_image;
 
   ip: any = this.configFile.ip;
   hover = 'hover';
@@ -270,6 +271,11 @@ export class SectionThreeViewComponent implements OnInit {
 }
  hideChildModal() {
     this.childModal.hide();
+  }
+
+
+  setDefaultImage(){
+    return this.ip+'images/noimage.jpg';
   }
 }
 
