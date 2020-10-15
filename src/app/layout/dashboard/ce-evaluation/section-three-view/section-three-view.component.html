@@ -1,79 +1,82 @@
 <div class="container-fluid">
-    <div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div>
+  <div
+    class="row"
+    style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"
+  ></div>
 
-    <div class="row">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h4>
+        <u>{{ data?.sectionTitle }} </u
+        ><i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      </h4>
+    </div>
 
-        <div class="col-md-12 text-center">
-            <h4><u>{{data?.sectionTitle }} </u><i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i></h4>
-        </div>
-
-        <div class="col-5">
-
-
-
-            <div class="row">
-
-                <div class="col-12" style="
-                max-height: 500px !important;
-            ">
-                    <!--  -->
-                    <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
-                    <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250" [enableLens]="true" [circularLens]="true" [thumbImage]=ip+selectedImage?.url [fullImage]=ip+selectedImage?.url>
+    <div class="col-5">
+      <div class="row">
+        <div class="col-12" style="max-height: 500px !important">
+          <!--  -->
+          <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
+          <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250" [enableLens]="true" [circularLens]="true" [thumbImage]=ip+selectedImage?.url [fullImage]=ip+selectedImage?.url>
                     </ngx-image-zoom> -->
 
-                    <label class="title" for="title">{{selectedImage?.title}}</label>
-                    <img src="{{ip}}{{selectedImage?.url}}" class="img-thumbnail" style="height: 450px;  width: 100%;  " (click)="showChildModal(selectedImage)" onerror="this.onerror=null; this.src=setDefaultImage()">
-                </div>
-
-                <div class="col-12 ml-3 mt-2">
-                    <div class="row">
-    
-                        <ng-container *ngFor="let img of data?.imageList ;let i=index ">
-                            <div class="col-2 mb-1 card  mt-5 mr-2" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer" [ngClass]="{'bgColor': img?.url==selectedImage.url}">
-                                <img src="{{ip}}{{img?.url}} " width="100" class="img-thumbnail side-image" style="height: 80px !important;width: 120px !important;" >
-                              
-                            </div>
-                           
-    
-                        </ng-container>
-                    </div>
-                
-                </div>
-    
-    
-            </div>
+          <label class="title" for="title">{{ selectedImage?.title }}</label>
+          <img
+            src="{{ ip }}{{ selectedImage?.url }}"
+            class="img-thumbnail"
+            style="height: 450px; width: 100%"
+            (click)="showChildModal(selectedImage)"
+            onerror="this.onerror=null; this.src=setDefaultImage()"
+          />
         </div>
-      
-        <div class="col-7 tableFixHead">
-          
-            <table class="table table-bordered table-hover w-100" >
-                <thead style="background:lightgray">
-                    <tr>
-                        <!-- <th>Brand Title</th> -->
-                        <th>Question</th>
-                        <th>Answer
-                        </th>
 
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr *ngFor="let product of products | keyvalue: unsorted">
-                         <!-- <td>{{product?.category_title}}</td> -->
-                         <ng-container *ngIf="product.key!='Image'">
-                        <td style="width:700px !important; word-wrap:break-word;">{{product.key}}</td>
-                        
-
-                        <td style="width:300px !important; word-wrap:break-word;">{{product.value}}</td>
-
-
-
-                    </ng-container>
-                    </tr>
-                </tbody>
-
-            </table>
+        <div class="col-12 ml-3 mt-2">
+          <div class="row">
+            <ng-container *ngFor="let img of data?.imageList; let i = index">
+              <div
+                class="col-2 mb-1 card mt-5 mr-2"
+                (click)="setSelectedImage(img)"
+                style="padding: 0% !important; cursor: pointer"
+                [ngClass]="{ bgColor: img?.url == selectedImage.url }"
+              >
+                <img
+                  src="{{ ip }}{{ img?.url }} "
+                  width="100"
+                  class="img-thumbnail side-image"
+                  style="height: 80px !important; width: 120px !important"
+                />
+              </div>
+            </ng-container>
+          </div>
         </div>
+      </div>
     </div>
-   
+
+    <div class="col-7 tableFixHead">
+      <table class="table table-bordered table-hover w-100">
+        <thead style="background: lightgray">
+          <tr>
+            <!-- <th>Brand Title</th> -->
+            <th>Question</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let product of products">
+            <!-- <td>{{product?.category_title}}</td> -->
+            <ng-container *ngIf="product.question != 'Image'">
+              <td style="width: 700px !important; word-wrap: break-word">
+                {{ product.question }}
+              </td>
+
+              <td style="width: 300px !important; word-wrap: break-word">
+                {{ product.answer }}
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

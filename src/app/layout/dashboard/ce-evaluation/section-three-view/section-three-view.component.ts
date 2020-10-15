@@ -58,7 +58,7 @@ export class SectionThreeViewComponent implements OnInit {
 
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
-      this.products = this.data.sectionMap;
+      this.products = this.data.sectionArray;
       this.selectedImage = this.data.imageList[0];
     }
 
