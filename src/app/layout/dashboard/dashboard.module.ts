@@ -46,6 +46,7 @@ import { DailyContactReportComponent } from './innerComponents/daily-contact-rep
 import { CeRawDataComponent } from './innerComponents/ce-raw-data/ce-raw-data.component';
 import { ExportDataReportComponent } from './innerComponents/export-data-report/export-data-report.component';
 import { BaAttendanceComponent } from './innerComponents/ba-attendance/ba-attendance.component';
+import { SaleAnalysisDashboardComponent } from './Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component';
 
 @NgModule({
     imports: [
@@ -92,6 +93,6 @@ SkeletonLoaderModule
           DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent,
            AssignShopsComponent, MerchandiserAttendenceDetailComponent, 
           InterceptionSummaryComponent, CcProductivityReportComponent, DailyContactReportComponent, 
-          CeRawDataComponent, ExportDataReportComponent, BaAttendanceComponent]
+          CeRawDataComponent, ExportDataReportComponent, BaAttendanceComponent, SaleAnalysisDashboardComponent]
 })
 export class DashboardModule {}
