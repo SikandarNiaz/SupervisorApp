@@ -1,21 +1,23 @@
-import {Injectable, Output, EventEmitter} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {environment} from 'src/environments/environment';
-import {Subject, of, BehaviorSubject} from 'rxjs';
-import {ToastrService} from 'ngx-toastr';
-import {timeout, catchError} from 'rxjs/operators';
-import * as moment from 'moment';
-import {Router} from '@angular/router';
-import {config} from 'src/assets/config';
+import { Injectable, Output, EventEmitter } from "@angular/core";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { Subject, of, BehaviorSubject } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import { timeout, catchError } from "rxjs/operators";
+import * as moment from "moment";
+import { Router } from "@angular/router";
+import { config } from "src/assets/config";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DashboardService {
-
-  constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) {
-
-    this.user_id = localStorage.getItem('user_id');
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService,
+    private router: Router
+  ) {
+    this.user_id = localStorage.getItem("user_id");
   }
 
   configFile = config;
@@ -32,12 +34,11 @@ export class DashboardService {
   // ip: any = 'http://192.168.3.94:8080/audit/';
   // ip: any = 'http://192.168.3.162:8080/audit/';
 
-
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      "Content-Type": "application/x-www-form-urlencoded",
     }),
-    withCredentials: true
+    withCredentials: true,
   };
 
   updatedDownloadStatus(data) {
@@ -46,7 +47,7 @@ export class DashboardService {
 
   login(credentials: any) {
     // let body=JSON.stringify(credentials)
-    const url = this.ip + 'portal/auth/login';
+    const url = this.ip + "portal/auth/login";
     return this.http.post(url, credentials);
     // .pipe(
     //   timeout(60000),
@@ -58,13 +59,12 @@ export class DashboardService {
   }
 
   updatePassword(obj) {
-    const url = this.ip + 'change-password';
+    const url = this.ip + "change-password";
     return this.http.post(url, obj, this.httpOptions);
   }
 
-
   UrlEncodeMaker(obj) {
-    let url = '';
+    let url = "";
     for (const key in obj) {
       url += `${key}=${obj[key]}&`;
     }
@@ -78,7 +78,7 @@ export class DashboardService {
       body = this.UrlEncodeMaker(obj);
       // `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
     }
-    const url = this.ip + 'dashboardDatajson';   // ---------> DashboardDataControllerJson
+    const url = this.ip + "dashboardDatajson"; // ---------> DashboardDataControllerJson
     return this.http.post(url, body, this.httpOptions);
     // .pipe(
     //   timeout(60000),
@@ -87,28 +87,25 @@ export class DashboardService {
     //     return of(null);
     //   })
     // );
-
   }
 
   getShopData(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'shopData';
+    const url = this.ip + "shopData";
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
-  assignShops(obj) {
+  ActiveDeactiveShops(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'assign-shops';          // -----> ShopsAssignController
+    const url = this.ip + "assign-shops"; // -----> ShopsAssignController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
-
 
   //#region FILTER CALL
   getZone() {
-
-    this.user_id = localStorage.getItem('user_id');
-    const filter = JSON.stringify({act: 0, userId: this.user_id});
-    const url = this.ip + 'loadFilters';  // -----------> JsonFilterController
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({ act: 0, userId: this.user_id });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
     // .pipe(
     //   timeout(60000),
@@ -120,40 +117,40 @@ export class DashboardService {
   }
 
   getQueryTypeList(reportId) {
-    this.user_id = localStorage.getItem('user_id');
+    this.user_id = localStorage.getItem("user_id");
 
-    const filter = JSON.stringify({act: 12, reportId:reportId});
-    const url = this.ip + 'loadFilters';
+    const filter = JSON.stringify({ act: 12, reportId: reportId });
+    const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
 
   getReportList() {
-    this.user_id = localStorage.getItem('user_id');
+    this.user_id = localStorage.getItem("user_id");
 
-    const filter = JSON.stringify({act: 14, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
+    const filter = JSON.stringify({ act: 14, userId: this.user_id });
+    const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
 
   updateRouteStatus(obj) {
-
-    const url = this.ip + 'shopWiseRouteCount';
+    const url = this.ip + "shopWiseRouteCount";
     return this.http.post(url, obj);
   }
-
 
   deleteRoutes(obj) {
-
-    const url = this.ip + 'shopWiseRouteCount';
+    const url = this.ip + "shopWiseRouteCount";
     return this.http.post(url, obj);
   }
 
-
   getRegion(zoneId) {
-    this.user_id = localStorage.getItem('user_id');
+    this.user_id = localStorage.getItem("user_id");
 
-    const filter = JSON.stringify({act: 1, zoneId: zoneId, userId: this.user_id});
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 1,
+      zoneId: zoneId,
+      userId: this.user_id,
+    });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
     // .pipe(
     //   timeout(60000),
@@ -164,28 +161,27 @@ export class DashboardService {
     // );
   }
 
-
   getPrograms() {
-
-    const filter = JSON.stringify({act: 5});
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 5 });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
-
   }
-
 
   getRegions() {
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
-    const filter = JSON.stringify({act: 4});
-    return this.http.post(url, filter);
-
-  }
-  getSurveyors(programId, zoneId, regionId){
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
-    const filter = JSON.stringify({act: 13, programId: programId, zoneId: zoneId, regionId: regionId});
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 4 });
     return this.http.post(url, filter);
   }
-
+  getSurveyors(programId, zoneId, regionId) {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 13,
+      programId: programId,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
+    return this.http.post(url, filter);
+  }
 
   getKeyForProductivityReport(body, reportUrl) {
     this.updatedDownloadStatus(true);
@@ -201,10 +197,16 @@ export class DashboardService {
   }
 
   getMerchandiserList(obj) {
-    this.user_id = localStorage.getItem('user_id');
+    this.user_id = localStorage.getItem("user_id");
 
-    const filter = JSON.stringify({act: 4, regionId: obj.regionId, zoneId: obj.zoneId, date: obj.startDate, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
+    const filter = JSON.stringify({
+      act: 4,
+      regionId: obj.regionId,
+      zoneId: obj.zoneId,
+      date: obj.startDate,
+      userId: this.user_id,
+    });
+    const url = this.ip + "loadFilters";
 
     // const url = this.ip + 'cbl-pdf';
     return this.http.post(url, filter);
@@ -219,13 +221,13 @@ export class DashboardService {
 
   getTableList(obj) {
     const body = this.UrlEncodeMaker(obj);
-       const url = this.ip + 'completedShopListCBL';
+    const url = this.ip + "completedShopListCBL";
     return this.http.post(url, body, this.httpOptions);
   }
 
   merchandiserShopListCBL(obj) {
     const body = `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
-    const url = this.ip + 'merchandiserShopListCBL';
+    const url = this.ip + "merchandiserShopListCBL";
     return this.http.post(url, body, this.httpOptions);
     // .pipe(
     //   timeout(60000),
@@ -237,10 +239,14 @@ export class DashboardService {
   }
 
   getCities(regionId) {
-    this.user_id = localStorage.getItem('user_id');
+    this.user_id = localStorage.getItem("user_id");
 
-    const filter = JSON.stringify({act: 2, regionId: regionId, userId: this.user_id});
-    const url = this.ip + 'loadFilters';
+    const filter = JSON.stringify({
+      act: 2,
+      regionId: regionId,
+      userId: this.user_id,
+    });
+    const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
     // .pipe(
     //   timeout(60000),
@@ -256,12 +262,11 @@ export class DashboardService {
 
     path = this.ip + url;
 
+    const form = document.createElement("form");
 
-    const form = document.createElement('form');
+    form.setAttribute("action", path);
 
-    form.setAttribute('action', path);
-
-    form.setAttribute('method', 'post');
+    form.setAttribute("method", "post");
     // form.setAttribute('target', '_blank');
 
     document.body.appendChild(form);
@@ -271,79 +276,73 @@ export class DashboardService {
     form.submit();
 
     document.body.removeChild(form);
-
-
   }
 
   private appendInputToForm(form, obj) {
-    Object.keys(obj).forEach(key => {
-      const input = document.createElement('input');
+    Object.keys(obj).forEach((key) => {
+      const input = document.createElement("input");
 
-      input.setAttribute('value', obj[key]);
+      input.setAttribute("value", obj[key]);
 
-      input.setAttribute('name', key);
+      input.setAttribute("name", key);
 
       form.appendChild(input);
     });
   }
 
-
   displayRouteStatus(obj) {
-
-    const url = this.ip + 'shopWiseRouteCount';
+    const url = this.ip + "shopWiseRouteCount";
     return this.http.post(url, obj);
   }
   uploadRoutes(obj) {
-    const url = this.ip + 'UploadRoutesControllerNew';
+    const url = this.ip + "UploadRoutesControllerNew";
     return this.http.post(url, obj);
   }
   getKey(obj) {
     const body = this.UrlEncodeMaker(obj);
-    return this.http.post(this.ip + 'tableauTicket',  body, this.httpOptions);
+    return this.http.post(this.ip + "tableauTicket", body, this.httpOptions);
   }
-  getAttendanceData(obj){
+  getAttendanceData(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'merchandiserAttendanceDetail';   // -------> MerchandiserAttendanceDetailController
+    const url = this.ip + "merchandiserAttendanceDetail"; // -------> MerchandiserAttendanceDetailController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
-  getBAList(obj){
+  getBAList(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'BAList';  // ------> BAListController
+    const url = this.ip + "BAList"; // ------> BAListController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
-  getBrands(){
-    const filter = JSON.stringify({act: 9});
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+  getBrands() {
+    const filter = JSON.stringify({ act: 9 });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
 
-
-  getSurveyorByBrands(brandId){
-    const filter = JSON.stringify({act: 10, brandId: brandId});
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+  getSurveyorByBrands(brandId) {
+    const filter = JSON.stringify({ act: 10, brandId: brandId });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
 
-  getDashboardStats(obj){
+  getDashboardStats(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'interceptionSummary';   // ------> InterceptionSummaryDataController
+    const url = this.ip + "interceptionSummary"; // ------> InterceptionSummaryDataController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
   getShops(zoneId, regionId) {
-
-    const filter = JSON.stringify({act: 6, zoneId: zoneId, regionId: regionId});
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
-    return this.http.post(url, filter);
-  
-  }
-
-
-  getSurveyorsAndBrands(){
-     const filter = JSON.stringify({act: 7});
-    const url = this.ip + 'loadFilters'; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 6,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
 
-
+  getSurveyorsAndBrands() {
+    const filter = JSON.stringify({ act: 7 });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  }
 }
