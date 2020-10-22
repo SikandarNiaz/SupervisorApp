@@ -128,9 +128,7 @@
                         name="{{ item?.title }}"
                         [checked]="j === i"
                         id="{{ item?.id }}"
-                        (click)="
-                          counter(checked, item, i); createTickForSlider(item)
-                        "
+                        (click)="counter(checked, item, i)"
                         #checked
                       />
                       <span class="checkmark"></span>
@@ -329,7 +327,7 @@
 </div>
 
 <!-- sos modal -->
-<div
+<!-- <div
   bsModal
   #sosModal="bs-modal"
   [config]="{ backdrop: 'static', keyboard: false }"
@@ -427,7 +425,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- <div bsModal #emailFormModal="bs-modal" class="modal fade" id="emailFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
