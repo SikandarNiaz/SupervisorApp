@@ -38,6 +38,13 @@ export class EvaluationDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getSurveyorsAndBrands();
+    const that = this;
+    document.addEventListener("visibilitychange", function (e) {
+      console.log(document.hidden);
+      if (!document.hidden) {
+        that.getSurveyShopDetails();
+      }
+    });
   }
 
   showChildModal(): void {
@@ -128,9 +135,17 @@ export class EvaluationDetailComponent implements OnInit {
   }
 
   goToEvaluationPage(item) {
-    window.open(
-      `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
-      "_blank"
-    );
+    // Sending notEditable Param if shop is already Evaluated (Shop cant be evaluated Twice)
+    if (item.evaluation_status == "N") {
+      window.open(
+        `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
+        "_blank"
+      );
+    } else {
+      window.open(
+        `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}/${item.m_code}`,
+        "_blank"
+      );
+    }
   }
 }

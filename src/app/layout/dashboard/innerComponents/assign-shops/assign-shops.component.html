@@ -38,14 +38,27 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="loading || !selectedZone.id"
+          [disabled]="loadingData || !selectedZone.id"
           (click)="getTabsData()"
         >
           Display Shops
         </button>
+        <button
+          *ngIf="!isAssignShopRequest"
+          mat-raised-button
+          class="ml-3"
+          color="primary"
+          [disabled]="loadingData"
+          (click)="showAddShopModal()"
+        >
+          Create New Shop
+          <mat-icon>add</mat-icon>
+        </button>
       </section>
     </mat-card-content>
   </mat-card>
+
+  <!-- showAddEditShopModal() -->
 
   <ng-container *ngIf="tabsData">
     <div class="container-fluid">
@@ -65,6 +78,21 @@
               height="300"
             />
 
+            <span
+              class="ribbon3"
+              *ngIf="!isAssignShopRequest"
+              (click)="showUpdateShopModal(item.value)"
+            >
+              <button
+                [disabled]="loadingData"
+                mat-mini-fab
+                color="primary"
+                aria-label="Example"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </span>
+
             <mat-card-content>
               <table class="table" style="cursor: pointer">
                 <tr>
@@ -76,57 +104,63 @@
                   <td>{{ item.value.region.title }}</td>
                 </tr>
               </table>
-              <mat-label><strong>Taggings:</strong></mat-label>
-              <div class="row js">
-                <ng-container
-                  *ngIf="item?.value?.surveyorList.length > 0; else noSurveyor"
-                >
+              <ng-container *ngIf="isAssignShopRequest">
+                <mat-label><strong>Taggings:</strong></mat-label>
+                <div class="row js">
                   <ng-container
-                    *ngFor="let surveyor of item.value.surveyorList"
+                    *ngIf="
+                      item?.value?.surveyorList.length > 0;
+                      else noSurveyor
+                    "
                   >
-                    <mat-card class="col-md-1 example-card ml-3 mt-3">
-                      <div class="ribbon">
-                        <img
-                          (click)="
-                            setSelectedItem(surveyor); showShopInfoModal()
-                          "
-                          mat-card-image
-                          class="small"
-                          src="{{ ip }}{{ surveyor.imageUrl }}"
-                          alt=""
-                          width="100"
-                          height="100"
-                        />
-                        <span
-                          class="ribbon2"
-                          (click)="DeactivateRoute(item.key, surveyor.id)"
-                        >
-                          <button
-                            [disabled]="loadingData"
-                            mat-mini-fab
-                            color="warn"
-                            aria-label="Example"
+                    <ng-container
+                      *ngFor="let surveyor of item.value.surveyorList"
+                    >
+                      <mat-card class="col-md-1 example-card ml-3 mt-3">
+                        <div class="ribbon">
+                          <img
+                            (click)="
+                              setSelectedItem(surveyor); showShopInfoModal()
+                            "
+                            mat-card-image
+                            class="small"
+                            src="{{ ip }}{{ surveyor.imageUrl }}"
+                            alt=""
+                            width="100"
+                            height="100"
+                          />
+                          <span
+                            class="ribbon2"
+                            (click)="DeactivateRoute(item.key, surveyor.id)"
                           >
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                        </span>
-                      </div>
-                      <mat-card-content>
-                        <mat-label
-                          >{{ surveyor?.fullName }}({{
-                            surveyor?.mCode
-                          }})</mat-label
-                        >
-                      </mat-card-content>
-                    </mat-card>
+                            <button
+                              [disabled]="loadingData"
+                              mat-mini-fab
+                              color="warn"
+                              aria-label="Example"
+                            >
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </span>
+                        </div>
+                        <mat-card-content>
+                          <mat-label
+                            >{{ surveyor?.fullName }}({{
+                              surveyor?.mCode
+                            }})</mat-label
+                          >
+                        </mat-card-content>
+                      </mat-card>
+                    </ng-container>
                   </ng-container>
-                </ng-container>
-                <ng-template #noSurveyor>
-                  <mat-label> No Tagging Available </mat-label>
-                </ng-template>
-              </div>
+                  <ng-template #noSurveyor>
+                    <mat-label> No Tagging Available </mat-label>
+                  </ng-template>
+                </div>
+              </ng-container>
             </mat-card-content>
             <button
+              *ngIf="isAssignShopRequest"
               [disabled]="loadingData"
               (click)="showChildModal(item.key)"
               mat-raised-button
@@ -157,9 +191,9 @@
         <h4 id="dialog-child-name" class="modal-title pull-left">
           Select Program And BA
         </h4>
-        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
         <button
-          [disabled]="loadingData || loading"
+          [disabled]="loadingModal"
           type="button"
           class="close pull-right"
           aria-label="Close"
@@ -200,17 +234,13 @@
       <div class="modal-footer">
         <button
           class="btn btn-primary"
-          [disabled]="loadingData || loading || selectedSurveyor == -1"
+          [disabled]="loadingModal || selectedSurveyor == -1"
           (click)="AssignShops()"
         >
-          <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+          <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
           Assign Shops
         </button>
-        <button
-          [disabled]="loadingData || loading"
-          class="btn btn-warning"
-          (click)="hideChildModal()"
-        >
+        <button [disabled]="loadingModal" (click)="hideChildModal()">
           Cancel
         </button>
       </div>
@@ -252,6 +282,216 @@
           style="max-height: 500px"
         />
       </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #addEditShop="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ modalTitle }}
+          <i [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideAddEditShopModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="hidden" formControlName="id" />
+          </div>
+          <div class="form-group" formGroupName="program">
+            <label for="program">Program</label>
+            <select
+              formControlName="id"
+              class="form-control"
+              placeholder="Select Program"
+              name="id"
+            >
+              <ng-container *ngFor="let program of programs">
+                <option [value]="program.id">{{ program.title }}</option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+                form.controls.program.errors &&
+                (form.controls.program.touched || form.controls.program.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'id')"
+                class="invalid-feedback"
+              >
+                Program Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-7">
+              <label for="title">Shop Title </label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                formControlName="title"
+              />
+              <div
+                *ngIf="
+                  form.controls.title.errors &&
+                  (form.controls.title.touched || form.controls.title.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'title')"
+                  class="invalid-feedback"
+                >
+                  Valid Shop Title is Required.
+                </mat-error>
+              </div>
+            </div>
+
+            <div class="form-group col-md-5">
+              <label for="active">Active</label>
+              <select
+                formControlName="active"
+                class="form-control"
+                placeholder="Select Status"
+                name="active"
+              >
+                <ng-container *ngFor="let status of shopStatus">
+                  <option [value]="status.value">{{ status.value }}</option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.active.errors &&
+                  (form.controls.active.touched || form.controls.active.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'active')"
+                  class="invalid-feedback"
+                >
+                  Valid Status is Required.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Shop Address</label>
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              formControlName="address"
+            />
+          </div>
+          <div class="form-group" formGroupName="region">
+            <label for="region">Region</label>
+
+            <select
+              formControlName="id"
+              class="form-control"
+              placeholder="Select Region"
+              name="id"
+            >
+              <ng-container *ngFor="let region of regionList">
+                <option *ngIf="region.id != -1" [value]="region.id">
+                  {{ region.title }}
+                </option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+                form.controls.region.errors &&
+                (form.controls.region.touched || form.controls.region.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'id')"
+                class="invalid-feedback"
+              >
+                Region Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-7">
+              <label for="image">Image</label>
+              <input
+                type="file"
+                id="shopImageUrl"
+                name="shopImageUrl"
+                class="form-control-file"
+                formControlName="shopImageUrl"
+                accept="image/*"
+                (change)="onSelectFile($event)"
+              />
+            </div>
+            <div class="form-group col-md-5">
+              <small *ngIf="selectedShopForEdit.shopImageUrl">
+                <strong>Current Image:</strong
+                ><img
+                  src="{{ ip }}{{ selectedShopForEdit.shopImageUrl }}"
+                  width="80"
+                  height="80"
+              /></small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="location"
+              >Shop Location (Current Location:
+              {{ selectedShopForEdit?.latitude || shopLat?.toFixed(4) }},
+              {{
+                selectedShopForEdit?.longitude || shopLong?.toFixed(4)
+              }})</label
+            >
+            <input type="hidden" formControlName="longitude" />
+            <input type="hidden" formControlName="latitude" />
+            <div id="map"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            *ngIf="!isUpdateRequest"
+            (click)="saveShopData(form.value)"
+            class="mr-1"
+            [disabled]="!form.valid || loadingModal"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            Save Shop
+          </button>
+
+          <button
+            *ngIf="isUpdateRequest"
+            (click)="updateShopData(form.value)"
+            class="mr-1"
+            [disabled]="loadingModal"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            Update Shop
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -94,7 +94,7 @@
     </mat-card-content>
   </mat-card>
 
-  <div class="container-fluid" *ngIf="tableData.length > 0">
+  <div class="container-fluid" *ngIf="tableData.length > 0 && !loading">
     <div class="row"></div>
     <div class="row js">
       <ng-container *ngFor="let item of tableData; let i = index">

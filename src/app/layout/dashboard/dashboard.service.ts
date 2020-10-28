@@ -345,4 +345,14 @@ export class DashboardService {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
+
+  saveShop(obj) {
+    const url = this.ip + "addNewShop"; // -----------> AddNewShopController
+    return this.http.post(url, obj);
+  }
+
+  updateShop(obj) {
+    const url = this.ip + "updateShopInfo"; // -----------> UpdateShopInfoController
+    return this.http.post(url, obj);
+  }
 }

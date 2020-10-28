@@ -8,16 +8,16 @@ import {
   ɵSWITCH_COMPILE_NGMODULE__POST_R3__,
 } from "@angular/core";
 import { DashboardService } from "../../dashboard.service";
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from "@angular/forms";
 import * as moment from "moment";
 import { subscribeOn } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { DashboardDataService } from "../../dashboard-data.service";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder,
-} from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { MatTableDataSource } from "@angular/material";
 import { environment } from "src/environments/environment";
@@ -26,6 +26,7 @@ import { ModalDirective } from "ngx-bootstrap";
 import * as _ from "lodash";
 import { config } from "src/assets/config";
 
+declare const google: any;
 @Component({
   selector: "app-assign-shops",
   templateUrl: "./assign-shops.component.html",
@@ -35,18 +36,13 @@ export class AssignShopsComponent implements OnInit {
   @ViewChildren("checked") private myCheckbox: any;
   @ViewChild("childModal") childModal: ModalDirective;
   @ViewChild("shopInfoModal") shopInfoModal: ModalDirective;
-  constructor(
-    private toastr: ToastrService,
-    private httpService: DashboardService,
-    public router: Router,
-    private dataService: DashboardDataService
-  ) {
-    this.zones = JSON.parse(localStorage.getItem("zoneList"));
-  }
+  @ViewChild("addEditShop") addEditShop: ModalDirective;
+
+  form: FormGroup;
   tableData: any = [];
   configFile = config;
   ip: any = this.configFile.ip;
-  title = "Assign Shops";
+  title = "";
   zones: any = [];
   loadingData: boolean;
   regions: any = [];
@@ -61,14 +57,65 @@ export class AssignShopsComponent implements OnInit {
   response: any = "";
   loadingReportMessage = false;
   tabsData: any;
-  loading = false;
   sortOrder = true;
   sortBy: "m_code";
   shopId: Number;
   selectedItem: any = {};
   panelOpenState = false;
+  regionList: any = [];
+  isAssignShopRequest: boolean;
+  shopStatus: any = [
+    { id: 1, value: "Y" },
+    { id: 2, value: "N" },
+  ];
+  public image: any = File;
+  shopLat: number;
+  shopLong: number;
+  selectedShopForEdit: any = {};
+  isUpdateRequest: boolean;
+  modalTitle = "";
+  loadingModal: boolean;
+  loadingModalButton: boolean;
 
-  ngOnInit() {}
+  constructor(
+    private toastr: ToastrService,
+    private httpService: DashboardService,
+    public router: Router,
+    private dataService: DashboardDataService,
+    public fb: FormBuilder
+  ) {
+    if (this.router.url == "/dashboard/assign-shops") {
+      this.isAssignShopRequest = true;
+      this.title = "Assign Shops";
+    } else {
+      this.isAssignShopRequest = false;
+      this.title = "Shop Details";
+    }
+    this.shopLat = 31.502102;
+    this.shopLong = 74.335109;
+    this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.selectedZone = this.zones[0];
+    this.form = fb.group({
+      id: new FormControl(""),
+      // code: new FormControl("", [Validators.required]),
+      title: new FormControl("", [Validators.required]),
+      address: new FormControl(""),
+      shopImageUrl: new FormControl("", [Validators.required]),
+      program: this.fb.group({
+        id: new FormControl("", [Validators.required]),
+      }),
+      region: this.fb.group({
+        id: new FormControl("", [Validators.required]),
+      }),
+      active: new FormControl("", [Validators.required]),
+      longitude: new FormControl(""),
+      latitude: new FormControl(""),
+    });
+  }
+
+  ngOnInit() {
+    this.getTabsData();
+  }
   zoneChange() {
     this.loadingData = true;
     this.selectedRegion.id = -1;
@@ -102,7 +149,6 @@ export class AssignShopsComponent implements OnInit {
 
   getTabsData() {
     this.loadingData = true;
-    this.loading = true;
     const obj: any = {
       zoneId: this.selectedZone.id ? this.selectedZone.id : -1,
       regionId: this.selectedRegion.id ? this.selectedRegion.id : -1,
@@ -115,7 +161,6 @@ export class AssignShopsComponent implements OnInit {
         if (res) {
           this.tabsData = data;
         }
-        this.loading = false;
       },
       (error) => {
         this.clearLoading();
@@ -126,9 +171,10 @@ export class AssignShopsComponent implements OnInit {
   }
 
   clearLoading() {
-    this.loading = false;
     this.loadingData = false;
+    this.loadingModal = false;
     this.loadingReportMessage = false;
+    this.loadingModalButton = false;
   }
 
   getArrowType(key) {
@@ -166,7 +212,7 @@ export class AssignShopsComponent implements OnInit {
   }
 
   loadPrograms() {
-    this.loadingData = true;
+    this.loadingModal = true;
     this.httpService.getPrograms().subscribe(
       (data) => {
         const res: any = data;
@@ -182,7 +228,7 @@ export class AssignShopsComponent implements OnInit {
         }
 
         setTimeout(() => {
-          this.loadingData = false;
+          this.loadingModal = false;
         }, 500);
       },
       (error) => {
@@ -192,7 +238,7 @@ export class AssignShopsComponent implements OnInit {
   }
 
   getSurveyors() {
-    this.loadingData = true;
+    this.loadingModal = true;
     this.httpService
       .getSurveyors(
         this.selectedProgram,
@@ -214,7 +260,7 @@ export class AssignShopsComponent implements OnInit {
           }
 
           setTimeout(() => {
-            this.loadingData = false;
+            this.loadingModal = false;
           }, 500);
         },
         (error) => {
@@ -260,7 +306,8 @@ export class AssignShopsComponent implements OnInit {
       programId: this.selectedProgram,
       action: 1,
     };
-    this.loadingData = true;
+    this.loadingModal = true;
+    this.loadingModalButton = true;
     this.httpService.ActiveDeactiveShops(obj).subscribe((data) => {
       if (data) {
         this.response = data;
@@ -268,11 +315,13 @@ export class AssignShopsComponent implements OnInit {
         this.hideChildModal();
         this.selectedShops = [];
         if (this.response.length > 0) {
-          this.loadingData = false;
+          this.loadingModal = false;
+          this.loadingModalButton = false;
           this.toastr.success(this.response, "Success");
         }
       } else {
-        this.loadingData = false;
+        this.loadingModal = false;
+        this.loadingModalButton = false;
         this.childModal.hide();
         this.toastr.error("There is an error in ur file!!");
       }
@@ -309,5 +358,166 @@ export class AssignShopsComponent implements OnInit {
 
   asIsOrder(a, b) {
     return 1;
+  }
+
+  showAddShopModal(): void {
+    this.modalTitle = "Create New Shop";
+    this.isUpdateRequest = false;
+    if (this.regionList.length == 0) {
+      this.getAllRegions();
+    }
+    if (this.programs.length == 0) {
+      this.loadPrograms();
+    }
+    this.initMap();
+    this.form.patchValue({
+      id: -1,
+      longitude: this.shopLong,
+      latitude: this.shopLat,
+    });
+    this.addEditShop.show();
+  }
+
+  hideAddEditShopModal() {
+    this.form.reset();
+    this.addEditShop.hide();
+  }
+
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.image = <File>event.target.files[0];
+      const file = event.target.files[0];
+      this.image = file;
+
+      const reader = new FileReader();
+      reader.readAsDataURL(this.image);
+      reader.onload = (_event) => {};
+    }
+  }
+
+  getAllRegions() {
+    this.loadingModal = true;
+    this.httpService.getRegions().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res.regionList) {
+          this.regionList = res.regionList;
+          // localStorage.setItem('regionList', JSON.stringify(res.regionList));
+        }
+        if (!res.regionList) {
+          this.toastr.info("No data Found", "Info");
+        }
+        this.clearLoading();
+      },
+      (error) => {
+        this.clearLoading();
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+      }
+    );
+  }
+
+  saveShopData(shopData) {
+    this.loadingModal = true;
+    this.loadingModalButton = true;
+    const formData = new FormData();
+    formData.append("shopData", JSON.stringify(shopData));
+    formData.append("image", this.image);
+
+    this.httpService.saveShop(formData).subscribe((data: any) => {
+      if (data.success == "true") {
+        if (this.selectedZone.id) {
+          this.getTabsData();
+        }
+        this.hideAddEditShopModal();
+        this.toastr.success(data.message);
+      } else {
+        this.toastr.error(data.message, "Error");
+      }
+      this.loadingModal = false;
+      this.loadingModalButton = false;
+    });
+  }
+
+  updateShopData(shopData) {
+    this.loadingModal = true;
+    this.loadingModalButton = true;
+    const formData = new FormData();
+    formData.append("shopData", JSON.stringify(shopData));
+    if (shopData.shopImageUrl != null && shopData.shopImageUrl != "") {
+      formData.append("image", this.image);
+    }
+    this.httpService.updateShop(formData).subscribe((data: any) => {
+      if (data.success == "true") {
+        if (this.selectedZone.id) {
+          this.getTabsData();
+        }
+        this.hideAddEditShopModal();
+        this.toastr.success(data.message);
+      } else {
+        this.toastr.error(data.message, "Error");
+      }
+      this.loadingModal = false;
+      this.loadingModalButton = false;
+    });
+  }
+
+  initMap() {
+    const that = this;
+    // var marksman = {lat: 31.502102, lng: 74.335109};
+    const myLatlng = new google.maps.LatLng(that.shopLat, that.shopLong);
+
+    const mapOptions = {
+      zoom: 15,
+      center: myLatlng,
+    };
+
+    const map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    const marker = new google.maps.Marker({
+      position: myLatlng,
+      draggable: true,
+      map: map,
+      title: "Marksman Office",
+    });
+    const infoWindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(marker, "dragend", function (event) {
+      that.shopLat = event.latLng.lat();
+      that.shopLong = event.latLng.lng();
+
+      console.log(that.shopLat + " : " + that.shopLong);
+      infoWindow.open(map, marker);
+      infoWindow.setContent("Shop Location");
+      infoWindow.open(map);
+    });
+  }
+
+  showUpdateShopModal(shop): void {
+    this.modalTitle = "Update Shop (" + shop.title + ")";
+    this.selectedShopForEdit = shop;
+    this.isUpdateRequest = true;
+    if (this.regionList.length == 0) {
+      this.getAllRegions();
+    }
+    if (this.programs.length == 0) {
+      this.loadPrograms();
+    }
+    this.initMap();
+    this.form.patchValue({
+      id: shop.baseShopId,
+      title: shop.title,
+      address: shop.address,
+      region: {
+        id: shop.region.id,
+      },
+      program: {
+        id: shop.program.id,
+      },
+      longitude: shop.longitude,
+      latitude: shop.latitude,
+      active: shop.active,
+    });
+    this.addEditShop.show();
   }
 }

@@ -56,6 +56,7 @@ const routes: Routes = [
       },
       { path: "sku-dashboard", component: SkuDashboardComponent },
       { path: "assign-shops", component: AssignShopsComponent },
+      { path: "shop-details", component: AssignShopsComponent },
       {
         path: "merchandiserAttendanceDetail",
         component: MerchandiserAttendenceDetailComponent,

@@ -166,6 +166,22 @@ table:hover {
   cursor: pointer;
 }
 
+.ribbon3 {
+  padding: 10px 0;
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  text-align: center;
+  cursor: pointer;
+}
+
 mat-label {
   justify-content: center !important;
 }
+
+
+  #map {
+    width: 100%;
+    height: 300px;
+    background-color: grey;
+  }
