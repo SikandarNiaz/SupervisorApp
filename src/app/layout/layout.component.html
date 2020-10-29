@@ -10,19 +10,11 @@
 
 <ng-container *ngIf="hideSideBar">
   <div
-    class="container mt-12"
-    *ngIf="
-      url == '/dashboard/performance-dashboard' ||
-        url == '/dashboard/productivity-dashboard' ||
-        url == '/dashboard/sale-analysis-dashboard';
-      else elseBlock
-    "
+    [ngClass]="{
+      'container mt-12': isTableauRequest,
+      'container-fluid mt-6': !isTableauRequest
+    }"
   >
     <router-outlet></router-outlet>
   </div>
-  <ng-template #elseBlock>
-    <div class="container-fluid mt-6">
-      <router-outlet></router-outlet>
-    </div>
-  </ng-template>
 </ng-container>

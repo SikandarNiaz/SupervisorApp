@@ -26,6 +26,7 @@ import { CeRawDataComponent } from "./innerComponents/ce-raw-data/ce-raw-data.co
 import { ExportDataReportComponent } from "./innerComponents/export-data-report/export-data-report.component";
 import { BaAttendanceComponent } from "./innerComponents/ba-attendance/ba-attendance.component";
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
+import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
 
 const routes: Routes = [
   {
@@ -74,6 +75,10 @@ const routes: Routes = [
       {
         path: "sale-analysis-dashboard",
         component: SaleAnalysisDashboardComponent,
+      },
+      {
+        path: "pgjordan-summary-dashboard",
+        component: PgjordanDashboardComponent,
       },
     ],
   },

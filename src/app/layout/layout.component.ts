@@ -9,24 +9,28 @@ import { filter } from "rxjs/operators";
 })
 export class LayoutComponent implements OnInit {
   hideSideBar = false; // make default value to false after completing SMS manager;
-  url: any;
+  isTableauRequest = false;
 
   constructor(public router: Router) {}
 
   ngOnInit() {
+    // Hide Side Bar for Tableau Urls
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e: NavigationEnd) => {
-        this.url = e.url;
         // tslint:disable-next-line:triple-equals
         if (
           e.url == "/dashboard/performance-dashboard" ||
           e.url == "/dashboard/productivity-dashboard" ||
-          e.url == "/dashboard/sale-analysis-dashboard"
+          e.url == "/dashboard/sale-analysis-dashboard" ||
+          e.url == "/dashboard/pgjordan-summary-dashboard"
         ) {
           this.hideSideBar = true;
+          this.isTableauRequest = true;
         }
       });
+
+    // For Shop Detail Page , Hide Side Bar
     let url: any = new Array();
     url = this.router.url.split(/[?/]/);
     const t: any = url.find((d) => d === "merchandiserAttendanceDetail");

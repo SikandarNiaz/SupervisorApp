@@ -64,6 +64,7 @@ import { BaAttendanceComponent } from "./innerComponents/ba-attendance/ba-attend
 import { AccordionModule } from "ngx-bootstrap";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
+import { PgjordanDashboardComponent } from './Tableau/pgjordan-dashboard/pgjordan-dashboard.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -129,6 +130,7 @@ import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboar
     ExportDataReportComponent,
     BaAttendanceComponent,
     SaleAnalysisDashboardComponent,
+    PgjordanDashboardComponent,
   ],
 })
 export class DashboardModule {}
