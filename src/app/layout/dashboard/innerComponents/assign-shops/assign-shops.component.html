@@ -233,12 +233,13 @@
       </div>
       <div class="modal-footer">
         <button
-          class="btn btn-primary"
+          mat-raised-button
+          color="primary"
           [disabled]="loadingModal || selectedSurveyor == -1"
           (click)="AssignShops()"
         >
           <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
-          Assign Shops
+          Assign Shop
         </button>
         <button [disabled]="loadingModal" (click)="hideChildModal()">
           Cancel
