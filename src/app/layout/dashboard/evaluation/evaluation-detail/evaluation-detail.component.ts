@@ -18,7 +18,7 @@ export class EvaluationDetailComponent implements OnInit {
   // ip = environment.ip;
   @ViewChild("childModal") childModal: ModalDirective;
   configFile = config;
-  title = "Evaluation";
+  title = "Visited Shops";
   ip: any = this.configFile.ip;
   tableData: any = [];
   loading: boolean;
@@ -29,19 +29,22 @@ export class EvaluationDetailComponent implements OnInit {
   surveyorList: any = [];
   selectedSurveyor: any = [];
   selectedItem: any = {};
+  surveyorId: any;
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private httpService: EvaluationService,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.surveyorId = localStorage.getItem("surveyorId");
+  }
 
   ngOnInit() {
-    this.getSurveyorsAndBrands();
+    this.loadSurveyors();
     const that = this;
     document.addEventListener("visibilitychange", function (e) {
       console.log(document.hidden);
-      if (!document.hidden) {
+      if (!document.hidden && that.selectedSurveyor.length > 0) {
         that.getSurveyShopDetails();
       }
     });
@@ -57,31 +60,33 @@ export class EvaluationDetailComponent implements OnInit {
   setSelectedItem(item) {
     this.selectedItem = item;
   }
-  getSurveyorsAndBrands() {
+  loadSurveyors() {
     this.loading = true;
 
-    this.httpService.getSurveyorsAndBrands().subscribe(
-      (data) => {
-        const res: any = data;
-        if (res) {
-          this.surveyorList = res.surveyorList;
-        } else {
-          this.loading = false;
+    this.httpService
+      .getSurveyors(this.surveyorId == null ? -1 : this.surveyorId)
+      .subscribe(
+        (data) => {
+          const res: any = data;
+          if (res) {
+            this.surveyorList = res;
+          } else {
+            this.loading = false;
 
-          this.toastr.info(
-            "Something went wrong,Please retry",
-            "Connectivity Message"
-          );
+            this.toastr.info(
+              "Something went wrong,Please retry",
+              "Connectivity Message"
+            );
+          }
+
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        },
+        (error) => {
+          this.loading = false;
         }
-
-        setTimeout(() => {
-          this.loading = false;
-        }, 500);
-      },
-      (error) => {
-        this.loading = false;
-      }
-    );
+      );
   }
 
   getSurveyShopDetails() {

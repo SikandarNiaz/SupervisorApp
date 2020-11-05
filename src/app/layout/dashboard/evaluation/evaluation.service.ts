@@ -82,4 +82,13 @@ export class EvaluationService {
     const url = this.ip + "surveyShopList"; // ----> SurveyShopListController
     return this.http.post(url, urlencoded, this.httpOptions);
   }
+
+  getSurveyors(surveyorId) {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 13,
+      surveyorId: surveyorId,
+    });
+    return this.http.post(url, filter);
+  }
 }
