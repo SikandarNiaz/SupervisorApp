@@ -91,7 +91,7 @@ export class DashboardService {
 
   getShopData(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + "shopData";
+    const url = this.ip + "shopData"; //  --------> ShopListController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
@@ -177,6 +177,16 @@ export class DashboardService {
     const filter = JSON.stringify({
       act: 13,
       programId: programId,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
+    return this.http.post(url, filter);
+  }
+
+  getActiveShops(zoneId, regionId) {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 15,
       zoneId: zoneId,
       regionId: regionId,
     });

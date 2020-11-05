@@ -1465,7 +1465,7 @@
             </mat-form-field>
         </ng-container>
 
-        <ng-container *ngIf="projectType=='PGJORDAN'">
+        <ng-container *ngIf="projectType=='PGJORDAN' || projectType=='PMI_CENSUS'">
         <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
             <mat-select placeholder="Code" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
                 <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
@@ -1495,12 +1495,7 @@
         </section>
 
         <section class="example-section">
-            <ng-container *ngIf="projectType=='NIVEA'">
             <button  mat-raised-button color="warn" (click)="downloadExportData()">Download</button>
-        </ng-container>
-        <ng-container *ngIf="projectType=='PGJORDAN'">
-            <button  mat-raised-button color="warn" (click)="downloadPGExportData()">Download</button>
-        </ng-container>
         </section>
 
 

@@ -76,6 +76,10 @@ export class AssignShopsComponent implements OnInit {
   modalTitle = "";
   loadingModal: boolean;
   loadingModalButton: boolean;
+  shopList: any = [];
+  selectedShop: any = {};
+  selectedKeyword = "";
+  filteredShops: any = [];
 
   constructor(
     private toastr: ToastrService,
@@ -114,6 +118,7 @@ export class AssignShopsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadShops();
     this.getTabsData();
   }
   zoneChange() {
@@ -152,8 +157,8 @@ export class AssignShopsComponent implements OnInit {
     const obj: any = {
       zoneId: this.selectedZone.id ? this.selectedZone.id : -1,
       regionId: this.selectedRegion.id ? this.selectedRegion.id : -1,
+      shopId: this.selectedShop.id || -1,
     };
-
     this.httpService.getShopData(obj).subscribe(
       (data) => {
         this.loadingData = false;
@@ -250,6 +255,35 @@ export class AssignShopsComponent implements OnInit {
           const res: any = data;
           if (res) {
             this.surveyors = res;
+          } else {
+            this.clearLoading();
+
+            this.toastr.info(
+              "Something went wrong,Please retry",
+              "Connectivity Message"
+            );
+          }
+
+          setTimeout(() => {
+            this.loadingModal = false;
+          }, 500);
+        },
+        (error) => {
+          this.clearLoading();
+        }
+      );
+  }
+
+  loadShops() {
+    this.loadingModal = true;
+    this.httpService
+      .getActiveShops(this.selectedZone.id || -1, this.selectedRegion.id || -1)
+      .subscribe(
+        (data) => {
+          const res: any = data;
+          if (res) {
+            this.shopList = res;
+            this.filteredShops = this.shopList;
           } else {
             this.clearLoading();
 
@@ -519,5 +553,13 @@ export class AssignShopsComponent implements OnInit {
       active: shop.active,
     });
     this.addEditShop.show();
+  }
+  filterItem(value) {
+    if (value) {
+      value = value.toLowerCase();
+    }
+    this.filteredShops = Object.assign([], this.shopList).filter(
+      (item) => item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
+    );
   }
 }

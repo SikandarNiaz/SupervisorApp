@@ -33,12 +33,30 @@
             </ng-container>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field *ngIf="shopList" class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Shops"
+            name="shops"
+            [(ngModel)]="selectedShop"
+          >
+            <ngx-mat-select-search
+              [placeholderLabel]="'Find Shop...'"
+              [noEntriesFoundLabel]="'No Matching Shop Found'"
+              [(ngModel)]="selectedKeyword"
+              (ngModelChange)="filterItem(selectedKeyword)"
+            ></ngx-mat-select-search>
+            <mat-option [value]="shop" *ngFor="let shop of filteredShops">{{
+              shop.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </section>
       <section>
         <button
           mat-raised-button
           color="primary"
-          [disabled]="loadingData || !selectedZone.id"
+          [disabled]="loadingData || (!selectedZone.id && !selectedShop.id)"
           (click)="getTabsData()"
         >
           Display Shops

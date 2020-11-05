@@ -64,7 +64,8 @@ import { BaAttendanceComponent } from "./innerComponents/ba-attendance/ba-attend
 import { AccordionModule } from "ngx-bootstrap";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
-import { PgjordanDashboardComponent } from './Tableau/pgjordan-dashboard/pgjordan-dashboard.component';
+import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 @NgModule({
   imports: [
     FormsModule,
@@ -99,6 +100,7 @@ import { PgjordanDashboardComponent } from './Tableau/pgjordan-dashboard/pgjorda
     CollapseModule,
     AccordionModule,
     MatExpansionModule,
+    NgxMatSelectSearchModule,
   ],
   declarations: [
     DashboardComponent,
