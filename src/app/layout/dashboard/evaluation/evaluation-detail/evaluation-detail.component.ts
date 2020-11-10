@@ -29,15 +29,12 @@ export class EvaluationDetailComponent implements OnInit {
   surveyorList: any = [];
   selectedSurveyor: any = [];
   selectedItem: any = {};
-  surveyorId: any;
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private httpService: EvaluationService,
     private activeRoute: ActivatedRoute
-  ) {
-    this.surveyorId = localStorage.getItem("surveyorId");
-  }
+  ) {}
 
   ngOnInit() {
     this.loadSurveyors();
@@ -64,7 +61,7 @@ export class EvaluationDetailComponent implements OnInit {
     this.loading = true;
 
     this.httpService
-      .getSurveyors(this.surveyorId == null ? -1 : this.surveyorId)
+      .getSurveyors(-1, -1, localStorage.getItem("surveyorId") || -1)
       .subscribe(
         (data) => {
           const res: any = data;

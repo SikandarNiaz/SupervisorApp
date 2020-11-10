@@ -36,9 +36,9 @@ export class EvaluationService {
     return newUrl;
   }
 
-  getData(obj) {
+  getFlaggedShops(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
-    const url = this.ip + "shopList";
+    const url = this.ip + "flaggedShopsForAm"; // ----------> FlaggedShopListController
     return this.http.post(url, urlencoded, this.httpOptions);
   }
 
@@ -83,11 +83,21 @@ export class EvaluationService {
     return this.http.post(url, urlencoded, this.httpOptions);
   }
 
-  getSurveyors(surveyorId) {
+  getSurveyors(zoneId, regionId, surveyorId) {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({
       act: 13,
+      zoneId: zoneId,
+      regionId: regionId,
       surveyorId: surveyorId,
+    });
+    return this.http.post(url, filter);
+  }
+
+  getRemarks() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 16,
     });
     return this.http.post(url, filter);
   }

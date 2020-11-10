@@ -1,0 +1,202 @@
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+      <section class="example-section">
+        <mat-form-field
+          *ngIf="surveyorList.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Code"
+            name="ba"
+            [(ngModel)]="selectedSurveyor"
+            multiple
+            #surveyorSelect="ngModel"
+            [compareWith]="equals"
+          >
+            <mat-option disabled="disabled" class="filter-option">
+              <button
+                mat-raised-button
+                class="mat-primary fill text-sm"
+                (click)="selectAll(surveyorSelect, surveyorList)"
+              >
+                Select All
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                class="ml-1 mat-accent fill text-sm"
+                (click)="deselectAll(surveyorSelect)"
+              >
+                Deselect All
+              </button>
+            </mat-option>
+
+            <mat-option
+              [value]="surveyor"
+              *ngFor="let surveyor of surveyorList"
+              >{{ surveyor.fullName }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="remarkList.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Remark"
+            name="remark"
+            [(ngModel)]="selectedRemark"
+          >
+            <ng-container *ngFor="let remark of remarkList">
+              <mat-option [value]="remark">{{ remark.title }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker0"
+            [(ngModel)]="startDate"
+            placeholder="Choose a start date"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker0"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker1"
+            [(ngModel)]="endDate"
+            placeholder="Choose a end date"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </section>
+      <section>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="selectedSurveyor.length < 1 || loadingData"
+          (click)="loadFlaggedShops()"
+        >
+          Submit
+        </button>
+        <span *ngIf="selectedSurveyor.length < 1" class="alert-message"
+          ><small>(surveyor selection is mandatory)</small></span
+        >
+      </section>
+    </mat-card-content>
+  </mat-card>
+
+  <ng-container *ngIf="shopList.length > 0">
+    <div class="animated slideInLeft">
+      <mat-card class="mb-20" style="border-top: 1px solid #afafaf">
+        <mat-card-content>
+          <section class="example-section">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>
+                    <mat-checkbox
+                      (change)="checkUncheckAll($event)"
+                      #isAllChecked
+                    >
+                    </mat-checkbox>
+                  </th>
+                  <th (click)="sortIt('m_code')" style="cursor: pointer">
+                    BDE Code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("m_code") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('surveyor_name')" style="cursor: pointer">
+                    BDE Name
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("surveyor_name") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('shop_code')" style="cursor: pointer">
+                    Shop Code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("shop_code") }}
+                    </i>
+                  </th>
+
+                  <th (click)="sortIt('shop_title')" style="cursor: pointer">
+                    Shop Title
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("shop_title") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('shop_remark')" style="cursor: pointer">
+                    Remark
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("shop_remark") }}
+                    </i>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody *ngIf="shopList.length > 0">
+                <tr *ngFor="let item of shopList | orderBy: sortBy:sortOrder">
+                  <td>
+                    <mat-checkbox
+                      name="{{ item?.shop_title }}"
+                      id="{{ item?.id }}"
+                      (click)="checkUncheckSingle(checked, item)"
+                      #checked
+                    ></mat-checkbox>
+                  </td>
+                  <td>{{ item?.m_code }}</td>
+                  <td>{{ item?.surveyor_name }}</td>
+                  <td style="word-break: break-word">{{ item?.shop_title }}</td>
+                  <td>{{ item?.shop_code }}</td>
+                  <td>{{ item?.shop_remark }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="example-section">
+            <button
+              [disabled]="loadingData || selectedShops.length == 0"
+              type="submit"
+              mat-raised-button
+              color="primary"
+            >
+              Approve
+            </button>
+            <button
+              [disabled]="loadingData || selectedShops.length == 0"
+              type="submit"
+              mat-raised-button
+              color="warn"
+            >
+              DisApprove
+            </button>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+</div>
