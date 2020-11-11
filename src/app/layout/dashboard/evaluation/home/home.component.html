@@ -92,10 +92,11 @@
     <div
       class="col-md-3"
       *ngIf="
-        data?.criteria &&
+        (userType == evaluatorRole || userType == amRole) &&
+          data?.criteria &&
           isFromShop &&
           !isDragging &&
-          userType == evaluatorRole && !p.notEditable;
+          !p.notEditable;
         else elseBlock
       "
     >
@@ -158,6 +159,10 @@
         <hr />
 
         <div class="row justify-content-center">
+          <h4>
+            <u> Shop Details </u>
+            <i [ngClass]="{ 'fa fa-cog fa-spin': loadingTags }"></i>
+          </h4>
           <ng-container
             class="mt-2 justify-content-center"
             *ngIf="data?.shopDetails?.tagsList"
@@ -167,8 +172,24 @@
                 <tr
                   *ngFor="let tab of data?.shopDetails?.tagsList; let j = index"
                 >
-                  <th style="background: lightgray">{{ tab.heading }}</th>
-                  <td style="word-break: break-word">{{ tab.value }}</td>
+                  <th style="background: lightgray">
+                    {{ tab.heading }}
+                  </th>
+                  <ng-container
+                    *ngIf="tab?.isEditable == true; else readOnlyTags"
+                  >
+                    <td>
+                      <input
+                        type="text"
+                        [(ngModel)]="tab.value"
+                        style="width: 10em"
+                        (blur)="updateShopTitle(tab.value, tab?.tagLogType)"
+                      />
+                    </td>
+                  </ng-container>
+                  <ng-template #readOnlyTags>
+                    <td style="word-break: break-word">{{ tab.value }}</td>
+                  </ng-template>
                 </tr>
               </table>
             </div>

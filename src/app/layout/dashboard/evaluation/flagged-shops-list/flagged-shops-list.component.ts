@@ -36,11 +36,15 @@ export class FlaggedShopsListComponent implements OnInit {
     private toastr: ToastrService,
     private httpService: EvaluationService,
     public router: Router
-  ) {}
+  ) {
+    this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    if (this.zones.length > 0) {
+      this.selectedZone = this.zones[0];
+    }
+  }
   tableData: any = [];
   title = "Visited Shops";
   loadingData: boolean;
-  regions: any = [];
   surveyorList: any = [];
   selectedShops = [];
   selectedSurveyor: any = [];
@@ -59,9 +63,21 @@ export class FlaggedShopsListComponent implements OnInit {
   startDate = new Date();
   endDate = new Date();
 
+  zones: any = [];
+  regions: any = [];
+  selectedZone: any = {};
+  selectedRegion: any = {};
+
   ngOnInit() {
     this.loadSurveyors();
     this.loadRemarks();
+    const that = this;
+    document.addEventListener("visibilitychange", function (e) {
+      console.log(document.hidden);
+      if (!document.hidden && that.selectedSurveyor.length > 0) {
+        that.loadFlaggedShops();
+      }
+    });
   }
 
   clearLoading() {
@@ -135,7 +151,15 @@ export class FlaggedShopsListComponent implements OnInit {
     this.loadingData = true;
 
     this.httpService
-      .getSurveyors(-1, -1, localStorage.getItem("surveyorId") || -1)
+      .getSurveyors(
+        this.selectedZone.id || -1,
+        this.selectedRegion.id || -1,
+        localStorage.getItem("surveyorId")
+          ? localStorage.getItem("surveyorId") == null
+            ? -1
+            : localStorage.getItem("surveyorId")
+          : -1
+      )
       .subscribe(
         (data) => {
           const res: any = data;
@@ -205,5 +229,42 @@ export class FlaggedShopsListComponent implements OnInit {
     if (typeof objOne !== "undefined" && typeof objTwo !== "undefined") {
       return objOne.id === objTwo.id;
     }
+  }
+
+  goToEvaluationPage(item) {
+    window.open(
+      `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
+      "_blank"
+    );
+  }
+
+  zoneChange() {
+    this.loadSurveyors();
+    this.loading = true;
+    this.httpService.getRegion(this.selectedZone.id).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.regions = res;
+          if (this.regions.length > 0) {
+            this.selectedRegion = this.regions[0];
+          }
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
   }
 }

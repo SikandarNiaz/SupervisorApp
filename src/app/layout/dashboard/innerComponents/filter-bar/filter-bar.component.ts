@@ -1605,6 +1605,7 @@ export class FilterBarComponent implements OnInit {
     this.httpService
       .getSurveyors(
         -1,
+        localStorage.getItem("surveyorId") || -1,
         this.selectedZone.id || -1,
         this.selectedRegion.id || -1
       )

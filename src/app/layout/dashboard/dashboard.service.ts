@@ -172,11 +172,12 @@ export class DashboardService {
     const filter = JSON.stringify({ act: 4 });
     return this.http.post(url, filter);
   }
-  getSurveyors(programId, zoneId, regionId) {
+  getSurveyors(programId, surveyorId, zoneId, regionId) {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({
       act: 13,
       programId: programId,
+      surveyorId: surveyorId,
       zoneId: zoneId,
       regionId: regionId,
     });

@@ -28,16 +28,29 @@ export class EvaluationDetailComponent implements OnInit {
   endDate = new Date();
   surveyorList: any = [];
   selectedSurveyor: any = [];
+  zones: any = [];
+  regions: any = [];
+  selectedZone: any = {};
+  selectedRegion: any = {};
   selectedItem: any = {};
+  userType: any;
+  amRole: any;
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private httpService: EvaluationService,
     private activeRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    if (this.zones.length > 0) {
+      this.selectedZone = this.zones[0];
+    }
+  }
 
   ngOnInit() {
     this.loadSurveyors();
+    this.amRole = localStorage.getItem("amRole");
+    this.userType = localStorage.getItem("user_type");
     const that = this;
     document.addEventListener("visibilitychange", function (e) {
       console.log(document.hidden);
@@ -61,7 +74,11 @@ export class EvaluationDetailComponent implements OnInit {
     this.loading = true;
 
     this.httpService
-      .getSurveyors(-1, -1, localStorage.getItem("surveyorId") || -1)
+      .getSurveyors(
+        this.selectedZone.id || -1,
+        this.selectedRegion.id || -1,
+        localStorage.getItem("surveyorId") || -1
+      )
       .subscribe(
         (data) => {
           const res: any = data;
@@ -92,6 +109,8 @@ export class EvaluationDetailComponent implements OnInit {
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
       endDate: moment(this.endDate).format("YYYY-MM-DD"),
       surveyorId: this.arrayMaker(this.selectedSurveyor),
+      zoneId: this.selectedZone.id || -1,
+      regionId: this.selectedRegion.id || -1,
     };
     this.httpService.getBADataForEvaluation(obj).subscribe(
       (data) => {
@@ -149,5 +168,35 @@ export class EvaluationDetailComponent implements OnInit {
         "_blank"
       );
     }
+  }
+
+  zoneChange() {
+    this.loadSurveyors();
+    this.loading = true;
+    this.httpService.getRegion(this.selectedZone.id).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.regions = res;
+          if (this.regions.length > 0) {
+            this.selectedRegion = this.regions[0];
+          }
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
   }
 }

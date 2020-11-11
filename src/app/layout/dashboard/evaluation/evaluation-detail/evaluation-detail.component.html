@@ -6,6 +6,35 @@
         <i color="primary" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
       </mat-card-title>
       <section class="example-section">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Zone"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <ng-container *ngFor="let zone of zones">
+              <mat-option [value]="zone">{{ zone.title }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="regions.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Region"
+            name="region"
+            [(ngModel)]="selectedRegion"
+            (ngModelChange)="loadSurveyors()"
+          >
+            <ng-container *ngFor="let region of regions">
+              <mat-option [value]="region">{{ region.title }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
         <mat-form-field
           *ngIf="surveyorList.length > 0"
           class="example-margin mr-10-IMP"
@@ -80,12 +109,12 @@
 
       <section class="example-section">
         <button
-          [disabled]="selectedSurveyor.length < 1"
+          [disabled]="selectedSurveyor.length < 1 || loading"
           mat-raised-button
-          color="warn"
+          color="primary"
           (click)="getSurveyShopDetails()"
         >
-          Show Survey Detail
+          Submit
         </button>
         <span *ngIf="selectedSurveyor.length < 1" class="alert-message"
           ><small>(surveyor selection is mandatory)</small></span

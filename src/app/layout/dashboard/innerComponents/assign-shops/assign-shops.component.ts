@@ -247,6 +247,7 @@ export class AssignShopsComponent implements OnInit {
     this.httpService
       .getSurveyors(
         this.selectedProgram,
+        -1,
         this.selectedZone.id || -1,
         this.selectedRegion.id || -1
       )

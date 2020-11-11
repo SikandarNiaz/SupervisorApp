@@ -116,13 +116,13 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>
+                  <!-- <th>
                     <mat-checkbox
                       (change)="checkUncheckAll($event)"
                       #isAllChecked
                     >
                     </mat-checkbox>
-                  </th>
+                  </th> -->
                   <th (click)="sortIt('m_code')" style="cursor: pointer">
                     BDE Code
                     <i class="material-icons arrow material-icons-arrow">
@@ -154,30 +154,40 @@
                       {{ getArrowType("shop_remark") }}
                     </i>
                   </th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
               <tbody *ngIf="shopList.length > 0">
                 <tr *ngFor="let item of shopList | orderBy: sortBy:sortOrder">
-                  <td>
+                  <!-- <td>
                     <mat-checkbox
                       name="{{ item?.shop_title }}"
                       id="{{ item?.id }}"
                       (click)="checkUncheckSingle(checked, item)"
                       #checked
                     ></mat-checkbox>
-                  </td>
+                  </td> -->
                   <td>{{ item?.m_code }}</td>
                   <td>{{ item?.surveyor_name }}</td>
-                  <td style="word-break: break-word">{{ item?.shop_title }}</td>
                   <td>{{ item?.shop_code }}</td>
+                  <td style="word-break: break-word">{{ item?.shop_title }}</td>
                   <td>{{ item?.shop_remark }}</td>
+                  <td>
+                    <button
+                      class="btn btn-primary"
+                      title="Click to view Shop"
+                      (click)="goToEvaluationPage(item)"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </section>
 
-          <section class="example-section">
+          <!-- <section class="example-section">
             <button
               [disabled]="loadingData || selectedShops.length == 0"
               type="submit"
@@ -194,7 +204,7 @@
             >
               DisApprove
             </button>
-          </section>
+          </section> -->
         </mat-card-content>
       </mat-card>
     </div>

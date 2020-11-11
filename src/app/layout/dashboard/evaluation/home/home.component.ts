@@ -64,6 +64,10 @@ export class HomeComponent implements OnInit {
   reevaluatorRole: any;
   evaluatorRole: any;
   selectedRemarkArray: any = [];
+  amRole: any;
+  shopTitle: any;
+  shopAddress: any;
+  loadingTags: boolean;
 
   constructor(
     private router: Router,
@@ -111,10 +115,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
-    this.location.replaceState("/details/");
+    this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
-    this.reevaluatorRole = localStorage.getItem("Reevaluator");
     this.evaluatorRole = localStorage.getItem("Evaluator");
+    this.amRole = localStorage.getItem("amRole");
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -152,7 +156,11 @@ export class HomeComponent implements OnInit {
           this.data = data;
           document.title = this.data.section[0].sectionTitle;
           // tslint:disable-next-line:triple-equals
-          if (this.data.criteria && this.userType == this.evaluatorRole) {
+          if (
+            this.data.criteria &&
+            (this.userType == this.evaluatorRole ||
+              this.userType == this.amRole)
+          ) {
             this.evaluationArray = this.data.criteria;
             this.cloneArray = this.evaluationArray.slice();
           }
@@ -420,6 +428,7 @@ export class HomeComponent implements OnInit {
   // }
   evaluateShop() {
     const user_id = localStorage.getItem("user_id");
+    const userType = localStorage.getItem("user_type");
     this.loading = true;
     const req = true;
 
@@ -430,6 +439,7 @@ export class HomeComponent implements OnInit {
         surveyId: this.surveyId,
         evaluatorId: user_id,
         status: this.evaluationStatus,
+        userType: userType,
       };
 
       this.evaluationService.evaluateShop(obj).subscribe(
@@ -546,5 +556,25 @@ export class HomeComponent implements OnInit {
 
   hideRemarksModalWithNoChange() {
     this.evaluationRemarksModal.hide();
+  }
+
+  updateShopTitle(value, logType) {
+    this.loadingTags = true;
+    const obj = {
+      shopId: this.surveyId,
+      userId: localStorage.getItem("user_id"),
+      newValue: value,
+      logType: logType,
+    };
+
+    this.httpService.updateShopData(obj).subscribe((data: any) => {
+      if (data.success) {
+        this.loadingTags = false;
+        this.toastr.success("Data Updated Successfully");
+      } else {
+        this.loadingTags = false;
+        this.toastr.success("There was an error while updating data");
+      }
+    });
   }
 }

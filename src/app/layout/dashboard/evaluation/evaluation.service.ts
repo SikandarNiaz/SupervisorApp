@@ -101,4 +101,22 @@ export class EvaluationService {
     });
     return this.http.post(url, filter);
   }
+
+  updateShopData(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "updateShopData"; // -------> EvaluationChangeLogController
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
+
+  getRegion(zoneId) {
+    this.user_id = localStorage.getItem("user_id");
+
+    const filter = JSON.stringify({
+      act: 1,
+      zoneId: zoneId,
+      userId: this.user_id,
+    });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  }
 }

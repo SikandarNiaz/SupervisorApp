@@ -43,12 +43,22 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("user_id", res.user.user_id);
         localStorage.setItem("user_type", res.user.typeID);
         localStorage.setItem("user_name", res.user.userName);
-        localStorage.setItem("regionId", res.user.regionId);
-        localStorage.setItem("zoneId", res.user.zone_id);
-        localStorage.setItem("surveyorId", res.user.surveyorId);
+        localStorage.setItem(
+          "regionId",
+          res.user.regionId == 0 ? -1 : res.user.regionId
+        );
+        localStorage.setItem(
+          "zoneId",
+          res.user.zone_id == 0 ? -1 : res.user.zone_id
+        );
+        localStorage.setItem(
+          "surveyorId",
+          res.user.surveyorId == 0 ? -1 : res.user.surveyorId
+        );
         localStorage.setItem("menu", JSON.stringify(res.list));
         localStorage.setItem("Evaluator", res.Evaluator);
         localStorage.setItem("projectType", res.projectType);
+        localStorage.setItem("amRole", res.amRole);
         this.router.navigate(["/dashboard"]);
 
         setTimeout(() => {
