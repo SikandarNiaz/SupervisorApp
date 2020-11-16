@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
   availabilityCount: number;
   selectedEvaluationRemark = -1;
   j = -1;
+  projectType: any;
   i = 0;
   p: any = {};
   cloneArray: any = [];
@@ -67,7 +68,10 @@ export class HomeComponent implements OnInit {
   amRole: any;
   shopTitle: any;
   shopAddress: any;
+  flagId: any;
   loadingTags: boolean;
+  channelList: any = [];
+  selectedChannel: any = {};
 
   constructor(
     private router: Router,
@@ -82,6 +86,10 @@ export class HomeComponent implements OnInit {
     this.activatedRoutes.queryParams.subscribe((q) => {
       if (q.location) {
         this.isFromShop = false;
+      }
+      if (q.flagId) {
+        this.flagId = q.flagId;
+        console.log(this.flagId);
       }
     });
 
@@ -119,6 +127,7 @@ export class HomeComponent implements OnInit {
     this.userType = localStorage.getItem("user_type");
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.amRole = localStorage.getItem("amRole");
+    this.projectType = localStorage.getItem("projectType");
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -165,6 +174,9 @@ export class HomeComponent implements OnInit {
             this.cloneArray = this.evaluationArray.slice();
           }
           this.remarksList = this.data.remarks;
+          if (this.projectType == "PMI_CENSUS") {
+            this.loadAllChannels();
+          }
         }
       },
       (error) => {}
@@ -440,6 +452,7 @@ export class HomeComponent implements OnInit {
         evaluatorId: user_id,
         status: this.evaluationStatus,
         userType: userType,
+        flagId: this.flagId,
       };
 
       this.evaluationService.evaluateShop(obj).subscribe(
@@ -576,5 +589,16 @@ export class HomeComponent implements OnInit {
         this.toastr.success("There was an error while updating data");
       }
     });
+  }
+  loadAllChannels() {
+    this.httpService.getAllChannels().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.channelList = res;
+        }
+      },
+      (error) => {}
+    );
   }
 }

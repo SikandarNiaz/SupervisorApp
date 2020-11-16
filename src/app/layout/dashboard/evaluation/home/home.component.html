@@ -178,13 +178,43 @@
                   <ng-container
                     *ngIf="tab?.isEditable == true; else readOnlyTags"
                   >
-                    <td>
+                    <td *ngIf="tab?.tagLogType != 'channel_name'">
                       <input
                         type="text"
                         [(ngModel)]="tab.value"
                         style="width: 10em"
                         (blur)="updateShopTitle(tab.value, tab?.tagLogType)"
                       />
+                    </td>
+                    <td
+                      *ngIf="
+                        channelList.length > 0 &&
+                        tab?.tagLogType == 'channel_name'
+                      "
+                    >
+                      <select
+                        placeholder=""
+                        #newValue
+                        (change)="
+                          updateShopTitle(newValue.value, tab?.tagLogType)
+                        "
+                      >
+                        <ng-container *ngFor="let channel of channelList">
+                          <option
+                            *ngIf="tab?.value == channel.title"
+                            [value]="channel.title"
+                            selected="selected"
+                          >
+                            {{ channel?.title }}
+                          </option>
+                          <option
+                            *ngIf="tab?.value != channel.title"
+                            [value]="channel.title"
+                          >
+                            {{ channel?.title }}
+                          </option>
+                        </ng-container>
+                      </select>
                     </td>
                   </ng-container>
                   <ng-template #readOnlyTags>

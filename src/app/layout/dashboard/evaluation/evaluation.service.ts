@@ -94,10 +94,26 @@ export class EvaluationService {
     return this.http.post(url, filter);
   }
 
-  getRemarks() {
+  getFlagRemarks() {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({
       act: 16,
+    });
+    return this.http.post(url, filter);
+  }
+
+  getShopRemarks() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 17,
+    });
+    return this.http.post(url, filter);
+  }
+
+  getAllChannels() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 18,
     });
     return this.http.post(url, filter);
   }

@@ -55,8 +55,10 @@ export class FlaggedShopsListComponent implements OnInit {
   sortOrder = true;
   shopList: any = [];
   sortBy: "m_code";
-  remarkList: any = [];
-  selectedRemark: any = {};
+  shopRemarkList: any = [];
+  flagRemarkList: any = [];
+  selectedShopRemark: any = {};
+  selectedFlagRemark: any = {};
 
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
@@ -70,7 +72,8 @@ export class FlaggedShopsListComponent implements OnInit {
 
   ngOnInit() {
     this.loadSurveyors();
-    this.loadRemarks();
+    this.loadFlagRemarks();
+    this.loadShopRemarks();
     const that = this;
     document.addEventListener("visibilitychange", function (e) {
       console.log(document.hidden);
@@ -131,20 +134,26 @@ export class FlaggedShopsListComponent implements OnInit {
   loadFlaggedShops() {
     const obj = {
       surveyorId: this.arrayMaker(this.selectedSurveyor),
-      remarkId: this.selectedRemark.id || -1,
+      shopRemarkId: this.selectedShopRemark.id || -1,
+      flagRemarkId: this.selectedFlagRemark.id || -1,
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
       endDate: moment(this.endDate).format("YYYY-MM-DD"),
     };
     this.loadingData = true;
-    this.httpService.getFlaggedShops(obj).subscribe((data) => {
-      if (data) {
-        this.loadingData = false;
+    this.httpService.getFlaggedShops(obj).subscribe(
+      (data) => {
         this.shopList = data;
-      } else {
+        if (this.shopList.length === 0) {
+          this.loadingData = false;
+          this.toastr.info("No record found.");
+        }
         this.loadingData = false;
-        this.toastr.success(this.response, "No Data Found");
+      },
+      (error) => {
+        this.toastr.info("There was some error extracting the Data.");
+        this.loadingData = false;
       }
-    });
+    );
   }
 
   loadSurveyors() {
@@ -180,15 +189,40 @@ export class FlaggedShopsListComponent implements OnInit {
       );
   }
 
-  loadRemarks() {
+  loadFlagRemarks() {
     this.loadingData = true;
 
-    this.httpService.getRemarks().subscribe(
+    this.httpService.getFlagRemarks().subscribe(
       (data) => {
         const res: any = data;
         if (res) {
-          this.remarkList = res;
-          this.selectedRemark = this.remarkList[0];
+          this.flagRemarkList = res;
+          this.selectedFlagRemark = this.flagRemarkList[0];
+          this.loadingData = false;
+        } else {
+          this.loadingData = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
+
+  loadShopRemarks() {
+    this.loadingData = true;
+
+    this.httpService.getShopRemarks().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.shopRemarkList = res;
+          this.selectedShopRemark = this.shopRemarkList[0];
           this.loadingData = false;
         } else {
           this.loadingData = false;
@@ -233,7 +267,7 @@ export class FlaggedShopsListComponent implements OnInit {
 
   goToEvaluationPage(item) {
     window.open(
-      `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
+      `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}?flagId=${item.flag_id}`,
       "_blank"
     );
   }

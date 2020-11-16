@@ -36,29 +36,43 @@
               </button>
             </mat-option>
 
-            <mat-option
-              [value]="surveyor"
-              *ngFor="let surveyor of surveyorList"
-              >{{ surveyor.fullName }}</mat-option
+            <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList"
+              >{{ surveyor.mCode }} - {{ surveyor.fullName }}</mat-option
             >
           </mat-select>
         </mat-form-field>
 
         <mat-form-field
-          *ngIf="remarkList.length > 0"
+          *ngIf="flagRemarkList.length > 0"
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Remark"
+            placeholder="Flag Remark"
             name="remark"
-            [(ngModel)]="selectedRemark"
+            [(ngModel)]="selectedFlagRemark"
           >
-            <ng-container *ngFor="let remark of remarkList">
+            <ng-container *ngFor="let remark of flagRemarkList">
               <mat-option [value]="remark">{{ remark.title }}</mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field
+          *ngIf="shopRemarkList.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Shop Remark"
+            name="remark"
+            [(ngModel)]="selectedShopRemark"
+          >
+            <ng-container *ngFor="let remark of shopRemarkList">
+              <mat-option [value]="remark">{{ remark.title }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section>
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
             matInput
@@ -148,10 +162,22 @@
                       {{ getArrowType("shop_title") }}
                     </i>
                   </th>
+                  <th (click)="sortIt('visitDate')" style="cursor: pointer">
+                    Visit Date
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("visitDate") }}
+                    </i>
+                  </th>
                   <th (click)="sortIt('shop_remark')" style="cursor: pointer">
-                    Remark
+                    Shop Remark
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("shop_remark") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('flag_remark')" style="cursor: pointer">
+                    Flag Remark
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("flag_remark") }}
                     </i>
                   </th>
                   <th>Action</th>
@@ -172,7 +198,9 @@
                   <td>{{ item?.surveyor_name }}</td>
                   <td>{{ item?.shop_code }}</td>
                   <td style="word-break: break-word">{{ item?.shop_title }}</td>
+                  <td>{{ item?.visitDate }}</td>
                   <td>{{ item?.shop_remark }}</td>
+                  <td>{{ item?.flag_remark }}</td>
                   <td>
                     <button
                       class="btn btn-primary"
