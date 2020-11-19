@@ -472,18 +472,55 @@
               /></small>
             </div>
           </div>
-          <div class="form-group">
-            <label for="location"
-              >Shop Location (Current Location:
-              {{ selectedShopForEdit?.latitude || shopLat?.toFixed(4) }},
-              {{
-                selectedShopForEdit?.longitude || shopLong?.toFixed(4)
-              }})</label
-            >
-            <input type="hidden" formControlName="longitude" />
-            <input type="hidden" formControlName="latitude" />
-            <div id="map"></div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="longitude">Longitude</label>
+              <input
+                type="text"
+                class="form-control"
+                id="longitude"
+                formControlName="longitude"
+              />
+              <div
+                *ngIf="
+                  form.controls.longitude.errors &&
+                  (form.controls.longitude.touched || form.controls.longitude.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'title')"
+                  class="invalid-feedback"
+                >
+                  Valid Coordinates Are required.
+                </mat-error>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="latitude">Latitude</label>
+              <input
+                type="text"
+                class="form-control"
+                id="latitude"
+                formControlName="latitude"
+              />
+              <div
+                *ngIf="
+                  form.controls.latitude.errors &&
+                  (form.controls.latitude.touched || form.controls.latitude.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'title')"
+                  class="invalid-feedback"
+                >
+                  Valid Coordinates Are required.
+                </mat-error>
+              </div>
+            </div>
           </div>
+
+
         </div>
         <div class="modal-footer">
           <button

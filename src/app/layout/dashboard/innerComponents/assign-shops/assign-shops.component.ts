@@ -112,8 +112,8 @@ export class AssignShopsComponent implements OnInit {
         id: new FormControl("", [Validators.required]),
       }),
       active: new FormControl("", [Validators.required]),
-      longitude: new FormControl(""),
-      latitude: new FormControl(""),
+      longitude: new FormControl("", [Validators.required]),
+      latitude: new FormControl("", [Validators.required]),
     });
   }
 
@@ -404,11 +404,9 @@ export class AssignShopsComponent implements OnInit {
     if (this.programs.length == 0) {
       this.loadPrograms();
     }
-    this.initMap();
+    // this.initMap();
     this.form.patchValue({
       id: -1,
-      longitude: this.shopLong,
-      latitude: this.shopLat,
     });
     this.addEditShop.show();
   }
@@ -538,7 +536,7 @@ export class AssignShopsComponent implements OnInit {
     if (this.programs.length == 0) {
       this.loadPrograms();
     }
-    this.initMap();
+    // this.initMap();
     this.form.patchValue({
       id: shop.baseShopId,
       title: shop.title,
