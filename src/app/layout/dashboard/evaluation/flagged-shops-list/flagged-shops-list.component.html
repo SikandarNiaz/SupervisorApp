@@ -6,12 +6,42 @@
         <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
       </mat-card-title>
       <section class="example-section">
+        <ng-container *ngIf="userType != amRole">
+          <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="Zone"
+              name="zone"
+              [(ngModel)]="selectedZone"
+              (ngModelChange)="zoneChange(); loadSurveyors()"
+            >
+              <ng-container *ngFor="let zone of zones">
+                <mat-option [value]="zone">{{ zone.title }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            *ngIf="regions.length > 0"
+            class="example-margin mr-10-IMP"
+          >
+            <mat-select
+              placeholder="Region"
+              name="region"
+              [(ngModel)]="selectedRegion"
+              (ngModelChange)="loadSurveyors()"
+            >
+              <ng-container *ngFor="let region of regions">
+                <mat-option [value]="region">{{ region.title }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
         <mat-form-field
           *ngIf="surveyorList.length > 0"
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Code"
+            placeholder="Surveyors"
             name="ba"
             [(ngModel)]="selectedSurveyor"
             multiple

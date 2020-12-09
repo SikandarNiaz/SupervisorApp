@@ -27,6 +27,7 @@ import { ExportDataReportComponent } from "./innerComponents/export-data-report/
 import { BaAttendanceComponent } from "./innerComponents/ba-attendance/ba-attendance.component";
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
 import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
+import { CensusProductivityDashboardComponent } from "./Tableau/census-productivity-dashboard/census-productivity-dashboard.component";
 
 const routes: Routes = [
   {
@@ -79,6 +80,10 @@ const routes: Routes = [
       {
         path: "pgjordan-summary-dashboard",
         component: PgjordanDashboardComponent,
+      },
+      {
+        path: "census-productivity-dashboard",
+        component: CensusProductivityDashboardComponent,
       },
     ],
   },

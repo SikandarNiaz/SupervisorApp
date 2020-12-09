@@ -22,6 +22,7 @@ export class EvaluationDetailComponent implements OnInit {
   ip: any = this.configFile.ip;
   tableData: any = [];
   loading: boolean;
+  loadingData: boolean;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   startDate = new Date();
@@ -34,7 +35,22 @@ export class EvaluationDetailComponent implements OnInit {
   selectedRegion: any = {};
   selectedItem: any = {};
   userType: any;
-  amRole: any;
+  evaluatorRole: any;
+  selectedEvaluationStatus: any = {};
+  evaluationStatusArray: any = [
+    {
+      id: -1,
+      title: "Pending",
+    },
+    {
+      id: 1,
+      title: "Approved",
+    },
+    {
+      id: 2,
+      title: "Disapproved",
+    },
+  ];
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -49,7 +65,7 @@ export class EvaluationDetailComponent implements OnInit {
 
   ngOnInit() {
     this.loadSurveyors();
-    this.amRole = localStorage.getItem("amRole");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
     this.userType = localStorage.getItem("user_type");
     const that = this;
     document.addEventListener("visibilitychange", function (e) {
@@ -58,6 +74,11 @@ export class EvaluationDetailComponent implements OnInit {
         that.getSurveyShopDetails();
       }
     });
+    if (this.userType == this.evaluatorRole) {
+      this.maxDate.setDate(this.maxDate.getDate() - 1);
+      this.startDate.setDate(this.startDate.getDate() - 1);
+      this.endDate.setDate(this.endDate.getDate() - 1);
+    }
   }
 
   showChildModal(): void {
@@ -105,12 +126,14 @@ export class EvaluationDetailComponent implements OnInit {
 
   getSurveyShopDetails() {
     this.loading = true;
+    this.loadingData = true;
     const obj = {
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
       endDate: moment(this.endDate).format("YYYY-MM-DD"),
       surveyorId: this.arrayMaker(this.selectedSurveyor),
       zoneId: this.selectedZone.id || -1,
       regionId: this.selectedRegion.id || -1,
+      evaluationStatus: this.selectedEvaluationStatus.id || 0, // bcz -1 is Pending status
     };
     this.httpService.getBADataForEvaluation(obj).subscribe(
       (data) => {
@@ -118,13 +141,16 @@ export class EvaluationDetailComponent implements OnInit {
         this.tableData = data;
         if (this.tableData.length === 0) {
           this.loading = false;
+          this.loadingData = false;
           this.toastr.info("No record found.");
         }
         this.loading = false;
+        this.loadingData = false;
       },
       (error) => {
         this.toastr.info("There was some error extracting the Data.");
         this.loading = false;
+        this.loadingData = false;
       }
     );
   }

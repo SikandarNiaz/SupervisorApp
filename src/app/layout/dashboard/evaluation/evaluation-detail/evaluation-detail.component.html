@@ -40,7 +40,7 @@
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Code"
+            placeholder="Surveyors"
             name="ba"
             [(ngModel)]="selectedSurveyor"
             multiple
@@ -65,13 +65,27 @@
               </button>
             </mat-option>
 
-            <mat-option
-              [value]="surveyor"
-              *ngFor="let surveyor of surveyorList"
-              >{{ surveyor.fullName }}</mat-option
+            <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList"
+              >{{ surveyor.mCode }} - {{ surveyor.fullName }}</mat-option
             >
           </mat-select>
         </mat-form-field>
+        <ng-container *ngIf="userType == evaluatorRole">
+          <mat-form-field
+            *ngIf="evaluationStatusArray.length > 0"
+            class="example-margin mr-10-IMP"
+          >
+            <mat-select
+              placeholder="Evaluation Status"
+              name="status"
+              [(ngModel)]="selectedEvaluationStatus"
+            >
+              <ng-container *ngFor="let status of evaluationStatusArray">
+                <mat-option [value]="status">{{ status.title }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
 
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
@@ -123,7 +137,7 @@
     </mat-card-content>
   </mat-card>
 
-  <div class="container-fluid" *ngIf="tableData.length > 0 && !loading">
+  <div class="container-fluid" *ngIf="tableData.length > 0 && !loadingData">
     <div class="row"></div>
     <div class="row js">
       <ng-container *ngFor="let item of tableData; let i = index">
@@ -208,6 +222,14 @@
           style="max-height: 500px"
         />
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="loadingData">
+  <div class="col-md-12 text-center">
+    <div class="img-center">
+      <img src="assets/images/basicloader.gif" alt="" srcset="" />
     </div>
   </div>
 </div>

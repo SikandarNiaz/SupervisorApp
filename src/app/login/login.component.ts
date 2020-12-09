@@ -67,12 +67,7 @@ export class LoginComponent implements OnInit {
       },
       (error: any) => {
         debugger;
-        if (!error.error.description) {
-          this.toastr.error(error.message, "Login Status");
-        } else {
-          this.toastr.error(error.error.description, "Login Status");
-        }
-
+        this.toastr.error("Incorrect Username or Password", "Login Status");
         console.log("error", error);
         this.loading = false;
       }

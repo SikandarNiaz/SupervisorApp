@@ -38,9 +38,9 @@ export class FlaggedShopsListComponent implements OnInit {
     public router: Router
   ) {
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
-    if (this.zones.length > 0) {
-      this.selectedZone = this.zones[0];
-    }
+    this.userType = localStorage.getItem("user_type");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
+    this.amRole = localStorage.getItem("amRole");
   }
   tableData: any = [];
   title = "Visited Shops";
@@ -69,6 +69,10 @@ export class FlaggedShopsListComponent implements OnInit {
   regions: any = [];
   selectedZone: any = {};
   selectedRegion: any = {};
+
+  userType: any;
+  evaluatorRole: any;
+  amRole: any;
 
   ngOnInit() {
     this.loadSurveyors();
@@ -161,8 +165,8 @@ export class FlaggedShopsListComponent implements OnInit {
 
     this.httpService
       .getSurveyors(
-        this.selectedZone.id || -1,
-        this.selectedRegion.id || -1,
+        this.selectedZone.id || localStorage.getItem("zoneId"),
+        this.selectedRegion.id || localStorage.getItem("regionId"),
         localStorage.getItem("surveyorId")
           ? localStorage.getItem("surveyorId") == null
             ? -1
@@ -173,10 +177,10 @@ export class FlaggedShopsListComponent implements OnInit {
         (data) => {
           const res: any = data;
           if (res) {
+            this.loadingData = false;
             this.surveyorList = res;
           } else {
             this.loadingData = false;
-
             this.toastr.info(
               "Something went wrong,Please retry",
               "Connectivity Message"
@@ -273,8 +277,7 @@ export class FlaggedShopsListComponent implements OnInit {
   }
 
   zoneChange() {
-    this.loadSurveyors();
-    this.loading = true;
+    this.loadingData = true;
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       (data) => {
         const res: any = data;
@@ -284,7 +287,7 @@ export class FlaggedShopsListComponent implements OnInit {
             this.selectedRegion = this.regions[0];
           }
         } else {
-          this.loading = false;
+          this.loadingData = false;
 
           this.toastr.info(
             "Something went wrong,Please retry",
@@ -293,11 +296,11 @@ export class FlaggedShopsListComponent implements OnInit {
         }
 
         setTimeout(() => {
-          this.loading = false;
+          this.loadingData = false;
         }, 500);
       },
       (error) => {
-        this.loading = false;
+        this.loadingData = false;
       }
     );
   }

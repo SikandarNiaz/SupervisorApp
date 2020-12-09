@@ -49,6 +49,9 @@ export class FilterBarComponent implements OnInit {
 
     console.log(this.categoryList);
     this.sortIt("completed");
+    this.userType = localStorage.getItem("user_type");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
+    this.amRole = localStorage.getItem("amRole");
   }
   tableData: any = [];
   // ip = environment.ip;
@@ -105,6 +108,10 @@ export class FilterBarComponent implements OnInit {
   selectedBrand: any = {};
   queryList: any = [];
   selectedQuery: any = {};
+  placeHolder = "";
+  userType: any;
+  evaluatorRole: any;
+  amRole: any;
 
   selectedRegionUp: any = new FormControl({}, [Validators.required]);
   // date = new FormControl(new Date());
@@ -153,14 +160,10 @@ export class FilterBarComponent implements OnInit {
   ngOnInit() {
     console.log("router", this.router.url);
     this.projectType = localStorage.getItem("projectType");
-    this.lastVisit = this.dataService.getLastVisit();
-    this.mustHave = this.dataService.getYesNo();
-    this.mustHaveAll = this.dataService.getYesNoAll();
-    this.impactTypeList = this.dataService.getImpactType();
-    if (this.router.url !== "/dashboard/raw_data") {
-      this.getZone();
+    this.getZone();
+    if (this.router.url === "/dashboard/export-data") {
+      this.getSurveyors();
     }
-
     if (this.router.url === "/dashboard/raw_data") {
       this.getQueryTypeList();
     }
@@ -190,13 +193,12 @@ export class FilterBarComponent implements OnInit {
           this.reportId = 9;
         }
       }
+      this.placeHolder = "BAs";
     } else if (
       this.projectType == "PMI_CENSUS" ||
       this.projectType == "PGJORDAN"
     ) {
-      if (this.router.url === "/dashboard/export-data") {
-        this.getSurveyors();
-      }
+      this.placeHolder = "Surveyors";
     }
   }
 
@@ -277,107 +279,6 @@ export class FilterBarComponent implements OnInit {
           : this.toastr.error(error.description, "Error");
       }
     );
-  }
-
-  getAbnormalityReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        channelId: this.arrayMaker(this.selectedChannel),
-        cityId: this.selectedCity.id || -1,
-        areaId: this.selectedArea.id || -1,
-      };
-
-      const url = "abnormalityShopList";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "query list");
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: res.fileType,
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "AbnormalityReport Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "Something went wrong,Please retry",
-        "dashboard Data Availability Message"
-      );
-    }
-  }
-
-  getBrandSKUOOS() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        channelId: this.arrayMaker(this.selectedChannel),
-        cityId: this.selectedCity.id || -1,
-        areaId: this.selectedArea.id || -1,
-        mustHaveAll: this.selectedMustHaveAll || "",
-      };
-
-      const url = "brandSKUOOS";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "query list");
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: res.fileType,
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "dashboard Data Availability Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "Something went wrong,Please retry",
-        "dashboard Data Availability Message"
-      );
-    }
   }
 
   uploadData(post) {
@@ -631,94 +532,6 @@ export class FilterBarComponent implements OnInit {
     }
   }
 
-  categoryChange() {
-    // this.loadingData = true;
-    // this.httpService.getProducts(this.selectedCategory.id).subscribe(
-    //   data => {
-    //     this.productsList = data;
-    //     setTimeout(() => {
-    //       this.loadingData = false;
-    //     }, 500);
-    //   },
-    //   error => {
-    // this.clearLoading()
-    //  }
-    // );
-  }
-
-  cityChange() {
-    // this.httpService.getAreas(this.selectedChannel).subscribe(
-    //   data => {
-    //     this.areas = data;
-    //     // this.filterAllData();
-    //   },
-    //   error => {
-    // this.clearLoading()
-    // }
-    // );
-  }
-
-  chanelChange() {
-    // console.log('seelcted chanel', this.selectedChannel);
-    // this.httpService.getAreas(this.selectedChannel).subscribe(
-    //   data => {
-    //     this.areas = data;
-    //     // this.filterAllData();
-    //   },
-    //   error => {
-    // this.clearLoading()
-    // }
-    // );
-  }
-  //#endregion
-  tposmDeploymentReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        // channelId: this.arrayMaker(this.selectedChannel),
-      };
-
-      const url = "tposmDeploymentTracker";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "oos shoplist");
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-  }
-
   dailyEvaluationRport() {
     if (this.endDate >= this.startDate) {
       this.loadingData = true;
@@ -816,169 +629,6 @@ export class FilterBarComponent implements OnInit {
     }
   }
 
-  timeAnalysisReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        // channelId: this.arrayMaker(this.selectedChannel),
-      };
-
-      const url = "time-analysis";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "oos shoplist");
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-  }
-
-  shopListReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        // channelId: this.arrayMaker(this.selectedChannel),
-      };
-
-      const url = "shop-list-report";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "oos shoplist");
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-  }
-
-  getOOSDetailReport() {
-    if (this.endDate >= this.startDate) {
-      const obj = {
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        channelId: this.selectedChannel.id || -1,
-        areaId: "",
-        distId: "",
-        actionType: "1",
-        pageType: "8",
-      };
-      const url = "oosDetail";
-
-      this.httpService.DownloadResource(obj, url);
-    } else {
-      this.clearLoading();
-
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-  }
-
-  getAttendanceReport() {
-    if (this.endDate >= this.startDate) {
-      const obj = {
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-      };
-      const url = "merchandiser_attendance_report";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "attendance");
-          const res: any = data;
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-  }
-
   clearLoading() {
     this.loading = false;
     this.loadingData = false;
@@ -1029,31 +679,6 @@ export class FilterBarComponent implements OnInit {
         }
       );
     }
-  }
-
-  downloadDailyReport() {
-    this.loadingData = true;
-    this.loadingReportMessage = true;
-    // this.clickedOnce++;
-
-    const obj = {
-      zoneId: this.selectedZone.id,
-      regionId: this.selectedRegion.id,
-      startDate: moment(this.startDate).format("YYYY-MM-DD"),
-      reportType: "",
-      surveyorId: this.selectedMerchandiser.id,
-      excelDump: "Y",
-      mailData: "Y",
-      reportLink: "",
-    };
-    const url = "cbl-pdf";
-    this.httpService.DownloadResource(obj, url);
-
-    setTimeout(() => {
-      this.loadingData = false;
-      this.loadingReportMessage = false;
-      // this.clearAllSections()
-    }, 1000);
   }
 
   arrayMaker(arr) {
@@ -1126,148 +751,6 @@ export class FilterBarComponent implements OnInit {
     }
 
     // let url = 'downloadReport';
-    // this.httpService.DownloadResource(obj, url);
-  }
-
-  getOOSSummary() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        zoneId: this.selectedZone.id || "",
-        regionId: this.selectedRegion.id || "",
-        cityId: this.selectedCity.id || "",
-        areaId: this.selectedArea.id || "",
-        channelId: this.arrayMaker(this.selectedChannel),
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        category: -1,
-        productId: -1,
-        mustHave: "N",
-        chillerAllocated: -1,
-        type: 2,
-        pageType: 3,
-      };
-
-      const encodeURL: any = this.httpService.UrlEncodeMaker(obj);
-
-      const url = "oosSummaryReport";
-      const body = encodeURL;
-      // `chillerAllocated=${obj.chillerAllocated}&type=2&pageType=1&zoneId=${obj.zoneId}&regionId=${obj.regionId}&startDate=${obj.startDate}&endDate=${obj.endDate}&mustHave=${obj.mustHave}&channelId=${obj.channelId}`;
-      // encodeURL      //
-
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          const res: any = data;
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-          // let obj2 = {
-          //   key: res.key,
-          //   fileType: 'json.fileType'
-          // }
-          // let url = 'downloadReport'
-          // this.getproductivityDownload(obj2, url)
-        },
-        (error) => {
-          this.clearLoading();
-
-          console.log(error, "summary report");
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-
-    // let url = 'oosSummaryReport';
-    // this.httpService.DownloadResource(obj, url);
-  }
-  getMSLReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        cityId: this.selectedCity.id || -1,
-        areaId: this.selectedArea.id || -1,
-        channelId: this.arrayMaker(this.selectedChannel),
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        // category: -1,
-        // productId: -1,
-        // mustHave: 'N',
-        // chillerAllocated: -1,
-        // type:2,
-        // pageType:1
-      };
-
-      const encodeURL: any = this.httpService.UrlEncodeMaker(obj);
-
-      const url = "mslDashboard";
-      const body = encodeURL;
-      // `chillerAllocated=${obj.chillerAllocated}&type=2&pageType=1&zoneId=${obj.zoneId}&regionId=${obj.regionId}&startDate=${obj.startDate}&endDate=${obj.endDate}&mustHave=${obj.mustHave}&channelId=${obj.channelId}`;
-      //     //
-
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-
-          // let obj2 = {
-          //   key: res.key,
-          //   fileType: 'json.fileType'
-          // }
-          // let url = 'downloadReport'
-          // this.getproductivityDownload(obj2, url)
-        },
-        (error) => {
-          this.clearLoading();
-
-          console.log(error, "summary report");
-        }
-      );
-    } else {
-      this.clearLoading();
-
-      this.toastr.info(
-        "End date must be greater than start date",
-        "Date Selection"
-      );
-    }
-
-    // let url = 'oosSummaryReport';
     // this.httpService.DownloadResource(obj, url);
   }
 
@@ -1502,48 +985,6 @@ export class FilterBarComponent implements OnInit {
     }
   }
 
-  uniqueBasedReport() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-      };
-
-      const url = "capturedAbnormalUnvisited";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: "json.fileType",
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info("Plz Enter a Valid Date and Type", "Required Fields");
-    }
-  }
   getBrands() {
     this.loadingData = true;
     this.getSurveyorByBrands();
@@ -1606,8 +1047,8 @@ export class FilterBarComponent implements OnInit {
       .getSurveyors(
         -1,
         localStorage.getItem("surveyorId") || -1,
-        this.selectedZone.id || -1,
-        this.selectedRegion.id || -1
+        this.selectedZone.id || localStorage.getItem("zoneId"),
+        this.selectedRegion.id || localStorage.getItem("regionId")
       )
       .subscribe(
         (data) => {
@@ -1632,52 +1073,6 @@ export class FilterBarComponent implements OnInit {
         }
       );
   }
-
-  // downloadPGExportData() {
-  //   if (this.endDate >= this.startDate) {
-  //     this.loadingData = true;
-  //     this.loadingReportMessage = true;
-  //     const obj = {
-  //       startDate: moment(this.startDate).format("YYYY-MM-DD"),
-  //       endDate: moment(this.endDate).format("YYYY-MM-DD"),
-  //       surveyorId: this.arrayMaker(this.selectedSurveyor),
-  //     };
-
-  //     const url = "export-data-report";
-  //     const body = this.httpService.UrlEncodeMaker(obj);
-  //     this.httpService.getKeyForProductivityReport(body, url).subscribe(
-  //       (data) => {
-  //         console.log(data, "evaluation data");
-  //         const res: any = data;
-
-  //         if (res) {
-  //           const obj2 = {
-  //             key: res.key,
-  //             fileType: "json.fileType",
-  //           };
-  //           const url = "downloadReport";
-  //           this.getproductivityDownload(obj2, url);
-  //         } else {
-  //           this.clearLoading();
-
-  //           this.toastr.info(
-  //             "Something went wrong,Please retry",
-  //             "Connectivity Message"
-  //           );
-  //         }
-  //       },
-  //       (error) => {
-  //         this.clearLoading();
-  //       }
-  //     );
-  //   } else {
-  //     this.clearLoading();
-  //     this.toastr.info(
-  //       "End date must be greater than start date",
-  //       "Date Selection"
-  //     );
-  //   }
-  // }
 
   getSurveyorsAndBrands() {
     this.loadingData = true;
@@ -1755,4 +1150,50 @@ export class FilterBarComponent implements OnInit {
       );
     }
   }
+
+  // downloadPGExportData() {
+  //   if (this.endDate >= this.startDate) {
+  //     this.loadingData = true;
+  //     this.loadingReportMessage = true;
+  //     const obj = {
+  //       startDate: moment(this.startDate).format("YYYY-MM-DD"),
+  //       endDate: moment(this.endDate).format("YYYY-MM-DD"),
+  //       surveyorId: this.arrayMaker(this.selectedSurveyor),
+  //     };
+
+  //     const url = "export-data-report";
+  //     const body = this.httpService.UrlEncodeMaker(obj);
+  //     this.httpService.getKeyForProductivityReport(body, url).subscribe(
+  //       (data) => {
+  //         console.log(data, "evaluation data");
+  //         const res: any = data;
+
+  //         if (res) {
+  //           const obj2 = {
+  //             key: res.key,
+  //             fileType: "json.fileType",
+  //           };
+  //           const url = "downloadReport";
+  //           this.getproductivityDownload(obj2, url);
+  //         } else {
+  //           this.clearLoading();
+
+  //           this.toastr.info(
+  //             "Something went wrong,Please retry",
+  //             "Connectivity Message"
+  //           );
+  //         }
+  //       },
+  //       (error) => {
+  //         this.clearLoading();
+  //       }
+  //     );
+  //   } else {
+  //     this.clearLoading();
+  //     this.toastr.info(
+  //       "End date must be greater than start date",
+  //       "Date Selection"
+  //     );
+  //   }
+  // }
 }

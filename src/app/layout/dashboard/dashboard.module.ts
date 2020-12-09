@@ -66,6 +66,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
 import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { CensusProductivityDashboardComponent } from './Tableau/census-productivity-dashboard/census-productivity-dashboard.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -133,6 +134,7 @@ import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
     BaAttendanceComponent,
     SaleAnalysisDashboardComponent,
     PgjordanDashboardComponent,
+    CensusProductivityDashboardComponent,
   ],
 })
 export class DashboardModule {}
