@@ -366,4 +366,15 @@ export class DashboardService {
     const url = this.ip + "updateShopInfo"; // -----------> UpdateShopInfoController
     return this.http.post(url, obj);
   }
+  getEvaluationSummary(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "evaluatorSummaryData";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getMerchandiserListForEvaluation(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "merchandiserList";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
 }

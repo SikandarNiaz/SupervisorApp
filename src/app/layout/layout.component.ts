@@ -24,7 +24,8 @@ export class LayoutComponent implements OnInit {
           e.url == "/dashboard/productivity-dashboard" ||
           e.url == "/dashboard/sale-analysis-dashboard" ||
           e.url == "/dashboard/pgjordan-summary-dashboard" ||
-          e.url == "/dashboard/census-productivity-dashboard"
+          e.url == "/dashboard/census-productivity-dashboard" ||
+          e.url == "/dashboard/census-survey-dashboard"
         ) {
           this.hideSideBar = true;
           this.isTableauRequest = true;
