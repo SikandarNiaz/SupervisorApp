@@ -28,7 +28,8 @@ import { BaAttendanceComponent } from "./innerComponents/ba-attendance/ba-attend
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
 import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
 import { CensusProductivityDashboardComponent } from "./Tableau/census-productivity-dashboard/census-productivity-dashboard.component";
-
+import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboard/census-survey-dashboard.component";
+import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
 const routes: Routes = [
   {
     path: "",
@@ -46,6 +47,7 @@ const routes: Routes = [
         path: "upload_routes/single_route_details",
         component: SingleRouteDetailComponent,
       },
+      { path: "merchandiser_List", component: MerchandiserListComponent },
       {
         path: "upload_routes/shops_for_single_route",
         component: ShopsForSingleRouteComponent,
@@ -84,6 +86,10 @@ const routes: Routes = [
       {
         path: "census-productivity-dashboard",
         component: CensusProductivityDashboardComponent,
+      },
+      {
+        path: "census-survey-dashboard",
+        component: CensusSurveyDashboardComponent,
       },
     ],
   },

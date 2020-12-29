@@ -1,144 +1,15 @@
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      {{ tableTitle | uppercase }} {{ title | uppercase }}
+      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      <p *ngIf="!loading && tableData == 0">No data available</p>
+      <!-- <button type="button" class="btn btn-primary" >Open child modal</button> -->
+    </mat-card-title>
+  </mat-card-content>
+</mat-card>
 <div class="container-fluid animated slideInLeft">
-  <mat-card class="mb-20">
-    <mat-card-content>
-      <mat-card-title>
-        {{ title | uppercase }}
-        <i color="primary" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
-      </mat-card-title>
-      <section class="example-section">
-        <mat-form-field class="example-margin mr-10-IMP">
-          <mat-select
-            placeholder="Zone"
-            name="zone"
-            [(ngModel)]="selectedZone"
-            (ngModelChange)="zoneChange()"
-          >
-            <ng-container *ngFor="let zone of zones">
-              <mat-option [value]="zone">{{ zone.title }}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
-          *ngIf="regions.length > 0"
-          class="example-margin mr-10-IMP"
-        >
-          <mat-select
-            placeholder="Region"
-            name="region"
-            [(ngModel)]="selectedRegion"
-            (ngModelChange)="loadSurveyors()"
-          >
-            <ng-container *ngFor="let region of regions">
-              <mat-option [value]="region">{{ region.title }}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
-          *ngIf="surveyorList.length > 0"
-          class="example-margin mr-10-IMP"
-        >
-          <mat-select
-            placeholder="Surveyors"
-            name="ba"
-            [(ngModel)]="selectedSurveyor"
-            multiple
-            #surveyorSelect="ngModel"
-            [compareWith]="equals"
-          >
-            <mat-option disabled="disabled" class="filter-option">
-              <button
-                mat-raised-button
-                class="mat-primary fill text-sm"
-                (click)="selectAll(surveyorSelect, surveyorList)"
-              >
-                Select All
-              </button>
-              <button
-                mat-raised-button
-                color="warn"
-                class="ml-1 mat-accent fill text-sm"
-                (click)="deselectAll(surveyorSelect)"
-              >
-                Deselect All
-              </button>
-            </mat-option>
-
-            <mat-option [value]="surveyor" *ngFor="let surveyor of surveyorList"
-              >{{ surveyor.mCode }} - {{ surveyor.fullName }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <ng-container *ngIf="userType == evaluatorRole">
-          <mat-form-field
-            *ngIf="evaluationStatusArray.length > 0"
-            class="example-margin mr-10-IMP"
-          >
-            <mat-select
-              placeholder="Evaluation Status"
-              name="status"
-              [(ngModel)]="selectedEvaluationStatus"
-            >
-              <ng-container *ngFor="let status of evaluationStatusArray">
-                <mat-option [value]="status">{{ status.title }}</mat-option>
-              </ng-container>
-            </mat-select>
-          </mat-form-field>
-        </ng-container>
-
-        <mat-form-field class="example-full-width mr-10-IMP">
-          <input
-            matInput
-            [min]="minDate"
-            [max]="maxDate"
-            [matDatepicker]="picker0"
-            [(ngModel)]="startDate"
-            placeholder="Choose a start date"
-            readonly
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker0"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker0></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field class="example-full-width mr-10-IMP">
-          <input
-            matInput
-            [min]="minDate"
-            [max]="maxDate"
-            [matDatepicker]="picker1"
-            [(ngModel)]="endDate"
-            placeholder="Choose a end date"
-            readonly
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker1"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </section>
-
-      <section class="example-section">
-        <button
-          [disabled]="selectedSurveyor.length < 1 || loading"
-          mat-raised-button
-          color="primary"
-          (click)="getSurveyShopDetails()"
-        >
-          Submit
-        </button>
-        <span *ngIf="selectedSurveyor.length < 1" class="alert-message"
-          ><small>(surveyor selection is mandatory)</small></span
-        >
-      </section>
-    </mat-card-content>
-  </mat-card>
-
   <div class="container-fluid" *ngIf="tableData.length > 0 && !loadingData">
-    <div class="row"></div>
     <div class="row js">
       <ng-container *ngFor="let item of tableData; let i = index">
         <mat-card class="col-md-3 example-card card2 ml-3 mt-3">

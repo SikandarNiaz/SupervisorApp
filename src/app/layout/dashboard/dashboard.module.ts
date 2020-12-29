@@ -67,6 +67,8 @@ import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboar
 import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { CensusProductivityDashboardComponent } from './Tableau/census-productivity-dashboard/census-productivity-dashboard.component';
+import { CensusSurveyDashboardComponent } from './Tableau/census-survey-dashboard/census-survey-dashboard.component';
+import { MerchandiserListComponent } from './innerComponents/merchandiser-list/merchandiser-list.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -135,6 +137,8 @@ import { CensusProductivityDashboardComponent } from './Tableau/census-productiv
     SaleAnalysisDashboardComponent,
     PgjordanDashboardComponent,
     CensusProductivityDashboardComponent,
+    CensusSurveyDashboardComponent,
+    MerchandiserListComponent,
   ],
 })
 export class DashboardModule {}
