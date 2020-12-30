@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.projectType = localStorage.getItem("projectType");
     //  NO SUMMARY AVAILABLE IN SOME PROJECTS SCOPE
-    if (this.projectType != "PGJORDAN" && this.projectType != "PMI_CENSUS") {
+    if (this.projectType == "NFL" || this.projectType == "NIVEA") {
       this.getZoneList();
       this.getStores();
       this.getSurveyorsAndBrands();
