@@ -7,6 +7,40 @@
       <!-- <button type="button" class="btn btn-primary" >Open child modal</button> -->
     </mat-card-title>
   </mat-card-content>
+  <section>
+    <mat-form-field
+    *ngIf="flagRemarkList.length > 0"
+    class="example-margin mr-10-IMP"
+  >
+    <mat-select
+      placeholder="Flag Remark"
+      name="remark"
+      [(ngModel)]="selectedFlagRemark"
+      (ngModelChange)="getSurveyShopDetails(params)"
+    >
+      <ng-container *ngFor="let remark of flagRemarkList">
+        <mat-option [value]="remark">{{ remark.title }}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="shopRemarkList.length > 0"
+    class="example-margin mr-10-IMP"
+  >
+    <mat-select
+      placeholder="Shop Remark"
+      name="remark"
+      [(ngModel)]="selectedShopRemark"
+      (ngModelChange)="getSurveyShopDetails(params)"
+    >
+      <ng-container *ngFor="let remark of shopRemarkList">
+        <mat-option [value]="remark">{{ remark.title }}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  </section>
 </mat-card>
 <div class="container-fluid animated slideInLeft">
   <div class="container-fluid" *ngIf="tableData.length > 0 && !loadingData">

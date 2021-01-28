@@ -54,6 +54,13 @@ export class EvaluationDetailComponent implements OnInit {
   ];
   p = 0;
   params: any = {};
+
+  selectedShopRemark:any={};
+  shopRemarkList:any=[];
+  selectedFlagRemark:any={};
+  flagRemarkList:any=[];
+
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -79,6 +86,8 @@ export class EvaluationDetailComponent implements OnInit {
         that.getSurveyShopDetails(that.params);
       }
     });
+    this.loadFlagRemarks();
+    this.loadShopRemarks();
   }
 
   showChildModal(): void {
@@ -92,7 +101,15 @@ export class EvaluationDetailComponent implements OnInit {
     this.selectedItem = item;
   }
 
-  getSurveyShopDetails(obj) {
+  getSurveyShopDetails(params) {
+    const obj ={
+      surveyorId: params.surveyorId,
+      startDate: params.startDate,
+      endDate: params.endDate,
+      userType: params.userType,
+      shopRemarkId: this.selectedShopRemark.id || -1,
+      flagRemarkId: this.selectedFlagRemark.id || -1,
+    }
     this.loading = true;
     this.httpService.getBADataForEvaluation(obj).subscribe(
       (data) => {
@@ -126,4 +143,56 @@ export class EvaluationDetailComponent implements OnInit {
       );
     }
   }
+
+  loadFlagRemarks() {
+    this.loadingData = true;
+
+    this.httpService.getFlagRemarks().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.flagRemarkList = res;
+          this.selectedFlagRemark = this.flagRemarkList[0];
+          this.loadingData = false;
+        } else {
+          this.loadingData = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
+
+  loadShopRemarks() {
+    this.loadingData = true;
+
+    this.httpService.getShopRemarks().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.shopRemarkList = res;
+          this.selectedShopRemark = this.shopRemarkList[0];
+          this.loadingData = false;
+        } else {
+          this.loadingData = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
+
+
 }

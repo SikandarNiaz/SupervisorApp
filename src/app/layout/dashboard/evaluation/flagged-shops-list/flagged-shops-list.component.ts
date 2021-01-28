@@ -41,6 +41,9 @@ export class FlaggedShopsListComponent implements OnInit {
     this.userType = localStorage.getItem("user_type");
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.amRole = localStorage.getItem("amRole");
+    this.maxDate.setDate(this.maxDate.getDate() - 1);
+    this.startDate.setDate(this.startDate.getDate() - 1);
+    this.endDate.setDate(this.endDate.getDate() - 1);
   }
   tableData: any = [];
   title = "Visited Shops";
