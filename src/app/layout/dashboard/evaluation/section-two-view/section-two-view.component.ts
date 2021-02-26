@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
+import { elementStart } from "@angular/core/src/render3";
+import { NG_PROJECT_AS_ATTR_NAME } from "@angular/core/src/render3/interfaces/projection";
 import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
 import { config } from "src/assets/config";
 declare const google: any;
@@ -15,6 +17,7 @@ export class SectionTwoViewComponent implements OnInit {
   map: any;
   configFile = config;
   ip: any = this.configFile.ip;
+  projectType: any;
 
   constructor(public sanitizer: DomSanitizer) {}
 
@@ -23,7 +26,15 @@ export class SectionTwoViewComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.data = changes.data.currentValue;
     this.locationMap = this.data.sectionMap;
-    this.initialize_map();
+    this.projectType = localStorage.getItem("projectType");
+    if(this.projectType=="PMI_CENSUS"){
+
+      this.initialize_map();
+    }
+    else{
+      this.initialize_map_pg();
+    }
+    
   }
 
   initialize_map() {
@@ -66,6 +77,37 @@ export class SectionTwoViewComponent implements OnInit {
       3,
       "Route Location"
     );
+  }
+
+  initialize_map_pg() {
+    this.map = new ol.Map({
+      target: "map",
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM({
+            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          }),
+        }),
+      ],
+      view: new ol.View({
+        center: ol.proj.transform(
+          [
+            parseFloat(this.locationMap.longitude),
+            parseFloat(this.locationMap.latitude),
+          ],
+          "EPSG:4326",
+          "EPSG:3857"
+        ),
+        zoom: 18,
+      }),
+    });
+    this.add_map_point(
+      this.locationMap.latitude,
+      this.locationMap.longitude,
+      1,
+      "Start Location"
+    );
+    
   }
 
   add_map_point(lat, lng, index, title) {

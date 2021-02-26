@@ -60,6 +60,8 @@ export class EvaluationDetailComponent implements OnInit {
   selectedFlagRemark:any={};
   flagRemarkList:any=[];
 
+  projectType:any;
+
 
   constructor(
     private router: Router,
@@ -80,14 +82,17 @@ export class EvaluationDetailComponent implements OnInit {
     const that = this;
     const flag = false;
     this.userType = localStorage.getItem("user_type");
+    this.projectType = localStorage.getItem("projectType");
     document.addEventListener("visibilitychange", function (e) {
       console.log(document.hidden);
       if (!document.hidden) {
         that.getSurveyShopDetails(that.params);
       }
     });
+    if(this.projectType=='PMI_CENSUS'){
     this.loadFlagRemarks();
     this.loadShopRemarks();
+    }
   }
 
   showChildModal(): void {

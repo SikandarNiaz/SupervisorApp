@@ -13,6 +13,10 @@ export class MerchandiserListComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate: any = new Date();
   startDate: any = new Date();
+  zones:any=[];
+  regions:any=[];
+  selectedZone:any={};
+  selectedRegion:any={};
   endDate = new Date();
   loadingReportMessage = false;
   selectedEvaluator: any = {};
@@ -25,6 +29,7 @@ export class MerchandiserListComponent implements OnInit {
   loadingData: boolean;
   cardLoading: boolean;
   evaluationSummary: any;
+  evaluatorRole:any;
   p = 1;
   sortOrder = true;
   sortBy: "m_code";
@@ -32,7 +37,9 @@ export class MerchandiserListComponent implements OnInit {
     private httpService: DashboardService,
     private toastr: ToastrService
   ) {
-    if (localStorage.getItem("userType") == localStorage.getItem("Evaluator")) {
+    this.evaluatorRole=localStorage.getItem("Evaluator");
+    this.userTypeId = localStorage.getItem("user_type");
+    if (this.userTypeId == this.evaluatorRole) {
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.startDate.setDate(this.startDate.getDate() - 1);
       this.endDate.setDate(this.endDate.getDate() - 1);
@@ -42,12 +49,11 @@ export class MerchandiserListComponent implements OnInit {
     } else {
       this.title = "Surveyor List";
     }
+    this.zones = JSON.parse(localStorage.getItem("zoneList"));
   }
 
   ngOnInit() {
-    this.loadingData = false;
-    this.userTypeId = localStorage.getItem("user_type");
-    this.ReEvaluatorId = localStorage.getItem("Reevaluator");
+    this.loadingData = false;    
     this.loadEvaluationSummary();
     this.getMerchandiserList();
     this.sortIt("m_code");
@@ -69,6 +75,16 @@ export class MerchandiserListComponent implements OnInit {
   getMerchandiserList() {
     this.loadingData = true;
     const obj = {
+      zoneId: this.selectedZone.id
+      ? this.selectedZone.id == -1
+        ? localStorage.getItem("zoneId")
+        : this.selectedZone.id
+      : localStorage.getItem("zoneId"),
+    regionId: this.selectedRegion.id
+      ? this.selectedRegion.id == -1
+        ? localStorage.getItem("regionId")
+        : this.selectedRegion.id
+      : localStorage.getItem("regionId"),
       evaluatorId: localStorage.getItem("user_id"),
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
@@ -106,6 +122,16 @@ export class MerchandiserListComponent implements OnInit {
   loadEvaluationSummary() {
     this.cardLoading = true;
     const obj = {
+      zoneId: this.selectedZone.id
+      ? this.selectedZone.id == -1
+        ? localStorage.getItem("zoneId")
+        : this.selectedZone.id
+      : localStorage.getItem("zoneId"),
+    regionId: this.selectedRegion.id
+      ? this.selectedRegion.id == -1
+        ? localStorage.getItem("regionId")
+        : this.selectedRegion.id
+      : localStorage.getItem("regionId"),
       evaluatorId: localStorage.getItem("user_id"),
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
@@ -120,5 +146,32 @@ export class MerchandiserListComponent implements OnInit {
         this.cardLoading = false;
       }
     });
+  }
+
+  zoneChange() {
+    this.loadingData = true;
+    this.selectedRegion={};
+    this.httpService.getRegion(this.selectedZone.id).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.regions = res;
+        } else {
+          this.loadingData = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loadingData = false;
+        }, 500);
+      },
+      (error) => {
+        this.loadingData = false;
+      }
+    );
   }
 }

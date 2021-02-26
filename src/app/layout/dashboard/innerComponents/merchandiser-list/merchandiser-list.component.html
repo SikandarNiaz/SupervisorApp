@@ -24,6 +24,34 @@
       </mat-card-title>
 
       <section class="example-section">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Zone"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="loadEvaluationSummary(); getMerchandiserList();zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field
+          *ngIf="regions.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Region"
+            name="region"
+            [(ngModel)]="selectedRegion"
+            (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
+          >
+            <mat-option [value]="region" *ngFor="let region of regions">{{
+              region.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
             matInput

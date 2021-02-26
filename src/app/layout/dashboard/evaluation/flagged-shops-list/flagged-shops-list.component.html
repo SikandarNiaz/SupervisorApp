@@ -210,6 +210,12 @@
                       {{ getArrowType("flag_remark") }}
                     </i>
                   </th>
+                  <th (click)="sortIt('flag_remark')" style="cursor: pointer">
+                    Validated
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("Validated") }}
+                    </i>
+                  </th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -231,6 +237,7 @@
                   <td>{{ item?.visitDate }}</td>
                   <td>{{ item?.shop_remark }}</td>
                   <td>{{ item?.flag_remark }}</td>
+                  <td>{{ item?.validated }}</td>
                   <td>
                     <button
                       class="btn btn-primary"
