@@ -30,9 +30,12 @@ export class MerchandiserListComponent implements OnInit {
   cardLoading: boolean;
   evaluationSummary: any;
   evaluatorRole:any;
+  supervisorList: any = [];
+  selectedSupervisor:any=[];
   p = 1;
   sortOrder = true;
   sortBy: "m_code";
+  projectType:any;
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService
@@ -50,14 +53,39 @@ export class MerchandiserListComponent implements OnInit {
       this.title = "Surveyor List";
     }
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.projectType=localStorage.getItem("projectType");
   }
 
   ngOnInit() {
     this.loadingData = false;    
     this.loadEvaluationSummary();
     this.getMerchandiserList();
+    this.getSupervisorList()
     this.sortIt("m_code");
     this.userId = localStorage.getItem("user_id");
+  }
+
+  getSupervisorList(){
+    this.loadingData= true;
+
+    this.httpService.getSupervisorsList().subscribe(
+      (data)=>{
+        const res : any = data;
+        if(res){
+          this.supervisorList =res;
+          this.loadingData=false;
+        }else{
+          this.loadingData = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+      },(error) =>{
+        this.loading =false;
+      }
+    );
   }
 
   getArrowType(key) {

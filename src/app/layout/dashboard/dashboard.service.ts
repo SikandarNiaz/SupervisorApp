@@ -377,4 +377,10 @@ export class DashboardService {
     const url = this.ip + "merchandiserList";
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+
+  getSupervisorsList(){
+    const filter = JSON.stringify({act:19,});
+    const url=this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
 }
