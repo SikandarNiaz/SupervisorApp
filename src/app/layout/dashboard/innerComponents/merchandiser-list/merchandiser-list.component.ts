@@ -114,6 +114,7 @@ export class MerchandiserListComponent implements OnInit {
         : this.selectedRegion.id
       : localStorage.getItem("regionId"),
       evaluatorId: localStorage.getItem("user_id"),
+      selectedSupervisor : this.selectedSupervisor.id || -1,
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
@@ -161,6 +162,7 @@ export class MerchandiserListComponent implements OnInit {
         : this.selectedRegion.id
       : localStorage.getItem("regionId"),
       evaluatorId: localStorage.getItem("user_id"),
+      selectedSupervisor : this.selectedSupervisor.id || -1,
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
       startDate: moment(this.startDate).format("YYYY-MM-DD"),

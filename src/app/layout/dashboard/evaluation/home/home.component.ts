@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
-    this.location.replaceState("/details");
+   // this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.amRole = localStorage.getItem("amRole");
@@ -174,12 +174,12 @@ export class HomeComponent implements OnInit {
             this.cloneArray = this.evaluationArray.slice();
           }
           this.remarksList = this.data.remarks;
-          if (this.projectType == "PMI_CENSUS") {
+          if (this.projectType == "PMI_CENSUS" || this.projectType == 'PGWS_LHR') {
             this.loadAllChannels();
           }
         }
       },
-      (error) => {}
+      (error) => { }
     );
   }
 
@@ -339,7 +339,7 @@ export class HomeComponent implements OnInit {
     this.totalAchieveScore =
       this.criteriaDesireScore > 0
         ? this.totalAchieveScore -
-          Math.abs(criteria.score - this.criteriaDesireScore)
+        Math.abs(criteria.score - this.criteriaDesireScore)
         : this.totalAchieveScore - Math.abs(criteria.achievedScore);
   }
 
@@ -592,13 +592,15 @@ export class HomeComponent implements OnInit {
   }
   loadAllChannels() {
     this.httpService.getAllChannels().subscribe(
+      
       (data) => {
+        console.log(data);
         const res: any = data;
         if (res) {
           this.channelList = res;
         }
       },
-      (error) => {}
+      (error) => { }
     );
   }
 }
