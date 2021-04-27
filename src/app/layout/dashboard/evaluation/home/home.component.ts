@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
-   // this.location.replaceState("/details");
+    this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.amRole = localStorage.getItem("amRole");
