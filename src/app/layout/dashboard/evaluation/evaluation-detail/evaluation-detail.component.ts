@@ -136,7 +136,7 @@ export class EvaluationDetailComponent implements OnInit {
 
   goToEvaluationPage(item) {
     // Sending notEditable Param if shop is already Evaluated (Shop cant be evaluated Twice)
-    if (item.evaluation_status == "N") {
+    if (item.evaluation_status == "N" || item.evaluation_status == "Pending") {
       window.open(
         `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
         "_blank"
