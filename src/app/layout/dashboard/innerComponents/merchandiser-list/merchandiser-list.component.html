@@ -54,7 +54,23 @@
           </mat-select>
         </mat-form-field>
         </ng-container>
-
+        <ng-container *ngIf="projectType=='PGWS_LHR'">
+        <mat-form-field
+        *ngIf="supervisorList.length > 0"
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="Supervisors List"
+          name="list"
+          [(ngModel)]="selectedSupervisor"
+          (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
+        >
+          <ng-container *ngFor="let list of supervisorList">
+            <mat-option [value]="list">{{ list.fullName }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
 
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
@@ -90,22 +106,6 @@
           ></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
-
-        <mat-form-field
-        *ngIf="supervisorList.length > 0"
-        class="example-margin mr-10-IMP"
-      >
-        <mat-select
-          placeholder="Supervisors List"
-          name="list"
-          [(ngModel)]="selectedSupervisor"
-          (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
-        >
-          <ng-container *ngFor="let list of supervisorList">
-            <mat-option [value]="list">{{ list.fullName }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
 
       </section>
     </mat-card-content>
