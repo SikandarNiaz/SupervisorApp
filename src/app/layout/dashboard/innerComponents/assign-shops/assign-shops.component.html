@@ -8,7 +8,7 @@
       <section class="example-section">
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="Zone"
+            placeholder="{{ zonePlaceHolder }}"
             name="zone"
             [(ngModel)]="selectedZone"
             (ngModelChange)="zoneChange()"
@@ -24,7 +24,7 @@
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Region"
+            placeholder="{{ regionPlaceHolder }}"
             name="region"
             [(ngModel)]="selectedRegion"
           >
@@ -484,7 +484,8 @@
               <div
                 *ngIf="
                   form.controls.longitude.errors &&
-                  (form.controls.longitude.touched || form.controls.longitude.dirty)
+                  (form.controls.longitude.touched ||
+                    form.controls.longitude.dirty)
                 "
               >
                 <mat-error
@@ -507,7 +508,8 @@
               <div
                 *ngIf="
                   form.controls.latitude.errors &&
-                  (form.controls.latitude.touched || form.controls.latitude.dirty)
+                  (form.controls.latitude.touched ||
+                    form.controls.latitude.dirty)
                 "
               >
                 <mat-error
@@ -519,8 +521,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
         <div class="modal-footer">
           <button

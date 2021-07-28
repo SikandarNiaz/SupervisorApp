@@ -378,9 +378,9 @@ export class DashboardService {
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
-  getSupervisorsList(){
-    const filter = JSON.stringify({act:19,});
-    const url=this.ip + "loadFilters";
+  getSupervisorsList() {
+    const filter = JSON.stringify({ act: 19 });
+    const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
 }

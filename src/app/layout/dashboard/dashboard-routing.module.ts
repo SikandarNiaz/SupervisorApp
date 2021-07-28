@@ -8,7 +8,6 @@ import { pathToFileURL } from "url";
 import { ShopDetailComponent } from "./innerComponents/shop-detail/shop-detail.component";
 import { UpdatePasswordComponent } from "./user/update-password/update-password.component";
 import { RawDataComponent } from "./raw-data/raw-data.component";
-import { DataAvailabilityComponent } from "./data-availability/data-availability.component";
 import { EmailManagerComponent } from "./innerComponents/email-manager/email-manager.component";
 import { UploadRoutesComponent } from "./innerComponents/upload-routes/upload-routes.component";
 import { SingleRouteDetailComponent } from "./innerComponents/upload-routes/routes-inner-pages/single-route-detail/single-route-detail.component";
@@ -40,7 +39,6 @@ const routes: Routes = [
       { path: "home", component: HomeComponent },
       { path: "update_password", component: UpdatePasswordComponent },
       { path: "raw_data", component: RawDataComponent },
-      { path: "brand_sku_oos", component: DataAvailabilityComponent },
       { path: "sms_manager", component: EmailManagerComponent },
       { path: "upload_routes/route_list", component: UploadRoutesComponent },
       {

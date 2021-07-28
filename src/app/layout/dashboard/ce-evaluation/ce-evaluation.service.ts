@@ -71,7 +71,7 @@ export class CeEvaluationService {
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
-  getSurveyorsAndBrands() {
+  getSurveyors() {
     const filter = JSON.stringify({ act: 7 });
     const url = this.ip + "loadFilters"; // ----> JsonFilterController
     return this.http.post(url, filter);

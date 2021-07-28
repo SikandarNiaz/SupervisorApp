@@ -37,7 +37,6 @@ import { UpdatePasswordComponent } from "./user/update-password/update-password.
 import { RawDataComponent } from "./raw-data/raw-data.component";
 import { MatTableComponent } from "./innerComponents/mat-table/mat-table.component";
 import { Ng2OrderModule } from "ng2-order-pipe";
-import { DataAvailabilityComponent } from "./data-availability/data-availability.component";
 import { ButtonsModule } from "ngx-bootstrap";
 import { NgxPaginationModule } from "ngx-pagination";
 import { BsDropdownModule } from "ngx-bootstrap";
@@ -66,9 +65,9 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { SaleAnalysisDashboardComponent } from "./Tableau/sale-analysis-dashboard/sale-analysis-dashboard.component";
 import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjordan-dashboard.component";
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
-import { CensusProductivityDashboardComponent } from './Tableau/census-productivity-dashboard/census-productivity-dashboard.component';
-import { CensusSurveyDashboardComponent } from './Tableau/census-survey-dashboard/census-survey-dashboard.component';
-import { MerchandiserListComponent } from './innerComponents/merchandiser-list/merchandiser-list.component';
+import { CensusProductivityDashboardComponent } from "./Tableau/census-productivity-dashboard/census-productivity-dashboard.component";
+import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboard/census-survey-dashboard.component";
+import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -113,7 +112,6 @@ import { MerchandiserListComponent } from './innerComponents/merchandiser-list/m
     UpdatePasswordComponent,
     RawDataComponent,
     MatTableComponent,
-    DataAvailabilityComponent,
     EmailManagerComponent,
     MessageStatusListComponent,
     AddNewMessageComponent,

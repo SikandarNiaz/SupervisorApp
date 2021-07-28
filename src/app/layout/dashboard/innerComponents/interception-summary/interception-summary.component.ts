@@ -1,127 +1,266 @@
-import { Component, OnInit, AfterViewChecked, Input, ViewChild } from '@angular/core';
-import { DashboardService } from '../../dashboard.service';
-import * as moment from 'moment';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { MatTableDataSource } from '@angular/material';
-import { environment } from 'src/environments/environment';
-import { NgModel } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap';
-import * as _ from 'lodash';
-
-
+import {
+  Component,
+  OnInit,
+  AfterViewChecked,
+  Input,
+  ViewChild,
+} from "@angular/core";
+import { DashboardService } from "../../dashboard.service";
+import * as moment from "moment";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import * as _ from "lodash";
+import { environment } from "src/environments/environment";
 @Component({
-  selector: 'app-interception-summary',
-  templateUrl: './interception-summary.component.html',
-  styleUrls: ['./interception-summary.component.scss']
+  selector: "app-interception-summary",
+  templateUrl: "./interception-summary.component.html",
+  styleUrls: ["./interception-summary.component.scss"],
 })
 export class InterceptionSummaryComponent implements OnInit {
-  
-  constructor(  private toastr: ToastrService,
+  constructor(
+    private toastr: ToastrService,
     private httpService: DashboardService,
-    public router: Router) { 
-    this.zones = JSON.parse(localStorage.getItem('zoneList'));
-    this.getTabsData();
+    public router: Router
+  ) {
+    console.log(this.zones);
   }
-  title = 'Interception';
+  title = "Productivity";
   loadingData: boolean;
+  loading: boolean;
   selectedZone: any = {};
   selectedRegion: any = {};
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   startDate = new Date();
   regions: any = [];
-  stores: any=[];
+  selectedBrand: any = {};
+  dashboardData: any = {};
+  brandList: any = [];
+  stores: any = [];
   sortOrder = true;
-  sortBy: 'm_code';
-  selectedStore: any={};
+  sortBy: "m_code";
+  projectType = "";
+  selectedStore: any = {};
   endDate = new Date();
   zones: any = [];
-    tableData: any=[];
+  tableData: any = [];
+  zonePlaceHolder: any;
+  regionPlaceHolder: any;
+  resourcePlaceHolder: any;
+  isBaModule: boolean;
   ngOnInit() {
+    this.projectType = localStorage.getItem("projectType");
+    this.getZoneList();
+    this.getStores();
+    if (this.projectType == "NFL") {
+      this.getSurveyorsAndBrands();
+    }
+    this.getDashboardData();
+    this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
+    this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
+    this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
   }
 
   zoneChange() {
-    this.loadingData = true;
-    this.getTabsData();
-  
+    this.loading = true;
+    this.selectedRegion.id = -1;
+    this.getDashboardData();
     this.httpService.getRegion(this.selectedZone.id).subscribe(
-      data => {
+      (data) => {
         const res: any = data;
         if (res) {
           this.regions = res;
         } else {
-          this.loadingData=false;
-
-          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
+          this.loading = false;
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
         }
+        this.getStores();
 
         setTimeout(() => {
-          this.loadingData = false;
+          this.loading = false;
         }, 500);
       },
-      error => {
-        this.loadingData=false;
+      (error) => {
+        this.loading = false;
       }
     );
   }
 
-  regionChange(){
-    this.loadingData = true;
-   this.selectedStore.id=-1;
-    this.getTabsData();
-  this.httpService.getShops(this.selectedZone.id, this.selectedRegion.id).subscribe(
-    data => {
-      const res: any = data;
-      if (res) {
-        this.stores = res;
-      } else {
-        this.loadingData=false;
+  regionChange() {
+    this.loading = true;
+    this.getDashboardData();
+    this.selectedStore.id = -1;
+    this.httpService
+      .getShops(this.selectedZone.id, this.selectedRegion.id)
+      .subscribe(
+        (data) => {
+          const res: any = data;
+          if (res) {
+            this.stores = res;
+          } else {
+            this.loading = false;
 
-        this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
-      }
+            this.toastr.info(
+              "Something went wrong,Please retry",
+              "Connectivity Message"
+            );
+          }
 
-      setTimeout(() => {
-        this.loadingData = false;
-      }, 500);
-    },
-    error => {
-      this.loadingData=false;
-    }
-  );
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
   }
 
-  getTabsData()
-  {
-    this.loadingData = true;
+  getZoneList() {
+    this.loading = true;
+    this.httpService.getZone().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.zones = res.zoneList;
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
+  getTabsData() {
     const obj = {
-      startDate:moment(this.startDate).format('YYYY-MM-DD'),
-      endDate:moment(this.endDate).format('YYYY-MM-DD'),
+      startDate: moment(this.startDate).format("YYYY-MM-DD"),
+      endDate: moment(this.endDate).format("YYYY-MM-DD"),
       zoneId: this.selectedZone.id || -1,
       regionId: this.selectedRegion.id || -1,
-      shopId: this.selectedStore.id || -1
+      shopId: this.selectedStore.id || -1,
+      brandId: this.selectedBrand.id || -1,
     };
 
     this.httpService.getBAList(obj).subscribe((data: any) => {
       // console.log('merchandiser list for evaluation',data);
       if (data) {
         this.tableData = data;
-        this.loadingData = false;
       }
+      this.loading = false;
+    });
+  }
+  getDashboardData() {
+    this.loadingData = true;
+    const obj = {
+      startDate: moment(this.startDate).format("YYYY-MM-DD"),
+      endDate: moment(this.endDate).format("YYYY-MM-DD"),
+      zoneId: this.selectedZone.id || -1,
+      regionId: this.selectedRegion.id || -1,
+      shopId: this.selectedStore.id || -1,
+      brandId: this.selectedBrand.id || -1,
+    };
+    this.loading = true;
+    this.getTabsData();
+    this.httpService.getDashboardStats(obj).subscribe((data: any) => {
+      this.loadingData = false;
+      if (data) {
+        this.dashboardData = data;
+      }
+      this.loading = false;
     });
   }
 
-
   getArrowType(key) {
     if (key === this.sortBy) {
-      return this.sortOrder ? 'arrow_upward' : 'arrow_downward';
-    } else { return ''; }
+      return this.sortOrder ? "arrow_upward" : "arrow_downward";
+    } else {
+      return "";
+    }
   }
   sortIt(key) {
     this.sortBy = key;
     this.sortOrder = !this.sortOrder;
   }
+  modifyDate(date) {
+    return moment(date).format("YYYY-MM-DD");
+  }
 
+  goToNewPage(item) {
+    window.open(
+      `${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${
+        item.id
+      }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
+        this.endDate
+      )}`,
+      "_blank"
+    );
+  }
 
+  getStores() {
+    this.getDashboardData();
+    this.loading = true;
+    this.httpService
+      .getShops(this.selectedZone.id || -1, this.selectedRegion.id || -1)
+      .subscribe(
+        (data) => {
+          const res: any = data;
+          if (res) {
+            this.stores = res;
+          } else {
+            this.loading = false;
 
+            this.toastr.info(
+              "Something went wrong,Please retry",
+              "Connectivity Message"
+            );
+          }
+
+          setTimeout(() => {
+            this.loading = false;
+          }, 500);
+        },
+        (error) => {
+          this.loading = false;
+        }
+      );
+  }
+  getSurveyorsAndBrands() {
+    this.loading = true;
+
+    this.httpService.getSurveyorsAndBrands().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.brandList = res.brandList;
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
 }

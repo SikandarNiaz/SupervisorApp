@@ -80,6 +80,9 @@ export class AssignShopsComponent implements OnInit {
   selectedShop: any = {};
   selectedKeyword = "";
   filteredShops: any = [];
+  zonePlaceHolder: any;
+  regionPlaceHolder: any;
+  resourcePlaceHolder: any;
 
   constructor(
     private toastr: ToastrService,
@@ -88,6 +91,9 @@ export class AssignShopsComponent implements OnInit {
     private dataService: DashboardDataService,
     public fb: FormBuilder
   ) {
+    this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
+    this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
+    this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
     if (this.router.url == "/dashboard/assign-shops") {
       this.isAssignShopRequest = true;
       this.title = "Assign Shops";

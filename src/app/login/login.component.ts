@@ -13,6 +13,10 @@ import { config } from "src/assets/config";
 export class LoginComponent implements OnInit {
   background_color = config.login_theme_color;
   login_logo = config.login_logo;
+  zonePlaceHolder: any;
+  regionPlaceHolder: any;
+  resourcePlaceHolder: any;
+  supPlaceHolder: any;
   loginForm: any = {
     userName: "",
     password: "",
@@ -36,8 +40,6 @@ export class LoginComponent implements OnInit {
     this.httpService.login(loginForm).subscribe(
       (data: Response) => {
         const res: any = data;
-        // console.log('data', data.headers);
-        // this.toastr.success(res, 'Login Status');
         localStorage.setItem("isLoggedin", "true");
         localStorage.setItem("today", moment(new Date()).format("YYYY-MM-DD"));
         localStorage.setItem("user_id", res.user.user_id);
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("Evaluator", res.Evaluator);
         localStorage.setItem("projectType", res.projectType);
         localStorage.setItem("amRole", res.amRole);
+        this.setPlaceHolders(res.projectType);
         this.router.navigate(["/dashboard"]);
 
         setTimeout(() => {
@@ -72,5 +75,32 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+  setPlaceHolders(projectType) {
+    if (projectType == "NFL") {
+      this.zonePlaceHolder = "Cluster";
+      this.regionPlaceHolder = "City";
+      this.resourcePlaceHolder = "BA";
+      this.supPlaceHolder = "Supervisor";
+    } else if (projectType == "NDN") {
+      this.zonePlaceHolder = "Region";
+      this.regionPlaceHolder = "Territory";
+      this.resourcePlaceHolder = "BA";
+      this.supPlaceHolder = "Supervisor";
+    } else if (projectType == "PMI_CENSUS") {
+      this.zonePlaceHolder = "Zone";
+      this.regionPlaceHolder = "Region";
+      this.resourcePlaceHolder = "BDE";
+      this.supPlaceHolder = "AM";
+    } else {
+      this.zonePlaceHolder = "Zone";
+      this.regionPlaceHolder = "Region";
+      this.resourcePlaceHolder = "Surveyor";
+      this.supPlaceHolder = "Supervisor";
+    }
+    localStorage.setItem("zonePlaceHolder", this.zonePlaceHolder);
+    localStorage.setItem("regionPlaceHolder", this.regionPlaceHolder);
+    localStorage.setItem("resourcePlaceHolder", this.resourcePlaceHolder);
+    localStorage.setItem("supPlaceHolder", this.supPlaceHolder);
   }
 }
