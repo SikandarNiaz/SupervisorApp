@@ -1,0 +1,213 @@
+<div>
+    <div>
+      <h4 id="dialog-child-name" class="modal-title pull-left">{{selectedFormData.title}}</h4>
+      <!-- <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="dialog-child-name" class="modal-title pull-left">{{selectedFormData.title}}</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="hideFormDetailModal()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> -->
+  
+        <form [formGroup]="form" enctype="multipart/form-data">
+          <div class="modal-body">
+            <input type="hidden" formControlName="formId" />
+            <input type="hidden" formControlName="formfieldId" />
+            <input type="hidden" formControlName="fieldId" />
+            <div class="form-group col-md-8">
+              <label for="title">Field Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  title="title"
+                  formControlName="title"
+                />
+                <div
+                  *ngIf="
+                    form.controls.title.errors &&
+                    (form.controls.title.touched || form.controls.title.dirty)
+                  "
+                >
+                  <mat-error
+                    *ngIf="form.hasError('required', 'title')"
+                    class="invalid-feedback"
+                  >
+                    Valid Title is Required.
+                  </mat-error>
+                </div>
+            </div>
+  
+            <div class="form-group col-md-4">
+              <label for="required">Required</label>
+              <select
+                formControlName="required"
+                class="form-control"
+                placeholder="Select Status"
+                name="required"
+              >
+                <ng-container *ngFor="let status of formStatus">
+                  <option [value]="status.value">{{ status.value }}</option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.required.errors &&
+                  (form.controls.required.touched || form.controls.required.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'required')"
+                  class="invalid-feedback"
+                >
+                  Valid Status is Required.
+                </mat-error>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-4">
+              <label for="field_type">Field Type</label>
+              <select
+                formControlName="field_type"
+                class="form-control"
+                placeholder="Select Status"
+                name="field_type"
+              >
+                <ng-container *ngFor="let status of formStatus2">
+                  <option [value]="status.value">{{ status.value }}</option>
+                </ng-container>
+              </select>
+                <!-- <button 
+                title="click for update"
+                (click)="gotoNewPage(item)"
+                mat-raised-button
+                color="primary">View Field Values</button> -->
+              <div
+                *ngIf="
+                  form.controls.field_type.errors &&
+                  (form.controls.field_type.touched || form.controls.field_type.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'field_type')"
+                  class="invalid-feedback"
+                >
+                  Valid Status is Required.
+                </mat-error>
+              </div>
+              <button 
+            title="click for view field values"
+            (click)="gotoFieldValuesPage()"
+            mat-raised-button
+            color="primary">View Field Values</button>
+            </div>
+  
+  
+            <div class="form-group col-md-4">
+              <label for="form_field_type">Form Field Type</label>
+              <select
+                formControlName="form_field_type"
+                class="form-control"
+                placeholder="Select Status"
+                name="form_field_type"
+              >
+                <ng-container *ngFor="let status of formStatus1">
+                  <option [value]="status.value">{{ status.value }}</option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.form_field_type.errors &&
+                  (form.controls.form_field_type.touched || form.controls.form_field_type.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'form_field_type')"
+                  class="invalid-feedback"
+                >
+                  Valid Status is Required.
+                </mat-error>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-4">
+              <label for="order_id">Order Id</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  title="order_id"
+                  formControlName="order_id"
+                />
+                <div
+                  *ngIf="
+                    form.controls.order_id.errors &&
+                    (form.controls.order_id.touched || form.controls.order_id.dirty)
+                  "
+                >
+                  <mat-error
+                    *ngIf="form.hasError('required', 'order_id')"
+                    class="invalid-feedback"
+                  >
+                    Valid Title is Required.
+                  </mat-error>
+                </div>
+            </div>
+  
+  
+            <div class="form-group col-md-4">
+                <label for="active">Active</label>
+                <select
+                  formControlName="active"
+                  class="form-control"
+                  placeholder="Select Status"
+                  name="active"
+                >
+                  <ng-container *ngFor="let status of formStatus">
+                    <option [value]="status.value">{{ status.value }}</option>
+                  </ng-container>
+                </select>
+                <div
+                  *ngIf="
+                    form.controls.active.errors &&
+                    (form.controls.active.touched || form.controls.active.dirty)
+                  "
+                >
+                  <mat-error
+                    *ngIf="form.hasError('required', 'active')"
+                    class="invalid-feedback"
+                  >
+                    Valid Status is Required.
+                  </mat-error>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button 
+            title="click for update"
+            (click)="updateFormData(form.value)"
+            mat-raised-button
+            color="primary">Update</button>
+          </div>
+          <!-- <div class="modal-footer">
+  
+            <button
+              (click)="updateFormData(form.value)"
+              class="mr-1"
+              [disabled]="!form.valid || loadingModalButton"
+              mat-raised-button
+              color="primary"
+            >
+              <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+              Update
+            </button>
+          </div> -->
+  
+        </form>
+  
+      <!-- </div> -->
+    </div>
+  </div>
