@@ -1,19 +1,15 @@
 import { environment } from "src/environments/environment";
 
-export const config = {
-  // ip: "http://pngjba.rtdtradetracker.com/",
-  // ip: "http://groomingba.rtdtradetracker.com/",
-  // ip: "https://nflce.rtdtradetracker.com/",
-  // ip: "http://localhost:8080/CE/",
-  // ip: 'http://192.168.0.101:8080/audit/',
-  // ip: "http://test1.concavetech.com/",
-  // ip: "http://pmicensus.concavetech.com/",
-  // ip: "http://pgws.concavetech.com/",
-  //  ip: "http://pngiba.concavetech.com/",
-  ip: "http://samsonba.concavetech.com/",
-  hash: environment.hash,
-  main_logo: "assets/images/logo.png",
-  login_theme_color: "green",
-  login_logo: "assets/images/logoSmall.png",
-  no_image: "assets/images/noimage.jpg",
-};
+export class Config {
+  // ip: "https://png.rtdtradetracker.com/",
+  // ip: "http://localhost:8080/audit/",
+  //  ip: 'http://pg.concavetech.com/',
+  // ip: "http://pghanger.concavetech.com/",
+  public static BASE_URI = window.location.origin + "/";
+  // public static BASE_URI = "http://localhost:8080/CE/";
+  public static hash = environment.hash;
+  public static main_logo = "assets/images/logo.png";
+  public static login_theme_color = "green";
+  public static login_logo = "assets/images/logoSmall.png";
+  public static no_image = "assets/images/noimage.jpg";
+}

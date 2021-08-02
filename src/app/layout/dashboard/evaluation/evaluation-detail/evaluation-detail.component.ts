@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { NgModel } from "@angular/forms";
 import { environment } from "src/environments/environment";
 import { Alert } from "selenium-webdriver";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 import { ModalDirective } from "ngx-bootstrap";
 
 @Component({
@@ -19,8 +19,7 @@ export class EvaluationDetailComponent implements OnInit {
   @ViewChild("childModal") childModal: ModalDirective;
   tableTitle = "";
   title = "Shop list";
-  configFile = config;
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   tableData: any = [];
   loading: boolean;
   loadingData: boolean;
@@ -55,13 +54,12 @@ export class EvaluationDetailComponent implements OnInit {
   p = 0;
   params: any = {};
 
-  selectedShopRemark:any={};
-  shopRemarkList:any=[];
-  selectedFlagRemark:any={};
-  flagRemarkList:any=[];
+  selectedShopRemark: any = {};
+  shopRemarkList: any = [];
+  selectedFlagRemark: any = {};
+  flagRemarkList: any = [];
 
-  projectType:any;
-
+  projectType: any;
 
   constructor(
     private router: Router,
@@ -89,9 +87,9 @@ export class EvaluationDetailComponent implements OnInit {
         that.getSurveyShopDetails(that.params);
       }
     });
-    if(this.projectType=='PMI_CENSUS'){
-    this.loadFlagRemarks();
-    this.loadShopRemarks();
+    if (this.projectType == "PMI_CENSUS") {
+      this.loadFlagRemarks();
+      this.loadShopRemarks();
     }
   }
 
@@ -107,14 +105,14 @@ export class EvaluationDetailComponent implements OnInit {
   }
 
   getSurveyShopDetails(params) {
-    const obj ={
+    const obj = {
       surveyorId: params.surveyorId,
       startDate: params.startDate,
       endDate: params.endDate,
       userType: params.userType,
       shopRemarkId: this.selectedShopRemark.id || -1,
       flagRemarkId: this.selectedFlagRemark.id || -1,
-    }
+    };
     this.loading = true;
     this.httpService.getBADataForEvaluation(obj).subscribe(
       (data) => {
@@ -198,6 +196,4 @@ export class EvaluationDetailComponent implements OnInit {
       }
     );
   }
-
-
 }

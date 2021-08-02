@@ -2,7 +2,7 @@ import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
 import { elementStart } from "@angular/core/src/render3";
 import { NG_PROJECT_AS_ATTR_NAME } from "@angular/core/src/render3/interfaces/projection";
 import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 declare const google: any;
 declare var ol: any;
 @Component({
@@ -15,8 +15,7 @@ export class SectionTwoViewComponent implements OnInit {
   locationMap: any;
   mapSrc: SafeResourceUrl;
   map: any;
-  configFile = config;
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   projectType: any;
 
   constructor(public sanitizer: DomSanitizer) {}
@@ -27,14 +26,11 @@ export class SectionTwoViewComponent implements OnInit {
     this.data = changes.data.currentValue;
     this.locationMap = this.data.sectionMap;
     this.projectType = localStorage.getItem("projectType");
-    if(this.projectType=="PMI_CENSUS"){
-
+    if (this.projectType == "PMI_CENSUS") {
       this.initialize_map();
-    }
-    else{
+    } else {
       this.initialize_map_pg();
     }
-    
   }
 
   initialize_map() {
@@ -107,7 +103,6 @@ export class SectionTwoViewComponent implements OnInit {
       1,
       "Start Location"
     );
-    
   }
 
   add_map_point(lat, lng, index, title) {

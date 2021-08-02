@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { EvaluationService } from "../evaluation.service";
@@ -29,9 +29,8 @@ export class SectionFourViewComponent implements OnInit {
   selectedShop: any = {};
   selectedImage: any = {};
   // ip=environment.ip;
-  configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   hover = "hover";
   zoomOptions = {
     Mode: "hover",

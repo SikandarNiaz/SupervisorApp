@@ -22,7 +22,7 @@ import { environment } from "src/environments/environment";
 import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap";
 import * as _ from "lodash";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 @Component({
   selector: "filter-bar",
@@ -58,9 +58,8 @@ export class FilterBarComponent implements OnInit {
   }
   tableData: any = [];
   // ip = environment.ip;
-  configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   selectedReportUrl = "";
   distributionList: any = [];
   selectedDistribution: any = {};

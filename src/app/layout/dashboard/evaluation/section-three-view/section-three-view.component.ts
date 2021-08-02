@@ -29,9 +29,8 @@ export class SectionThreeViewComponent implements OnInit {
   selectedShop: any = {};
   selectedImage: any = {};
   // ip=environment.ip;
-  configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   hover = "hover";
   zoomOptions = {
     Mode: "hover",

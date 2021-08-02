@@ -24,7 +24,7 @@ import { environment } from "src/environments/environment";
 import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap";
 import * as _ from "lodash";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 declare const google: any;
 @Component({
@@ -40,8 +40,7 @@ export class AssignShopsComponent implements OnInit {
 
   form: FormGroup;
   tableData: any = [];
-  configFile = config;
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   title = "";
   zones: any = [];
   loadingData: boolean;

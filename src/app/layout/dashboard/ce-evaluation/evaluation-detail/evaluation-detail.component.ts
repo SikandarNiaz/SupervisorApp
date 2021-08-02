@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { NgModel } from "@angular/forms";
 import { environment } from "src/environments/environment";
 import { Alert } from "selenium-webdriver";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 import { ModalDirective } from "ngx-bootstrap";
 
 @Component({
@@ -17,9 +17,8 @@ import { ModalDirective } from "ngx-bootstrap";
 export class EvaluationDetailComponent implements OnInit {
   // ip = environment.ip;
   @ViewChild("childModal") childModal: ModalDirective;
-  configFile = config;
   title = "Shop Detail";
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   tableData: any = [];
   loading: boolean;
   zones: any = [];

@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { environment } from "src/environments/environment";
 import { ModalDirective } from "ngx-bootstrap";
 import { Alert } from "selenium-webdriver";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 import { MatPaginator } from "@angular/material";
 
 @Component({
@@ -16,9 +16,8 @@ import { MatPaginator } from "@angular/material";
 })
 export class MerchandiserAttendenceDetailComponent implements OnInit {
   // ip = environment.ip;
-  configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   tableData: any = [];
   headingsList: any = [];
   obj: any = {};

@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 import { ModalDirective } from "ngx-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { ResizeEvent } from "angular-resizable-element";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 @Component({
   selector: "app-home",
@@ -16,9 +16,8 @@ import { config } from "src/assets/config";
 export class HomeComponent implements OnInit {
   data: any = [];
   // ip = environment.ip;
-  configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   loading = false;
   selectedShop: any = {};
 
@@ -174,12 +173,15 @@ export class HomeComponent implements OnInit {
             this.cloneArray = this.evaluationArray.slice();
           }
           this.remarksList = this.data.remarks;
-          if (this.projectType == "PMI_CENSUS" || this.projectType == 'PGWS_LHR') {
+          if (
+            this.projectType == "PMI_CENSUS" ||
+            this.projectType == "PGWS_LHR"
+          ) {
             this.loadAllChannels();
           }
         }
       },
-      (error) => { }
+      (error) => {}
     );
   }
 
@@ -339,7 +341,7 @@ export class HomeComponent implements OnInit {
     this.totalAchieveScore =
       this.criteriaDesireScore > 0
         ? this.totalAchieveScore -
-        Math.abs(criteria.score - this.criteriaDesireScore)
+          Math.abs(criteria.score - this.criteriaDesireScore)
         : this.totalAchieveScore - Math.abs(criteria.achievedScore);
   }
 
@@ -592,7 +594,6 @@ export class HomeComponent implements OnInit {
   }
   loadAllChannels() {
     this.httpService.getAllChannels().subscribe(
-      
       (data) => {
         console.log(data);
         const res: any = data;
@@ -600,7 +601,7 @@ export class HomeComponent implements OnInit {
           this.channelList = res;
         }
       },
-      (error) => { }
+      (error) => {}
     );
   }
 }

@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { timeout, catchError } from "rxjs/operators";
 import * as moment from "moment";
 import { Router } from "@angular/router";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 @Injectable({
   providedIn: "root",
@@ -20,9 +20,7 @@ export class DashboardService {
     this.user_id = localStorage.getItem("user_id");
   }
 
-  configFile = config;
-
-  ip: any = this.configFile.ip;
+  ip: any = Config.BASE_URI;
   user_id: any = 0;
   private dataSource = new Subject();
   data = this.dataSource.asObservable();
