@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { config } from 'src/assets/config';
+import { Config } from 'src/assets/config';
 
 @Component({
     selector: 'app-topnav',
@@ -12,7 +12,7 @@ export class TopnavComponent implements OnInit {
     public pushRightClass: string;
     showButton = true;
     userName;
-    main_logo = config.main_logo;
+    main_logo = Config.main_logo;
    @Output('hideSideBar') hideBar: any = new EventEmitter<any>();
     constructor(public router: Router, private translate: TranslateService) {
         this.router.events.subscribe(val => {

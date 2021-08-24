@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 import { ModalDirective } from "ngx-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { ResizeEvent } from "angular-resizable-element";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 @Component({
   selector: "app-home",

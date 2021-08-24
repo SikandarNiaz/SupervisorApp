@@ -79,12 +79,27 @@
               <!-- <td>{{product?.category_title}}</td> -->
               <ng-container *ngIf="data.fieldType != 'image'">
                 <td style="width: 700px !important; word-wrap: break-word">
-                  {{ data.question }}
+                  {{ data.heading }}
                 </td>
 
-                <td style="width: 300px !important; word-wrap: break-word">
-                  {{ data.answer }}
-                </td>
+                 <ng-container *ngIf = "data.isEditable === true">
+                  <td >
+                      <select placeholder="" #newValue (change)="updateQuestionAnswer(data,newValue.value)">
+                        <ng-container *ngFor="let channel of statusArray">
+                          <option *ngIf="data.value == channel.title" [value]="channel.title" selected="selected">
+                            {{ data.value }}
+                          </option>
+                          <option *ngIf="data.value != channel.title" [value]="channel.title">
+                            {{ channel.title }}
+                          </option>
+                        </ng-container>
+                      </select>
+                    </td>
+                 </ng-container>
+                 <td *ngIf = "data.isEditable != true">
+                  {{data.value}}
+                 </td>
+                 
               </ng-container>
             </tr>
           </tbody>

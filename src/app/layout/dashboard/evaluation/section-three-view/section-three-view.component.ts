@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { EvaluationService } from "../evaluation.service";
@@ -54,8 +54,8 @@ export class SectionThreeViewComponent implements OnInit {
   totalDesiredFacing: any;
 
   statusArray: any = [
-    { title: "Yes", value: "1" },
-    { title: "No", value: "0" },
+    { title: "Yes", value: "Yes" },
+    { title: "No", value: "No" },
   ];
 
   constructor(
@@ -69,8 +69,11 @@ export class SectionThreeViewComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
-      this.formData = this.data.sectionArray;
+      //this.formData = this.data.sectionArray;
+      this.formData = this.data.tagsList
       this.selectedImage = this.data.imageList[0];
+      console.log("taglist dfata" + this.formData);
+      debugger;
     }
   }
 
@@ -87,5 +90,24 @@ export class SectionThreeViewComponent implements OnInit {
   }
   hideChildModal() {
     this.childModal.hide();
+  }
+
+  updateQuestionAnswer(data: any, value: any){
+    debugger;
+    const obj = {
+      ceSurveyId: data.ceSurveyId,
+      formId: data.formId,
+      fieldId: data.fieldId,
+      title: value,
+      fieldValueId: data.fieldValueId,
+    }; 
+    this.httpService.updateSurveyQuestions(obj).subscribe((data: any) => {
+      debugger;
+      if (data.success) {
+        this.toastr.success("Data Updated Successfully");
+      } else {
+        this.toastr.error("There was an error while updating data");
+      }
+    });
   }
 }

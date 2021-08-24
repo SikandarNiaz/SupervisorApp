@@ -3,7 +3,7 @@ import { DashboardService } from "../../dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { ModalDirective } from "ngx-bootstrap";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 @Component({
   selector: "app-shop-detail",

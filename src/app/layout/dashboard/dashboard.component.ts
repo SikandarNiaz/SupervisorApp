@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as moment from "moment";
 import { ModalDirective } from 'ngx-bootstrap';
-import { config } from 'src/assets/config';
+import { Config } from 'src/assets/config';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +13,7 @@ import { config } from 'src/assets/config';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  main_logo=config.main_logo;
+  main_logo=Config.main_logo;
 
   @ViewChild('childModal') childModal: ModalDirective;
 
