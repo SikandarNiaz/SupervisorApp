@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap";
 import { environment } from "src/environments/environment";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 
 @Component({
   selector: "section-one-view",

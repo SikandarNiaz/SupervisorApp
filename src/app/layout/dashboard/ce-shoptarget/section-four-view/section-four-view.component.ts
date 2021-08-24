@@ -11,15 +11,15 @@ import { environment } from "src/environments/environment";
 import { Config } from "src/assets/config";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { CeEvaluationService } from "../ce-evaluation.service";
+import { CeShoptargetService } from "../ce-shoptarget.service";
 import { ModalDirective } from "ngx-bootstrap";
 
 @Component({
-  selector: "section-three-view",
-  templateUrl: "./section-three-view.component.html",
-  styleUrls: ["./section-three-view.component.scss"],
+  selector: "section-four-view",
+  templateUrl: "./section-four-view.component.html",
+  styleUrls: ["./section-four-view.component.scss"],
 })
-export class SectionThreeViewComponent implements OnInit {
+export class SectionFourViewComponent implements OnInit {
   @Input("data") data;
   // @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild("childModal") childModal: ModalDirective;
@@ -29,9 +29,9 @@ export class SectionThreeViewComponent implements OnInit {
   selectedShop: any = {};
   selectedImage: any = {};
   // ip=environment.ip;
-  noImage = Config.no_image;
+  configFile = Config;
 
-  ip: any = Config.BASE_URI;
+  ip: any = this.configFile.BASE_URI;
   hover = "hover";
   zoomOptions = {
     Mode: "hover",
@@ -62,7 +62,7 @@ export class SectionThreeViewComponent implements OnInit {
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private httpService: CeEvaluationService
+    private httpService: CeShoptargetService
   ) {}
 
   ngOnInit() {}
@@ -71,11 +71,8 @@ export class SectionThreeViewComponent implements OnInit {
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
       this.products = this.data.sectionArray;
-      this.selectedImage = this.data.imageList[0];
     }
   }
-
-  unsorted() {}
 
   setSelectedImage(img) {
     this.selectedImage = img;
@@ -123,6 +120,7 @@ export class SectionThreeViewComponent implements OnInit {
   updateString(value) {
     return value ? "Yes" : "No";
   }
+  unsorted() {}
 
   changeSku(value) {
     this.loading = true;
@@ -258,8 +256,22 @@ export class SectionThreeViewComponent implements OnInit {
   hideChildModal() {
     this.childModal.hide();
   }
+  isNumber(val) {
+    return typeof val === "number";
+  }
+  updateShop(value) {
+    const obj = {
+      id: value.id,
+      question:value.question,
+      newValue: value.answer
+    };
 
-  setDefaultImage() {
-    return this.ip + "images/noimage.jpg";
+    this.httpService.updateShopData(obj).subscribe((data: any) => {
+      if (data.success) {
+        this.toastr.success("Data Updated Successfully");
+      } else {
+        this.toastr.success("There was an error while updating data");
+      }
+    });
   }
 }

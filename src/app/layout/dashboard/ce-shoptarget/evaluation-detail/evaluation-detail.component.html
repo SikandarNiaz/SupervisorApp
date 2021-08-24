@@ -1,0 +1,154 @@
+<div class="container-fluid animated slideInLeft">
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="primary" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      </mat-card-title>
+      <section class="example-section">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Cluster"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="regions.length > 0 && selectedZone.id !== -1"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="City"
+            name="region"
+            [(ngModel)]="selectedRegion"
+            (ngModelChange)="getShops()"
+          >
+            <mat-option [value]="region" *ngFor="let region of regions">{{
+              region.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field
+          *ngIf="shopList.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="SHOP"
+            name="shop"
+            [(ngModel)]="selectedShop"
+            multiple
+            #shopSelect="ngModel"
+            [compareWith]="equals"
+          >
+            <mat-option disabled="disabled" class="filter-option">
+              <button
+                mat-raised-button
+                class="mat-primary fill text-sm"
+                (click)="selectAll(shopSelect, shopList)"
+              >
+                Select All
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                class="ml-1 mat-accent fill text-sm"
+                (click)="deselectAll(shopSelect)"
+              >
+                Deselect All
+              </button>
+            </mat-option>
+
+            <mat-option
+              [value]="shop"
+              *ngFor="let shop of shopList"
+              >{{ shop.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section class="example-section">
+        <button
+          [disabled]="selectedShop.length < 1 || loading"
+          mat-raised-button
+          color="warn"
+          (click)="getShopTargetDetails()"
+        >
+          Display Shops
+        </button>
+      </section>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="container-fluid" *ngIf="tableData.length > 0">
+    <div class="row"></div>
+    <div class="row js">
+      <ng-container *ngFor="let item of tableData; let i = index">
+        <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
+          <div class="ribbon">
+            <img
+              mat-card-image
+              class="small"
+              src="{{ ip }}{{ item.shop_image }}"
+              width="250"
+              height="300"
+              alt=""
+              (click)="setSelectedItem(item); showChildModal()"
+            />
+          </div>
+
+          <mat-card-content (click)="goToUpdateTargetPage(item)">
+            <table class="table" style="cursor: pointer">
+              <tr>
+                <th>Shop Name</th>
+                <td>{{ item?.shop_title }}</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+      <!-- <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator> -->
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ selectedItem.shop_title }}
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideChildModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body text-center">
+        <img
+          class="img-responsive"
+          src="{{ ip }}{{ selectedItem.image_url }}"
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</div>

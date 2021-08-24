@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { config } from "src/assets/config";
+import { Config } from "src/assets/config";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { EvaluationService } from "../evaluation.service";

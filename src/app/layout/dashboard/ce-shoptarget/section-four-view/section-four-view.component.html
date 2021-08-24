@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <div
+    class="row"
+    style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"
+  ></div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h4>
+        <u>{{ data?.sectionTitle }} </u
+        ><i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      </h4>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-9">
+      <table class="table table-bordered table-hover w-100">
+        <thead style="background: lightgray">
+          <tr>
+            <!-- <th>Brand Title</th> -->
+            <th>Question</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let product of products">
+            <!-- <td>{{product?.category_title}}</td> -->
+            <td style="width: 800px !important; word-wrap: break-word">
+              {{ product.question }}
+            </td>
+
+            <td style="width: 200px !important">
+
+              <input
+              type="text"
+              [(ngModel)]="product.answer"
+              style="width: 10em"
+              (change)="updateShop(product)"
+            />
+            
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
