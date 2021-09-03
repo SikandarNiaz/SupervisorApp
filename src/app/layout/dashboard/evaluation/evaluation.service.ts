@@ -135,4 +135,10 @@ export class EvaluationService {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
   }
+
+  updateSurveyQuestions(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "update-Survey-Question"; // -------> EvaluationChangeLogController
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
 }

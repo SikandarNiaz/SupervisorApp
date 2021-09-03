@@ -5,7 +5,8 @@ export class Config {
   // ip: "http://localhost:8080/audit/",
   //  ip: 'http://pg.concavetech.com/',
   // ip: "http://pghanger.concavetech.com/",
-  public static BASE_URI = window.location.origin + "/";
+   public static BASE_URI = window.location.origin + "/";
+  // public static BASE_URI = "https://pgrdt.concavetech.com/";
   // public static BASE_URI = "http://localhost:8080/CE/";
   public static hash = environment.hash;
   public static main_logo = "assets/images/logo.png";

@@ -44,10 +44,7 @@ import { EmailManagerComponent } from "./innerComponents/email-manager/email-man
 import { MessageStatusListComponent } from "./innerComponents/email-manager/childComponents/message-status-list/message-status-list.component";
 import { AddNewMessageComponent } from "./innerComponents/email-manager/childComponents/add-new-message/add-new-message.component";
 import { UploadRoutesComponent } from "./innerComponents/upload-routes/upload-routes.component";
-import { SingleRouteDetailComponent } from "./innerComponents/upload-routes/routes-inner-pages/single-route-detail/single-route-detail.component";
-import { ShopsForSingleRouteComponent } from "./innerComponents/upload-routes/routes-inner-pages/shops-for-single-route/shops-for-single-route.component";
 import { AddEditGroupComponent } from "./innerComponents/email-manager/childComponents/add-edit-group/add-edit-group.component";
-import { UploadRoutesNewComponent } from "./innerComponents/upload-routes-new/upload-routes-new.component";
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
 import { DashboardTableauComponent } from "./Tableau/dashboard-tableau/dashboard-tableau.component";
 import { ProductivityTableauComponent } from "./Tableau/productivity-tableau/productivity-tableau.component";
@@ -117,10 +114,7 @@ import { AssignTargetComponent } from './innerComponents/assign-target/assign-ta
     MessageStatusListComponent,
     AddNewMessageComponent,
     UploadRoutesComponent,
-    SingleRouteDetailComponent,
-    ShopsForSingleRouteComponent,
     AddEditGroupComponent,
-    UploadRoutesNewComponent,
     TableauHelperComponent,
     DashboardTableauComponent,
     ProductivityTableauComponent,

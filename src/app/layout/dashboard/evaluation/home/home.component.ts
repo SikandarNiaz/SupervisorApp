@@ -121,6 +121,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger;
     this.availabilityCount = 0;
     this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
@@ -175,7 +176,8 @@ export class HomeComponent implements OnInit {
           this.remarksList = this.data.remarks;
           if (
             this.projectType == "PMI_CENSUS" ||
-            this.projectType == "PGWS_LHR"
+            this.projectType == "PGWS_LHR" ||
+            this.projectType == "PG_RDT"
           ) {
             this.loadAllChannels();
           }

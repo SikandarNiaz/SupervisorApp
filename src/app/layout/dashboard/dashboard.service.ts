@@ -300,11 +300,11 @@ export class DashboardService {
   }
 
   displayRouteStatus(obj) {
-    const url = this.ip + "shopWiseRouteCount";
+    const url = this.ip + "shopWiseRouteCount"; // ------->  SurveyorRouteListController
     return this.http.post(url, obj);
   }
   uploadRoutes(obj) {
-    const url = this.ip + "UploadRoutesControllerNew";
+    const url = this.ip + "uploadRoutes"; // -------> UploadExcelController
     return this.http.post(url, obj);
   }
   getKey(obj) {
