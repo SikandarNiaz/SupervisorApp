@@ -10,9 +10,6 @@ import { UpdatePasswordComponent } from "./user/update-password/update-password.
 import { RawDataComponent } from "./raw-data/raw-data.component";
 import { EmailManagerComponent } from "./innerComponents/email-manager/email-manager.component";
 import { UploadRoutesComponent } from "./innerComponents/upload-routes/upload-routes.component";
-import { SingleRouteDetailComponent } from "./innerComponents/upload-routes/routes-inner-pages/single-route-detail/single-route-detail.component";
-import { ShopsForSingleRouteComponent } from "./innerComponents/upload-routes/routes-inner-pages/shops-for-single-route/shops-for-single-route.component";
-import { UploadRoutesNewComponent } from "./innerComponents/upload-routes-new/upload-routes-new.component";
 import { DashboardTableauComponent } from "./Tableau/dashboard-tableau/dashboard-tableau.component";
 import { ProductivityTableauComponent } from "./Tableau/productivity-tableau/productivity-tableau.component";
 import { SkuDashboardComponent } from "./Tableau/sku-dashboard/sku-dashboard.component";
@@ -40,17 +37,7 @@ const routes: Routes = [
       { path: "update_password", component: UpdatePasswordComponent },
       { path: "raw_data", component: RawDataComponent },
       { path: "sms_manager", component: EmailManagerComponent },
-      { path: "upload_routes/route_list", component: UploadRoutesComponent },
-      {
-        path: "upload_routes/single_route_details",
-        component: SingleRouteDetailComponent,
-      },
-      { path: "merchandiser_List", component: MerchandiserListComponent },
-      {
-        path: "upload_routes/shops_for_single_route",
-        component: ShopsForSingleRouteComponent,
-      },
-      { path: "upload_routes_new", component: UploadRoutesNewComponent },
+      { path: "upload_routes", component: UploadRoutesComponent },
       { path: "productivity-dashboard", component: DashboardTableauComponent },
       {
         path: "performance-dashboard",
@@ -89,6 +76,7 @@ const routes: Routes = [
         path: "census-survey-dashboard",
         component: CensusSurveyDashboardComponent,
       },
+      { path: "merchandiser_List", component: MerchandiserListComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

@@ -52,10 +52,10 @@ export class InterceptionSummaryComponent implements OnInit {
     this.projectType = localStorage.getItem("projectType");
     this.getZoneList();
     this.getStores();
+    this.getDashboardData();
     if (this.projectType == "NFL") {
       this.getSurveyorsAndBrands();
     }
-    this.getDashboardData();
     this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
     this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
     this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
@@ -91,7 +91,6 @@ export class InterceptionSummaryComponent implements OnInit {
 
   regionChange() {
     this.loading = true;
-    this.getDashboardData();
     this.selectedStore.id = -1;
     this.httpService
       .getShops(this.selectedZone.id, this.selectedRegion.id)
@@ -210,7 +209,6 @@ export class InterceptionSummaryComponent implements OnInit {
   }
 
   getStores() {
-    this.getDashboardData();
     this.loading = true;
     this.httpService
       .getShops(this.selectedZone.id || -1, this.selectedRegion.id || -1)

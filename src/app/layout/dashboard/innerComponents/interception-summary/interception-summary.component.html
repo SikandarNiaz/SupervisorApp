@@ -29,7 +29,7 @@
             placeholder="{{ regionPlaceHolder }}"
             name="region"
             [(ngModel)]="selectedRegion"
-            (ngModelChange)="getStores()"
+            (ngModelChange)="getStores(); getDashboardData()"
           >
             <mat-option [value]="region" *ngFor="let region of regions">{{
               region.title
