@@ -177,7 +177,8 @@ export class HomeComponent implements OnInit {
           if (
             this.projectType == "PMI_CENSUS" ||
             this.projectType == "PGWS_LHR" ||
-            this.projectType == "PG_RDT"
+            this.projectType == "PG_RDT" ||
+            this.projectType == "PG_DALDA"
           ) {
             this.loadAllChannels();
           }
