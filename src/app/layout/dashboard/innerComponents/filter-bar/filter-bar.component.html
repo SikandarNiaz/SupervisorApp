@@ -17,7 +17,7 @@
     <section class="example-section">
       <mat-form-field class="example-margin mr-10-IMP">
         <mat-select
-          placeholder="{{zonePlaceHolder}}"
+          placeholder="{{ labels.zoneLabel }}"
           name="zone"
           [(ngModel)]="selectedZone"
           (ngModelChange)="zoneChange()"
@@ -33,7 +33,7 @@
         class="example-margin mr-10-IMP"
       >
         <mat-select
-          placeholder="{{regionPlaceHolder}}"
+          placeholder="{{ labels.regionLabel }}"
           name="region"
           [(ngModel)]="selectedRegion"
           (ngModelChange)="regionChange()"
@@ -81,7 +81,7 @@
       >
         <!-- {{selectedChannel |json }} -->
         <mat-select
-          placeholder="Channel"
+          placeholder="{{ labels.channelLabel }}"
           name="channel"
           [(ngModel)]="selectedChannel"
           multiple
@@ -266,7 +266,7 @@
       <ng-container *ngIf="userType != amRole">
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="Zone"
+          placeholder="{{ labels.zoneLabel }}"
             name="zone"
             [(ngModel)]="selectedZone"
             (ngModelChange)="zoneChange(); getSurveyors()"
@@ -282,7 +282,7 @@
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Region"
+            placeholder="{{ labels.regionLabel }}"
             name="region"
             [(ngModel)]="selectedRegion"
             (ngModelChange)="getSurveyors()"
@@ -392,7 +392,7 @@
       >
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="Region"
+            placeholder="{{ labels.zoneLabel }}"
             name="cityId"
             [formControl]="selectedRegionUp"
             [(ngModel)]="regionId"
@@ -547,14 +547,14 @@
         <section class="example-section">
             <ng-container *ngIf="router.url==='/dashboard/daily-contact-report' ||  router.url==='/dashboard/ce-raw-data'">
             <mat-form-field *ngIf="brandList.length>0" class="example-margin mr-10-IMP">
-                <mat-select  placeholder="Category" name='brands' [(ngModel)]="selectedBrand" (ngModelChange)="getSurveyorByBrands()">
+                <mat-select  placeholder="{{ labels.categoryLabel }}" name='brands' [(ngModel)]="selectedBrand" (ngModelChange)="getSurveyorByBrands()">
                     <mat-option [value]="brand" *ngFor="let brand of brandList">{{brand.title}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </ng-container>
 
             <mat-form-field *ngIf="surveyorList.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="BA" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
+                <mat-select placeholder="{{ labels.surveyorLabel }}" name='ba' [(ngModel)]="selectedSurveyor" multiple #surveyorSelect="ngModel" [compareWith]="equals">
                     <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(surveyorSelect, surveyorList)">
                             Select All
                           </button>

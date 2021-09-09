@@ -8,7 +8,7 @@
       <section class="example-section">
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="{{ zonePlaceHolder }}"
+          placeholder="{{ labels.zoneLabel }}"
             name="zone"
             [(ngModel)]="selectedZone"
             (ngModelChange)="zoneChange()"
@@ -24,7 +24,7 @@
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="{{ regionPlaceHolder }}"
+          placeholder="{{ labels.rgionLabel }}"
             name="region"
             [(ngModel)]="selectedRegion"
           >
@@ -36,7 +36,7 @@
 
         <mat-form-field *ngIf="shopList" class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="Shops"
+            placeholder="{{ labels.shopsLabel }}"
             name="shops"
             [(ngModel)]="selectedShop"
           >

@@ -45,6 +45,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   p = 0;
   tableTitle = "";
   params: any = {};
+  labels: any;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -57,6 +58,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
       this.params = p;
       this.getData(this.params);
     });
+    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
     this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
     this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
     this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");

@@ -36,6 +36,7 @@ export class MerchandiserListComponent implements OnInit {
   sortOrder = true;
   sortBy: "m_code";
   projectType:any;
+  labels: any;
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService
@@ -54,6 +55,7 @@ export class MerchandiserListComponent implements OnInit {
     }
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
     this.projectType=localStorage.getItem("projectType");
+    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
   }
 
   ngOnInit() {

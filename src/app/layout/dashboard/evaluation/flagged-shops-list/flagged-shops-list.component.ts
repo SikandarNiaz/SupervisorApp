@@ -32,6 +32,7 @@ import { Config } from "src/assets/config";
 export class FlaggedShopsListComponent implements OnInit {
   @ViewChildren("checked") private myCheckbox: any;
   @ViewChild("childModal") childModal: ModalDirective;
+  labels: any;
   constructor(
     private toastr: ToastrService,
     private httpService: EvaluationService,
@@ -44,6 +45,7 @@ export class FlaggedShopsListComponent implements OnInit {
     this.maxDate.setDate(this.maxDate.getDate() - 1);
     this.startDate.setDate(this.startDate.getDate() - 1);
     this.endDate.setDate(this.endDate.getDate() - 1);
+    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
   }
   tableData: any = [];
   title = "Visited Shops";

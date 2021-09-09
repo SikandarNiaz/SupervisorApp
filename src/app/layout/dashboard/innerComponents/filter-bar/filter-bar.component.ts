@@ -30,6 +30,7 @@ import { Config } from "src/assets/config";
   styleUrls: ["./filter-bar.component.scss"],
 })
 export class FilterBarComponent implements OnInit {
+  labels: any;
   //#endregion
 
   constructor(
@@ -43,6 +44,7 @@ export class FilterBarComponent implements OnInit {
     this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
     this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
     this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
+    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
     this.form = formBuilder.group({
       selectedRegionUp: this.selectedRegionUp,
       selectedOption: this.selectedOption,
