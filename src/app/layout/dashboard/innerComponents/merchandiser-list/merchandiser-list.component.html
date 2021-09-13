@@ -27,7 +27,7 @@
         <ng-container *ngIf="projectType=='PMI_CENSUS'">
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="Zone"
+            placeholder="{{ labels.zoneLabel }}"
             name="zone"
             [(ngModel)]="selectedZone"
             (ngModelChange)="loadEvaluationSummary(); getMerchandiserList();zoneChange()"
@@ -43,7 +43,7 @@
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Region"
+            placeholder="{{ labels.regionLabel }}"
             name="region"
             [(ngModel)]="selectedRegion"
             (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
@@ -54,7 +54,7 @@
           </mat-select>
         </mat-form-field>
         </ng-container>
-        <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'">
+        <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'||projectType=='PG_DALDA'">
         <mat-form-field
         *ngIf="supervisorList.length > 0"
         class="example-margin mr-10-IMP"

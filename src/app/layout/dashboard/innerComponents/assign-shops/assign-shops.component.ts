@@ -82,6 +82,7 @@ export class AssignShopsComponent implements OnInit {
   zonePlaceHolder: any;
   regionPlaceHolder: any;
   resourcePlaceHolder: any;
+  labels: any;
 
   constructor(
     private toastr: ToastrService,
@@ -93,6 +94,7 @@ export class AssignShopsComponent implements OnInit {
     this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
     this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
     this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
+    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
     if (this.router.url == "/dashboard/assign-shops") {
       this.isAssignShopRequest = true;
       this.title = "Assign Shops";

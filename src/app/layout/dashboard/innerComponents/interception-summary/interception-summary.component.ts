@@ -22,8 +22,10 @@ export class InterceptionSummaryComponent implements OnInit {
     private httpService: DashboardService,
     public router: Router
   ) {
+    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
     console.log(this.zones);
   }
+  labels: any;
   title = "Productivity";
   loadingData: boolean;
   loading: boolean;

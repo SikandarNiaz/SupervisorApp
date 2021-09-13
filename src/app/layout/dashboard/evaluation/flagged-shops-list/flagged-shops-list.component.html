@@ -9,7 +9,7 @@
         <ng-container *ngIf="userType != amRole">
           <mat-form-field class="example-margin mr-10-IMP">
             <mat-select
-              placeholder="Zone"
+            placeholder="{{ labels.zoneLabel }}"
               name="zone"
               [(ngModel)]="selectedZone"
               (ngModelChange)="zoneChange(); loadSurveyors()"
@@ -25,7 +25,7 @@
             class="example-margin mr-10-IMP"
           >
             <mat-select
-              placeholder="Region"
+              placeholder="{{ labels.regionLabel }}"
               name="region"
               [(ngModel)]="selectedRegion"
               (ngModelChange)="loadSurveyors()"
@@ -41,7 +41,7 @@
           class="example-margin mr-10-IMP"
         >
           <mat-select
-            placeholder="Surveyors"
+            placeholder="{{ labels.surveyorLabel }}"
             name="ba"
             [(ngModel)]="selectedSurveyor"
             multiple
