@@ -26,6 +26,7 @@ import { PgjordanDashboardComponent } from "./Tableau/pgjordan-dashboard/pgjorda
 import { CensusProductivityDashboardComponent } from "./Tableau/census-productivity-dashboard/census-productivity-dashboard.component";
 import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboard/census-survey-dashboard.component";
 import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
+import { AssignTargetComponent } from "./innerComponents/assign-target/assign-target.component";
 const routes: Routes = [
   {
     path: "",
@@ -76,6 +77,10 @@ const routes: Routes = [
         path: "census-survey-dashboard",
         component: CensusSurveyDashboardComponent,
       },
+      {
+        path : "shop-target",
+        component: AssignTargetComponent
+      },
       { path: "merchandiser_List", component: MerchandiserListComponent },
     ],
   },
@@ -93,6 +98,10 @@ const routes: Routes = [
   {
     path: "ce_supervisor_evaluation",
     loadChildren: "./ce-evaluation/ce-evaluation.module#CeEvaluationModule",
+  },
+  {
+    path: "ce_shoptarget",
+    loadChildren: "./ce-shoptarget/ce-shoptarget.module#CeShoptargetModule",
   },
 ];
 

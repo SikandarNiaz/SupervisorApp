@@ -381,4 +381,16 @@ export class DashboardService {
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
+
+  getCESupervisorsList() {
+    const filter = JSON.stringify({ act: 14 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getShopTargetData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "shopTarget"; //----------> ShopListController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
 }

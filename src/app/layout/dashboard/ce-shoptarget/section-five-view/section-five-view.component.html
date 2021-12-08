@@ -1,0 +1,84 @@
+<!-- <ng-container *ngFor="let sec of data"> -->
+<div
+  class="row"
+  style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"
+></div>
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h4>
+      <u>{{ data.sectionTitle }}</u>
+    </h4>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-12 text-center mb-3">
+    <ng-container *ngFor="let img of data?.imageList; let i = index">
+      <ng-container *ngIf="img.title == 'VIDEO'">
+        <video
+          style="margin-right: 15px"
+          controls
+          #videoPlayer
+          width="270"
+          height="400"
+        >
+          <source src="{{ ip }}{{ img?.url }}" type="video/mp4" />
+          Browser not supported
+        </video>
+      </ng-container>
+
+      <ng-container *ngIf="img.title == 'IMAGE'">
+        <img
+          style="margin-right: 15px"
+          src="{{ ip }}{{ img?.url }}"
+          width="270"
+          height="400"
+          (click)="showChildModal(img)"
+        />
+      </ng-container>
+      <ng-container *ngIf="img.title == 'AUDIO'">
+        <div>
+          <audio
+            id="audio1"
+            muted="muted"
+            src="{{ ip }}{{ img?.url }}"
+            type="audio/mp4"
+            controls
+            style="width: 30%; margin-right: 15px"
+          ></audio>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1 "
+  role="dialog "
+  aria-labelledby="dialog-child-name "
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name " class="modal-title pull-left">
+          {{ selectedShop.title }}
+        </h4>
+        <button
+          type="button "
+          class="close pull-right"
+          aria-label="Close "
+          (click)="hideChildModal()"
+        >
+          <span aria-hidden="true ">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 10px">
+        <img src="{{ ip }}{{ selectedShop.url }} " alt=" " srcset="" />
+      </div>
+    </div>
+  </div>
+</div>

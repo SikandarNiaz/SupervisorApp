@@ -65,6 +65,7 @@ import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { CensusProductivityDashboardComponent } from "./Tableau/census-productivity-dashboard/census-productivity-dashboard.component";
 import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboard/census-survey-dashboard.component";
 import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
+import { AssignTargetComponent } from './innerComponents/assign-target/assign-target.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -131,6 +132,7 @@ import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/m
     CensusProductivityDashboardComponent,
     CensusSurveyDashboardComponent,
     MerchandiserListComponent,
+    AssignTargetComponent,
   ],
 })
 export class DashboardModule {}
