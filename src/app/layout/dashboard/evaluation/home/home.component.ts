@@ -178,7 +178,8 @@ export class HomeComponent implements OnInit {
             this.projectType == "PMI_CENSUS" ||
             this.projectType == "PGWS_LHR" ||
             this.projectType == "PG_RDT" ||
-            this.projectType == "PG_DALDA"
+            this.projectType == "PG_DALDA" ||
+            this.projectType == "PG_UAE"
           ) {
             this.loadAllChannels();
           }
@@ -273,7 +274,6 @@ export class HomeComponent implements OnInit {
 
   getCriteriaWithRemarks(remarks, criteria) {
     this.selectedRemarkArray = remarks;
-    this.evaluationStatus = 2;
     const obj = {
       remarkId: remarks,
       id: criteria.id,
@@ -368,12 +368,8 @@ export class HomeComponent implements OnInit {
 
       this.selectedCriteria = criteria;
       // tslint:disable-next-line:triple-equals
-      if (criteria.type != 1) {
-        this.showRemarksModal();
-      } else {
-        this.selectedRemarkArray = [];
-        this.evaluationStatus = 1;
-      }
+     this.evaluationStatus=criteria.type;
+     this.showRemarksModal(criteria);
     } else {
       this.evaluationStatus = -1;
     }
@@ -543,9 +539,15 @@ export class HomeComponent implements OnInit {
     this.sosModal.hide();
   }
 
-  showRemarksModal() {
-    this.criteriaDesireScore = 0;
-    this.remarksModal.show();
+  showRemarksModal(criteria) {
+    this.criteriaDesireScore=0;
+    const i =this.remarksList.findIndex((e) => e.criteriaId === criteria.id)
+    if (i > -1) {
+      this.remarksModal.show();
+    }
+
+    // if(isGeneratedFile)
+    // this.remarksModal.show();
   }
 
   hideRemarkModalForCancelOption() {
