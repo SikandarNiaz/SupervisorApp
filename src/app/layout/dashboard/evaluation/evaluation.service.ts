@@ -123,6 +123,11 @@ export class EvaluationService {
     const url = this.ip + "updateShopData"; // -------> EvaluationChangeLogController
     return this.http.post(url, urlencoded, this.httpOptions);
   }
+  updateSurveyData(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "updateSurveyData"; // -------> SurveyChangeLogController
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
 
   getRegion(zoneId) {
     this.user_id = localStorage.getItem("user_id");

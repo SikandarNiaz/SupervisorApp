@@ -71,6 +71,7 @@ export class HomeComponent implements OnInit {
   loadingTags: boolean;
   channelList: any = [];
   selectedChannel: any = {};
+  surveyDetails: any;
 
   constructor(
     private router: Router,
@@ -123,7 +124,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     debugger;
     this.availabilityCount = 0;
-    this.location.replaceState("/details");
+    // this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.amRole = localStorage.getItem("amRole");
@@ -163,13 +164,15 @@ export class HomeComponent implements OnInit {
       (data) => {
         if (data) {
           this.data = data;
+          this.surveyDetails = this.data.shopDetails.surveyDetails;
           document.title = this.data.section[0].sectionTitle;
           // tslint:disable-next-line:triple-equals
           if (
-            this.data.criteria &&
             (this.userType == this.evaluatorRole ||
-              this.userType == this.amRole)
+              this.userType == this.amRole) &&
+            this.surveyDetails.status == "Pending"
           ) {
+            this.isEditable = true;
             this.evaluationArray = this.data.criteria;
             this.cloneArray = this.evaluationArray.slice();
           }
@@ -187,89 +190,6 @@ export class HomeComponent implements OnInit {
       },
       (error) => {}
     );
-  }
-
-  setRemarksForReEvaluation() {
-    if (this.existingRemarks.length > 0) {
-      for (const element1 of this.existingRemarks) {
-        for (const element of this.cloneArray) {
-          if (element1.criteriaId === element.id) {
-            if (this.cloneArray[this.i].remarkId) {
-              this.cloneArray[this.i].remarkId.push(element1.id);
-              this.i++;
-            } else {
-              this.cloneArray[this.i].remarkId = [];
-              this.cloneArray[this.i].remarkId.push(element1.id);
-              this.i++;
-            }
-          } else {
-            this.i++;
-          }
-        }
-        this.i = 0;
-      }
-    }
-  }
-
-  checkEvaluatedRemarks() {
-    if (this.existingRemarks.length > 0) {
-      this.existingRemarks.forEach((element1) => {
-        if (element1.id > 0) {
-          const obj = {
-            id: element1.id,
-            description: element1.description,
-            criteriaId: element1.criteriaId,
-            remarkType: element1.remarkType,
-            isChecked: element1.isChecked,
-          };
-          this.remarksList.forEach((element) => {
-            const i = this.remarksList.findIndex((e) => e.id === element1.id);
-            if (i !== -1) {
-              this.remarksList.splice(i, 1, obj);
-            }
-          });
-        }
-      });
-    }
-  }
-
-  calculateMSLAgain(products) {
-    this.msl = this.data.msl;
-    localStorage.setItem("productList", JSON.stringify(products));
-    this.productList = localStorage.getItem("productList");
-
-    this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(products)); // Math.round(this.getAvailabilityCount(products));
-  }
-
-  getMSLNAvailbilityCount(products) {
-    const pro = [];
-    const msl = [];
-    products.forEach((p) => {
-      let obj = {};
-      if (p.MSL === "Yes" && p.available_sku === 1) {
-        obj = {
-          available_sku: p.available_sku,
-          MSL: p.MSL,
-        };
-        pro.push(obj);
-      }
-
-      if (p.MSL === "Yes") {
-        msl.push(p);
-      }
-    });
-    this.MSLCount = msl.length;
-
-    const MSLScore = (pro.length / this.MSLCount) * 10;
-    return MSLScore;
-  }
-  getAvailabilityCount(products) {
-    if (!products) {
-      products = localStorage.getItem("productList");
-    }
-    const pro = products.map((p) => p.available_sku);
-    const sum = pro.reduce((a, v) => a + v);
-    return (sum / pro.length) * this.msl;
   }
 
   getCriteriaWithRemarks(remarks, criteria) {
@@ -368,8 +288,8 @@ export class HomeComponent implements OnInit {
 
       this.selectedCriteria = criteria;
       // tslint:disable-next-line:triple-equals
-     this.evaluationStatus=criteria.type;
-     this.showRemarksModal(criteria);
+      this.evaluationStatus = criteria.type;
+      this.showRemarksModal(criteria);
     } else {
       this.evaluationStatus = -1;
     }
@@ -540,8 +460,8 @@ export class HomeComponent implements OnInit {
   }
 
   showRemarksModal(criteria) {
-    this.criteriaDesireScore=0;
-    const i =this.remarksList.findIndex((e) => e.criteriaId === criteria.id)
+    this.criteriaDesireScore = 0;
+    const i = this.remarksList.findIndex((e) => e.criteriaId === criteria.id);
     if (i > -1) {
       this.remarksModal.show();
     }
@@ -585,6 +505,7 @@ export class HomeComponent implements OnInit {
       userId: localStorage.getItem("user_id"),
       newValue: value,
       logType: logType,
+      type: 1,
     };
 
     this.httpService.updateShopData(obj).subscribe((data: any) => {

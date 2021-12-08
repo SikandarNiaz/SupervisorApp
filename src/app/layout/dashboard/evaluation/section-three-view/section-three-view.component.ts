@@ -12,7 +12,8 @@ import { Config } from "src/assets/config";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { EvaluationService } from "../evaluation.service";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { KeyValuePipe } from "@angular/common";
 
 @Component({
   selector: "section-three-view",
@@ -25,7 +26,6 @@ export class SectionThreeViewComponent implements OnInit {
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
   @Input("isEditable") isEditable: any;
-  @Output("assetTypeId") assetTypeForEmit: any = new EventEmitter<any>();
   selectedShop: any = {};
   selectedImage: any = {};
   // ip=environment.ip;
@@ -46,6 +46,7 @@ export class SectionThreeViewComponent implements OnInit {
   selectedSku: any;
   surveyId: any;
   evaluatorId: any;
+  projectType: any;
   MSLCount = 0;
   loadingData: boolean;
   loading = false;
@@ -53,27 +54,23 @@ export class SectionThreeViewComponent implements OnInit {
   facing: any;
   totalDesiredFacing: any;
 
-  statusArray: any = [
-    { title: "Yes", value: "Yes" },
-    { title: "No", value: "No" },
-  ];
-
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private httpService: EvaluationService
-  ) {}
+    private httpService: EvaluationService,
+    private keyValuePipe: KeyValuePipe
+  ) {
+    this.evaluatorId = localStorage.getItem("user_id");
+    this.projectType = localStorage.getItem("projectType");
+  }
 
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
-      //this.formData = this.data.sectionArray;
-      this.formData = this.data.tagsList
+      this.formData = this.keyValuePipe.transform(this.data.formData) || [];
       this.selectedImage = this.data.imageList[0];
-      console.log("taglist dfata" + this.formData);
-      debugger;
     }
   }
 
@@ -88,26 +85,81 @@ export class SectionThreeViewComponent implements OnInit {
     this.showModal.emit(this.selectedShop);
     // this.childModal.show();
   }
+
   hideChildModal() {
     this.childModal.hide();
   }
 
-  updateQuestionAnswer(data: any, value: any){
-    debugger;
-    const obj = {
-      ceSurveyId: data.ceSurveyId,
-      formId: data.formId,
-      fieldId: data.fieldId,
-      title: value,
-      fieldValueId: data.fieldValueId,
-    }; 
-    this.httpService.updateSurveyQuestions(obj).subscribe((data: any) => {
-      debugger;
-      if (data.success) {
-        this.toastr.success("Data Updated Successfully");
-      } else {
-        this.toastr.error("There was an error while updating data");
+  updateMultiOptionData(value, data) {
+    this.loading = true;
+    let selectedOption;
+    for (const option of data.optionList) {
+      if (value == option.id) {
+        selectedOption = option;
+        break;
       }
-    });
+    }
+    if (value != null) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: data.id,
+          title: data.question,
+          categoryTitle: this.data.sectionTitle,
+          newValueId: selectedOption.id,
+          newValue: selectedOption.title,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateSurveyData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      } else {
+        this.toastr.error(
+          "Operation not allowed. Please login  with the relevent Id",
+          "Error"
+        );
+      }
+    } else {
+      this.toastr.error("Value is Incorrect");
+      this.loading = false;
+    }
+  }
+
+  updateTextData(value) {
+    this.loading = true;
+    if (value.answer != null && value.answer >= 0) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: value.id,
+          newValue: value.answer,
+          newValueId: -1,
+          title: value.question,
+          categoryTitle: this.data.sectionTitle,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateSurveyData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      } else {
+        this.toastr.error(
+          "Operation not allowed. Please login  with the relevent Id",
+          "Error"
+        );
+      }
+    } else {
+      this.toastr.error("Value is Incorrect");
+      this.loading = false;
+    }
   }
 }
