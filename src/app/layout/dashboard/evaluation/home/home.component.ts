@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit {
   channelList: any = [];
   selectedChannel: any = {};
   surveyDetails: any;
+  showCriteria: boolean = false;
 
   constructor(
     private router: Router,
@@ -167,25 +168,20 @@ export class HomeComponent implements OnInit {
           this.surveyDetails = this.data.shopDetails.surveyDetails;
           document.title = this.data.section[0].sectionTitle;
           // tslint:disable-next-line:triple-equals
-          if (
+          if (this.projectType == "PG_UAE" && this.userType == 7) {
+            this.isEditable = true;
+          } else if (
             (this.userType == this.evaluatorRole ||
               this.userType == this.amRole) &&
             this.surveyDetails.status == "Pending"
           ) {
             this.isEditable = true;
+            this.showCriteria = true;
             this.evaluationArray = this.data.criteria;
             this.cloneArray = this.evaluationArray.slice();
           }
           this.remarksList = this.data.remarks;
-          if (
-            this.projectType == "PMI_CENSUS" ||
-            this.projectType == "PGWS_LHR" ||
-            this.projectType == "PG_RDT" ||
-            this.projectType == "PG_DALDA" ||
-            this.projectType == "PG_UAE"
-          ) {
-            this.loadAllChannels();
-          }
+          this.loadAllChannels();
         }
       },
       (error) => {}
