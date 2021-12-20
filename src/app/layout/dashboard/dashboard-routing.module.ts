@@ -27,6 +27,8 @@ import { CensusProductivityDashboardComponent } from "./Tableau/census-productiv
 import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboard/census-survey-dashboard.component";
 import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
 import { AssignTargetComponent } from "./innerComponents/assign-target/assign-target.component";
+import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
+
 const routes: Routes = [
   {
     path: "",
@@ -78,8 +80,8 @@ const routes: Routes = [
         component: CensusSurveyDashboardComponent,
       },
       {
-        path : "shop-target",
-        component: AssignTargetComponent
+        path: "shop-target",
+        component: AssignTargetComponent,
       },
       { path: "merchandiser_List", component: MerchandiserListComponent },
     ],
@@ -90,6 +92,10 @@ const routes: Routes = [
   {
     path: "evaluation",
     loadChildren: "./evaluation/evaluation.module#EvaluationModule",
+  },
+  {
+    path: "tableau",
+    component: TableauHelperComponent,
   },
   {
     path: "ce_evaluation",
