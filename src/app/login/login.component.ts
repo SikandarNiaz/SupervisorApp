@@ -13,9 +13,6 @@ import { Config } from "src/assets/config";
 export class LoginComponent implements OnInit {
   background_color = Config.login_theme_color;
   login_logo = Config.login_logo;
-  zonePlaceHolder: any;
-  regionPlaceHolder: any;
-  resourcePlaceHolder: any;
   supPlaceHolder: any;
   loginForm: any = {
     userName: "",
@@ -61,7 +58,10 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("Evaluator", res.Evaluator);
         localStorage.setItem("projectType", res.projectType);
         localStorage.setItem("amRole", res.amRole);
-        this.setPlaceHolders(res.projectType);
+        localStorage.setItem(
+          "labelProperties",
+          JSON.stringify(res.labelProperties)
+        );
         this.router.navigate(["/dashboard"]);
 
         setTimeout(() => {
@@ -76,31 +76,31 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  setPlaceHolders(projectType) {
-    if (projectType == "NFL") {
-      this.zonePlaceHolder = "Cluster";
-      this.regionPlaceHolder = "City";
-      this.resourcePlaceHolder = "BA";
-      this.supPlaceHolder = "Supervisor";
-    } else if (projectType == "NDN") {
-      this.zonePlaceHolder = "Region";
-      this.regionPlaceHolder = "Territory";
-      this.resourcePlaceHolder = "BA";
-      this.supPlaceHolder = "Supervisor";
-    } else if (projectType == "PMI_CENSUS") {
-      this.zonePlaceHolder = "Zone";
-      this.regionPlaceHolder = "Region";
-      this.resourcePlaceHolder = "BDE";
-      this.supPlaceHolder = "AM";
-    } else {
-      this.zonePlaceHolder = "Zone";
-      this.regionPlaceHolder = "Region";
-      this.resourcePlaceHolder = "Surveyor";
-      this.supPlaceHolder = "Supervisor";
-    }
-    localStorage.setItem("zonePlaceHolder", this.zonePlaceHolder);
-    localStorage.setItem("regionPlaceHolder", this.regionPlaceHolder);
-    localStorage.setItem("resourcePlaceHolder", this.resourcePlaceHolder);
-    localStorage.setItem("supPlaceHolder", this.supPlaceHolder);
-  }
+  // setPlaceHolders(projectType) {
+  //   if (projectType == "NFL") {
+  //     this.zonePlaceHolder = "Cluster";
+  //     this.regionPlaceHolder = "City";
+  //     this.resourcePlaceHolder = "B";
+  //     this.supPlaceHolder = "Supervisor";
+  //   } else if (projectType == "NDN") {
+  //     this.zonePlaceHolder = "Region";
+  //     this.regionPlaceHolder = "Territory";
+  //     this.resourcePlaceHolder = "BA";
+  //     this.supPlaceHolder = "Supervisor";
+  //   } else if (projectType == "PMI_CENSUS") {
+  //     this.zonePlaceHolder = "Zone";
+  //     this.regionPlaceHolder = "Region";
+  //     this.resourcePlaceHolder = "BDE";
+  //     this.supPlaceHolder = "AM";
+  //   } else {
+  //     this.zonePlaceHolder = "Zone";
+  //     this.regionPlaceHolder = "Region";
+  //     this.resourcePlaceHolder = "Surveyor";
+  //     this.supPlaceHolder = "Supervisor";
+  //   }
+  //   localStorage.setItem("zonePlaceHolder", this.zonePlaceHolder);
+  //   localStorage.setItem("regionPlaceHolder", this.regionPlaceHolder);
+  //   localStorage.setItem("resourcePlaceHolder", this.resourcePlaceHolder);
+  //   localStorage.setItem("supPlaceHolder", this.supPlaceHolder);
+  // }
 }

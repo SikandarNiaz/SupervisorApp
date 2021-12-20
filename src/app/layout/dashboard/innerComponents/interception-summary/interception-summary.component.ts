@@ -22,7 +22,7 @@ export class InterceptionSummaryComponent implements OnInit {
     private httpService: DashboardService,
     public router: Router
   ) {
-    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
+    this.labels = JSON.parse(localStorage.getItem("labelProperties"));
     console.log(this.zones);
   }
   labels: any;
@@ -46,9 +46,6 @@ export class InterceptionSummaryComponent implements OnInit {
   endDate = new Date();
   zones: any = [];
   tableData: any = [];
-  zonePlaceHolder: any;
-  regionPlaceHolder: any;
-  resourcePlaceHolder: any;
   isBaModule: boolean;
   ngOnInit() {
     this.projectType = localStorage.getItem("projectType");
@@ -58,9 +55,6 @@ export class InterceptionSummaryComponent implements OnInit {
     if (this.projectType == "NFL") {
       this.getSurveyorsAndBrands();
     }
-    this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
-    this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
-    this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
   }
 
   zoneChange() {

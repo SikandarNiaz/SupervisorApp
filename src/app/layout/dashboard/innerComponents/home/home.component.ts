@@ -42,9 +42,6 @@ export class HomeComponent implements OnInit {
   endDate = new Date();
   zones: any = [];
   tableData: any = [];
-  zonePlaceHolder: any;
-  regionPlaceHolder: any;
-  resourcePlaceHol;
   isBaModule: boolean;
   ngOnInit() {
     this.projectType = localStorage.getItem("projectType");

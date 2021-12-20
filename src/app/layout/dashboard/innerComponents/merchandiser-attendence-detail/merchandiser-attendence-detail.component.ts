@@ -33,9 +33,6 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   maxDate = new Date();
   startDate = new Date();
   endDate = new Date();
-  zonePlaceHolder: any;
-  regionPlaceHolder: any;
-  resourcePlaceHolder: any;
   // @Input() startDate: moment.MomentInput;
   title = "Attendance";
   userId: any;
@@ -58,10 +55,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
       this.params = p;
       this.getData(this.params);
     });
-    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
-    this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
-    this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
-    this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
+    this.labels = JSON.parse(localStorage.getItem("labelProperties"));
   }
 
   showChildModal(): void {

@@ -34,9 +34,7 @@ export class EvaluationDetailComponent implements OnInit {
   surveyorList: any = [];
   selectedSurveyor: any = [];
   selectedItem: any = {};
-  zonePlaceHolder: any;
-  regionPlaceHolder: any;
-  resourcePlaceHolder: any;
+  labels: any;
   type = -1;
   constructor(
     private router: Router,
@@ -44,9 +42,7 @@ export class EvaluationDetailComponent implements OnInit {
     private httpService: CeEvaluationService,
     private activeRoute: ActivatedRoute
   ) {
-    this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
-    this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
-    this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
+    this.labels = JSON.parse(localStorage.getItem("labelProperties"));
     if (this.router.url == "/dashboard/ce_evaluation/list/home") {
       this.type = 1;
     } else if (

@@ -7,7 +7,7 @@
     <section class="example-section">
       <mat-form-field class="example-margin mr-10-IMP">
         <mat-select
-        placeholder="{{ labels.zoneLabel }}"
+          placeholder="{{ labels.zoneLabel }}"
           name="zone"
           [(ngModel)]="selectedZone"
           (ngModelChange)="zoneChange()"
@@ -23,7 +23,7 @@
         class="example-margin mr-10-IMP"
       >
         <mat-select
-        placeholder="{{ labels.regionLabel }}"
+          placeholder="{{ labels.regionLabel }}"
           name="region"
           [(ngModel)]="selectedRegion"
           (ngModelChange)="getData(params)"
@@ -93,11 +93,11 @@
             <table class="table" style="cursor: pointer">
               <tr>
                 <!-- test -->
-                <th>{{ resourcePlaceHolder }} Code</th>
+                <th>{{ labels?.surveyorLabel }} Code</th>
                 <td>{{ item?.m_code }}</td>
               </tr>
               <tr>
-                <th>{{ resourcePlaceHolder }} Name</th>
+                <th>{{ labels?.surveyorLabel }} Name</th>
                 <td>{{ item?.full_name }}</td>
               </tr>
               <tr>

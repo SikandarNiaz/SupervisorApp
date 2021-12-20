@@ -41,10 +41,7 @@ export class FilterBarComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
-    this.zonePlaceHolder = localStorage.getItem("zonePlaceHolder");
-    this.regionPlaceHolder = localStorage.getItem("regionPlaceHolder");
-    this.resourcePlaceHolder = localStorage.getItem("resourcePlaceHolder");
-    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
+    this.labels = JSON.parse(localStorage.getItem("labelProperties"));
     this.form = formBuilder.group({
       selectedRegionUp: this.selectedRegionUp,
       selectedOption: this.selectedOption,
@@ -116,9 +113,6 @@ export class FilterBarComponent implements OnInit {
   userType: any;
   evaluatorRole: any;
   amRole: any;
-  zonePlaceHolder: any;
-  regionPlaceHolder: any;
-  resourcePlaceHolder: any;
 
   selectedRegionUp: any = new FormControl({}, [Validators.required]);
   // date = new FormControl(new Date());
