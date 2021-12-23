@@ -99,7 +99,7 @@ export class SectionThreeViewComponent implements OnInit {
         break;
       }
     }
-    if (value != null) {
+    if (value) {
       if (this.isEditable) {
         const obj = {
           msdId: data.id,
@@ -132,7 +132,7 @@ export class SectionThreeViewComponent implements OnInit {
 
   updateTextData(value) {
     this.loading = true;
-    if (value.answer != null && value.answer >= 0) {
+    if (value.answer) {
       if (this.isEditable) {
         const obj = {
           msdId: value.id,
