@@ -99,27 +99,21 @@
                 </td>
               </ng-container>
               <ng-container *ngIf="isEditable == true">
+                <!-- field is editable or not -->
                 <ng-container
-                  *ngIf="data.value.fieldType == 'text_field'; else options"
+                  *ngIf="data.value.isEditable == 'Y'; else notEditable"
                 >
-                  <td style="width: 300px">
-                    <input
-                      [(ngModel)]="data.value.answer"
-                      (change)="updateTextData(data.value)"
-                    />
-                  </td>
-                </ng-container>
-                <ng-template #options>
                   <ng-container
-                    *ngIf="data.value.fieldType == 'multi_selection'"
+                    *ngIf="data.value.fieldType == 'text_field'; else options"
                   >
-                    <td style="width: 300px !important">
-                      {{ data.value.answer }}
+                    <td style="width: 300px">
+                      <input
+                        [(ngModel)]="data.value.answer"
+                        (change)="updateTextData(data.value)"
+                      />
                     </td>
                   </ng-container>
-                  <ng-container
-                    *ngIf="data.value.fieldType != 'multi_selection'"
-                  >
+                  <ng-template #options>
                     <td>
                       <select
                         #newValue
@@ -146,7 +140,12 @@
                         </ng-container>
                       </select>
                     </td>
-                  </ng-container>
+                  </ng-template>
+                </ng-container>
+                <ng-template #notEditable>
+                  <td style="width: 300px !important">
+                    {{ data.value.answer }}
+                  </td>
                 </ng-template>
               </ng-container>
             </tr>
