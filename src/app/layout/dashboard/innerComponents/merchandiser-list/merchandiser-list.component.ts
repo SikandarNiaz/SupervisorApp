@@ -13,10 +13,10 @@ export class MerchandiserListComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate: any = new Date();
   startDate: any = new Date();
-  zones:any=[];
-  regions:any=[];
-  selectedZone:any={};
-  selectedRegion:any={};
+  zones: any = [];
+  regions: any = [];
+  selectedZone: any = {};
+  selectedRegion: any = {};
   endDate = new Date();
   loadingReportMessage = false;
   selectedEvaluator: any = {};
@@ -29,19 +29,19 @@ export class MerchandiserListComponent implements OnInit {
   loadingData: boolean;
   cardLoading: boolean;
   evaluationSummary: any;
-  evaluatorRole:any;
+  evaluatorRole: any;
   supervisorList: any = [];
-  selectedSupervisor:any=[];
+  selectedSupervisor: any = [];
   p = 1;
   sortOrder = true;
   sortBy: "m_code";
-  projectType:any;
+  projectType: any;
   labels: any;
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService
   ) {
-    this.evaluatorRole=localStorage.getItem("Evaluator");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
     this.userTypeId = localStorage.getItem("user_type");
     if (this.userTypeId == this.evaluatorRole) {
       this.maxDate.setDate(this.maxDate.getDate() - 1);
@@ -54,29 +54,29 @@ export class MerchandiserListComponent implements OnInit {
       this.title = "Surveyor List";
     }
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
-    this.projectType=localStorage.getItem("projectType");
-    this.labels=JSON.parse(localStorage.getItem("labelProperties"));
+    this.projectType = localStorage.getItem("projectType");
+    this.labels = JSON.parse(localStorage.getItem("labelProperties"));
   }
 
   ngOnInit() {
-    this.loadingData = false;    
+    this.loadingData = false;
     this.loadEvaluationSummary();
     this.getMerchandiserList();
-    this.getSupervisorList()
+    this.getSupervisorList();
     this.sortIt("m_code");
     this.userId = localStorage.getItem("user_id");
   }
 
-  getSupervisorList(){
-    this.loadingData= true;
+  getSupervisorList() {
+    this.loadingData = true;
 
     this.httpService.getSupervisorsList().subscribe(
-      (data)=>{
-        const res : any = data;
-        if(res){
-          this.supervisorList =res;
-          this.loadingData=false;
-        }else{
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.supervisorList = res;
+          this.loadingData = false;
+        } else {
           this.loadingData = false;
 
           this.toastr.info(
@@ -84,8 +84,9 @@ export class MerchandiserListComponent implements OnInit {
             "Connectivity Message"
           );
         }
-      },(error) =>{
-        this.loading =false;
+      },
+      (error) => {
+        this.loading = false;
       }
     );
   }
@@ -106,17 +107,17 @@ export class MerchandiserListComponent implements OnInit {
     this.loadingData = true;
     const obj = {
       zoneId: this.selectedZone.id
-      ? this.selectedZone.id == -1
-        ? localStorage.getItem("zoneId")
-        : this.selectedZone.id
-      : localStorage.getItem("zoneId"),
-    regionId: this.selectedRegion.id
-      ? this.selectedRegion.id == -1
-        ? localStorage.getItem("regionId")
-        : this.selectedRegion.id
-      : localStorage.getItem("regionId"),
+        ? this.selectedZone.id == -1
+          ? localStorage.getItem("zoneId")
+          : this.selectedZone.id
+        : localStorage.getItem("zoneId"),
+      regionId: this.selectedRegion.id
+        ? this.selectedRegion.id == -1
+          ? localStorage.getItem("regionId")
+          : this.selectedRegion.id
+        : localStorage.getItem("regionId"),
       evaluatorId: localStorage.getItem("user_id"),
-      selectedSupervisor : this.selectedSupervisor.id || -1,
+      selectedSupervisor: this.selectedSupervisor.id || -1,
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
@@ -154,17 +155,17 @@ export class MerchandiserListComponent implements OnInit {
     this.cardLoading = true;
     const obj = {
       zoneId: this.selectedZone.id
-      ? this.selectedZone.id == -1
-        ? localStorage.getItem("zoneId")
-        : this.selectedZone.id
-      : localStorage.getItem("zoneId"),
-    regionId: this.selectedRegion.id
-      ? this.selectedRegion.id == -1
-        ? localStorage.getItem("regionId")
-        : this.selectedRegion.id
-      : localStorage.getItem("regionId"),
+        ? this.selectedZone.id == -1
+          ? localStorage.getItem("zoneId")
+          : this.selectedZone.id
+        : localStorage.getItem("zoneId"),
+      regionId: this.selectedRegion.id
+        ? this.selectedRegion.id == -1
+          ? localStorage.getItem("regionId")
+          : this.selectedRegion.id
+        : localStorage.getItem("regionId"),
       evaluatorId: localStorage.getItem("user_id"),
-      selectedSupervisor : this.selectedSupervisor.id || -1,
+      selectedSupervisor: this.selectedSupervisor.id || -1,
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
@@ -182,7 +183,7 @@ export class MerchandiserListComponent implements OnInit {
 
   zoneChange() {
     this.loadingData = true;
-    this.selectedRegion={};
+    this.selectedRegion = {};
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       (data) => {
         const res: any = data;
