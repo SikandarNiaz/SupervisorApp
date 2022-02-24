@@ -3,6 +3,7 @@ import { elementStart } from "@angular/core/src/render3";
 import { NG_PROJECT_AS_ATTR_NAME } from "@angular/core/src/render3/interfaces/projection";
 import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
 import { Config } from "src/assets/config";
+import mapboxgl from "mapbox-gl";
 declare const google: any;
 declare var ol: any;
 @Component({
@@ -18,7 +19,10 @@ export class SectionTwoViewComponent implements OnInit {
   ip: any = Config.BASE_URI;
   projectType: any;
 
-  constructor(public sanitizer: DomSanitizer) {}
+  constructor(public sanitizer: DomSanitizer) {
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoic2lrYW5kYXJuaWF6IiwiYSI6ImNrd3FiYWkwZzBrd3UycHBtOGNnYWY1Nm4ifQ.NSL0s456ejrd4QFu4cvZ6w";
+  }
 
   ngOnInit() {}
 
@@ -76,33 +80,17 @@ export class SectionTwoViewComponent implements OnInit {
   }
 
   initialize_map_pg() {
-    this.map = new ol.Map({
-      target: "map",
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM({
-            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          }),
-        }),
-      ],
-      view: new ol.View({
-        center: ol.proj.transform(
-          [
-            parseFloat(this.locationMap.longitude),
-            parseFloat(this.locationMap.latitude),
-          ],
-          "EPSG:4326",
-          "EPSG:3857"
-        ),
-        zoom: 18,
-      }),
+    this.map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [this.locationMap.longitude, this.locationMap.latitude],
+      zoom: 14,
     });
-    this.add_map_point(
-      this.locationMap.latitude,
-      this.locationMap.longitude,
-      1,
-      "Start Location"
-    );
+    const marker1 = new mapboxgl.Marker()
+      .setLngLat([this.locationMap.longitude, this.locationMap.latitude])
+      .addTo(this.map);
+    this.map.addControl(new mapboxgl.NavigationControl());
+    setTimeout(() => this.map.resize(), 0);
   }
 
   add_map_point(lat, lng, index, title) {
@@ -148,3 +136,33 @@ export class SectionTwoViewComponent implements OnInit {
     this.map.addLayer(vectorLayer);
   }
 }
+
+// initialize_map_pg() {
+//   this.map = new ol.Map({
+//     target: "map",
+//     layers: [
+//       new ol.layer.Tile({
+//         source: new ol.source.OSM({
+//           url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+//         }),
+//       }),
+//     ],
+//     view: new ol.View({
+//       center: ol.proj.transform(
+//         [
+//           parseFloat(this.locationMap.longitude),
+//           parseFloat(this.locationMap.latitude),
+//         ],
+//         "EPSG:4326",
+//         "EPSG:3857"
+//       ),
+//       zoom: 18,
+//     }),
+//   });
+//   this.add_map_point(
+//     this.locationMap.latitude,
+//     this.locationMap.longitude,
+//     1,
+//     "Start Location"
+//   );
+// }
