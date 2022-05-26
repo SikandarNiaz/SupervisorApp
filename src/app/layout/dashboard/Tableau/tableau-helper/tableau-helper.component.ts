@@ -22,6 +22,7 @@ export class TableauHelperComponent implements OnInit {
   viz: any;
   ticketUrl: string;
   params: any = {};
+  indexOf: any = {};
   @Input() type;
   @Input() cluster;
   constructor(
@@ -52,12 +53,11 @@ export class TableauHelperComponent implements OnInit {
       userType: localStorage.getItem("user_type"),
     };
     this.httpService.getKey(obj).subscribe((data: any) => {
-      if (this.params.link) {
-        this.ticketUrl = `${data.TableauData.tableau_url}/${data.ticket}/${this.params.link}?iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
+      if (this.params.link.indexOf("?") >= 0) {
+        this.ticketUrl = `${data.TableauData.tableau_url}/${data.ticket}/${this.params.link}&:iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
       } else {
-        this.ticketUrl = `${data.TableauData.tableau_url}/${data.ticket}/${data.tableauPath}?iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
+        this.ticketUrl = `${data.TableauData.tableau_url}/${data.ticket}/${this.params.link}?iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
       }
-      // }
       console.log("url:", this.ticketUrl);
       this.initViz();
     });
