@@ -28,6 +28,7 @@ import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboar
 import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
 import { AssignTargetComponent } from "./innerComponents/assign-target/assign-target.component";
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
+import { UpdateSupervisorAttendenceComponent } from "./innerComponents/update-supervisor-attendence/update-supervisor-attendence.component";
 
 const routes: Routes = [
   {
@@ -84,6 +85,7 @@ const routes: Routes = [
         component: AssignTargetComponent,
       },
       { path: "merchandiser_List", component: MerchandiserListComponent },
+      { path: "update-supervisor-attendence", component: UpdateSupervisorAttendenceComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

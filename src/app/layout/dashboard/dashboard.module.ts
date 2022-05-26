@@ -66,6 +66,7 @@ import { CensusProductivityDashboardComponent } from "./Tableau/census-productiv
 import { CensusSurveyDashboardComponent } from "./Tableau/census-survey-dashboard/census-survey-dashboard.component";
 import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
 import { AssignTargetComponent } from './innerComponents/assign-target/assign-target.component';
+import { UpdateSupervisorAttendenceComponent } from "./innerComponents/update-supervisor-attendence/update-supervisor-attendence.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -133,6 +134,7 @@ import { AssignTargetComponent } from './innerComponents/assign-target/assign-ta
     CensusSurveyDashboardComponent,
     MerchandiserListComponent,
     AssignTargetComponent,
+    UpdateSupervisorAttendenceComponent,
   ],
 })
 export class DashboardModule {}

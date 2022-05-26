@@ -170,12 +170,13 @@ export class DashboardService {
     const filter = JSON.stringify({ act: 4 });
     return this.http.post(url, filter);
   }
-  getSurveyors(programId, surveyorId, zoneId, regionId) {
+  getSurveyors(programId,surveyorId, zoneId, regionId) {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({
       act: 13,
       programId: programId,
       surveyorId: surveyorId,
+     // supervisorId:supervisorId,
       zoneId: zoneId,
       regionId: regionId,
     });
@@ -393,4 +394,34 @@ export class DashboardService {
     const url = this.ip + "shopTarget"; //----------> ShopListController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+
+  getSupervisorAttendence(obj){
+    const url = this.ip + '/supervisor-attendance-detail';  // -----------> DisplaySupervisorAttendanceController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  updateSupervisorAttendence(obj) {
+    const url = this.ip + "/update-supervisor-attendance"; // -----------> UpdateSupervisorAttendanceController
+    return this.http.post(url, obj);
+  }
+
+  getBaSupervisorsList() {
+    const filter = JSON.stringify({ act: 20 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getAttendanceRemarkList() {
+    const filter = JSON.stringify({ act: 21 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  addSupervisorAttendence(obj) {
+    const url = this.ip + "/add-supervisor-attendance"; // -----------> UpdateSupervisorAttendanceController
+    return this.http.post(url, obj);
+  }
+
+  
 }
