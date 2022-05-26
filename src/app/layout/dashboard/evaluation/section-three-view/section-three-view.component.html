@@ -104,7 +104,7 @@
                   *ngIf="data.value.isEditable == 'Y'; else notEditable"
                 >
                   <ng-container
-                    *ngIf="data.value.fieldType == 'text_field'; else options"
+                    *ngIf="data.value.fieldType == 'text_field' || data.value.fieldType == 'text_field_pre_filled'; else options"
                   >
                     <td style="width: 300px">
                       <input

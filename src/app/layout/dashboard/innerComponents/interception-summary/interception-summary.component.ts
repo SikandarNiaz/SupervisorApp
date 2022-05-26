@@ -143,8 +143,16 @@ export class InterceptionSummaryComponent implements OnInit {
     const obj = {
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
       endDate: moment(this.endDate).format("YYYY-MM-DD"),
-      zoneId: this.selectedZone.id || -1,
-      regionId: this.selectedRegion.id || -1,
+      zoneId: this.selectedZone.id
+      ? this.selectedZone.id == -1
+        ? localStorage.getItem("zoneId")
+        : this.selectedZone.id
+      : localStorage.getItem("zoneId"),
+  regionId: this.selectedRegion.id
+      ? this.selectedRegion.id == -1
+        ? localStorage.getItem("regionId")
+        : this.selectedRegion.id
+      : localStorage.getItem("regionId"),
       shopId: this.selectedStore.id || -1,
       brandId: this.selectedBrand.id || -1,
     };

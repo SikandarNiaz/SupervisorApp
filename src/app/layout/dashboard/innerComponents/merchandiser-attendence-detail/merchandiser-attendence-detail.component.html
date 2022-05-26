@@ -78,7 +78,16 @@
       <ng-container *ngFor="let item of tableData; let i = index">
         <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
           <div class="ribbon">
-            <img
+            <img *ngIf ="projectType =='NIVEA'"
+              mat-card-image
+              class="small"
+              src="{{ ip }}{{ item.day_start_complete_image_url }}"
+              width="250"
+              height="430"
+              alt=""
+              (click)="setSelectedItem(item); showChildModal()"
+            />
+            <img *ngIf ="projectType != 'NIVEA'"
               mat-card-image
               class="small"
               src="{{ ip }}{{ item.day_start_image_url }}"
@@ -107,6 +116,10 @@
               <tr>
                 <th>Start Time</th>
                 <td>{{ item?.day_start_time }}</td>
+              </tr>
+              <tr>
+                <th>End Time</th>
+                <td>{{ item?.day_end_time }}</td>
               </tr>
             </table>
           </mat-card-content>
