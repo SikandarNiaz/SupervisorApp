@@ -33,6 +33,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   maxDate = new Date();
   startDate = new Date();
   endDate = new Date();
+  projectType: any;
   // @Input() startDate: moment.MomentInput;
   title = "Attendance";
   userId: any;
@@ -56,6 +57,8 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
       this.getData(this.params);
     });
     this.labels = JSON.parse(localStorage.getItem("labelProperties"));
+    this.projectType = localStorage.getItem("projectType");
+    
   }
 
   showChildModal(): void {
@@ -71,6 +74,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
 
   ngOnInit() {
     // this.getTableData();
+    
   }
 
   getData(params) {
