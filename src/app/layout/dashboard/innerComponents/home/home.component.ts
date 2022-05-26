@@ -48,7 +48,8 @@ export class HomeComponent implements OnInit {
     if (
       this.projectType == "NFL" ||
       this.projectType == "NIVEA" ||
-      this.projectType == "NDN"
+      this.projectType == "NDN" ||
+      this.projectType == "DALDA"
     ) {
       this.isBaModule = true;
     }
