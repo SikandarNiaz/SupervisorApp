@@ -29,6 +29,7 @@ import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/m
 import { AssignTargetComponent } from "./innerComponents/assign-target/assign-target.component";
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
 import { UpdateSupervisorAttendenceComponent } from "./innerComponents/update-supervisor-attendence/update-supervisor-attendence.component";
+import { DashboardDataComponent } from "./dashboard-data/dashboard-data.component";
 
 const routes: Routes = [
   {
@@ -85,7 +86,12 @@ const routes: Routes = [
         component: AssignTargetComponent,
       },
       { path: "merchandiser_List", component: MerchandiserListComponent },
-      { path: "update-supervisor-attendence", component: UpdateSupervisorAttendenceComponent },
+      {
+        path: "update-supervisor-attendence",
+        component: UpdateSupervisorAttendenceComponent,
+      },
+      { path: "dashboard_data", component: DashboardDataComponent },
+      { path: "dashboard_data/:reportId", component: DashboardDataComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

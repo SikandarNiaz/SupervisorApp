@@ -170,13 +170,13 @@ export class DashboardService {
     const filter = JSON.stringify({ act: 4 });
     return this.http.post(url, filter);
   }
-  getSurveyors(programId,surveyorId, zoneId, regionId) {
+  getSurveyors(programId, surveyorId, zoneId, regionId) {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({
       act: 13,
       programId: programId,
       surveyorId: surveyorId,
-     // supervisorId:supervisorId,
+      // supervisorId:supervisorId,
       zoneId: zoneId,
       regionId: regionId,
     });
@@ -395,8 +395,8 @@ export class DashboardService {
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
-  getSupervisorAttendence(obj){
-    const url = this.ip + '/supervisor-attendance-detail';  // -----------> DisplaySupervisorAttendanceController
+  getSupervisorAttendence(obj) {
+    const url = this.ip + "/supervisor-attendance-detail"; // -----------> DisplaySupervisorAttendanceController
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body, this.httpOptions);
   }
@@ -423,5 +423,19 @@ export class DashboardService {
     return this.http.post(url, obj);
   }
 
-  
+  getKeyForDashboardReport(reportUrl, obj) {
+    this.updatedDownloadStatus(true);
+    const url = this.ip + reportUrl;
+    return this.http.post(url, obj);
+  }
+  getQueryList(reportId) {
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({
+      act: 22,
+      userId: this.user_id,
+      reportId: reportId,
+    });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
 }
