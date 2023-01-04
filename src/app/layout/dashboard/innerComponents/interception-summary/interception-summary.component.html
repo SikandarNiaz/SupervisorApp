@@ -129,7 +129,7 @@
                   *ngIf="!loadingData"
                   [bgClass]="'info'"
                   [icon]="'list_alt'"
-                  [count]="dashboardData?.total_cc"
+                  [count]="dashboardStatsObj?.id"
                   [label]="'Count'"
                 ></app-stat>
               </div>
@@ -147,8 +147,26 @@
                   *ngIf="!loadingData"
                   [bgClass]="'primary'"
                   [icon]="'assignment'"
-                  [count]="dashboardData?.TotalInterceptions"
+                  [count]="dashboardStatsObj?.TotalInterception"
                   [label]="'Interceptions'"
+                ></app-stat>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div>
+                <app-skeleton-loader
+                  *ngIf="loadingData"
+                  Cwidth="145"
+                  Cheight="100"
+                >
+                </app-skeleton-loader>
+                <app-stat
+                  *ngIf="!loadingData"
+                  [bgClass]="'primary'"
+                  [icon]="'assignment'"
+                  [count]="dashboardStatsObj?.Impressions"
+                  [label]="'Impressions'"
                 ></app-stat>
               </div>
             </div>
@@ -165,13 +183,13 @@
                   *ngIf="!loadingData"
                   [bgClass]="'success'"
                   [icon]="'thumb_up'"
-                  [count]="dashboardData?.Successful"
+                  [count]="dashboardStatsObj?.Successful"
                   [label]="'Successful'"
                 ></app-stat>
               </div>
             </div>
 
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
               <div>
                 <app-skeleton-loader
                   *ngIf="loadingData"
@@ -187,7 +205,7 @@
                   [label]="'Successful %'"
                 ></app-stat>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-md-2">
               <div>
@@ -201,7 +219,7 @@
                   *ngIf="!loadingData"
                   [bgClass]="'danger'"
                   [icon]="'thumb_up'"
-                  [count]="dashboardData?.Successful_Per_Day"
+                  [count]="dashboardStatsObj?.successful_per_day"
                   [label]="'Successful/Day'"
                 ></app-stat>
               </div>
@@ -219,8 +237,8 @@
                     *ngIf="!loadingData"
                     [bgClass]="'purple'"
                     [icon]="'local_atm'"
-                    [count]="dashboardData?.Unit_Sale"
-                    [label]="'Unit Sale'"
+                    [count]="dashboardStatsObj?.TotalSale"
+                    [label]="'Unit Sold'"
                   ></app-stat>
                 </div>
               </div>
@@ -237,8 +255,8 @@
                     *ngIf="!loadingData"
                     [bgClass]="'warn'"
                     [icon]="'local_atm'"
-                    [count]="dashboardData?.Unit_Sale_Per_Day"
-                    [label]="'Unit Sale/Day'"
+                    [count]="dashboardStatsObj?.unit_sale_per_day"
+                    [label]="'Unit Sold/Day'"
                   ></app-stat>
                 </div>
               </div>
@@ -315,10 +333,21 @@
                   <th
                     scope="col"
                     class="text-center"
+                    (click)="sortIt('Impressions')"
+                    style="cursor: pointer"
+                  >
+                    Impressions
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("Impressions") }}
+                    </i>
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-center"
                     (click)="sortIt('Successful')"
                     style="cursor: pointer"
                   >
-                    Successful Interceptions
+                    Successful Impressions
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("Successful") }}
                     </i>
@@ -394,6 +423,9 @@
                   <td class="text-center" style="color: blue">
                     {{ item?.TotalInterception }}
                   </td>
+                  <td class="text-center" style="color: blue">
+                    {{ item?.Impressions }}
+                  </td>
 
                   <td class="text-center" style="color: blue">
                     {{ item?.Successful }}
@@ -428,6 +460,14 @@
   <div class="col-md-12 text-center">
     <div class="img-center">
       <img src="assets/images/basicloader.gif" alt="" srcset="" />
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="!loading && tableData.length == 0">
+  <div class="col-md-12 text-center">
+    <div class="alert alert-info">
+      <p>No Data Found</p>
     </div>
   </div>
 </div>
