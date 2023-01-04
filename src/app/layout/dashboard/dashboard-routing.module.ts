@@ -30,7 +30,8 @@ import { AssignTargetComponent } from "./innerComponents/assign-target/assign-ta
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
 import { UpdateSupervisorAttendenceComponent } from "./innerComponents/update-supervisor-attendence/update-supervisor-attendence.component";
 import { DashboardDataComponent } from "./dashboard-data/dashboard-data.component";
-
+import { importType } from "@angular/compiler/src/output/output_ast";
+import { AddPrizeStwComponent } from "./innerComponents/add-prize-stw/add-prize-stw.component";
 const routes: Routes = [
   {
     path: "",
@@ -89,6 +90,10 @@ const routes: Routes = [
       {
         path: "update-supervisor-attendence",
         component: UpdateSupervisorAttendenceComponent,
+      },
+      {
+        path: "spin-the-wheel-reward",
+        component: AddPrizeStwComponent,
       },
       { path: "dashboard_data", component: DashboardDataComponent },
       { path: "dashboard_data/:reportId", component: DashboardDataComponent },

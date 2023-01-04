@@ -12,6 +12,8 @@ import { Config } from "src/assets/config";
   providedIn: "root",
 })
 export class DashboardService {
+  dashboardStatsObj: any;
+  filteredList: any;
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
@@ -334,11 +336,11 @@ export class DashboardService {
     return this.http.post(url, filter);
   }
 
-  getDashboardStats(obj) {
-    const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + "interceptionSummary"; // ------> InterceptionSummaryDataController
-    return this.http.post(url, urlEncode, this.httpOptions);
-  }
+  // getDashboardStats(obj) {
+  //   const urlEncode = this.UrlEncodeMaker(obj);
+  //   const url = this.ip + "interceptionSummary"; // ------> InterceptionSummaryDataController
+  //   return this.http.post(url, urlEncode, this.httpOptions);
+  // }
 
   getShops(zoneId, regionId) {
     const filter = JSON.stringify({
@@ -437,5 +439,10 @@ export class DashboardService {
     });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
+  }
+  getSpinTheWheelData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "spin-the-wheel-reward"; // -------> SpinTheWheelRewardController
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 }

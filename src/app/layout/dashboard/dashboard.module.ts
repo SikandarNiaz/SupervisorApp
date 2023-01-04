@@ -68,6 +68,7 @@ import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/m
 import { AssignTargetComponent } from "./innerComponents/assign-target/assign-target.component";
 import { UpdateSupervisorAttendenceComponent } from "./innerComponents/update-supervisor-attendence/update-supervisor-attendence.component";
 import { DashboardDataComponent } from "./dashboard-data/dashboard-data.component";
+import { AddPrizeStwComponent } from './innerComponents/add-prize-stw/add-prize-stw.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -137,6 +138,7 @@ import { DashboardDataComponent } from "./dashboard-data/dashboard-data.componen
     AssignTargetComponent,
     UpdateSupervisorAttendenceComponent,
     DashboardDataComponent,
+    AddPrizeStwComponent,
   ],
 })
 export class DashboardModule {}
