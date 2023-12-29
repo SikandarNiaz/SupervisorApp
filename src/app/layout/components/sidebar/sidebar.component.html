@@ -39,6 +39,15 @@
             <mat-icon class="sidenav-icon" *ngIf="item.header == 'Admin'"
               >add</mat-icon
             >
+            <mat-icon class="sidenav-icon" *ngIf="item.header == 'Attendance'"
+            >add</mat-icon
+          >
+          <mat-icon class="sidenav-icon" *ngIf="item.header == 'Virtual View'"
+            >add</mat-icon
+          >
+          <mat-icon class="sidenav-icon" *ngIf="item.header == 'Interception Summary'"
+            >add</mat-icon
+          >
             <!-- <mat-icon class="sidenav-icon" *ngIf="item.header=='BA Review'">add</mat-icon> -->
 
             {{ item.header | translate }}

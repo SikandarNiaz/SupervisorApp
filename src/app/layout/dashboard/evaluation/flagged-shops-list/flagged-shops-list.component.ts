@@ -17,10 +17,10 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { environment } from "src/environments/environment";
 import { NgModel } from "@angular/forms";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import * as _ from "lodash";
 import { Config } from "src/assets/config";
 
@@ -31,7 +31,7 @@ import { Config } from "src/assets/config";
 })
 export class FlaggedShopsListComponent implements OnInit {
   @ViewChildren("checked") private myCheckbox: any;
-  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   labels: any;
   constructor(
     private toastr: ToastrService,

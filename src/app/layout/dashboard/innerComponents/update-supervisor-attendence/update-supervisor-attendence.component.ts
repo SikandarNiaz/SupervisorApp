@@ -17,7 +17,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import * as _ from "lodash";
 import { environment } from "src/environments/environment";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { Config } from 'src/assets/config';
 
 @Component({
@@ -26,8 +26,8 @@ import { Config } from 'src/assets/config';
   styleUrls: ['./update-supervisor-attendence.component.scss']
 })
 export class UpdateSupervisorAttendenceComponent implements OnInit {
-  @ViewChild("updateSuperAttendenceModal") updateSuperAttendenceModal: ModalDirective;
-  @ViewChild("insertSuperAttendenceModal") insertSuperAttendenceModal: ModalDirective;
+  @ViewChild("updateSuperAttendenceModal", { static: true }) updateSuperAttendenceModal: ModalDirective;
+  @ViewChild("insertSuperAttendenceModal", { static: true }) insertSuperAttendenceModal: ModalDirective;
   title = "";
   minDate = new Date(2000, 0, 1);
   maxDate: any = new Date();
@@ -94,7 +94,7 @@ export class UpdateSupervisorAttendenceComponent implements OnInit {
     } else {
       this.title = "Surveyor List";
     }
-    this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.zones = JSON.parse(localStorage.getItem("regionList"));
     this.projectType = localStorage.getItem("projectType");
     this.labels = JSON.parse(localStorage.getItem("labelProperties"));
 

@@ -162,7 +162,7 @@
                           </span>
                         </div>
                         <mat-card-content>
-                          <mat-label
+                          <mat-label style="color: blue; cursor: pointer" (click)="showSurveyorTimeUpdateModal(item.key, surveyor.id)"
                             >{{ surveyor?.fullName }}({{
                               surveyor?.mCode
                             }})</mat-label
@@ -266,6 +266,91 @@
     </div>
   </div>
 </div>
+<!-- ///////////////////////Update Time Modal//////////////////////////////// -->
+<div
+  bsModal
+  #updateTimeModal="bs-modal"
+  [config]="{ ignoreBackdropClick: true, keyboard: false, backdrop: 'static' }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Update Profile
+        </h4>
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
+        <button
+          [disabled]="loadingModal"
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideshowSurveyorTimeUpdateModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <section>
+          <mat-form-field>
+            <input matInput placeholder="User Day Start Time"
+            aria-label="12hr format"
+            [disabled]="loadingModal"
+            [ngxTimepicker]="defaultPicker"
+            [(ngModel)]="selectedStartTime">
+          <ngx-material-timepicker
+            #defaultPicker
+            [preventOverlayClick]="true"
+          ></ngx-material-timepicker>
+          </mat-form-field>
+        </section>
+        <section>
+          <mat-form-field>
+            <input matInput
+            placeholder="User Day End Time"
+            aria-label="12hr format"
+            [disabled]="loadingModal "
+            [ngxTimepicker]="defaultPicker1"
+            [(ngModel)]="selectedEndTime">
+          
+          <ngx-material-timepicker
+            #defaultPicker1
+            [preventOverlayClick]="true"
+          ></ngx-material-timepicker>
+          </mat-form-field>
+        </section>
+        <label for="day">Select Weekly Day Off</label>
+        <select
+            class="form-control"
+            placeholder="Weekly off Days"
+            name="day"
+            [(ngModel)]="selectedDay"
+          >
+            <ng-container *ngFor="let day of daysList">
+              <option [value]="day">{{ day }}</option>
+            </ng-container>
+          </select>
+      </div>
+      <div class="modal-footer">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="loadingModal"
+          (click)="UpdateSurveyorTime()"
+        >
+          Update
+        </button>
+        <button [disabled]="loadingModal" (click)="hideshowSurveyorTimeUpdateModal()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /////////////////////////////////////////////////////////////// -->
 
 <div
   bsModal

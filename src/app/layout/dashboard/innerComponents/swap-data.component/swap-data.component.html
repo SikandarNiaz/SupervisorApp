@@ -1,0 +1,274 @@
+<!-- Display this card if params.surveyorId is not present -->
+<mat-card class="mb-20" *ngIf="!params.surveyorId">
+  <mat-card-content>
+    <mat-card-title>
+      {{ title | uppercase }}
+      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+    </mat-card-title>
+    <section class="example-section">
+        <!-- <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'||projectType=='PG_DALDA'||projectType=='PG_UAE'||projectType=='PGWS_IRAQ'"> -->
+        <mat-form-field
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="TL List"
+          name="list"
+          [(ngModel)]="selectedSupervisor"
+          (ngModelChange)="getData(params)"
+        >
+          <ng-container *ngFor="let list of supervisorList">
+            <mat-option [value]="list">{{ list.fullName }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+       
+      <mat-form-field class="example-margin mr-10-IMP">
+        <mat-select
+          placeholder="{{ labels.zoneLabel }}"
+          name="zone"
+          [(ngModel)]="selectedZone"
+          (ngModelChange)="zoneChange()"
+        >
+          <mat-option [value]="zone" *ngFor="let zone of zones">{{
+            zone.title
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+          *ngIf="regions.length > 0 && selectedZone.id !== -1"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="{{ labels.regionLabel }}"
+            name="region"
+            [(ngModel)]="selectedRegion"
+            (ngModelChange)="getData()"
+          >
+            <mat-option [value]="region" *ngFor="let region of regions">{{
+              region.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      <mat-form-field class="example-full-width mr-10-IMP">
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="picker0"
+          [(ngModel)]="startDate"
+          (ngModelChange)="getData(params)"
+          placeholder="Choose a start date"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+        <mat-datepicker #picker0></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width mr-10-IMP">
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="picker1"
+          [(ngModel)]="endDate"
+          (ngModelChange)="getData(params)"
+          placeholder="Choose an end date"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+<!-- Check if tableData is defined and has length before displaying content -->
+<ng-container *ngIf="tableData && tableData.length > 0">
+  <div class="container-fluid">
+    <div class="row js">
+      <ng-container *ngFor="let item of tableData; let i = index">
+        <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
+          <div class="ribbon">
+            <img
+              mat-card-image
+              class="small"
+              [src]="ip + item.Receiving_pictures"
+              width="250"
+              height="430"
+              alt=""
+              (click)="setSelectedItem(item);showChildModal1(item)"
+            />
+          </div>
+          <mat-card-content>
+            <table class="table" style="cursor: pointer">
+              <!-- <tr>
+                <th>Campaign Name</th>
+                <td>{{ item?.CAMPAIGN_NAME }}</td>
+              </tr> -->
+              <tr>
+                <th>TL Code</th>
+                <td>{{ item?.user_code }}</td>
+              </tr>
+              <tr>
+                <th>Visit Date</th>
+                <td>{{ item?.Date }}</td>
+              </tr>
+              <tr>
+                  <th>Swap Details</th>
+                  <td  style="color: blue; cursor: pointer"
+                  (click)="goToUpdateTargetPage(item)">{{ 'Details' }}</td>
+                </tr>
+              <tr>
+                <th>Territory</th>
+                <td>{{ item?.Territory }}</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Show loading image if loading is true -->
+<div class="row" *ngIf="loading">
+  <div class="col-md-12 text-center">
+    <div class="img-center">
+      <img src="assets/images/basicloader.gif" alt="" srcset="" />
+    </div>
+  </div>
+</div>
+
+<!-- Show message if tableData is empty  and loading is false -->
+<div class="row" *ngIf="!loading && (!tableData || tableData.length === 0)">
+  <div class="col-md-12 text-center">
+    <div class="alert alert-info">
+      <p>No Data Found</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal container with corrected ng-container -->
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+  <ng-container>
+    <div class="container-fluid">
+      <div class="row js">
+        <ng-container >
+          <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
+            <mat-card-content>
+              <button
+              type="button"
+              class="close pull-right"
+              aria-label="Close"
+              (click)="hideChildModal()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+              <table class="table" style="cursor: pointer" >
+                  <tr>
+                      <th>Capstan by Pall Mall</th>
+                      <td contenteditable='true'>{{ shopData?.Capstan_by_Pall_Mall }}</td>
+                    </tr>
+                    <tr>
+                      <th>Gold Flake</th>
+                      <td contenteditable='true'>{{ shopData?.Gold_Flake }}</td>
+                    </tr>
+                    <tr>
+                      <th>Morven Classic</th>
+                      <td contenteditable='true'>{{ shopData?.Morven_Classic }}</td>
+                    </tr>
+                    <tr>
+                      <th>Cafe</th>
+                      <td contenteditable='true'>{{ shopData?.Cafe }}</td>
+                    </tr>
+                    <tr>
+                      <th>Melburn</th>
+                      <td contenteditable='true'>{{ shopData?.Melburn }}</td>
+                    </tr>
+                    <tr>
+                      <th>Melburn Gold</th>
+                      <td contenteditable='true'>{{ shopData?.Melburn_Gold }}</td>
+                    </tr>
+                    <tr>
+                      <th>Morven by Chesterfield</th>
+                      <td contenteditable='true'>{{ shopData?.Morven_by_Chesterfield }}</td>
+                    </tr>
+                    <tr>
+                      <th>Cricket</th>
+                      <td contenteditable='true'>{{ shopData?.Cricket }}</td>
+                    </tr>
+                    <tr>
+                      <th>Champion</th>
+                      <td contenteditable='true'>{{ shopData?.Champion }}</td>
+                    </tr>
+                    <tr>
+                      <th>Other</th>
+                      <td contenteditable='true' (change)="updateSwapData(shopData)">{{ shopData?.Other }}</td>
+                    </tr>
+                <!-- Add more rows as needed -->
+              </table>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="col-md-3.5 example-card card2 ml-3 mt-3">
+            <lib-ngx-image-zoom
+            [zoomMode]="'hover'" 
+            [magnification]="2"
+            [enableScrollZoom]="true"
+            [lensWidth]="230"
+            [lensHeight]="300"
+            [enableLens]="true"
+            [thumbImage]="ip + shopData?.Packs_picture"
+            [fullImage]="ip + shopData?.Packs_picture"
+          >
+          </lib-ngx-image-zoom>
+        </mat-card>
+          <mat-card class="col-md-3.5 example-card card2 ml-3 mt-3">
+              <lib-ngx-image-zoom
+              [zoomMode]="'hover'"
+              [magnification]="2"
+              [enableScrollZoom]="true"
+              [lensWidth]="230"
+              [lensHeight]="300"
+              [enableLens]="true"
+              [thumbImage]="ip + shopData?.Receiving_pictures"
+              [fullImage]="ip + shopData?.Receiving_pictures"
+            >
+            </lib-ngx-image-zoom>
+          </mat-card>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<div
+  bsModal
+  #childModal1="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ selectedItem.full_name }}
+        </h4> -->
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideChildModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body text-center">
+        <img src="{{ ip }}{{ selectedItem.Receiving_pictures }}" alt="" />
+      </div>
+    </div>
+  </div>
+</div>

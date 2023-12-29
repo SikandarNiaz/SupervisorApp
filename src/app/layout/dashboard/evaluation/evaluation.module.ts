@@ -5,11 +5,12 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { EvaluationRoutingModule } from "./evaluation-routing.module";
 import { HomeComponent } from "./home/home.component";
 import { MainPageComponent } from "./main-page/main-page.component";
-import { ModalModule } from "ngx-bootstrap";
+import { ModalModule } from "ngx-bootstrap/modal";
 import { FormsModule } from "@angular/forms";
 import { MatRadioModule } from "@angular/material/radio";
-import { AccordionModule } from "ngx-bootstrap";
-import { MatCardModule, MatFormFieldModule } from "@angular/material";
+import { AccordionModule } from "ngx-bootstrap/accordion";
+import { MatCardModule } from "@angular/material/card";
+import {  MatFormFieldModule } from "@angular/material/form-field";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSliderModule } from "@angular/material/slider";
 import { NgxImageZoomModule } from "ngx-image-zoom";
@@ -18,14 +19,12 @@ import { ResizableModule } from "angular-resizable-element";
 import { Ng5SliderModule } from "ng5-slider";
 import { MatInputModule } from "@angular/material/input";
 import { EvaluationDetailComponent } from "./evaluation-detail/evaluation-detail.component";
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatTableModule,
-  MatSelectModule,
-  MatNativeDateModule,
-  MatMenuModule,
-} from "@angular/material";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatSelectModule } from "@angular/material/select";
+import { MatTableModule } from "@angular/material/table";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 import { MatGridListModule } from "@angular/material/grid-list";
 import {
   MatDatepickerModule,
@@ -49,7 +48,7 @@ import { Ng2OrderModule } from "ng2-order-pipe";
     MatCardModule,
     MatCheckboxModule,
     MatSliderModule,
-    NgxImageZoomModule.forRoot(),
+    NgxImageZoomModule,
     NgxPaginationModule,
     ResizableModule,
     Ng5SliderModule,

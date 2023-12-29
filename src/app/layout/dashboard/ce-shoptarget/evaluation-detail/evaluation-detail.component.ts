@@ -7,7 +7,7 @@ import { NgModel } from "@angular/forms";
 import { environment } from "src/environments/environment";
 import { Alert } from "selenium-webdriver";
 import { Config } from "src/assets/config";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "app-evaluation-detail",
@@ -16,7 +16,7 @@ import { ModalDirective } from "ngx-bootstrap";
 })
 export class EvaluationDetailComponent implements OnInit {
   // ip = environment.ip;
-  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   configFile = Config;
   title = "Shop Target Update";
   ip: any = this.configFile.BASE_URI;

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'email-manager',
@@ -9,7 +9,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 export class EmailManagerComponent implements OnInit {
   title='Email Manager';
   tabName='home';
-  @ViewChild('sosModal') sosModal: ModalDirective;
+  @ViewChild('sosModal', { static: true }) sosModal: ModalDirective;
 
   constructor() { }
 

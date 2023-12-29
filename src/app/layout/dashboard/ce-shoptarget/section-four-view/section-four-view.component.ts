@@ -12,7 +12,7 @@ import { Config } from "src/assets/config";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { CeShoptargetService } from "../ce-shoptarget.service";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "section-four-view",
@@ -22,7 +22,7 @@ import { ModalDirective } from "ngx-bootstrap";
 export class SectionFourViewComponent implements OnInit {
   @Input("data") data;
   // @ViewChild('childModal') childModal: ModalDirective;
-  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
   @Input("isEditable") isEditable: any;
   @Output("assetTypeId") assetTypeForEmit: any = new EventEmitter<any>();

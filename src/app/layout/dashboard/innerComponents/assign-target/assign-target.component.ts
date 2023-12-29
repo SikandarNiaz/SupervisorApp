@@ -19,10 +19,10 @@ import {  Component,
   import { Router } from "@angular/router";
   import { DashboardDataService } from "../../dashboard-data.service";
   import { ToastrService } from "ngx-toastr";
-  import { MatTableDataSource } from "@angular/material";
+  import { MatTableDataSource } from "@angular/material/table";
   import { environment } from "src/environments/environment";
   import { NgModel } from "@angular/forms";
-  import { ModalDirective } from "ngx-bootstrap";
+  import { ModalDirective } from "ngx-bootstrap/modal";
   import * as _ from "lodash";
   import { Config } from "src/assets/config";
   declare const google: any;
@@ -34,9 +34,9 @@ import {  Component,
 
 export class AssignTargetComponent implements OnInit {
   @ViewChildren("checked") private myCheckbox: any;
-  @ViewChild("childModal") childModal: ModalDirective;
-  @ViewChild("shopInfoModal") shopInfoModal: ModalDirective;
-  @ViewChild("addEditShop") addEditShop: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
+  @ViewChild("shopInfoModal", { static: true }) shopInfoModal: ModalDirective;
+  @ViewChild("addEditShop", { static: true }) addEditShop: ModalDirective;
 
   form: FormGroup;
   tableData: any = [];

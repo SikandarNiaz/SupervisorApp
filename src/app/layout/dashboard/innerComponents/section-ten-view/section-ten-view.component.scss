@@ -1,0 +1,8 @@
+  /* CSS for zoom effect */
+  .zoom-image {
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+  }
+
+  .zoom-image:hover {
+    transform: scale(1.1); /* Adjust the scaling factor as needed */
+  }

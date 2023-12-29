@@ -1,0 +1,111 @@
+<ng-container *ngIf="showEvaluetionData?.length > 0">
+    <div class="container-fluid">
+      <div class="row js">
+        <ng-container *ngFor="let item of showEvaluetionData; let i = index">
+          <div class="col-md-6 mt-3">
+            <mat-card class="example-card card2">
+              <div class="ribbon">
+                <mat-card-title>RESPONDENT PICTURE</mat-card-title>
+                <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.RESPONDENT_PICTURE"
+                  width="200" height="430" alt="" />
+              </div>
+            </mat-card>
+            
+            <mat-card class="example-card card2">
+              <div class="ribbon">
+                <mat-card-title>CNIC IMAGE</mat-card-title>
+                <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.CNIC_IMAGE"
+                  width="200" height="430" alt="" />
+              </div>
+            </mat-card>
+            
+            
+          </div>
+  
+          <div class="col-md-6 mt-3 ">
+            <mat-card class="example-card card2 custom-width">
+  
+              <mat-card-content>
+                <div class="col-md-6 mt-3 custom-width">
+                  <table class="table custom-width1" style="cursor: pointer">
+                    <tr>
+                      <th>BA CODE</th>
+                      <td>{{ item?.Commando_Code }}</td>
+                    </tr>
+                    <tr>
+                      <th>BA NAME</th>
+                      <td>{{ item?.Commando_Name}}</td>
+                    </tr>
+                    <tr>
+                      <th>INTERCEPTION START TIME</th>
+                      <td>{{ item?.visit_start_time}}</td>
+                    </tr>
+                    <tr>
+                      <th>INTERCEPTION END TIME</th>
+                      <td>{{ item?.visit_end_time}}</td>
+                    </tr>
+                    <tr>
+                    <tr>
+                      <th>INTERCEPTION TOTAL TIME</th>
+                      <td>{{ item?.Total_Time}}</td>
+                    </tr>
+                    <tr>
+                    <tr>
+                      <th>CUSTOMER NAME</th>
+                      <td>{{ item?.CUSTOMER_NAME }}</td>
+                    </tr>
+                    <tr>
+                      <th>CUSTOMER CONTACT</th>
+                      <td>{{ item?.CUSTOMER_CONTACT }}</td>
+                    </tr>
+                    <tr>
+                      <th>CNIC</th>
+                      <td>{{ item?.CNIC }}</td>
+                    </tr>
+                    <tr>
+                      <th>ADDRESS</th>
+                      <td>{{ item?.ADDRESS }}</td>
+                    </tr>
+                    <tr>
+                      <th>CUSTOMER AGE</th>
+                      <td>{{ item?.CUSTOMER_AGE }}</td>
+                    </tr>
+                    <tr>
+                      <th>CURRENT BRAND</th>
+                      <td>{{ item?.CURRENT_BRAND }}</td>
+                    </tr>
+                    <tr>
+                      <th>PACK SWAPPED</th>
+                      <td>{{ item?.PACK_SWAPPED }}</td>
+                    </tr>
+                    <tr>
+                      <th>LIGHTER</th>
+                      <td>{{ item?.LIGHTER }}</td>
+                    </tr>
+                    <tr>
+                      <th>Status</th>
+                      <td>{{ item?.Status }}</td>
+                    </tr>
+  
+                  </table>
+  
+  
+                  <mat-select placeholder="Remarks List" name="list" [(ngModel)]="selectedRemarks"
+                    [disabled]="item?.Status !== 'Pending'">
+                    <ng-container *ngFor="let item of remarks
+                    ">
+                      <mat-option [value]="item"> {{ item.title }} </mat-option>
+                    </ng-container>
+                  </mat-select>
+  
+                  <button type="button" (click)="approveDetails()" class="btn btn-primary"
+                    [disabled]="item?.Status !== 'Pending'">Submit</button>
+                </div>
+              </mat-card-content>
+  
+            </mat-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>

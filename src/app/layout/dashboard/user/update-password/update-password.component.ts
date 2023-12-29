@@ -19,7 +19,7 @@ export class UpdatePasswordComponent implements OnInit {
     // cbl:'Y'
 };
 
-@ViewChild('f') form:NgForm;
+@ViewChild('f', { static: true }) form:NgForm;
 loading=false;
     user_id: string;
 constructor(private router: Router, private httpService: DashboardService, private toastr: ToastrService) {

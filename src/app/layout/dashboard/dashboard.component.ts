@@ -5,12 +5,12 @@ import {
   AfterViewInit,
   ViewChild,
 } from "@angular/core";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { DashboardService } from "./dashboard.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import * as moment from "moment";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { Config } from "src/assets/config";
 
 @Component({
@@ -21,7 +21,7 @@ import { Config } from "src/assets/config";
 export class DashboardComponent implements OnInit {
   main_logo = Config.main_logo;
 
-  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
 
   constructor(
     private httpService: DashboardService,

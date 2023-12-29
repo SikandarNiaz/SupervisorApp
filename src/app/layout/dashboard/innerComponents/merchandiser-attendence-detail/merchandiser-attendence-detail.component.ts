@@ -4,10 +4,10 @@ import { DashboardService } from "../../dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { environment } from "src/environments/environment";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { Alert } from "selenium-webdriver";
 import { Config } from "src/assets/config";
-import { MatPaginator } from "@angular/material";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
   selector: "app-merchandiser-attendence-detail",
@@ -30,6 +30,8 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   selectedZone: any = {};
   selectedRegion: any = {};
   minDate = new Date(2000, 0, 1);
+  supervisorList: any;
+  selectedSupervisor: any = [];
   maxDate = new Date();
   startDate = new Date();
   endDate = new Date();
@@ -37,8 +39,8 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
   // @Input() startDate: moment.MomentInput;
   title = "Attendance";
   userId: any;
-  @ViewChild("childModal") childModal: ModalDirective;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   selectedItem: any = {};
   p = 0;
   tableTitle = "";
@@ -74,6 +76,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
 
   ngOnInit() {
     // this.getTableData();
+    this.getSupervisor();
     
   }
 
@@ -86,6 +89,7 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
         endDate: params.endDate,
         regionId: -1,
         zoneId: -1,
+        supervisorId: -1,
       };
     } else {
       this.obj = {
@@ -93,7 +97,12 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
         endDate: moment(this.endDate).format("YYYY-MM-DD"),
         surveyorId: -1,
         regionId: this.selectedRegion.id || -1,
-        zoneId: this.selectedZone.id || -1,
+        zoneId: this.selectedZone.id
+        ? this.selectedZone.id == -1
+          ? localStorage.getItem("zoneId")
+          : this.selectedZone.id
+        : localStorage.getItem("zoneId"),
+        supervisorId: this.selectedSupervisor.id || -1,
       };
     }
 
@@ -142,6 +151,34 @@ export class MerchandiserAttendenceDetailComponent implements OnInit {
           );
         }
         this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
+
+  getSupervisor() {
+    this.loading = true;
+
+     this.httpService.getBaSupervisorsList().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.supervisorList = res;
+          console.log("supervisors",this.supervisorList)
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
       },
       (error) => {
         this.loading = false;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { environment } from 'src/environments/environment';
 import { Config } from 'src/assets/config';
 
@@ -11,7 +11,7 @@ import { Config } from 'src/assets/config';
 export class SectionOneViewComponent implements OnInit {
 
   @Input('data') data;
-  @ViewChild('childModal') childModal: ModalDirective;
+  @ViewChild('childModal', { static: true }) childModal: ModalDirective;
   @Output('showModal') showModal: any = new EventEmitter<any>();
   @Input('isEditable') isEditable: any;
   selectedShop: any = {};

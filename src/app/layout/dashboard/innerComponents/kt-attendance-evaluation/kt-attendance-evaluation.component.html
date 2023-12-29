@@ -1,0 +1,94 @@
+<ng-container *ngIf="showEvaluetionData?.length > 0">
+    <div class="container-fluid">
+      <div class="row js">
+        <ng-container *ngFor="let item of showEvaluetionData; let i = index">
+          <div class="col-md-6 mt-3">
+            <mat-card class="example-card card2">
+              <div class="ribbon">
+                <mat-card-title>BA SELFIE</mat-card-title>
+                <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.BA_Selfie"
+                  width="200" height="430" alt="" />
+              </div>
+            </mat-card>
+            
+            <mat-card class="example-card card2">
+              <div class="ribbon">
+                <mat-card-title>CNIC IMAGE</mat-card-title>
+                <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.CNIC_Picture"
+                  width="200" height="430" alt="" />
+              </div>
+            </mat-card>
+
+            <mat-card class="example-card card2">
+                <div class="ribbon">
+                  <mat-card-title>METER READING PICTURE</mat-card-title>
+                  <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.Meter_Reading_Picture"
+                    width="200" height="430" alt="" />
+                </div>
+              </mat-card>
+            
+            
+          </div>
+  
+          <div class="col-md-6 mt-3 ">
+            <mat-card class="example-card card2 custom-width">
+  
+              <mat-card-content>
+                <div class="col-md-6 mt-3 custom-width">
+                  <table class="table custom-width1" style="cursor: pointer">
+                    <tr>
+                        <th>BA CODE</th>
+                        <td>{{ item?.Commando_Code }}</td>
+                      </tr>
+                      <tr>
+                        <th>BA NAME</th>
+                        <td>{{ item?.Commando_Name}}</td>
+                      </tr>
+                      <tr>
+                        <th>TL CODE</th>
+                        <td>{{ item?.TL_Code}}</td>
+                      </tr>
+                      <tr>
+                        <ng-container *ngIf="item?.ATTENDANCE_TYPE == 'DAY_START'">
+                            <th>DAY START TIME</th>
+                        </ng-container>
+                        <ng-container *ngIf="item?.ATTENDANCE_TYPE == 'DAY_END'">
+                            <th>DAY END TIME</th>
+                        </ng-container>
+                        <td>{{ item?.visit_start_time }}</td>
+                    </tr>
+                      <!-- <tr>
+                        <th>INTERCEPTION END TIME</th>
+                        <td>{{ item?.visit_end_time}}</td>
+                      </tr> -->
+                      <tr>
+                        <th>CNIC NUMBER</th>
+                        <td>{{ item?.CNIC_Number }}</td>
+                      </tr>
+                      <tr>
+                        <th>BIKE/VEHICLE METER READING</th>
+                        <td>{{ item?.Bike_Vehicle_Meter_Reading }}</td>
+                      </tr>
+  
+                  </table>
+  
+  
+                  <mat-select placeholder="Remarks List" name="list" [(ngModel)]="selectedRemarks"
+                    [disabled]="item?.Status !== 'Pending'">
+                    <ng-container *ngFor="let item of remarks
+                    ">
+                      <mat-option [value]="item"> {{ item.title }} </mat-option>
+                    </ng-container>
+                  </mat-select>
+  
+                  <button type="button" (click)="approveDetails()" class="btn btn-primary"
+                    [disabled]="item?.Status !== 'Pending'">Submit</button>
+                </div>
+              </mat-card-content>
+  
+            </mat-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>

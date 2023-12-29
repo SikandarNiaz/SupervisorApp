@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Config } from 'src/assets/config';
 import { environment } from 'src/environments/environment';
@@ -36,8 +36,8 @@ export class AddPrizeStwComponent implements OnInit {
   // @Input() startDate: moment.MomentInput;
   title = "Prize Winners";
   userId: any;
-  @ViewChild("childModal") childModal: ModalDirective;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   selectedItem: any = {};
   p = 0;
   tableTitle = "";

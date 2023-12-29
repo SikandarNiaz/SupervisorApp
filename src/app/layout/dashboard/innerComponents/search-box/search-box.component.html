@@ -1,0 +1,16 @@
+<div class="search-wrapper" [class.active]="isActive">
+    <div class="input-holder">
+      <input
+        type="text"
+        [(ngModel)]="value"
+        placeholder="Type to search"
+        class="search-input"
+        (keyup.enter)="applyFilter()"
+      />
+      <button class="search-icon" (click)="applyFilter()">
+        <span></span>
+      </button>
+    </div>
+    <button *ngIf="value" class="close" (click)="cancelFilter()"></button>
+  </div>
+  

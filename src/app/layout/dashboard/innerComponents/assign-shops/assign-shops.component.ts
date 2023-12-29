@@ -19,12 +19,13 @@ import { subscribeOn } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { DashboardDataService } from "../../dashboard-data.service";
 import { ToastrService } from "ngx-toastr";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { environment } from "src/environments/environment";
 import { NgModel } from "@angular/forms";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import * as _ from "lodash";
 import { Config } from "src/assets/config";
+
 
 declare const google: any;
 @Component({
@@ -34,9 +35,11 @@ declare const google: any;
 })
 export class AssignShopsComponent implements OnInit {
   @ViewChildren("checked") private myCheckbox: any;
-  @ViewChild("childModal") childModal: ModalDirective;
-  @ViewChild("shopInfoModal") shopInfoModal: ModalDirective;
-  @ViewChild("addEditShop") addEditShop: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
+  @ViewChild("shopInfoModal", { static: true }) shopInfoModal: ModalDirective;
+  @ViewChild("addEditShop", { static: true }) addEditShop: ModalDirective;
+  @ViewChild("updateTimeModal", { static: true }) updateTimeModal: ModalDirective;
+  private exportTime = { hour: 7, minute: 15, meriden: 'PM', format: 24 };
 
   form: FormGroup;
   tableData: any = [];
@@ -80,6 +83,11 @@ export class AssignShopsComponent implements OnInit {
   selectedKeyword = "";
   filteredShops: any = [];
   labels: any;
+  time: any;
+  selectedStartTime= null;
+  selectedEndTime= null;
+  daysList: any = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
+  selectedDay = null;
 
   constructor(
     private toastr: ToastrService,
@@ -209,8 +217,25 @@ export class AssignShopsComponent implements OnInit {
     this.childModal.hide();
   }
 
+  hideshowSurveyorTimeUpdateModal() {
+   this.selectedStartTime=null;
+    this.selectedEndTime=null;
+    this.selectedDay=null;
+   // this.programs = [];
+    this.surveyors = [];
+    this.updateTimeModal.hide();
+   // this.selectedStartTime.reset;
+   // this.selectedEndTime.reset;
+  }
+
   showShopInfoModal(): void {
     this.shopInfoModal.show();
+  }
+
+  showSurveyorTimeUpdateModal(surveyorId): void {
+   // this.loadPrograms();
+   this.selectedSurveyor=surveyorId;
+    this.updateTimeModal.show();
   }
 
   hideShopInfoModal() {
@@ -342,10 +367,12 @@ export class AssignShopsComponent implements OnInit {
       programId: this.selectedProgram,
       action: 1,
     };
+    debugger;
     this.loadingModal = true;
     this.loadingModalButton = true;
     this.httpService.ActiveDeactiveShops(obj).subscribe((data) => {
       if (data) {
+        debugger;
         this.response = data;
         this.getTabsData();
         this.hideChildModal();
@@ -561,5 +588,37 @@ export class AssignShopsComponent implements OnInit {
     this.filteredShops = Object.assign([], this.shopList).filter(
       (item) => item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
     );
+  }
+
+  UpdateSurveyorTime() {
+    const obj = {
+      surveyorId: this.selectedSurveyor,
+      startTime: this.selectedStartTime,
+      endTime: this.selectedEndTime,
+      holiday: this.selectedDay,
+    };
+    debugger;
+    this.loadingModal = true;
+    this.loadingModalButton = true;
+    this.httpService.UpdateTime(obj).subscribe((data) => {
+      if (data) {
+        debugger;
+        this.response = data;
+       // this.getTabsData();
+        this.hideshowSurveyorTimeUpdateModal();
+        this.selectedShops = [];
+        if (this.response.length > 0) {
+          this.loadingModal = false;
+          this.loadingModalButton = false;
+          this.toastr.success(this.response, "Success");
+          this.getTabsData();
+        }
+      } else {
+        this.loadingModal = false;
+        this.loadingModalButton = false;
+        this.updateTimeModal.hide();
+        this.toastr.error("There is an error in ur file!!");
+      }
+    });
   }
 }

@@ -16,7 +16,7 @@ import { ModalDirective } from "ngx-bootstrap/modal";
   styleUrls: ["./upload-routes.component.scss"],
 })
 export class UploadRoutesComponent implements OnInit {
-  @ViewChild("errorModal") errorModal: ModalDirective;
+  @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
   @ViewChildren("checked") private myCheckbox: any;
   loadingData: boolean;
   selectedRegionUp: any = new FormControl({}, [Validators.required]);

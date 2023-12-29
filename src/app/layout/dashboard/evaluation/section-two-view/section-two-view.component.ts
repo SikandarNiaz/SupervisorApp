@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
-import { elementStart } from "@angular/core/src/render3";
-import { NG_PROJECT_AS_ATTR_NAME } from "@angular/core/src/render3/interfaces/projection";
 import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
 import { Config } from "src/assets/config";
 import mapboxgl from "mapbox-gl";
@@ -20,8 +18,10 @@ export class SectionTwoViewComponent implements OnInit {
   projectType: any;
 
   constructor(public sanitizer: DomSanitizer) {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoic2lrYW5kYXJuaWF6IiwiYSI6ImNrd3FiYWkwZzBrd3UycHBtOGNnYWY1Nm4ifQ.NSL0s456ejrd4QFu4cvZ6w";
+    // mapboxgl.accessToken =
+    //   "pk.eyJ1Ijoic2lrYW5kYXJuaWF6IiwiYSI6ImNrd3FiYWkwZzBrd3UycHBtOGNnYWY1Nm4ifQ.NSL0s456ejrd4QFu4cvZ6w";
+    // mapboxgl.accessToken = "pk.eyJ1IjoibWFya3NtYW5jdWxpbmFyeSIsImEiOiJjbGcxdXI3ZXYwYXRiM29sMmQ5Z2R2czZmIn0.4ufF0qk-0hh0aC0gGes0WQ";
+    mapboxgl.accessToken = "pk.eyJ1IjoiaGFsZWViY29uY2F2ZXRlY2hjb20iLCJhIjoiY2xpbjF0cnA3MHFjMDNrcGNidHdyZngzZiJ9.8J-Ge14qfoHmbkzIHL5ofg";
   }
 
   ngOnInit() {}

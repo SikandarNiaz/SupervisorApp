@@ -17,10 +17,10 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource } from "@angular/material/table";
 import { environment } from "src/environments/environment";
 import { NgModel } from "@angular/forms";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import * as _ from "lodash";
 import { Config } from "src/assets/config";
 
@@ -290,7 +290,7 @@ export class FilterBarComponent implements OnInit {
     formData.append("filePath", this.form.get("avatar").value);
 
     if (
-      post.selectedRegionUp !== {} &&
+      post.selectedRegionUp !== "" &&
       post.selectedOption !== "" &&
       this.form.get("avatar").value !== null
     ) {

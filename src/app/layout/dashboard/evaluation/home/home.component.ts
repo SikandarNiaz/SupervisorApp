@@ -3,10 +3,11 @@ import { EvaluationService } from "../evaluation.service";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "src/environments/environment";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 import { ResizeEvent } from "angular-resizable-element";
 import { Config } from "src/assets/config";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-home",
@@ -21,10 +22,10 @@ export class HomeComponent implements OnInit {
   loading = false;
   selectedShop: any = {};
 
-  @ViewChild("childModal") childModal: ModalDirective;
-  @ViewChild("remarksModal") remarksModal: ModalDirective;
-  @ViewChild("sosModal") sosModal: ModalDirective;
-  @ViewChild("evaluationRemarksModal") evaluationRemarksModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
+  @ViewChild("remarksModal", { static: true }) remarksModal: ModalDirective;
+  @ViewChild("sosModal", { static: true }) sosModal: ModalDirective;
+  @ViewChild("evaluationRemarksModal", { static: true }) evaluationRemarksModal: ModalDirective;
 
   score: any = 0;
   isChecked = 0;
@@ -100,7 +101,7 @@ export class HomeComponent implements OnInit {
 
       const obj = {
         surveyId: this.surveyId,
-        userTypeId: localStorage.getItem("user_type"),
+        userTypeId: localStorage.getItem("user_type") || 3,
         // userId:localStorage.getItem('user_id')
       };
 

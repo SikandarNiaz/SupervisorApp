@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { DashboardService } from "../../dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from "src/environments/environment";
-import { ModalDirective } from "ngx-bootstrap";
+import { ModalDirective } from "ngx-bootstrap/modal";
 import { Config } from "src/assets/config";
 
 @Component({
@@ -19,7 +19,7 @@ export class ShopDetailComponent implements OnInit {
   ip: any = Config.BASE_URI;
   remarksId: any = 0;
 
-  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   selectedItem: any = {};
   tableTitle = "";
 

@@ -1,0 +1,169 @@
+<div class="container-fluid">
+    <!-- Horizontal Line -->
+    <div class="row" style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"></div>
+  
+    <div class="row justify-content-center">
+      <div class="col-md-12 text-center">
+        <h4>
+          <u>{{ data?.sectionTitle }}</u>
+          <!-- <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i> -->
+        </h4>
+      </div>
+  
+      <!-- Check if there is data and imageList -->
+      <ng-container *ngIf="data && data.length > 0 && data[0]?.imageList?.length > 0">
+        <!-- Determine column size based on formData -->
+        <div [ngClass]="{ 'col-md-5': formData != null, 'col-md-4': formData == null }">
+          <label class="title" for="title">{{ selectedImage?.title }}</label>
+          <div style="position: relative">
+            <!-- Display selectedImage based on its source -->
+  
+            <mat-card class="col-md-3.5 example-card card2 ml-3 mt-3">
+              <lib-ngx-image-zoom
+                [zoomMode]="'hover'"
+                [magnification]="2"
+                [enableScrollZoom]="true"
+                [lensWidth]="230"
+                [lensHeight]="300"
+                [enableLens]="true"
+                [thumbImage]="ip + selectedImage?.url"
+                [fullImage]="ip + selectedImage?.url"
+              >
+              </lib-ngx-image-zoom>
+            </mat-card>
+            
+  
+            <!-- <img
+              *ngIf="!selectedImage?.isExternalUrl"
+              src="{{ ip }}{{ selectedImage?.url }}"
+              class="img-thumbnail"
+              style="height: 450px; width: 100%"
+              (click)="showChildModal(selectedImage)"
+            /> -->
+            <img
+              *ngIf="selectedImage?.isExternalUrl"
+              src="{{ selectedImage?.url }}"
+              class="img-thumbnail"
+              style="height: 450px; width: 100%"
+              (click)="showChildModal(selectedImage)"
+            />
+            <div class="imageDetails">
+              <!-- Display visitDateTime if available -->
+              <p *ngIf="selectedImage?.visitDateTime">Time Stamp: {{ selectedImage?.visitDateTime }}</p>
+            </div>
+          </div>
+  
+          <div class="col-12 ml-3 mt-2">
+            <div class="row">
+              <!-- Loop through imageList and display images -->
+              <ng-container *ngFor="let img of data[0]?.imageList; let i = index">
+                <div
+                  class="col-2 mb-1 card mt-5 mr-2"
+                  (click)="setSelectedImage(img)"
+                  style="padding: 0% !important; cursor: pointer"
+                  [ngClass]="{ bgColor: img?.url == selectedImage.url }"
+                >
+                  <!-- Display images based on their source -->
+                  <img
+                    *ngIf="!img?.isExternalUrl"
+                    src="{{ ip }}{{ img?.url }} "
+                    width="100"
+                    class="img-thumbnail side-image"
+                    style="height: 80px !important; width: 120px !important"
+                  />
+                  <img
+                    *ngIf="img?.isExternalUrl"
+                    src="{{ ip }}{{ img?.url }} "
+                    width="100"
+                    class="img-thumbnail side-image"
+                    style="height: 80px !important; width: 120px !important"
+                  />
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+  
+      <!-- Check if formData is available and not empty -->
+      <ng-container *ngIf="(formData | json) != null && formData?.length > 0">
+        <!-- Determine column size based on imageList -->
+        <div
+          class="tableFixHead"
+          [ngClass]="{
+            'col-md-7': data?.imageList?.length > 0,
+            'col-md-10': data?.imageList?.length == 0
+          }"
+        >
+          <table class="table table-bordered table-hover w-100">
+            <thead style="background: lightgray">
+              <tr>
+                <!-- Table headers -->
+                <th>Question</th>
+                <th>Answer</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <!-- Loop through formData and display data -->
+              <ng-container *ngFor="let data of formData">
+                <!-- Check if the answer exists before displaying the question -->
+                <tr *ngIf="data.value.answer">
+                  <td style="width: 600px !important; word-wrap: break-word">
+                    {{ data.value.question }}
+                  </td>
+            
+                  <!-- Display answer based on the isEditable flag -->
+                  <ng-container *ngIf="isEditable == false">
+                    <td style="width: 300px !important">{{ data.value.answer }}</td>
+                  </ng-container>
+                  <ng-container *ngIf="isEditable == true">
+                    <ng-container *ngIf="data.value.fieldType == 'text_field'; else options">
+                      <!-- Display input field for text_field -->
+                      <td style="width: 300px">
+                        <input
+                          type="number"
+                          [(ngModel)]="data.value.answer"
+                          maxlength="10"
+                          style="width: 3em"
+                          (change)="updateTextData(data.value)"
+                        />
+                      </td>
+                    </ng-container>
+                    <ng-template #options>
+                      <!-- Display select dropdown for other field types -->
+                      <td>
+                        <!-- <select
+                          #newValue
+                          (change)="updateMultiOptionData(newValue.value, data.value)"
+                        > -->
+                          <ng-container *ngFor="let option of data.value.optionListNew">
+                            <option
+                              *ngIf="data.value.answer == option.title"
+                              [value]="option.id"
+                              selected="selected"
+                            >
+                              {{ option?.title }}
+                            </option>
+                            <!-- <option
+                              *ngIf="data.value.answer != option.title"
+                              [value]="option.id"
+                            >
+                              {{ option?.title }}
+                            </option> -->
+                          </ng-container>
+                        <!-- </select> -->
+                      </td>
+                    </ng-template>
+                    
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+            
+          </table>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  

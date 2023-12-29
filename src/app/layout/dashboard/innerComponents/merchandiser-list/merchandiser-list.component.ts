@@ -207,4 +207,32 @@ export class MerchandiserListComponent implements OnInit {
       }
     );
   }
+
+  getSupervisor() {
+    this.loading = true;
+
+     this.httpService.getBaSupervisorsList().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.supervisorList = res;
+          console.log("supervisors",this.supervisorList)
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
 }

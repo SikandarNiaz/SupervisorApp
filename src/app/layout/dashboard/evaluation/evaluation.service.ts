@@ -146,4 +146,15 @@ export class EvaluationService {
     const url = this.ip + "update-Survey-Question"; // -------> EvaluationChangeLogController
     return this.http.post(url, urlencoded, this.httpOptions);
   }
+
+  getZsmRedFlagShops(obj) {
+    const url = this.ip + "app/redflag-shoplist";
+    return this.http.post(url, obj);
+  }
+
+  evaluateZsmShops(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "zsm-survey-validation"; //ZsmSurveyValidationController
+    return this.http.post(url, obj);
+  }
 }

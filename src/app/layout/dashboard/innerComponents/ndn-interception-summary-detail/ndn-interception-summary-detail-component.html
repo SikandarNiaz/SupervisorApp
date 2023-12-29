@@ -1,0 +1,163 @@
+<!-- NO SUMMARY AVAILABLE IN SOME PROJECTS SCOPE -->
+<div class="animated slideInLeft">
+    <mat-card class="mb-20">
+      <mat-card-content>
+        <mat-card-title>
+          {{ title | uppercase }}
+          <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+        </mat-card-title>
+      </mat-card-content>
+    </mat-card>
+  
+    <ng-container *ngIf="tableData.length > 0">
+      <div class="animated slideInLeft">
+        <mat-card class="mb-20" style="border-top: 1px solid #afafaf">
+          <mat-card-content>
+            <section class="example-section">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('RESPONDENT_PICTURE')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} Pictures
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("RESPONDENT_PICTURE") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('CUSTOMER_CONTACT')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} Mobile Number
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("CUSTOMER_CONTACT") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('CUSTOMER_NAME')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} Customer Name
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("CUSTOMER_NAME") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('ADDRESS')"
+                      style="cursor: pointer"
+                    >
+                      Address
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("ADDRESS") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('CNIC')"
+                      style="cursor: pointer"
+                    >
+                      CNIC
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("CNIC") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('PACK_SWAPPED')"
+                      style="cursor: pointer"
+                    >
+                      Swap
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("PACK_SWAPPED") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('Status')"
+                      style="cursor: pointer"
+                    >
+                      Status
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("Status") }}
+                      </i>
+                    </th>
+
+                  </tr>
+                </thead>
+  
+                <tbody *ngIf="tableData.length > 0" >
+                  <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
+                  <tr
+                    *ngFor="let item of tableData | orderBy: sortBy:sortOrder let i = index"
+                    
+                  >
+                  <td class="text-center text-muted" style="width: 80px">
+                    {{ i + 1 }}
+                  </td>
+                  <td class="text-center" style="cursor: pointer">
+                    <img  width="40"
+                    class="rounded-circle"
+                      src="{{ item.RESPONDENT_PICTURE }}" alt="" />
+                  </td>                                                     
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.CUSTOMER_CONTACT }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.CUSTOMER_NAME }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.ADDRESS }}
+                    </td>
+                    <td class="text-center" style="color: blue; cursor: pointer" (click)="gotoNewPage(item)">
+                      {{ item?.CNIC }}
+                    </td>
+                    <td class="text-center">
+                        <span [ngClass]="{'yes-color': item?.PACK_SWAPPED === 'Yes', 'no-color': item?.PACK_SWAPPED === 'No'}">
+                          {{ item?.PACK_SWAPPED }}
+                        </span>
+                      </td>
+                      <td class="text-center" style="cursor: pointer">
+                        {{ item?.Status }}
+                      </td>
+                                                               
+                  </tr>
+                </tbody>
+              </table>
+              <!-- (click)="goToNewPage(item)" -->
+            </section>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
+  
+  <div class="row" *ngIf="loading">
+    <div class="col-md-12 text-center">
+      <div class="img-center">
+        <img src="assets/images/basicloader.gif" alt="" srcset="" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="!loading && tableData.length == 0">
+    <div class="col-md-12 text-center">
+      <div class="alert alert-info">
+        <p>No Data Found</p>
+      </div>
+    </div>
+  </div>
+  

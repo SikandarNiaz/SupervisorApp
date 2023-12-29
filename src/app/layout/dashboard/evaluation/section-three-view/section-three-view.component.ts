@@ -23,7 +23,7 @@ import { KeyValuePipe } from "@angular/common";
 export class SectionThreeViewComponent implements OnInit {
   @Input("data") data;
   // @ViewChild('childModal') childModal: ModalDirective;
-  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
   @Input("isEditable") isEditable: any;
   selectedShop: any = {};

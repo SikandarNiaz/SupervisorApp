@@ -101,6 +101,12 @@ export class DashboardService {
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
+  UpdateTime(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "update-surveyor-time"; // -----> UpdateSurveyorTimeController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
   //#region FILTER CALL
   getZone() {
     this.user_id = localStorage.getItem("user_id");
@@ -160,10 +166,9 @@ export class DashboardService {
     //   })
     // );
   }
-
   getPrograms() {
-    const filter = JSON.stringify({ act: 5 });
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 5 });
     return this.http.post(url, filter);
   }
 
@@ -172,10 +177,50 @@ export class DashboardService {
     const filter = JSON.stringify({ act: 4 });
     return this.http.post(url, filter);
   }
+
+  getZones() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 34 });
+    return this.http.post(url, filter);
+  }
+  getCity() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 26 });
+    return this.http.post(url, filter);
+  }
+  getProgramsForInsert() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 27 });
+    return this.http.post(url, filter);
+  }
+
   getSurveyors(programId, surveyorId, zoneId, regionId) {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({
       act: 13,
+      programId: programId,
+      surveyorId: surveyorId,
+      // supervisorId:supervisorId,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
+    return this.http.post(url, filter);
+  }
+
+  getSamsungSurveyors(zoneId, regionId) {
+    const filter = JSON.stringify({
+      act: 25,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getSurveyor(programId, surveyorId, zoneId, regionId) {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({
+      act: 25,
       programId: programId,
       surveyorId: surveyorId,
       // supervisorId:supervisorId,
@@ -324,6 +369,16 @@ export class DashboardService {
     const url = this.ip + "BAList"; // ------> BAListController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+  getNDNInterceptionSummary(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "ndn-interception-Summary"; // ------> NdnInterceptionSummaryController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  getNDNInterceptionSummaryDetail(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "ndn-interception-Summary-Detail"; // -------> NdnInterceptionSummaryDetailController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
   getBrands() {
     const filter = JSON.stringify({ act: 9 });
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
@@ -403,6 +458,28 @@ export class DashboardService {
     return this.http.post(url, body, this.httpOptions);
   }
 
+  getKTSupervisorAttendenceKissan(obj) {
+    const url = this.ip + "/kt-supervisor-attendance-detail-kissan"; // -----------> DisplayKTSupervisorAttendanceKissanController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  getKTSupervisorAttendenceCGS(obj) {
+    const url = this.ip + "/kt-supervisor-attendance-detail-CGS"; // -----------> DisplayKTSupervisorAttendanceKissanController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  updateKTSupervisorAttendenceKissan(obj) {
+    const url = this.ip + "/update-kt-supervisor-attendance-kissan"; // -----------> UpdateKTSupervisorAttendanceKissanController
+    return this.http.post(url, obj);
+  }
+
+  updateKTSupervisorAttendenceCGS(obj) {
+    const url = this.ip + "/update-kt-supervisor-attendance-CGS"; // -----------> UpdateKTSupervisorAttendanceCGSController
+    return this.http.post(url, obj);
+  }
+
   updateSupervisorAttendence(obj) {
     const url = this.ip + "/update-supervisor-attendance"; // -----------> UpdateSupervisorAttendanceController
     return this.http.post(url, obj);
@@ -410,6 +487,33 @@ export class DashboardService {
 
   getBaSupervisorsList() {
     const filter = JSON.stringify({ act: 20 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getBaSupervisorsListWithNameCode() {
+    const filter = JSON.stringify({ act: 32 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getBaSupervisorsListByRegion(regionId) {
+    const filter = JSON.stringify({
+      act: 35,
+      regionId: regionId,
+    });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  }
+
+  getKTBaKissanSupervisorsList() {
+    const filter = JSON.stringify({ act: 31 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getKTBaCGSSupervisorsList() {
+    const filter = JSON.stringify({ act: 32 });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
@@ -422,6 +526,11 @@ export class DashboardService {
 
   addSupervisorAttendence(obj) {
     const url = this.ip + "/add-supervisor-attendance"; // -----------> UpdateSupervisorAttendanceController
+    return this.http.post(url, obj);
+  }
+
+  verifySupervisorAttendance(obj) {
+    const url = this.ip + "/verify-supervisor-attendance"; // -----------> VerifySupervisorAttendanceController
     return this.http.post(url, obj);
   }
 
@@ -444,5 +553,145 @@ export class DashboardService {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "spin-the-wheel-reward"; // -------> SpinTheWheelRewardController
     return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  getHelpersList(obj) {
+    const url = this.ip + "/helper-list"; // -----------> DisplayHelperController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+  updateHelpersGifts(obj) {
+    const url = this.ip + "/update-gift"; // -----------> UpdateGiftController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+  getHelperGifts() {
+    const filter = JSON.stringify({ act: 24 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+  insertSurveyor(obj) {
+    console.log("insertSurveyor: ", obj);
+    const filter = JSON.stringify({
+      obj: obj,
+    });
+    //return obj;
+    const url = this.ip + "addSurveyors";
+    return this.http.post(url, filter);
+  }
+  updateSurveyorData(obj) {
+    const url = this.ip + "updateSurveyor"; // -----------> UpdateSurveyorController
+    return this.http.post(url, obj);
+  }
+  getFieldsList(obj) {
+    const url = this.ip + "display-fields"; // -----------> DisplayFieldsController
+    return this.http.post(url, obj);
+  }
+  getStockData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "stock-data"; // -------> ShowStockDataController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  getSwapkData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "swap-data"; // -------> ShowSwapDataController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  updateSwapData(obj) {
+    const url = this.ip + "/update-swap-data"; // -----------> UpdateGiftController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  updateStockData(obj) {
+    const url = this.ip + "/update-stock-data"; // -----------> UpdateGiftController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  ViewSwapDataNew(obj) {
+    const url = this.ip + "/viewSwapDataController"; // -----------> UpdateGiftController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  ViewStockDataNew(obj) {
+    const url = this.ip + "/viewStockDataController"; // -----------> UpdateGiftController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  getKTInterceptionData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "view-kt-interception-data"; // -------> viewKTInterceptionDataController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getSamsungClaimData(obj) {
+    const filter = JSON.stringify({ regionId: obj.regionId, zoneId: obj.zoneId, claimId: obj.claimId, surveyorIds: obj.surveyorIds });
+   const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "samsungClaimManagementController";
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  updateSamsungClaimData(obj){
+    const filter = JSON.stringify({obj: obj});
+    const url = this.ip + "/updateSamsungClaimManagementController"; 
+    return this.http.post(url, filter);
+  }
+
+  // getInterceptionDataForEvaluationController(obj) {
+  //   const urlEncode = this.UrlEncodeMaker(obj);
+  //   const url = this.ip + "/view-kt-interception-data-Evaluation"; // -------> ViewInterceptionDataForEvaluationController
+  //   return this.http.post(url, urlEncode, this.httpOptions);
+  // }
+
+  // getInterceptionDataForEvaluationController(obj) {
+  //   const filter = JSON.stringify({ claimId: obj.claimId });
+  //  const body = this.UrlEncodeMaker(obj);
+  //   const url = this.ip + "/view-kt-interception-data-Evaluation";
+  //   return this.http.post(url, body, this.httpOptions);
+  // }
+
+  getKTInterceptionEvaluation(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "view-kt-interception-evaluation"; //-------> KTInterceptionEvaluationController
+       return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getApprovedDisApproved(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "approved-disapproved-kt-interception";
+    // interceptionId:interceptionId; // -------> KTInterceptionEvaluetionController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getRemarks() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 36 });
+    return this.http.post(url, filter);
+  }
+
+  getKTDayStartData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "view-kt-day-start-data"; // -------> ViewKTDayStartDataController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getKTAttendanceEvaluation(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "view-kt-attendance-evaluation"; // -------> KtAttendanceEvaluationController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getCensusBulkData(obj) {
+    const url = this.ip + "/bulk-approve-shops"; // -----------> CensusBulkApproveDisapproveController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+  evaluateZsmShops(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/zsm-survey-validation"; //ZsmSurveyValidationController
+    return this.http.post(url, obj);
   }
 }

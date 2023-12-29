@@ -29,9 +29,29 @@ import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/m
 import { AssignTargetComponent } from "./innerComponents/assign-target/assign-target.component";
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
 import { UpdateSupervisorAttendenceComponent } from "./innerComponents/update-supervisor-attendence/update-supervisor-attendence.component";
+import { UpdateGiftComponent } from "./innerComponents/update-gift/update-gift.component";
 import { DashboardDataComponent } from "./dashboard-data/dashboard-data.component";
 import { importType } from "@angular/compiler/src/output/output_ast";
 import { AddPrizeStwComponent } from "./innerComponents/add-prize-stw/add-prize-stw.component";
+import { ManageSurveyorsComponent } from "./innerComponents/manage-surveyors/manage-surveyors.component";
+import { ShowFieldsComponent} from "./innerComponents/display-fields/display-fields.component";
+import { ShowStockDataComponent } from "./innerComponents/show-stock-data/show-stock-data.component";
+import { ShowSwapDataComponent } from "./innerComponents/swap-data.component/swap-data.component";
+import { UpdateKTSupervisorAttendenceKissanComponent } from "./innerComponents/update-kt-supervisor-attendance-kissan/update-kt-supervisor-attendance-kissan.component";
+import { UpdateKTSupervisorAttendenceCGSComponent } from "./innerComponents/update-kt-supervisor-attendance-CGS/update-kt-supervisor-attendance-CGS.component";
+import { UpdateSwapDataComponent } from "src/app/update-swap-data/update-swap-data.component";
+import { SectionTenViewComponent } from "./innerComponents/section-ten-view/section-ten-view.component";
+import { SectionElevenViewComponent } from "./innerComponents/section-eleven-view/section-eleven-view.component";
+import { UpdateStockDataComponent } from "src/app/update-stock-data/update-stock-data.component";
+import { KTInterceptionData } from "./innerComponents/kt-interception-detail/kt-interception-detail.component";
+import { SamsungClaimManagementOPDComponent } from "./innerComponents/samsung-claims-management-opd/samsung-claims-management-opd-component";
+import { SectionClaimImagesComponent } from "./innerComponents/section-claim-images/section-claim-images.component";
+import { KtInterceptionEvaluationComponent } from "./innerComponents/kt-interception-evaluation/kt-interception-evaluation-component";
+import { NDNInterceptionSummaryComponent } from "./innerComponents/ndn-interception-summary/ndn-interception-summary-component";
+import { NDNInterceptionSummaryDetailComponent } from "./innerComponents/ndn-interception-summary-detail/ndn-interception-summary-detail-component";
+import { KTDayStartData } from "./innerComponents/kt-day-start-detail/kt-day-start-detail.component";
+import { KtAttendanceEvaluation } from "./innerComponents/kt-attendance-evaluation/kt-attendance-evaluation.component";
+import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/bulk-approve-shops.component";
 const routes: Routes = [
   {
     path: "",
@@ -45,13 +65,21 @@ const routes: Routes = [
       { path: "sms_manager", component: EmailManagerComponent },
       { path: "upload_routes", component: UploadRoutesComponent },
       { path: "productivity-dashboard", component: DashboardTableauComponent },
+      { path: "section_detail", component: SectionTenViewComponent },
+      { path: "section_detail_1", component: SectionElevenViewComponent },
+      
       {
         path: "performance-dashboard",
         component: ProductivityTableauComponent,
       },
+      { path: "manage_surveyors", component: ManageSurveyorsComponent },
       { path: "sku-dashboard", component: SkuDashboardComponent },
       { path: "assign-shops", component: AssignShopsComponent },
       { path: "shop-details", component: AssignShopsComponent },
+      {
+        path: "ndnInterceptionSummaryDetailComponent",
+        component: NDNInterceptionSummaryDetailComponent,
+      },
       {
         path: "merchandiserAttendanceDetail",
         component: MerchandiserAttendenceDetailComponent,
@@ -97,6 +125,46 @@ const routes: Routes = [
       },
       { path: "dashboard_data", component: DashboardDataComponent },
       { path: "dashboard_data/:reportId", component: DashboardDataComponent },
+      {
+        path: "update-gift",
+        component: UpdateGiftComponent,
+      },
+      {
+        path: "display-fields",
+        component: ShowFieldsComponent,
+      },
+      {
+        path: "stock-data",
+        component: ShowStockDataComponent,
+      },
+      {
+        path: "swap-data",
+        component: ShowSwapDataComponent,
+      },
+      {
+        path: "update-kt-supervisor-attendance-kissan",
+        component: UpdateKTSupervisorAttendenceKissanComponent,
+      },
+      {
+        path: "update-kt-supervisor-attendance-CGS",
+        component: UpdateKTSupervisorAttendenceCGSComponent,
+      },
+      { path: 'update-swap-data', component: UpdateSwapDataComponent, },
+      { path: 'update-stock-data', component: UpdateStockDataComponent, },
+      {
+        path: "view-kt-interception-data",
+        component: KTInterceptionData,
+      },
+      { path: "samsung-claim-management-opd", component: SamsungClaimManagementOPDComponent },
+      { path: "samsung-claim-images/:id", component: SectionClaimImagesComponent },
+      {
+        path:"view-kt-interception-evaluation",
+        component:KtInterceptionEvaluationComponent
+        
+              },
+      { path: "kt-day-start", component: KTDayStartData },
+      { path: "kt-attendance-evaluation", component: KtAttendanceEvaluation },
+      
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },
@@ -104,7 +172,7 @@ const routes: Routes = [
 
   {
     path: "evaluation",
-    loadChildren: "./evaluation/evaluation.module#EvaluationModule",
+    loadChildren: () => import('./evaluation/evaluation.module').then(m => m.EvaluationModule),
   },
   {
     path: "tableau",
@@ -112,16 +180,25 @@ const routes: Routes = [
   },
   {
     path: "ce_evaluation",
-    loadChildren: "./ce-evaluation/ce-evaluation.module#CeEvaluationModule",
+    loadChildren: () => import('./ce-evaluation/ce-evaluation.module').then(m => m.CeEvaluationModule),
   },
   {
     path: "ce_supervisor_evaluation",
-    loadChildren: "./ce-evaluation/ce-evaluation.module#CeEvaluationModule",
+    loadChildren: () => import('./ce-evaluation/ce-evaluation.module').then(m => m.CeEvaluationModule),
   },
   {
     path: "ce_shoptarget",
-    loadChildren: "./ce-shoptarget/ce-shoptarget.module#CeShoptargetModule",
+    loadChildren: () => import('./ce-shoptarget/ce-shoptarget.module').then(m => m.CeShoptargetModule),
   },
+  {
+    path: "virtual_view",
+    loadChildren: () =>
+      import("./virtual-view/virtual-view.module").then(
+        (m) => m.VirtualViewModule
+      ),
+  },
+  { path: "ndn-interception-summary", component: NDNInterceptionSummaryComponent },
+  { path: "zsm-redflag-shops", component: BulkApproveShopsComponent },
 ];
 
 @NgModule({
