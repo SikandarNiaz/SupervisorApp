@@ -1,5 +1,5 @@
 @import '~@angular/material/theming';
-:host /deep/ .mat-card-header-text {
+:host ::ng-deep .mat-card-header-text {
     width: 100%;
     text-align: left;
 }
@@ -56,7 +56,7 @@
 
 mat-card {
     height: 100px !important;
-    width: 140px;
+    width: 160px;
     margin: 0 15px;
 }
 
