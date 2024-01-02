@@ -733,17 +733,11 @@ obj = {
 
   goToEvaluationPage(item) {
     // Sending notEditable Param if shop is already Evaluated (Shop cant be evaluated Twice)
-    if (item.Status == "N" || item.Status == "Pending") {
+    
       window.open(
         `${environment.hash}dashboard/evaluation/list/details/${item.shop_id}`,
         "_blank"
       );
-    } else {
-      window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.id}/${item.m_code}`,
-        "_blank"
-      );
-    }
   }
 
   evaluateShops(status) {

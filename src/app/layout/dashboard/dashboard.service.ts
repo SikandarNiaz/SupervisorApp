@@ -694,4 +694,15 @@ export class DashboardService {
     const url = this.ip + "/zsm-survey-validation"; //ZsmSurveyValidationController
     return this.http.post(url, obj);
   }
+
+  getMarketIntelligenceData(obj) {
+    const url = this.ip + "/marketIntelligenceData"; // -----------> MarketIntelligenceDataController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+  getMarketIntelligenceDetail(obj) {
+    const url = this.ip + "/marketIntelligenceDetailController"; // -----------> MarketIntelligenceDetailController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
 }

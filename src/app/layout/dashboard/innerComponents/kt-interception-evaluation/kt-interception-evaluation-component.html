@@ -5,19 +5,19 @@
           <div class="col-md-6 mt-3">
             <mat-card class="example-card card2">
               <div class="ribbon">
-                <mat-card-title>RESPONDENT PICTURE</mat-card-title>
+                <mat-card-title>SELFIE WITH CUSTOMER</mat-card-title>
                 <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.RESPONDENT_PICTURE"
                   width="200" height="430" alt="" />
               </div>
             </mat-card>
             
-            <mat-card class="example-card card2">
+            <!-- <mat-card class="example-card card2">
               <div class="ribbon">
                 <mat-card-title>CNIC IMAGE</mat-card-title>
                 <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.CNIC_IMAGE"
                   width="200" height="430" alt="" />
               </div>
-            </mat-card>
+            </mat-card> -->
             
             
           </div>
@@ -28,6 +28,10 @@
               <mat-card-content>
                 <div class="col-md-6 mt-3 custom-width">
                   <table class="table custom-width1" style="cursor: pointer">
+                    <tr>
+                      <th>Status</th>
+                      <td>{{ item?.Status }}</td>
+                    </tr>
                     <tr>
                       <th>BA CODE</th>
                       <td>{{ item?.Commando_Code }}</td>
@@ -81,10 +85,6 @@
                     <tr>
                       <th>LIGHTER</th>
                       <td>{{ item?.LIGHTER }}</td>
-                    </tr>
-                    <tr>
-                      <th>Status</th>
-                      <td>{{ item?.Status }}</td>
                     </tr>
   
                   </table>

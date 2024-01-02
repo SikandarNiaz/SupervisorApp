@@ -52,6 +52,7 @@ import { NDNInterceptionSummaryDetailComponent } from "./innerComponents/ndn-int
 import { KTDayStartData } from "./innerComponents/kt-day-start-detail/kt-day-start-detail.component";
 import { KtAttendanceEvaluation } from "./innerComponents/kt-attendance-evaluation/kt-attendance-evaluation.component";
 import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/bulk-approve-shops.component";
+import { MarketIntelligenceComponent } from "./innerComponents/market-intelligence/market-intelligence.component";
 const routes: Routes = [
   {
     path: "",
@@ -199,6 +200,7 @@ const routes: Routes = [
   },
   { path: "ndn-interception-summary", component: NDNInterceptionSummaryComponent },
   { path: "zsm-redflag-shops", component: BulkApproveShopsComponent },
+  { path: "market-intelligence", component: MarketIntelligenceComponent },
 ];
 
 @NgModule({

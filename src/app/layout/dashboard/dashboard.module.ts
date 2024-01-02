@@ -91,6 +91,7 @@ import { NDNInterceptionSummaryDetailComponent } from "./innerComponents/ndn-int
 import { KTDayStartData } from "./innerComponents/kt-day-start-detail/kt-day-start-detail.component";
 import { KtAttendanceEvaluation } from "./innerComponents/kt-attendance-evaluation/kt-attendance-evaluation.component";
 import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/bulk-approve-shops.component";
+import { MarketIntelligenceComponent } from "./innerComponents/market-intelligence/market-intelligence.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -183,6 +184,7 @@ import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/
     NDNInterceptionSummaryDetailComponent,
     KTDayStartData,
     KtAttendanceEvaluation,
-  BulkApproveShopsComponent  ],
+  BulkApproveShopsComponent,
+  MarketIntelligenceComponent  ],
 })
 export class DashboardModule {}

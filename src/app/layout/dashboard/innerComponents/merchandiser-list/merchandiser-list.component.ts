@@ -43,11 +43,13 @@ export class MerchandiserListComponent implements OnInit {
   ) {
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.userTypeId = localStorage.getItem("user_type");
+    if (localStorage.getItem("projectType") != "RECKITT_CENSUS"){
     if (this.userTypeId == this.evaluatorRole) {
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.startDate.setDate(this.startDate.getDate() - 1);
       this.endDate.setDate(this.endDate.getDate() - 1);
     }
+  }
     if (localStorage.getItem("projectType") == "PMI_CENSUS") {
       this.title = "BDE List";
     } else {

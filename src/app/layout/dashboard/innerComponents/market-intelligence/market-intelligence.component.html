@@ -1,0 +1,90 @@
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ selectedItem.promotionTitle }}
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideChildModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body text-center">
+        <img
+          src="{{ selectedItem.shopImageUrl }}"
+          alt=""
+          style="width: 100%; height: 500px"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      {{ title | uppercase }}
+      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      <p *ngIf="!loading && tableData == 0">No data available</p>
+    </mat-card-title>
+  </mat-card-content>
+</mat-card>
+
+<div class="container-fluid" *ngIf="tableData != null && !loading">
+  <div class="row"></div>
+  <div class="row js">
+    <ng-container *ngFor="let item of tableData; let i = index">
+      <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
+        <div class="ribbon">
+          <img
+            mat-card-image
+            class="small"
+            src="{{ item.value.shopImageUrl }}"
+            width="250"
+            height="300"
+            alt=""
+            (click)="setSelectedItem(item.value); showChildModal()"
+          />
+        </div>
+
+        <mat-card-content (click)="gotoNewPage(item.value)">
+          <table class="table" style="cursor: pointer">
+            <tr>
+              <th>Zone</th>
+              <td>{{ item?.value.zoneTitle }}</td>
+            </tr>
+            <tr>
+              <th>Region</th>
+              <td>{{ item?.value.regionTitle }}</td>
+            </tr>
+            <tr>
+              <th>Category</th>
+              <td>{{ item?.value.categoryTitle }}</td>
+            </tr>
+            <tr>
+              <th>Brand</th>
+              <td>{{ item?.value.brandName }}</td>
+            </tr>
+            <tr>
+              <th>Promotion Type</th>
+              <td>{{ item?.value.promotionTitle }}</td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>
