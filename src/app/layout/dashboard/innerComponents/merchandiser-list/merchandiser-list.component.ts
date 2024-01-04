@@ -62,11 +62,38 @@ export class MerchandiserListComponent implements OnInit {
 
   ngOnInit() {
     this.loadingData = false;
+    this.getZoneList();
     this.loadEvaluationSummary();
     this.getMerchandiserList();
     this.getSupervisorList();
     this.sortIt("m_code");
     this.userId = localStorage.getItem("user_id");
+  }
+
+  getZoneList() {
+    this.loading = true;
+    this.httpService.getZone().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.zones = res.zoneList;
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
   }
 
   getSupervisorList() {

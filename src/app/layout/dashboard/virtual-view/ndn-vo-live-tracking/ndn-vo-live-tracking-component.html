@@ -130,12 +130,12 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th (click)="sortIt('commando codes')" style="cursor: pointer">
+                  <!-- <th (click)="sortIt('commando codes')" style="cursor: pointer">
                     Commando Codes
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType ("commando codes") }}
                     </i>
-                  </th>
+                  </th> -->
                   <!-- <th (click)="sortIt('stock issue')" style="cursor: pointer">
                    Stock Issue
                     <i class="material-icons arrow material-icons-arrow">
@@ -143,7 +143,7 @@
                     </i>
                   </th> -->
                   <th (click)="sortIt('total interceptions')" style="cursor: pointer">
-                  Total Interceptions
+                  Interceptions
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType ("total interceptions") }}
                     </i>
@@ -152,6 +152,12 @@
                     Productive
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType ("productive") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('productive')" style="cursor: pointer">
+                    Evaluated
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType ("Evaluated") }}
                     </i>
                   </th>
                   <th (click)="sortIt('red flag')" style="cursor: pointer">
@@ -177,10 +183,11 @@
   
               <tbody *ngIf="showDetail.length > 0">
                 <tr *ngFor="let item of showDetail| orderBy: sortBy:sortOrder">
-                  <td>{{ item?.m_code }}</td>
+                  <!-- <td>{{ item?.m_code }}</td> -->
                   <!-- <td>{{ item?.stockIssue }}</td> -->
                   <td>{{ item?.TotalInterception }}</td>
                   <td>{{ item?.productive}}</td>
+                  <td>{{ item?.Evaluated}}</td>
                   <td>{{ item?.RedFlag }}</td>
                   <td>{{ item?.Approved }}</td>
                   <!-- <td>{{ item?.Pending }}</td> -->
@@ -231,7 +238,7 @@
             <thead style="background: lightgray">
               <tr>
                 <th (click)="sortIt('m_code')" style="cursor: pointer">
-                  code
+                  BA Code
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("m_code") }}
                   </i>
@@ -243,25 +250,25 @@
                   </i>
                 </th>
                 <th (click)="sortIt('visited')" style="cursor: pointer">
-                  Visited
+                  Interceptions
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("visited") }}
                   </i>
                 </th>
                 <th (click)="sortIt('attendance_time')" style="cursor: pointer">
-                  Attendance Time
+                  Day Start
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("attendance_time") }}
                   </i>
                 </th>
                 <th (click)="sortIt('first_shop_visit')" style="cursor: pointer">
-                  First Shop Visit
+                  First Call
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("first_shop_visit") }}
                   </i>
                 </th>
                 <th (click)="sortIt('last_visited_time')" style="cursor: pointer">
-                  Last Visited Time
+                  Last Call
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("last_visited_time") }}
                   </i>

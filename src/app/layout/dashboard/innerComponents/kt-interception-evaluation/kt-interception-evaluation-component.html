@@ -6,21 +6,13 @@
             <mat-card class="example-card card2">
               <div class="ribbon">
                 <mat-card-title>SELFIE WITH CUSTOMER</mat-card-title>
-                <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.RESPONDENT_PICTURE"
-                  width="200" height="430" alt="" />
+                <div class="image-container">
+                  <img *ngIf="projectType !== 'NIVEA'" class="responsive-image" [src]="item.RESPONDENT_PICTURE" alt="Customer Image" />
+                </div>
               </div>
             </mat-card>
-            
-            <!-- <mat-card class="example-card card2">
-              <div class="ribbon">
-                <mat-card-title>CNIC IMAGE</mat-card-title>
-                <img *ngIf="projectType !== 'NIVEA'" mat-card-image class="small" [src]="item.CNIC_IMAGE"
-                  width="200" height="430" alt="" />
-              </div>
-            </mat-card> -->
-            
-            
-          </div>
+          </div>     
+          
   
           <div class="col-md-6 mt-3 ">
             <mat-card class="example-card card2 custom-width">

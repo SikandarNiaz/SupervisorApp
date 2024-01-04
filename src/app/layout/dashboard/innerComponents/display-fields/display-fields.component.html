@@ -1,0 +1,73 @@
+<div class="animated slideInLeft">
+    <mat-card class="mb-20" style="padding-top: 5px; padding-bottom: 5px">
+      <mat-card-content>
+        <mat-card-title>
+            <!-- {{ title | uppercase }} -->
+           Display Fields
+          </mat-card-title>
+      </mat-card-content>
+    </mat-card>
+  
+  <ng-container>
+    <div class="animated slideInLeft">
+      <mat-card class="mb-20" style="border-top: 1px solid #afafaf">
+        <mat-card-content>
+          <section class="example-section">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                    <th (click)="sortIt('id')" style="cursor: pointer">
+                        ID
+                        <i class="material-icons arrow material-icons-arrow">
+                          {{ getArrowType("id") }}
+                        </i>
+                      </th>
+                  <th (click)="sortIt('title')" style="cursor: pointer">
+                    FIELDS
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("title") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('field_type')" style="cursor: pointer">
+                    FIELDS TYPE
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("field_type") }}
+                    </i>
+                  </th>
+                  <th
+                    (click)="sortIt('date_type')"
+                    style="cursor: pointer"
+                  >
+                    DATA TYPE
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("data_type") }}
+                    </i>
+                  </th>
+                </tr>
+              </thead>
+  
+              <tbody *ngIf="supervisorAttendanceList.length > 0">
+                <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
+                <tr
+                  *ngFor="
+                    let item of supervisorAttendanceList | orderBy: sortBy:sortOrder
+                  "
+                >
+                  <td>{{ item?.id }}</td>
+                  <td style="color: blue; cursor: pointer">{{ item?.title }}</td>
+                  <td>{{ item?.fieldType }}</td>
+                  <td
+                    style="color: blue; cursor: pointer"
+                  >
+                    {{ item?.dataType }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  </div>
+  

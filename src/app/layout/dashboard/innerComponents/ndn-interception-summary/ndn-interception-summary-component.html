@@ -259,28 +259,6 @@
                     <th
                       scope="col"
                       class="text-center"
-                      (click)="sortIt('m_code')"
-                      style="cursor: pointer"
-                    >
-                      {{ resourcePlaceHolder }} BA Code
-                      <i class="material-icons arrow material-icons-arrow">
-                        {{ getArrowType("m_code") }}
-                      </i>
-                    </th>
-                    <th
-                      scope="col"
-                      class="text-center"
-                      (click)="sortIt('full_name')"
-                      style="cursor: pointer"
-                    >
-                      {{ resourcePlaceHolder }} BA Name
-                      <i class="material-icons arrow material-icons-arrow">
-                        {{ getArrowType("full_name") }}
-                      </i>
-                    </th>
-                    <th
-                      scope="col"
-                      class="text-center"
                       (click)="sortIt('user_code')"
                       style="cursor: pointer"
                     >
@@ -298,6 +276,28 @@
                       TL Name
                       <i class="material-icons arrow material-icons-arrow">
                         {{ getArrowType("user_name") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('m_code')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} BA Code
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("m_code") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('full_name')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} BA Name
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("full_name") }}
                       </i>
                     </th>
                     <th
@@ -366,16 +366,16 @@
                     (click)="goToNewPage(item)"
                   >
                     <td class="text-center" style="cursor: pointer">
-                      {{ item?.m_code }}
-                    </td>
-                    <td class="text-center" style="cursor: pointer">
-                      {{ item?.full_name }}
-                    </td>
-                    <td class="text-center" style="cursor: pointer">
                       {{ item?.user_code }}
                     </td>
                     <td class="text-center" style="color: blue; cursor: pointer">
                       {{ item?.user_name }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.m_code }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.full_name }}
                     </td>
                     <td class="text-center" style="color: blue">
                       {{ item?.TotalInterception }}

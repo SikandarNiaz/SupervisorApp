@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   zones: any = [];
   tableData: any = [];
   isBaModule: boolean;
+  isBaModule1: boolean;
   ngOnInit() {
     this.projectType = localStorage.getItem("projectType");
     if (
@@ -54,6 +55,10 @@ export class HomeComponent implements OnInit {
       this.projectType == "PILOT_BA"
     ) {
       this.isBaModule = true;
+    }
+    else if (this.projectType == "NDN_KT")
+    {
+      this.isBaModule1 = true;
     }
   }
 }

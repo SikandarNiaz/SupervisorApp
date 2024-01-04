@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
     password: "",
     angularRequest: "Y",
   };
+  projectType: any;
   loading = false;
   constructor(
     private router: Router,
@@ -43,7 +44,15 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("user_type", res.user.typeID);
         localStorage.setItem("user_name", res.user.userName);
         localStorage.setItem("regionId", res.user.regionIds);
-        localStorage.setItem("zoneId", res.user.zoneIds);
+        localStorage.setItem("projectType", res.projectType);
+        var storedProjectType = localStorage.getItem("projectType");
+        debugger;
+        if (storedProjectType === 'RECKITT_CENSUS') {
+          debugger;
+          localStorage.setItem("zoneId", res.user.zone_id);
+        }else{
+          localStorage.setItem("zoneId", res.user.zoneIds);
+        }
         localStorage.setItem(
           "surveyorId",
           res.user.surveyorId == 0 ? -1 : res.user.surveyorId

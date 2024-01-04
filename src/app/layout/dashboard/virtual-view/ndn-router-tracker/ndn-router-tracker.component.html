@@ -75,23 +75,28 @@
                       {{ getArrowType("captured") }}
                     </i>
                   </th> -->
-                  <th>Captured</th>
-                  <th>Visited</th>
-                  <th>Route Time</th>
-                  <th>Shop Time</th>
+                  <!-- <th>Captured</th> -->
+                  <th>Interceptions</th>
+                  <th>Productive</th>
+                  <th>Working Time</th>
+                  <th>Activity Time</th>
                   <th>Travel Time</th>
-                  <th>Total Distance Covered</th>
+                  <th>Distance Covered</th>
                 </tr>
               </thead>
   
               <tbody *ngIf="trackedShops.length > 0" class="trS14">
                 <tr *ngFor="let shop of dataShops">
-                  <td>
+                  <!-- <td>
                     {{ shop.captured }}
-                  </td>
+                  </td> -->
   
                   <td>
                     {{ shop.visited }}
+                  </td>
+
+                  <td>
+                    {{ shop.productive }}
                   </td>
   
                   <td>
@@ -120,7 +125,7 @@
                           <table class="table table-bordered table-hover">
                             <thead style="background: lightgray">
                               <tr>
-                                <th colspan="13" style = "border: 1px solid;">Interception Hourly</th>
+                                <th colspan="13" style = "border: 1px solid;">Interceptions Trend by Hour</th>
                               </tr>
                                  <tr>
                                <th style = "border: 1px solid;" >9:00 AM</th>
@@ -134,30 +139,22 @@
                                 <th style = "border: 1px solid;">5:00 PM</th>
                                 <th style = "border: 1px solid;">6:00 PM</th>
                                 <th style = "border: 1px solid;">7:00 PM</th>
-                                <th style = "border: 1px solid;" >8:00 PM</th>
+                                <th style = "border: 1px solid;">8:00 PM</th>
                                 <th style = "border: 1px solid;">9:00 PM</th>
+                                <!-- <th style = "border: 1px solid;">10:00 PM</th>
+                                <th style = "border: 1px solid;">11:00 PM</th>
+                                <th style = "border: 1px solid;">12:00 AM</th> -->
                               </tr>
                             </thead>
                 
                             <tbody *ngIf="trackedTime.length > 0" class="trS14">
-                                 <tr *ngFor="let item of trackedTime">
-                                  <td>{{ item?.visit_hour === '9:AM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '10:AM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '11:AM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '12:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '1:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '2:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '3:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '4:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '5:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '6:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '7:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '8:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                  <td>{{ item?.visit_hour === '1:PM' ? item?.interceptions_count_per_hour : 0 }}</td>
-                                 
-                           
-                               </tr> 
-                            </tbody>
+                              <tr>
+                                  <ng-container *ngFor="let hour of ['09:AM', '10:AM', '11:AM', '12:PM', '01:PM', '02:PM', '03:PM', '04:PM', '05:PM',
+                                   '06:PM', '07:PM', '08:PM', '09:PM']">
+                                      <td>{{ getInterceptionCountForHour(trackedTime, hour) }}</td>
+                                  </ng-container>
+                              </tr>
+                          </tbody>
                           </table>
                         </div>
                       </div>
@@ -177,30 +174,33 @@
                   </i>
                 </th> -->
   
-                  <th>Shop Code</th>
-                  <th>Shop Name</th>
-                  <th>Shop Address</th>
-                  <th>Start Time</th>
+                  <!-- <th>Shop Code</th> -->
+                  <th>Area/Shop Name</th>
+                  <!-- <th>Shop Address</th> -->
+                  <th (click)="sortIt('time')" style="cursor: pointer">
+                    Start Time
+                    <i class="material-icons arrow material-icons-arrow">{{ getArrowType("time") }}</i>
+                  </th>
                   <th>End Time</th>
                   <th>Time Difference</th>
                 </tr>
               </thead>
   
               <tbody
-                *ngFor="let shop of visitedtrackedShops; let i = index"
+                *ngFor="let shop of visitedtrackedShops | orderBy: sortBy:sortOrder"
                 class="trS14"
               >
                 <tr *ngIf="shop.Type == 'Visit'">
-                  <td>
+                  <!-- <td>
                     {{ shop.shop_code }}
-                  </td>
+                  </td> -->
   
                   <td>
                     {{ shop.shop_title }}
                   </td>
-                  <td>
+                  <!-- <td>
                     {{ shop.address }}
-                  </td>
+                  </td> -->
                   <td>
                     {{ shop.time }}
                   </td>
