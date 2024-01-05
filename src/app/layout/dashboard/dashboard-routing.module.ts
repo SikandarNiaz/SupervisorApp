@@ -53,6 +53,9 @@ import { KTDayStartData } from "./innerComponents/kt-day-start-detail/kt-day-sta
 import { KtAttendanceEvaluation } from "./innerComponents/kt-attendance-evaluation/kt-attendance-evaluation.component";
 import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/bulk-approve-shops.component";
 import { MarketIntelligenceComponent } from "./innerComponents/market-intelligence/market-intelligence.component";
+import { PayrollProcessComponent } from "./innerComponents/payroll-process/payroll-process.component";
+import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/payroll-unprocess.component";
+
 const routes: Routes = [
   {
     path: "",
@@ -165,6 +168,9 @@ const routes: Routes = [
               },
       { path: "kt-day-start", component: KTDayStartData },
       { path: "kt-attendance-evaluation", component: KtAttendanceEvaluation },
+
+      { path: "payroll-process", component: PayrollProcessComponent },
+      { path: "payroll-unprocess", component: PayrollUnprocessComponent },
       
     ],
   },

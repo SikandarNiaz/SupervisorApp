@@ -47,7 +47,7 @@ export class DashboardService {
 
   login(credentials: any) {
     // let body=JSON.stringify(credentials)
-    const url = this.ip + "portal/auth/login";
+    const url = this.ip + "portal/auth/login";   // JsonLoginController
     return this.http.post(url, credentials);
     // .pipe(
     //   timeout(60000),
@@ -705,4 +705,44 @@ export class DashboardService {
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body, this.httpOptions);
   }
+
+
+  // payroll working methods //
+  getPayrollProcessMonth(obj){
+    debugger;
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip +"/payrollProcessController";
+    return this.http.post(url,body, this.httpOptions);
+  }
+
+  getPayrollUnprocessMonth(obj){
+    debugger;
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip +"/payrollUnprocessController";
+    return this.http.post(url,body, this.httpOptions);
+  }
+
+  savePayrollProcess(obj){
+    debugger;
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip +"/payrollProcessController";
+    return this.http.post(url,body, this.httpOptions);
+  }
+
+  savePayrollUnprocess(obj){
+    debugger;
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip +"/payrollUnprocessController";
+    return this.http.post(url,body, this.httpOptions);
+  }
+
+  // updatef1f2(obj){
+  // debugger;
+  // const body = this.UrlEncodeMaker(obj);
+  // console.log(obj);
+  // const url = this.ip +"/portal/ndn/update_price";
+  // return this.http.post(url,body, this.httpOptions);
+
+
+  // }
 }
