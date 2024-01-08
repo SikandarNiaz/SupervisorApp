@@ -92,6 +92,8 @@ import { KTDayStartData } from "./innerComponents/kt-day-start-detail/kt-day-sta
 import { KtAttendanceEvaluation } from "./innerComponents/kt-attendance-evaluation/kt-attendance-evaluation.component";
 import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/bulk-approve-shops.component";
 import { MarketIntelligenceComponent } from "./innerComponents/market-intelligence/market-intelligence.component";
+import { PayrollProcessComponent } from "./innerComponents/payroll-process/payroll-process.component";
+import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/payroll-unprocess.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -185,6 +187,9 @@ import { MarketIntelligenceComponent } from "./innerComponents/market-intelligen
     KTDayStartData,
     KtAttendanceEvaluation,
   BulkApproveShopsComponent,
-  MarketIntelligenceComponent  ],
+  MarketIntelligenceComponent,
+  PayrollProcessComponent,
+  PayrollUnprocessComponent 
+],
 })
 export class DashboardModule {}
