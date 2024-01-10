@@ -736,13 +736,12 @@ export class DashboardService {
     return this.http.post(url,body, this.httpOptions);
   }
 
-  // updatef1f2(obj){
-  // debugger;
-  // const body = this.UrlEncodeMaker(obj);
-  // console.log(obj);
-  // const url = this.ip +"/portal/ndn/update_price";
-  // return this.http.post(url,body, this.httpOptions);
+  // payroll working methods end //
 
-
-  // }
+  evaluateMarketIntelligenceVisist(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip +"/marketIntelligenceUpdateEvaluated";
+    return this.http.post(url,body, this.httpOptions);
+    
+  }
 }

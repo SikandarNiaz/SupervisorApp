@@ -27,6 +27,7 @@ export class MarketIntelligenceComponent implements OnInit {
   selectedItem: any = {};
 
   params: any = {};
+  loadingData: boolean = false;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -57,6 +58,7 @@ export class MarketIntelligenceComponent implements OnInit {
   }
 
   getData() {
+    this.loading = true;
     const obj={
       zoneId:this.params.zoneId || -1,
       regionId: this.params.regionId || -1,
@@ -90,5 +92,36 @@ export class MarketIntelligenceComponent implements OnInit {
       `${environment.hash}dashboard/image-view`,
       "_blank"
     );
+  }
+
+  evaluateVisit(status, surveyId){
+    this.loadingData = true;
+    const obj = {
+      userId: localStorage.getItem("user_id"),
+      surveyId: surveyId,
+      status: status,
+    };
+    console.log("evaluateVisit obj: ", obj);
+    this.httpService.evaluateMarketIntelligenceVisist(obj).subscribe(
+      (data: any) => {
+        console.log("evaluateVisit resp data: ", data);
+        if (data.success) {
+          this.toastr.success(data.success);
+          this.loadingData = false;
+          this.getData();
+          
+        } else {
+          this.loadingData = false;
+          this.toastr.error(data.fail);
+        }
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
+      }
+    );
+
   }
 }

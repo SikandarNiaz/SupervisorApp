@@ -60,7 +60,7 @@
           />
         </div>
 
-        <mat-card-content (click)="gotoNewPage(item.value)">
+        <mat-card-content >
           <table class="table" style="cursor: pointer">
             <tr>
               <th>Zone</th>
@@ -82,6 +82,36 @@
               <th>Promotion Type</th>
               <td>{{ item?.value.promotionTitle }}</td>
             </tr>
+
+            <tr>
+              <th></th>
+              <td></td>
+            </tr>
+            <tr>
+              <th>
+                <button
+        class="btn btn-success mr-10-IMP"
+        title="Click to Approve"
+        (click)="evaluateVisit(1, item?.value.id)"
+        [disabled]="loading"
+      >
+        Approve
+        <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingData }"></i>
+      </button>
+              </th>
+              <td>
+                <button
+                class="btn btn-danger mr-10-IMP"
+                title="Click to Disapprove"
+                (click)="evaluateVisit(2, item?.value.id)"
+                [disabled]="loading"
+              >
+                Dispprove
+                <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingData }"></i>
+              </button>
+              </td>
+            </tr>
+
           </table>
         </mat-card-content>
       </mat-card>
