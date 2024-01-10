@@ -93,19 +93,19 @@
             <img
               mat-card-image
               class="small"
-              [src]="ip + item.Receiving_pictures"
+              [src]="ip + item.RECIEVING_PICTURE"
               width="250"
               height="430"
               alt=""
               (click)="setSelectedItem(item);showChildModal1(item)"
             />
           </div>
-          <mat-card-content>
+          <!-- <mat-card-content>
             <table class="table" style="cursor: pointer">
-              <!-- <tr>
+              <tr>
                 <th>Campaign Name</th>
                 <td>{{ item?.CAMPAIGN_NAME }}</td>
-              </tr> -->
+              </tr>
               <tr>
                 <th>TL Code</th>
                 <td>{{ item?.user_code }}</td>
@@ -124,7 +124,46 @@
                 <td>{{ item?.Territory }}</td>
               </tr>
             </table>
-          </mat-card-content>
+          </mat-card-content> -->
+
+          <mat-card-content>
+              <table class="table" style="cursor: pointer">
+                <tr>
+                  <th>Campaign Name</th>
+                  <td>{{ item?.CAMPAIGN_NAME }}</td>
+                </tr>
+                <tr>
+                  <th>Quantity</th>
+                  <td>{{ item?.QTY }}</td>
+                </tr>
+                <tr>
+                  <th>TL Code</th>
+                  <td>{{ item?.user_code }}</td>
+                </tr>
+                <tr>
+                  <th>BA Code</th>
+                  <td>{{ item?.m_code }}</td>
+                </tr>
+                <tr>
+                  <th>Stock Type</th>
+                  <td>{{ item?.Sock_Type }}</td>
+                </tr>
+                <tr>
+                  <th>Visit Date</th>
+                  <td>{{ item?.Date }}</td>
+                </tr>
+                <tr>
+                  <th>Stock Return Details</th>
+                  <td  style="color: blue; cursor: pointer"
+                  (click)="goToUpdateTargetPage(item)">{{ 'Details' }}</td>
+                </tr>
+                <tr>
+                  <th>Territory</th>
+                  <td>{{ item?.Territory }}</td>
+                </tr>
+              </table>
+            </mat-card-content>
+
         </mat-card>
       </ng-container>
     </div>
@@ -150,7 +189,7 @@
 </div>
 
 <!-- Modal container with corrected ng-container -->
-<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+<!-- <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
   <ng-container>
     <div class="container-fluid">
       <div class="row js">
@@ -206,7 +245,7 @@
                       <th>Other</th>
                       <td contenteditable='true' (change)="updateSwapData(shopData)">{{ shopData?.Other }}</td>
                     </tr>
-                <!-- Add more rows as needed -->
+                Add more rows as needed
               </table>
             </mat-card-content>
           </mat-card>
@@ -240,7 +279,7 @@
       </div>
     </div>
   </ng-container>
-</div>
+</div> -->
 
 <div
   bsModal

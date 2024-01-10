@@ -48,7 +48,7 @@ export class ShowSwapDataComponent implements OnInit {
   projectType: any;
   selectedSupervisor: any = [];
   // @Input() startDate: moment.MomentInput;
-  title = "Swap Data";
+  title = "BA RETURN Data";
   userId: any;
   @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   @ViewChild("childModal1", { static: true }) childModal1: ModalDirective;

@@ -72,6 +72,25 @@
       </mat-form-field>
     </ng-container>
 
+    <ng-container *ngIf="projectType=='RECKITT_CENSUS'">
+        <mat-form-field
+        *ngIf="supervisorList.length > 0"
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="ASM List"
+          name="list"
+          [(ngModel)]="selectedSupervisor"
+          (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
+        >
+          <ng-container *ngFor="let list of supervisorList">
+            <mat-option [value]="list">{{ list.fullName }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
             matInput
@@ -126,6 +145,17 @@
           </app-stat>
         </div>
       </div>
+      <div *ngIf="projectType=='RECKITT_CENSUS'" class="col-md-2 mobile-view-info-tabs">
+        <div>
+          <app-stat
+            [bgClass]="'info'"
+            [icon]="'list_alt'"
+            [count]="evaluationSummary?.totalTarget"
+            [label]="'Target'"
+          >
+          </app-stat>
+        </div>
+      </div>
       <div class="col-md-2 mobile-view-info-tabs">
         <div>
           <app-stat
@@ -133,6 +163,17 @@
             [icon]="'assignment'"
             [count]="evaluationSummary?.totalCaptured"
             [label]="'Captured'"
+          >
+          </app-stat>
+        </div>
+      </div>
+      <div *ngIf="projectType=='RECKITT_CENSUS'" class="col-md-2 mobile-view-info-tabs">
+        <div>
+          <app-stat
+            [bgClass]="'info'"
+            [icon]="'list_alt'"
+            [count]="evaluationSummary?.Achievement"
+            [label]="'Achievement%'"
           >
           </app-stat>
         </div>
@@ -208,16 +249,34 @@
                     {{ getArrowType("supervisor_code") }}
                   </i>
                 </th>
-                <th (click)="sortIt('supervisor_name')" style="cursor: pointer">
-                  Supervisor Name
+                <th *ngIf="projectType=='RECKITT_CENSUS'" (click)="sortIt('supervisor_name')" style="cursor: pointer">
+                  ASM Name
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("supervisor_name") }}
+                  </i>
+                </th>
+                <th *ngIf="projectType !='RECKITT_CENSUS'" (click)="sortIt('supervisor_name')" style="cursor: pointer">
+                  ASM Name
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("supervisor_name") }}
+                  </i>
+                </th>
+                <th (click)="sortIt('totalTarget')" style="cursor: pointer">
+                  Target
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("totalTarget") }}
                   </i>
                 </th>
                 <th (click)="sortIt('captured_shops')" style="cursor: pointer">
                   Captured
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("captured_shops") }}
+                  </i>
+                </th>
+                <th (click)="sortIt('Achievement')" style="cursor: pointer">
+                  Achievement%
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("Achievement") }}
                   </i>
                 </th>
                 <th (click)="sortIt('evaluated_shops')" style="cursor: pointer">
@@ -256,6 +315,7 @@
                 <td>{{ item?.full_name }}</td>
                 <td>{{ item?.supervisor_code }}</td>
                 <td>{{ item?.supervisor_name }}</td>
+                <td>{{ item?.totalTarget }}</td>
                 <!-- <td style="color:blue;cursor:pointer" [routerLink]="['/dashboard/evaluation/list']" [queryParams]="{ surveyorId: item.id,startDate: modifyDate(startDate),endDate: modifyDate(startDate)}">
                                     {{item?.captured_shops}}</td> -->
                 <td
@@ -264,6 +324,7 @@
                 >
                   {{ item?.captured_shops }}
                 </td>
+                <td>{{ item?.Achievement }}</td>
                 <td>{{ item?.evaluated_shops }}</td>
                 <td>{{ item?.approved_shops }}</td>
                 <td>
