@@ -736,6 +736,12 @@ export class DashboardService {
     return this.http.post(url,body, this.httpOptions);
   }
 
+  getTLDistributionStockData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "tl-distribution-stock-data"; // -------> ShowTLDistributionStockData
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
   // updatef1f2(obj){
   // debugger;
   // const body = this.UrlEncodeMaker(obj);

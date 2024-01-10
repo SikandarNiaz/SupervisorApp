@@ -94,6 +94,7 @@ import { BulkApproveShopsComponent } from "./innerComponents/bulk-approve-shops/
 import { MarketIntelligenceComponent } from "./innerComponents/market-intelligence/market-intelligence.component";
 import { PayrollProcessComponent } from "./innerComponents/payroll-process/payroll-process.component";
 import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/payroll-unprocess.component";
+import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-distribution-stock-data/show-TL-distribution-stock-data.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -189,7 +190,8 @@ import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/p
   BulkApproveShopsComponent,
   MarketIntelligenceComponent,
   PayrollProcessComponent,
-  PayrollUnprocessComponent 
+  PayrollUnprocessComponent,
+  ShowTLDistributionStockDataComponent 
 ],
 })
 export class DashboardModule {}
