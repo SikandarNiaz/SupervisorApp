@@ -35,11 +35,51 @@
 
 <mat-card class="mb-20">
   <mat-card-content>
-    <mat-card-title>
+    <mat-card-title >
       {{ title | uppercase }}
       <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
-      <p *ngIf="!loading && tableData == 0">No data available</p>
+      <!-- <p *ngIf="!loading && tableData == 0">No data available</p> -->
     </mat-card-title>
+
+    <mat-form-field
+    class="example-full-width mr-10-IMP"
+  >
+    <input
+      matInput
+      [min]="minDate"
+      [max]="maxDate"
+      [matDatepicker]="picker0"
+      [(ngModel)]="startDate"
+      (ngModelChange)="getData()"
+      placeholder="Choose a start date"
+      readonly
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="picker0"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #picker0></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field
+    class="example-full-width mr-10-IMP"
+  >
+    <input
+      matInput
+      [min]="minDate"
+      [max]="maxDate"
+      [matDatepicker]="picker1"
+      [(ngModel)]="endDate"
+      (ngModelChange)="getData()"
+      placeholder="Choose a end date"
+      readonly
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="picker1"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
   </mat-card-content>
 </mat-card>
 
@@ -92,7 +132,7 @@
                 <button
         class="btn btn-success mr-10-IMP"
         title="Click to Approve"
-        (click)="evaluateVisit(1, item?.value.id)"
+        (click)="evaluateVisitApprove(1, item?.value.id)"
         [disabled]="loading"
       >
         Approve
@@ -103,7 +143,7 @@
                 <button
                 class="btn btn-danger mr-10-IMP"
                 title="Click to Disapprove"
-                (click)="evaluateVisit(2, item?.value.id)"
+                (click)="showRemarkModal(2, item?.value.id)"
                 [disabled]="loading"
               >
                 Dispprove
@@ -118,3 +158,67 @@
     </ng-container>
   </div>
 </div>
+
+
+
+<div class="d-flex align-items-center justify-content-center">
+  <div
+  bsModal
+  #remarksModal="bs-modal"
+  class="modal fade "
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Select Remark
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideRemarksModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body text-center">
+        <section class="example-section">
+          <mat-select
+        placeholder="Remark"
+        name="remark"
+        [(ngModel)]="selectedRemark"
+      >
+      <ng-container *ngFor="let r of remarksList">
+        <mat-option [value]="r" *ngIf="r.id != -1">{{
+          r.title
+        }}</mat-option>
+      </ng-container>
+       
+      </mat-select>
+      </section>
+        
+      </div>
+      <div class="modal-footer">
+        <button
+          (click)="evaluateVisitDisapprove()"
+          class="mr-1"
+          mat-raised-button
+          color="primary"
+          [disabled]="!selectedRemark || loadingData"
+        >
+          <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingData }"></i>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+

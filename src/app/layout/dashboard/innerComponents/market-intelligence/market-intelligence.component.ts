@@ -16,6 +16,10 @@ import { KeyValuePipe } from "@angular/common";
   styleUrls: ['./market-intelligence.component.scss']
 })
 export class MarketIntelligenceComponent implements OnInit {
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
+  startDate = new Date();
+  endDate = new Date();
 
   ip = Config.BASE_URI;
   tableData: any = [];
@@ -23,11 +27,16 @@ export class MarketIntelligenceComponent implements OnInit {
   title = 'Market Intelligence';
   userId: any;
   @ViewChild('childModal') childModal: ModalDirective;
+  @ViewChild('remarksModal') remarksModal: ModalDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selectedItem: any = {};
+  selectedRemark: any =  null;
 
   params: any = {};
   loadingData: boolean = false;
+  remarksList: any = [];
+  status: any;
+  surveyId: any;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -55,6 +64,7 @@ export class MarketIntelligenceComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+    this.getShopRemarks();
   }
 
   getData() {
@@ -64,7 +74,9 @@ export class MarketIntelligenceComponent implements OnInit {
       regionId: this.params.regionId || -1,
       category:this.params.category || -1,
       brand : this.params.brand || -1,
-      promotionType: this.params.promotionType || -1
+      promotionType: this.params.promotionType || -1,
+      startDate : moment(this.startDate).format("YYYY-MM-DD"),
+      endDate : moment(this.endDate).format("YYYY-MM-DD"),
     };
       this.httpService.getMarketIntelligenceData(obj).subscribe(
         (data) => {
@@ -94,14 +106,14 @@ export class MarketIntelligenceComponent implements OnInit {
     );
   }
 
-  evaluateVisit(status, surveyId){
+  evaluateVisitApprove(status, surveyId){
     this.loadingData = true;
     const obj = {
       userId: localStorage.getItem("user_id"),
       surveyId: surveyId,
       status: status,
     };
-    console.log("evaluateVisit obj: ", obj);
+    console.log("evaluateVisitApprove obj: ", obj);
     this.httpService.evaluateMarketIntelligenceVisist(obj).subscribe(
       (data: any) => {
         console.log("evaluateVisit resp data: ", data);
@@ -123,5 +135,73 @@ export class MarketIntelligenceComponent implements OnInit {
       }
     );
 
+  }
+
+  showRemarkModal(status, surveyId): void {
+    this.status = status;
+    this.surveyId = surveyId;
+    this.remarksModal.show();
+  }
+  
+  hideRemarksModal(): void {
+    this.remarksModal.hide();
+  }
+
+  evaluateVisitDisapprove(){
+    this.loadingData = true;
+    const obj = {
+      userId: localStorage.getItem("user_id"),
+      surveyId: this.surveyId,
+      status: this.status,
+      remarkId : this.selectedRemark?.id
+    };
+    console.log("evaluateVisitDisapprove obj: ", obj);
+    this.httpService.evaluateMarketIntelligenceVisist(obj).subscribe(
+      (data: any) => {
+        console.log("evaluateVisit resp data: ", data);
+        if (data.success) {
+          this.toastr.success(data.success);
+          this.loadingData = false;
+
+          this.getData();
+          
+        } else {
+          this.loadingData = false;
+          this.toastr.error(data.fail);
+        }
+        this.hideRemarksModal();
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
+      }
+    );
+
+  }
+
+  getShopRemarks() {
+    this.loading = true;
+
+      this.httpService.getShopRemarks().subscribe(
+        (data) => {
+         
+          this.remarksList = data || [];
+           console.log("remarksList", this.remarksList);
+          if (this.remarksList?.length == 0) {
+            this.loading = false;
+            this.toastr.info('No record found.');
+          }
+          else{
+            // this.tableData=this.keyValuePipe.transform(this.tableData);
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.loading = false;
+         }
+      );
+   
   }
 }
