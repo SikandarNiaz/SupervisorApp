@@ -56,6 +56,7 @@ import { MarketIntelligenceComponent } from "./innerComponents/market-intelligen
 import { PayrollProcessComponent } from "./innerComponents/payroll-process/payroll-process.component";
 import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/payroll-unprocess.component";
 import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-distribution-stock-data/show-TL-distribution-stock-data.component";
+import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 
 const routes: Routes = [
   {
@@ -209,6 +210,7 @@ const routes: Routes = [
   { path: "zsm-redflag-shops", component: BulkApproveShopsComponent },
   { path: "market-intelligence", component: MarketIntelligenceComponent },
   { path: "tl-stock-distribution", component: ShowTLDistributionStockDataComponent },
+  { path: "tl-swapped-distribution", component: ShowTLDistributionSwappedDataComponent },
 ];
 
 @NgModule({

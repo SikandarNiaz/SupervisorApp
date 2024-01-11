@@ -749,6 +749,12 @@ export class DashboardService {
     
   }
 
+  getTLDistributionSwappedData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "tl-distribution-swapped-data"; // -------> ShowTLDistributionSwappedData
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
   // updatef1f2(obj){
   // debugger;
   // const body = this.UrlEncodeMaker(obj);
