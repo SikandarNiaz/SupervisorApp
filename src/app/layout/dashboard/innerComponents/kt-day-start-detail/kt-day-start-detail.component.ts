@@ -48,7 +48,7 @@ export class KTDayStartData implements OnInit {
   projectType: any;
   selectedSupervisor: any = [];
   // @Input() startDate: moment.MomentInput;
-  title = "Interception Data";
+  title = "PRO BA DAY START DATA";
   userId: any;
   @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   @ViewChild("childModal1", { static: true }) childModal1: ModalDirective;

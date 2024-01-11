@@ -1,0 +1,201 @@
+<!-- Display this card if params.surveyorId is not present -->
+<mat-card class="mb-20" *ngIf="!params.surveyorId">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      </mat-card-title>
+      <section class="example-section">
+          <!-- <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'||projectType=='PG_DALDA'||projectType=='PG_UAE'||projectType=='PGWS_IRAQ'"> -->
+          <mat-form-field
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="TL List"
+            name="list"
+            [(ngModel)]="selectedSupervisor"
+            (ngModelChange)="getData(params)"
+          >
+            <ng-container *ngFor="let list of supervisorList">
+              <mat-option [value]="list">{{ list.fullName }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+         
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ labels.zoneLabel }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field
+            *ngIf="regions.length > 0 && selectedZone.id !== -1"
+            class="example-margin mr-10-IMP"
+          >
+            <mat-select
+              placeholder="{{ labels.regionLabel }}"
+              name="region"
+              [(ngModel)]="selectedRegion"
+              (ngModelChange)="getData()"
+            >
+              <mat-option [value]="region" *ngFor="let region of regions">{{
+                region.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker0"
+            [(ngModel)]="startDate"
+            (ngModelChange)="getData(params)"
+            placeholder="Choose a start date"
+            readonly
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+          <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker1"
+            [(ngModel)]="endDate"
+            (ngModelChange)="getData(params)"
+            placeholder="Choose an end date"
+            readonly
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </section>
+    </mat-card-content>
+  </mat-card>
+    
+    <ng-container *ngIf="tableData.length > 0">
+      <div class="container-fluid" *ngIf="tableData.length > 0">
+        <div class="row"></div>
+        <div class="row js">
+          <ng-container *ngFor="let item of tableData; let i = index">
+            <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
+              <div class="ribbon">
+                <img *ngIf ="projectType =='NIVEA'"
+                  mat-card-image
+                  class="small"
+                  src="{{ ip }}{{ item.day_start_complete_image_url }}"
+                  width="250"
+                  height="430"
+                  alt=""
+                  (click)="setSelectedItem(item); showChildModal()"
+                />
+                <img *ngIf ="projectType != 'NIVEA'"
+                  mat-card-image
+                  class="small"
+                  src="{{ ip }}{{ item.RECIEVING_PICTURE }}"
+                  width="250"
+                  height="430"
+                  alt=""
+                  (click)="setSelectedItem(item)"
+                />
+              </div>
+    
+              <mat-card-content>
+                <table class="table" style="cursor: pointer">
+                  <tr>
+                    <th>Campaign Name</th>
+                    <td>{{ item?.CAMPAIGN_NAME }}</td>
+                  </tr>
+                  <tr>
+                    <th>Quantity</th>
+                    <td>{{ item?.QTY }}</td>
+                  </tr>
+                  <tr>
+                    <th>TL Code</th>
+                    <td>{{ item?.user_code }}</td>
+                  </tr>
+                  <tr>
+                    <th>Stock Type</th>
+                    <td>{{ item?.Sock_Type }}</td>
+                  </tr>
+                  <tr>
+                    <th>Visit Date</th>
+                    <td>{{ item?.Date }}</td>
+                  </tr>
+                  <tr>
+                    <th>Stock Issuence Details</th>
+                    <td  style="color: blue; cursor: pointer"
+                    (click)="goToUpdateTargetPage(item)">{{ 'Details' }}</td>
+                  </tr>
+                  <tr>
+                    <th>Territory</th>
+                    <td>{{ item?.Territory }}</td>
+                  </tr>
+                </table>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+    
+    <div class="row" *ngIf="loading">
+      <div class="col-md-12 text-center">
+        <div class="img-center">
+          <img src="assets/images/basicloader.gif" alt="" srcset="" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="row" *ngIf="!loading && tableData.length == 0">
+      <div class="col-md-12 text-center">
+        <div class="alert alert-info">
+          <p>No Data Found</p>
+        </div>
+        <!-- <div class="img-center">
+                <img src="assets/images/basicloader.gif" alt="" srcset="">
+            </div> -->
+      </div>
+    </div>
+    
+    <!-- <div
+      bsModal
+      #childModal="bs-modal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="dialog-child-name"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="dialog-child-name" class="modal-title pull-left">
+              {{ selectedItem.full_name }}
+            </h4>
+            <button
+              type="button"
+              class="close pull-right"
+              aria-label="Close"
+              (click)="hideChildModal()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+    
+          <div class="modal-body text-center">
+            <img src="{{ ip }}{{ selectedItem.day_start_complete_image_url }}" alt="" />
+          </div>
+        </div>
+      </div>
+    </div> -->
+    

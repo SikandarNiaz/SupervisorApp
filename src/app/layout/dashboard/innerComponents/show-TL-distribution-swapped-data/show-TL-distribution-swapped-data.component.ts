@@ -16,11 +16,11 @@ import {
 import { debugOutputAstAsTypeScript } from '@angular/compiler';
 
 @Component({
-  selector: 'app-show-TL-distribution-stock-data',
-  templateUrl: './show-TL-distribution-stock-data.component.html',
-  styleUrls: ['./show-TL-distribution-stock-data.component.scss']
+  selector: 'app-show-TL-distribution-swapped-data',
+  templateUrl: './show-TL-distribution-swapped-data.component.html',
+  styleUrls: ['./show-TL-distribution-swapped-data.component.scss']
 })
-export class ShowTLDistributionStockDataComponent implements OnInit {
+export class ShowTLDistributionSwappedDataComponent implements OnInit {
    // ip = environment.ip;
 
   ip: any = Config.BASE_URI;
@@ -48,7 +48,7 @@ export class ShowTLDistributionStockDataComponent implements OnInit {
   projectType: any;
   selectedSupervisor: any = [];
   // @Input() startDate: moment.MomentInput;
-  title = "TL Distribution Stock Data";
+  title = "TL Distribution Swapped Data";
   userId: any;
   @ViewChild("childModal", { static: true }) childModal: ModalDirective;
   @ViewChild("childModal1", { static: true }) childModal1: ModalDirective;
@@ -214,7 +214,7 @@ export class ShowTLDistributionStockDataComponent implements OnInit {
       };
     
 
-    this.httpService.getTLDistributionStockData(obj).subscribe(
+    this.httpService.getTLDistributionSwappedData(obj).subscribe(
       (data) => {
         // console.log(data);
         this.tableData = data;

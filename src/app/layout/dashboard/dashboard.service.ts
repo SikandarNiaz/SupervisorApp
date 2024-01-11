@@ -749,10 +749,17 @@ export class DashboardService {
     
   }
 
+
   getShopRemarks() {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({ act: 17 });
     return this.http.post(url, filter);
+  }
+  
+  getTLDistributionSwappedData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "tl-distribution-swapped-data"; // -------> ShowTLDistributionSwappedData
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 
   // updatef1f2(obj){
