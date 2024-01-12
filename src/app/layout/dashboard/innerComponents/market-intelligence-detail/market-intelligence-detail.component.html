@@ -41,7 +41,7 @@
       <!-- <p *ngIf="!loading && tableData == 0">No data available</p> -->
     </mat-card-title>
 
-    <mat-form-field
+    <!-- <mat-form-field
     class="example-full-width mr-10-IMP"
   >
     <input
@@ -78,29 +78,35 @@
       [for]="picker1"
     ></mat-datepicker-toggle>
     <mat-datepicker #picker1></mat-datepicker>
-  </mat-form-field>
+  </mat-form-field> -->
 
   </mat-card-content>
 </mat-card>
 
-<div class="container-fluid" *ngIf="tableData != null && !loading">
-  <div class="row"></div>
-  <div class="row js">
-    <ng-container *ngFor="let item of tableData; let i = index">
-      <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
-        <div class="ribbon">
+<div class="container-fluid text-center" *ngIf="tableData != null && !loading">
+ 
+  <div class="row justify-content-center">
+  
+
+    
+    <div *ngFor="let item of tableData; let i = index" class="col-md-6" >
+      <!-- <div class="col-md-9 ml-3 mt-3"> -->
+
+     
+      <div >
+        <div class="containerimg" >
           <img
             mat-card-image
             class="small"
             src="{{ item.value.shopImageUrl }}"
-            width="250"
-            height="300"
+            width="300"
+            height="350"
             alt=""
             (click)="setSelectedItem(item.value); showChildModal()"
           />
         </div>
 
-        <mat-card-content (click)="gotoNewPage(item)">
+        <!-- <mat-card-content > -->
           <table class="table" style="cursor: pointer">
             <tr>
               <th>Zone</th>
@@ -115,22 +121,128 @@
               <td>{{ item?.value.cpeName }}</td>
             </tr>
             <tr>
-              <th>Visit Date</th>
-              <td>{{ item?.value.visitDate }}</td>
+              <th>Shop Title</th>
+              <td>{{ item?.value.cpeName }}</td>
+            </tr>
+            <tr>
+              <th>Shop Address</th>
+              <td>{{ item?.value.shopAddress }}</td>
+            </tr>
+            <tr>
+              <th>Channel</th>
+              <td>{{ item?.value.channel }}</td>
+            </tr>
+            <tr>
+              <th>Category</th>
+              <td>{{ item?.value.categoryTitle }}</td>
+            </tr>
+            <tr>
+              <th>Brand</th>
+              <td>
+                <!-- <input type="text"  [(ngModel)]="item?.value.brandName" /> -->
+                <mat-form-field appearance="fill">
+                  <input *ngIf="!loadingData" matInput name="farhan" placeholder="Brand" [(ngModel)]="item?.value.brandName" 
+                    (blur)="onBrandNameBlur(item.value.id,item?.value.brandName)">
+                    <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+                </mat-form-field>
+                
+              </td>
+            </tr>
+            <tr>
+              <th>Trade Support</th>
+              <td>{{ item?.value.tradeSupport }}</td>
+            </tr>
+            <tr>
+              <th>Price Off Detail</th>
+              <td>{{ item?.value.priceOffDetail }}</td>
             </tr>
             <tr>
               <th>Promotion Type</th>
               <td>{{ item?.value.promotionTitle }}</td>
             </tr>
 
-           
+            <tr>
+              <th>New TP Price</th>
+              <td>{{ item?.value.newTpPrice }}</td>
+            </tr>
+            <tr>
+              <th>New CP Price</th>
+              <td>{{ item?.value.newCpPrice }}</td>
+            </tr>
+
+            <tr>
+              <th>
+                Description
+              </th>
+              <td>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <!-- <mat-panel-title>
+                      Long Text Example
+                    </mat-panel-title> -->
+                    <mat-panel-description>
+                      Click To Expand
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                
+                  <!-- <div contenteditable="true" ngDefaultControl [(ngModel)]="item?.value.productDescription"
+                   (blur)="onProductDescriptionBlur(item?.value.productDescription)">
+                    {{ item?.value.productDescription }}
+                  </div> -->
+                  <mat-form-field appearance="fill">
+                    <!-- <input matInput name="des" placeholder="des" [(ngModel)]="item?.value.productDescription" 
+                      (blur)="onBrandNameBlur(item?.value.productDescription)"/> -->
+                      <textarea *ngIf="!loadingData" matInput placeholder="Description" [(ngModel)]="item?.value.productDescription" 
+                      (blur)="onProductDescriptionBlur(item.value.id, item?.value.productDescription)" rows="10"></textarea>
+                      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+                  </mat-form-field>
+                </mat-expansion-panel>
+              </td>
+         
+            </tr>
+            <tr>
+              <th>Visit Date</th>
+              <td>{{ item?.value.visitDate }}</td>
+            </tr>
+            <tr>
+
+            <tr>
+              <th></th>
+              <td></td>
+            </tr>
+            <tr>
+              <th>
+                <button
+        class="btn btn-success mr-10-IMP"
+        title="Click to Approve"
+        (click)="evaluateVisitApprove(1, item?.value.id)"
+        [disabled]="loading"
+      >
+        Approve
+        <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingData }"></i>
+      </button>
+              </th>
+              <td>
+                <button
+                class="btn btn-danger mr-10-IMP"
+                title="Click to Disapprove"
+                (click)="showRemarkModal(2, item?.value.id)"
+                [disabled]="loading"
+              >
+                Dispprove
+                <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingData }"></i>
+              </button>
+              </td>
+            </tr>
 
           </table>
-        </mat-card-content>
-      </mat-card>
-    </ng-container>
+        <!-- </mat-card-content> -->
+      </div>
+    <!-- </div> -->
+    </div>
   </div>
-</div>
+  </div>
+
 
 
 
@@ -143,7 +255,7 @@
   role="dialog"
   aria-labelledby="dialog-child-name"
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-child-name" class="modal-title pull-left">
@@ -160,30 +272,8 @@
       </div>
 
       <div class="modal-body text-center">
-        <table class="table" style="cursor: pointer">
-          <tr>
-            <th>Zone</th>
-            <td>
-              <section class="example-section">
-  
-                <mat-select
-              placeholder="Remark"
-              name="remark"
-              [(ngModel)]="selectedRemark"
-            >
+
          
-            <ng-container *ngFor="let r of remarksList">
-              <mat-option [value]="r" *ngIf="r.id != -1">{{
-                r.title
-              }}</mat-option>
-            </ng-container>
-             
-            </mat-select>
-            </section>
-            </td>
-          </tr>
-          <tr>
-            </table>
         <section class="example-section">
   
           <mat-select

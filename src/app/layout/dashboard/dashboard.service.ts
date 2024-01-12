@@ -749,6 +749,13 @@ export class DashboardService {
     
   }
 
+  updateMarketIntelligenceDataField(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip +"/updateMarketIntelligenceDataField";
+    return this.http.post(url,body, this.httpOptions);
+    
+  }
+
 
   getShopRemarks() {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController

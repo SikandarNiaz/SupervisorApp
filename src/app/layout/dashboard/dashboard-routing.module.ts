@@ -57,6 +57,7 @@ import { PayrollProcessComponent } from "./innerComponents/payroll-process/payro
 import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/payroll-unprocess.component";
 import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-distribution-stock-data/show-TL-distribution-stock-data.component";
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
+import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 
 const routes: Routes = [
   {
@@ -209,6 +210,7 @@ const routes: Routes = [
   { path: "ndn-interception-summary", component: NDNInterceptionSummaryComponent },
   { path: "zsm-redflag-shops", component: BulkApproveShopsComponent },
   { path: "market-intelligence", component: MarketIntelligenceComponent },
+  { path: "market-intelligence-detail", component: MarketIntelligenceDetailComponent },
   { path: "tl-stock-distribution", component: ShowTLDistributionStockDataComponent },
   { path: "tl-swapped-distribution", component: ShowTLDistributionSwappedDataComponent },
 ];

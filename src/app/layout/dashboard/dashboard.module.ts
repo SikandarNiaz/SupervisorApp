@@ -96,6 +96,7 @@ import { PayrollProcessComponent } from "./innerComponents/payroll-process/payro
 import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/payroll-unprocess.component";
 import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-distribution-stock-data/show-TL-distribution-stock-data.component";
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
+import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -193,7 +194,8 @@ import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-T
   PayrollProcessComponent,
   PayrollUnprocessComponent,
   ShowTLDistributionStockDataComponent,
-  ShowTLDistributionSwappedDataComponent 
+  ShowTLDistributionSwappedDataComponent,
+  MarketIntelligenceDetailComponent
 ],
 })
 export class DashboardModule {}
