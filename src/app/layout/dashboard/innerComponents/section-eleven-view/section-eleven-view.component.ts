@@ -163,59 +163,59 @@ export class SectionElevenViewComponent implements OnInit {
     }
   }
 
-  updateTextData(value) {
-    this.loading = true;
-    if (value.answer != null && value.answer >= 0) {
-      if (this.isEditable) {
-        const obj = {
-          msdId: value.id,
-          newValue: value.answer,
-          fieldId:value.fieldId,
-          surveyId:value.surveyId,
-          newValueId: -1,
-          title: value.question,
-          categoryTitle: this.data.sectionTitle,
-          type: 8,
-          evaluatorId: this.evaluatorId,
-        };
+  // updateTextData(value) {
+  //   this.loading = true;
+  //   if (value.answer != null && value.answer >= 0) {
+  //     if (this.isEditable) {
+  //       const obj = {
+  //         msdId: value.id,
+  //         newValue: value.answer,
+  //         fieldId:value.fieldId,
+  //         surveyId:value.surveyId,
+  //         newValueId: -1,
+  //         title: value.question,
+  //         categoryTitle: this.data.sectionTitle,
+  //         type: 8,
+  //         evaluatorId: this.evaluatorId,
+  //       };
 
-        this.httpService.updateStockData(obj).subscribe((data: any) => {
-          if (data.success) {
-            this.loading = false;
-            this.toastr.success("Data Updated Successfully");
-            // const key = data.msdId;
-            // this.formData.forEach((e) => {
-            //   // for (const key of this.colorUpdateList) {
-            //   if (key == e.value.id) {
-            //     const i = this.formData.findIndex((p) => p.value.id == key);
-            //     const obj = {
-            //       id: e.value.id,
-            //       question: e.value.question,
-            //       answer: e.value.answer,
-            //       fieldType: e.value.fieldType,
-            //       color: "red",
-            //     };
+  //       this.httpService.updateStockData(obj).subscribe((data: any) => {
+  //         if (data.success) {
+  //           this.loading = false;
+  //           this.toastr.success("Data Updated Successfully");
+  //           // const key = data.msdId;
+  //           // this.formData.forEach((e) => {
+  //           //   // for (const key of this.colorUpdateList) {
+  //           //   if (key == e.value.id) {
+  //           //     const i = this.formData.findIndex((p) => p.value.id == key);
+  //           //     const obj = {
+  //           //       id: e.value.id,
+  //           //       question: e.value.question,
+  //           //       answer: e.value.answer,
+  //           //       fieldType: e.value.fieldType,
+  //           //       color: "red",
+  //           //     };
 
-            //     this.formData.splice(i, 1, obj);
-            //   }
+  //           //     this.formData.splice(i, 1, obj);
+  //           //   }
 
-            //   // }
-            // });
-          } else {
-            this.toastr.error(data.message, "Update Data");
-          }
-        });
-      } else {
-        this.toastr.error(
-          "Operation not allowed. Please login  with the relevent Id",
-          "Error"
-        );
-      }
-    } else {
-      this.toastr.error("Value is Incorrect");
-      this.loading = false;
-    }
-  }
+  //           //   // }
+  //           // });
+  //         } else {
+  //           this.toastr.error(data.message, "Update Data");
+  //         }
+  //       });
+  //     } else {
+  //       this.toastr.error(
+  //         "Operation not allowed. Please login  with the relevent Id",
+  //         "Error"
+  //       );
+  //     }
+  //   } else {
+  //     this.toastr.error("Value is Incorrect");
+  //     this.loading = false;
+  //   }
+  // }
 
   updateTextDataNew() {
     this.loading = true;
@@ -310,4 +310,65 @@ export class SectionElevenViewComponent implements OnInit {
 //     this.loadingModalButton = false;
 //   });
 // }
+
+updateTextData(value) {
+  this.loading = true;
+  if (value.answer != null) {
+    // Check if the value is greater than or equal to 0 or not empty
+    if (value.answer >= 0 || value.answer.trim() !== '') {
+      if (this.isEditable) {
+        const obj = {
+          msdId: value.id,
+          newValue: value.answer,
+          fieldId: value.fieldId,
+          surveyId: value.surveyId,
+          newValueId: -1,
+          title: value.question,
+          categoryTitle: this.data.sectionTitle,
+          type: 8,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateStockData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success('Data Updated Successfully');
+
+            // Optional: If you need to update local data, uncomment and modify this block
+            /*
+            const key = data.msdId;
+            const index = this.formData.findIndex((e) => e.value.id == key);
+            if (index !== -1) {
+              const updatedObj = {
+                id: key,
+                question: value.question,
+                answer: value.answer,
+                fieldType: value.fieldType,
+                color: 'red',
+              };
+              this.formData.splice(index, 1, updatedObj);
+            }
+            */
+          } else {
+            this.toastr.error(data.message, 'Update Data');
+          }
+        });
+      } else {
+        this.toastr.error(
+          'Operation not allowed. Please login with the relevant Id',
+          'Error'
+        );
+      }
+    } else {
+      // Display warning when the value is removed
+      this.toastr.warning('Please insert some value', 'Warning');
+      this.loading = false;
+    }
+  } else {
+    this.toastr.error('Value is Incorrect');
+    this.loading = false;
+  }
+}
+
+
 }

@@ -120,16 +120,18 @@
                   <ng-container *ngIf="isEditable == true">
                     <ng-container *ngIf="data.value.fieldType == 'text_field'; else options">
                       <!-- Display input field for text_field -->
-                      <td style="width: 300px">
+                      <td style="min-width: 150px">
                         <input
-                          type="number"
+                          type="text"
                           [(ngModel)]="data.value.answer"
                           maxlength="10"
                           style="width: 3em"
                           (change)="updateTextData(data.value)"
+                          placeholder="Enter value"
                         />
                       </td>
                     </ng-container>
+                    
                     <ng-template #options>
                       <!-- Display select dropdown for other field types -->
                       <td>
