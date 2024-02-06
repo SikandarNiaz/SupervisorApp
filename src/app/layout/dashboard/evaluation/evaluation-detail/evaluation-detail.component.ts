@@ -60,6 +60,7 @@ export class EvaluationDetailComponent implements OnInit {
   flagRemarkList: any = [];
 
   projectType: any;
+  id: any;
 
   constructor(
     private router: Router,
@@ -81,6 +82,7 @@ export class EvaluationDetailComponent implements OnInit {
     const flag = false;
     this.userType = localStorage.getItem("user_type");
     this.projectType = localStorage.getItem("projectType");
+    this.id = localStorage.getItem("id");
     document.addEventListener("visibilitychange", function (e) {
       console.log(document.hidden);
       if (!document.hidden) {
@@ -135,15 +137,29 @@ export class EvaluationDetailComponent implements OnInit {
   goToEvaluationPage(item) {
     // Sending notEditable Param if shop is already Evaluated (Shop cant be evaluated Twice)
     if (item.evaluation_status == "N" || item.evaluation_status == "Pending") {
+      if (this.projectType == "RECKITT_CENSUS") {
       window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
+        `${environment.hash}dashboard/evaluation/list/details/${item.id}`,
         "_blank"
       );
     } else {
       window.open(
+        `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
+        "_blank"
+      );
+    }
+  } else {
+    if(this.projectType == "RECKITT_CENSUS"){
+      window.open(
+        `${environment.hash}dashboard/evaluation/list/details/${item.id}`,
+        "_blank"
+      );
+    }else{
+      window.open(
         `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}/${item.m_code}`,
         "_blank"
       );
+    }
     }
   }
 

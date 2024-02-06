@@ -242,6 +242,12 @@ Approve ({{ selectedIds?.length }})
                     {{ getArrowType("BA_Name") }}
                   </i>
                 </th>
+                <th (click)="sortIt('Area_Name')" style="cursor: pointer">
+                  Area Name
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("Area_Name") }}
+                  </i>
+                </th>
                 <!-- <th (click)="sortIt('supervisor_code')" style="cursor: pointer">
                   Supervisor code
                   <i class="material-icons arrow material-icons-arrow">
@@ -306,6 +312,7 @@ Approve ({{ selectedIds?.length }})
               </td>
                 <td style="color: blue; cursor: pointer" class="link" (click)="goToEvaluationPage(item)">{{ item?.BA_Code }}</td>
                 <td>{{ item?.BA_Name }}</td>
+                <td>{{ item?.Area_Name }}</td>
                 <td>{{ item?.shop_title }}</td>
                 <td>{{ item?.channel_type }}</td>
                 <!-- <td style="color:blue;cursor:pointer" [routerLink]="['/dashboard/evaluation/list']" [queryParams]="{ surveyorId: item.id,startDate: modifyDate(startDate),endDate: modifyDate(startDate)}">

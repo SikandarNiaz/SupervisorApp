@@ -74,6 +74,7 @@ export class HomeComponent implements OnInit {
   selectedChannel: any = {};
   surveyDetails: any;
   showCriteria: boolean = false;
+  id: any;
 
   constructor(
     private router: Router,
@@ -359,12 +360,15 @@ export class HomeComponent implements OnInit {
   evaluateShop() {
     const user_id = localStorage.getItem("user_id");
     const userType = localStorage.getItem("user_type");
+    const id = localStorage.getItem("id");
     this.loading = true;
     const req = true;
 
     if (req) {
       // tslint:disable-next-line:triple-equals
+      debugger;
       const obj = {
+        id: this.id,
         criteria: this.selectedRemarkArray,
         surveyId: this.surveyId,
         evaluatorId: user_id,
