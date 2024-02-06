@@ -234,6 +234,7 @@ export class AssignShopsComponent implements OnInit {
 
   showSurveyorTimeUpdateModal(surveyorId): void {
    // this.loadPrograms();
+   debugger;
    this.selectedSurveyor=surveyorId;
     this.updateTimeModal.show();
   }
