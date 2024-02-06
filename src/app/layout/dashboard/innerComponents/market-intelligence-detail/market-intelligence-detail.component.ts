@@ -11,11 +11,11 @@ import { Location } from '@angular/common';
 import { KeyValuePipe } from "@angular/common";
 
 @Component({
-  selector: 'app-market-intelligence',
-  templateUrl: './market-intelligence.component.html',
-  styleUrls: ['./market-intelligence.component.scss']
+  selector: 'app-market-intelligence-detail',
+  templateUrl: './market-intelligence-detail.component.html',
+  styleUrls: ['./market-intelligence-detail.component.scss']
 })
-export class MarketIntelligenceComponent implements OnInit {
+export class MarketIntelligenceDetailComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date();
   startDate = new Date();
@@ -24,7 +24,7 @@ export class MarketIntelligenceComponent implements OnInit {
   ip = Config.BASE_URI;
   tableData: any = [];
   loading = true;
-  title = 'Market Intelligence';
+  title = 'Market Intelligence Detail';
   userId: any;
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('remarksModal') remarksModal: ModalDirective;
@@ -37,6 +37,7 @@ export class MarketIntelligenceComponent implements OnInit {
   remarksList: any = [];
   status: any;
   surveyId: any;
+  id: any;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -46,9 +47,16 @@ export class MarketIntelligenceComponent implements OnInit {
     private keyValuePipe: KeyValuePipe
   ) {
     this.activeRoute.queryParams.subscribe((p) => {
-      console.log('active params', p);
-      this.params = p;
+
+      // for object
+      // this.params = JSON.parse(p?.item);
+      // this.surveyId = this.params?.value?.id;
+
+      this.surveyId = p.id;
+
+      console.log('this.surveyId:', this.surveyId);
     });
+    this.getData();
   }
 
   showChildModal(): void {
@@ -78,15 +86,17 @@ export class MarketIntelligenceComponent implements OnInit {
 
   getData() {
     this.loading = true;
-    const obj={
-      zoneId:this.params.zoneId || -1,
-      regionId: this.params.regionId || -1,
-      category:this.params.category || -1,
-      brand : this.params.brand || -1,
-      promotionType: this.params.promotionType || -1,
-      startDate : moment(this.startDate).format("YYYY-MM-DD"),
-      endDate : moment(this.endDate).format("YYYY-MM-DD"),
+    const obj : any ={
+      // zoneId:this.params.zoneId || -1,
+      // regionId: this.params.regionId || -1,
+      // category:this.params.category || -1,
+      // brand : this.params.brand || -1,
+      // promotionType: this.params.promotionType || -1,
+      // startDate : moment(this.startDate).format("YYYY-MM-DD"),
+      // endDate : moment(this.endDate).format("YYYY-MM-DD"),
+      surveyId : this.surveyId
     };
+    console.log('obj:', obj);
       this.httpService.getMarketIntelligenceData(obj).subscribe(
         (data) => {
           // console.log(data);
@@ -106,18 +116,11 @@ export class MarketIntelligenceComponent implements OnInit {
   }
 
   
-  gotoNewPage(item: any) {
-    console.log("item: ", item);
-
-    // for object
-    // const serializedItem = JSON.stringify(item);
-    // window.open(
-    //   `${environment.hash}dashboard/market-intelligence-detail?item=${serializedItem}`,
-    //   "_blank"
-    // );
-
+  gotoNewPage(item) {
+    localStorage.setItem('imageList', JSON.stringify(item.imageList));
+    localStorage.setItem('itemList', JSON.stringify(item.itemList));
     window.open(
-      `${environment.hash}dashboard/market-intelligence-detail?id=${item?.value?.id}`,
+      `${environment.hash}dashboard/image-view`,
       "_blank"
     );
   }
@@ -219,5 +222,77 @@ export class MarketIntelligenceComponent implements OnInit {
          }
       );
    
+  }
+
+  onBrandNameBlur(surveyId, brandName){
+    this.loadingData = true;
+    const obj = {
+      surveyId : surveyId,
+      newValue : brandName,
+      fieldIds : '2798',
+      userId: localStorage.getItem("user_id")
+    }
+
+
+    console.log("onBrandNameBlur obj: ", obj);
+    this.httpService.updateMarketIntelligenceDataField(obj).subscribe(
+      (data: any) => {
+        console.log("resp data: ", data);
+        if (data.success) {
+          this.toastr.success(data.success);
+          this.loadingData = false;
+
+          
+          
+        } else {
+          this.loadingData = false;
+          this.toastr.error(data.fail);
+        }
+        
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
+      }
+    );
+
+  }
+
+  onProductDescriptionBlur(surveyId, productDescription){
+    this.loadingData = true;
+   
+    const obj = {
+      surveyId : surveyId,
+      newValue : productDescription,
+      fieldIds : '2806,2800,2808',
+      userId: localStorage.getItem("user_id")
+    }
+    
+    console.log("onProductDescriptionBlur obj: ", obj);
+    this.httpService.updateMarketIntelligenceDataField(obj).subscribe(
+      (data: any) => {
+        console.log("resp data: ", data);
+        if (data.success) {
+          this.toastr.success(data.success);
+          this.loadingData = false;
+
+          
+          
+        } else {
+          this.loadingData = false;
+          this.toastr.error(data.fail);
+        }
+       
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
+      }
+    );
+
   }
 }

@@ -12,6 +12,12 @@
 // .cdk-overlay-connected-position-bounding-box {
 //   z-index: 1200 !important;
 // }
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container,
+.cdk-overlay-connected-position-bounding-box {
+  z-index: 10000 !important;
+}
+
 .primary-red {
   background-color: #b70000;
   color: white;
