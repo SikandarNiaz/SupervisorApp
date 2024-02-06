@@ -106,7 +106,7 @@ export class UpdateSupervisorAttendenceComponent implements OnInit {
       // active: new FormControl("", [Validators.required]),
       surveyorId:new FormControl("", [Validators.required]),
       remarkId: new FormControl("", [Validators.required]),
-      supervisorId:new FormControl("", [Validators.required]),
+     // supervisorId:new FormControl("", [Validators.required]),
       startDate: new FormControl("", [Validators.required]),
      // Remark: new FormControl("", [Validators.required]),
      // surveyor: new FormControl("", [Validators.required]),
