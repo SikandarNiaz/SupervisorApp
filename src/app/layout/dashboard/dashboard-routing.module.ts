@@ -58,6 +58,7 @@ import { PayrollUnprocessComponent } from "./innerComponents/payroll-unprocess/p
 import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-distribution-stock-data/show-TL-distribution-stock-data.component";
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
+import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
 
 const routes: Routes = [
   {
@@ -213,6 +214,7 @@ const routes: Routes = [
   { path: "market-intelligence-detail", component: MarketIntelligenceDetailComponent },
   { path: "tl-stock-distribution", component: ShowTLDistributionStockDataComponent },
   { path: "tl-swapped-distribution", component: ShowTLDistributionSwappedDataComponent },
+  { path: "random-selfies", component: RandomSelfiesComponent },
 ];
 
 @NgModule({

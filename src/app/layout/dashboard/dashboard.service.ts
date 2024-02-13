@@ -768,7 +768,17 @@ export class DashboardService {
     const url = this.ip + "tl-distribution-swapped-data"; // -------> ShowTLDistributionSwappedData
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+  getRandomSelfiesData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/randomSelfies"; // -------> RandomSelfiesController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
 
+  getSupervisorList(obj) {
+    const filter = JSON.stringify(obj);
+    const url = this.ip + "/loadFilters";
+    return this.http.post(url, filter);
+  }
   // updatef1f2(obj){
   // debugger;
   // const body = this.UrlEncodeMaker(obj);
