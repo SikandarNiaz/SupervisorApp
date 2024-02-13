@@ -461,7 +461,7 @@ export class NdnRouterTrackerComponent implements OnInit {
   getTimeDifference(endTime, startTime) {
     var ms = moment(startTime, "HH:mm:ss").diff(moment(endTime, "HH:mm:ss"));
     var d = moment.duration(ms);
-    return d.minutes() + " min " + d.seconds() + " sec";
+    return d.hours() + " hr " +  d.minutes() + " min " + d.seconds() + " sec";
   }
 
   setTimeDifference() {
@@ -485,6 +485,7 @@ export class NdnRouterTrackerComponent implements OnInit {
 getArrowType(key) {
   if (key === this.sortBy) {
     return this.sortOrder ? "arrow_upward" : "arrow_downward";
+    // return this.sortOrder === 'time' ? (this.sortOrder === 'asc' ? 'arrow_downward' : 'arrow_upward') : '';
   } else {
     return "";
   }

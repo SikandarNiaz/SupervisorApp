@@ -175,26 +175,35 @@
                 </th> -->
   
                   <!-- <th>Shop Code</th> -->
+                  <th class="text-center">#</th>
                   <th>Area/Shop Name</th>
                   <!-- <th>Shop Address</th> -->
                   <th (click)="sortIt('time')" style="cursor: pointer">
                     Start Time
                     <i class="material-icons arrow material-icons-arrow">{{ getArrowType("time") }}</i>
                   </th>
+                  <!-- <th>Start Time</th> -->
                   <th>End Time</th>
+                  <th>Time Spent</th>
                   <th>Time Difference</th>
                 </tr>
               </thead>
   
               <tbody
-                *ngFor="let shop of visitedtrackedShops | orderBy: sortBy:sortOrder"
+                *ngFor="let shop of visitedtrackedShops ; let i = index"
                 class="trS14"
               >
                 <tr *ngIf="shop.Type == 'Visit'">
+                  <!-- <tr
+                    *ngFor="let item of visitedtrackedShops && shop.Type == 'Visit' | orderBy: sortBy:sortOrder let i = index"
+                    
+                  > -->
                   <!-- <td>
                     {{ shop.shop_code }}
                   </td> -->
-  
+                  <td class="text-center text-muted" style="width: 80px">
+                    {{ i + 1 }}
+                  </td>
                   <td>
                     {{ shop.shop_title }}
                   </td>
@@ -208,9 +217,13 @@
                     {{ shop.end_time }}
                   </td>
                   <td>
+                    {{ shop.timespent }}
+                  </td>
+                  <td>
                     {{ shop.time_difference }}
                   </td>
                 </tr>
+              
               </tbody>
             </table>
           </div>
