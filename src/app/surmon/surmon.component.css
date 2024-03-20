@@ -1,0 +1,190 @@
+.lemon-modal {
+    background-color: rgb(238, 137, 5);
+}
+
+.lemon-modal-content / Add any additional styling as needed / .lemon-modal .modal-header {
+    border-bottom: 1px solid #fff;
+}
+
+
+body {
+    margin: 0;
+    background-color: #191919;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Helvetica, Sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #FFF;
+}
+
+.rainbow-button {
+    width: 53px;
+    height: 58px;
+    background-image: linear-gradient(90deg, #810b9e 0%, #eb4375 49%, #FC4F4F 80%, #000000 100%);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    box-sizing: border-box;
+    padding: 8px;
+}
+
+.rainbow-button:hover {
+    animation: slidebg 2s linear infinite;
+}
+
+@keyframes slidebg {
+    to {
+        background-position: 53px;
+    }
+}
+
+ .header {
+    background-color: #ffffff;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.section-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.question-container {
+    border: 1px solid hsl(0, 15%, 81%);
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.question {
+    font-weight: bold;
+    margin-bottom: 10px;
+    background-color: #f5ee92;
+}
+
+.answer-label {
+    font-weight: bold;
+    margin-right: 5px;
+    background-color: #f5ee92;
+}
+
+.answer-input {
+    margin-top: 10px;
+}
+
+button {
+    border-radius: 5px
+}
+
+pop {
+    background-color: rgb(4, 245, 164);
+    color: rgb(226, 178, 20);
+}
+
+.custom-table {
+    background-color: #ffffff;
+    font-family: sans-serif;
+    table-layout: inherit;
+}
+
+.custom-table tbody tr:nth-of-type(odd) {
+    background-color: rgb(233, 233, 233) #adecbb;
+}
+
+.custom-table td,
+.custom-table th {
+    border-color: #ecf1f7;
+}
+
+tr.hover-effect-active:hover {
+    background-color: rgb(235, 19, 19) !important;
+}
+
+tr.hover-effect-inactive:hover {
+    background-color: rgb(9, 219, 9) !important;
+}
+
+select {
+    position: relative;
+}
+
+th {
+    font-size: 16px;
+}
+
+tr {
+    font-size: 14px;
+}
+
+.inactive-background {
+    background-color: rgb(167, 62, 62);
+}
+
+tr.inactive-background {
+    background-color: rgb(167, 62, 62) !important;
+}
+
+select option {
+    position: relative;
+    bottom: 0;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
