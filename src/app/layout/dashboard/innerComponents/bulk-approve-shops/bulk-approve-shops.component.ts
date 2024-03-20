@@ -390,7 +390,7 @@ obj = {
       endDate: moment(this.endDate).format("YYYY-MM-DD"),
     };
 
-    this.httpService.getEvaluationSummary(obj).subscribe((data: any) => {
+    this.httpService.getEvaluationSummaryInBulkApprovalView(obj).subscribe((data: any) => {
       // console.log('merchandiser list for evaluation',data);
       if (data) {
         this.evaluationSummary = data;

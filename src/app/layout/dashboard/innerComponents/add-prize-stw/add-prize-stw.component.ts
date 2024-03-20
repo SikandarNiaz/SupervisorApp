@@ -56,6 +56,15 @@ export class AddPrizeStwComponent implements OnInit {
       this.getData(this.params);
     });
     this.labels = JSON.parse(localStorage.getItem("labelProperties"));
+    if (!this.labels) {
+      // Set default values
+      this.labels = {
+        surveyorLabel: "BA",
+        zoneLabel: "Zone",
+        regionLabel: "Region"
+        // Add other default labels as needed
+      };
+    }
     this.projectType = localStorage.getItem("projectType");
     
   }
@@ -74,16 +83,24 @@ export class AddPrizeStwComponent implements OnInit {
   ngOnInit() {
     // this.getTableData();
     
+    if (this.params.startDate && this.params.endDate) {
+      this.startDate = new Date(this.params.startDate);
+      this.endDate = new Date(this.params.endDate);
+    } else {
+      this.startDate = new Date();
+    }
   }
 
   getData(params) {
     this.loading = true;
-    if (params.surveyorId && params.startDate && params.endDate) {
+    debugger
+    if (params.regionId && params.startDate && params.endDate) {
+      debugger
       this.obj = {
-        surveyorId: params.surveyorId,
+       // surveyorId: params.surveyorId,
         startDate: params.startDate,
         endDate: params.endDate,
-        regionId: -1,
+        regionId: params.regionId,
         zoneId: -1,
       };
     } else {

@@ -15,6 +15,8 @@ import * as _ from "lodash";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  user: string;
+  userType: string;
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
@@ -44,10 +46,13 @@ export class HomeComponent implements OnInit {
   tableData: any = [];
   isBaModule: boolean;
   isBaModule1: boolean;
+  
   ngOnInit() {
     this.projectType = localStorage.getItem("projectType");
+   this.userType = localStorage.getItem("user_type");
+    debugger;
     if (
-      this.projectType == "NFL" ||
+      
       this.projectType == "NIVEA" ||
       this.projectType == "NDN" ||
       this.projectType == "DALDA"||
@@ -56,9 +61,14 @@ export class HomeComponent implements OnInit {
     ) {
       this.isBaModule = true;
     }
+    else if (this.projectType == "NFL" && this.userType!=='9')
+    {this.isBaModule = true;}
     else if (this.projectType == "NDN_KT")
     {
       this.isBaModule1 = true;
+    }
+    else{
+
     }
   }
 }

@@ -14,6 +14,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatGridListModule } from "@angular/material/grid-list";
+import {NgxSpinnerService} from 'ngx-spinner';
 import {
   MatDatepickerModule,
   MatDatepickerToggle,
@@ -98,6 +99,10 @@ import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
+import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
+import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
   imports: [
     FormsModule,
@@ -135,7 +140,9 @@ import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-
     NgxMatSelectSearchModule,
     NgxMaterialTimepickerModule,
     NgxImageZoomModule,
-    LightboxModule
+    LightboxModule,
+    NgxSpinnerModule,
+    MatTabsModule,
   ],
   declarations: [
     SectionElevenViewComponent,
@@ -197,7 +204,9 @@ import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-
   ShowTLDistributionStockDataComponent,
   ShowTLDistributionSwappedDataComponent,
   MarketIntelligenceDetailComponent,
-  RandomSelfiesComponent
+  RandomSelfiesComponent,
+  ShopperEngagementComponent,
+  PushNotificationComponent
 ],
 })
 export class DashboardModule {}

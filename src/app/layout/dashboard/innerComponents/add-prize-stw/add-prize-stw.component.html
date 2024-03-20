@@ -90,7 +90,7 @@
             <img *ngIf ="projectType != 'NIVEA'"
               mat-card-image
               class="small"
-              src="{{ ip }}{{ item.day_start_complete_image_url }}"
+              src="{{ item.day_start_complete_image_url }}"
               width="250"
               height="430"
               alt=""
@@ -185,7 +185,7 @@
       </div>
 
       <div class="modal-body text-center">
-        <img src="{{ ip }}{{ selectedItem.day_start_complete_image_url }}" alt="" />
+        <img src="{{ selectedItem.day_start_complete_image_url }}" alt="" />
       </div>
     </div>
   </div>
