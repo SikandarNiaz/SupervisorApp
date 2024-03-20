@@ -39,8 +39,10 @@ import {
     productsSetList: any = [];
     loadingData: boolean;
     regionList: any=[]; 
+    brandList : any=[];
     cityList: any=[];
     programList: any=[];
+    brand_id:any;
   
     projectType: any;
     sortOrder = true;
@@ -88,6 +90,7 @@ import {
         email: new FormControl(""),
         phone: new FormControl(""),
         cnic: new FormControl(""),
+        brand_id:new FormControl(""),
         active: new FormControl(""),
       });
   
@@ -116,6 +119,7 @@ import {
       this.getAllRegions();
      this.getAllcity();
      this.getAllprograms();
+     this.getAllBrands();
     }
     getAllprograms() {
       this.loadingData = true;
@@ -176,6 +180,30 @@ import {
             // localStorage.setItem('regionList', JSON.stringify(res.regionList));
           }
           if (!res.regionList) {
+            this.toastr.info("No data Found", "Info");
+          }
+          this.loadingData = false;
+        },
+        (error) => {
+          this.loadingData = false;
+          error.status === 0
+            ? this.toastr.error("Please check Internet Connection", "Error")
+            : this.toastr.error(error.description, "Error");
+        }
+      );
+    }
+    getAllBrands(){
+      debugger;
+      this.loadingData = true;
+      this.httpService.getBrand().subscribe(
+        (data) => {
+          const res: any = data;
+          if (res.BrandList) {
+            this.brandList = res.BrandList;
+            
+            // localStorage.setItem('regionList', JSON.stringify(res.regionList));
+          }
+          if (!res.BrandList) {
             this.toastr.info("No data Found", "Info");
           }
           this.loadingData = false;
@@ -459,6 +487,7 @@ import {
         cityId: data.city_id,
         regionId: data.region_id,
         programId: data.program_id,
+        brandId: data.brand_id || -1,
         // evaluatorId: data.evaluatorId,
         email: data.email,
         cnic: data.cnic,
@@ -475,6 +504,19 @@ import {
         }
         this.loadingModalButton = false;
       });
+
+      
     }
+    selectAllBrands() {
+      const brandIds = this.brandList.map(b => b.id);
+      this.form.controls.brand_ids.patchValue(brandIds);
+    }
+    
+    deselectAllBrands() {
+      this.form.controls.brand_ids.patchValue([]);
+    }
+    
+    
+    
   }
   
