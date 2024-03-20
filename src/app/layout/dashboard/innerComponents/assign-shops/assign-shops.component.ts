@@ -12,7 +12,7 @@ import {
   FormGroup,
   FormBuilder,
   FormControl,
-  Validators,
+  Validators
 } from "@angular/forms";
 import * as moment from "moment";
 import { subscribeOn } from "rxjs/operators";
@@ -25,6 +25,7 @@ import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import * as _ from "lodash";
 import { Config } from "src/assets/config";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
 declare const google: any;
@@ -45,6 +46,18 @@ export class AssignShopsComponent implements OnInit {
   tableData: any = [];
   ip: any = Config.BASE_URI;
   title = "";
+  weekDays = [
+    { value: 'Monday', startTime: null, endTime: null, selected: false },
+    { value: 'Tuesday', startTime: null, endTime: null, selected: false },
+    { value: 'Wednesday', startTime: null, endTime: null, selected: false },
+    { value: 'Thursday', startTime: null, endTime: null, selected: false },
+    { value: 'Friday', startTime: null, endTime: null, selected: false },
+    { value: 'Saturday', startTime: null, endTime: null, selected: false },
+    { value: 'Sunday', startTime: null, endTime: null, selected: false }
+  ];
+  weekDay: any;
+  selectedDay: any;
+  selectedDay1: any;
   zones: any = [];
   loadingData: boolean;
   regions: any = [];
@@ -84,10 +97,10 @@ export class AssignShopsComponent implements OnInit {
   filteredShops: any = [];
   labels: any;
   time: any;
-  selectedStartTime= null;
-  selectedEndTime= null;
-  daysList: any = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
-  selectedDay = null;
+  selectedStartTime = null;
+  selectedEndTime = null;
+  daysList: any = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
 
   constructor(
     private toastr: ToastrService,
@@ -130,6 +143,19 @@ export class AssignShopsComponent implements OnInit {
     this.loadShops();
     this.getTabsData();
   }
+  // selectDay(day) {
+  //   this.selectedDay1 = day.value;
+  //   console.log("selectedDay:", this.selectedDay1)
+  // }
+  toggleDaySelection(day) {
+    day.selected = !day.selected; // Toggle the selected property
+    console.log("selectedDay:", day.value);
+  }
+
+
+  getPicker(day, type) {
+    return 'defaultPicker_' + day.value + '_' + type;
+  }
   zoneChange() {
     this.loadingData = true;
     this.selectedRegion.id = -1;
@@ -155,6 +181,11 @@ export class AssignShopsComponent implements OnInit {
         this.clearLoading();
       }
     );
+  }
+  onDayClick(day: string) {
+    this.selectedDay = day; // Update selectedDay based on clicked day
+    console.log(`Selected day: ${this.selectedDay}`);
+    // You can perform actions based on the selected day here
   }
 
   setSelectedItem(item) {
@@ -218,14 +249,14 @@ export class AssignShopsComponent implements OnInit {
   }
 
   hideshowSurveyorTimeUpdateModal() {
-   this.selectedStartTime=null;
-    this.selectedEndTime=null;
-    this.selectedDay=null;
-   // this.programs = [];
+    this.selectedStartTime = null;
+    this.selectedEndTime = null;
+    this.selectedDay = null;
+    // this.programs = [];
     this.surveyors = [];
     this.updateTimeModal.hide();
-   // this.selectedStartTime.reset;
-   // this.selectedEndTime.reset;
+    // this.selectedStartTime.reset;
+    // this.selectedEndTime.reset;
   }
 
   showShopInfoModal(): void {
@@ -233,9 +264,9 @@ export class AssignShopsComponent implements OnInit {
   }
 
   showSurveyorTimeUpdateModal(surveyorId): void {
-   // this.loadPrograms();
-   debugger;
-   this.selectedSurveyor=surveyorId;
+    // this.loadPrograms();
+    debugger;
+    this.selectedSurveyor = surveyorId;
     this.updateTimeModal.show();
   }
 
@@ -319,8 +350,7 @@ export class AssignShopsComponent implements OnInit {
               "Something went wrong,Please retry",
               "Connectivity Message"
             );
-          }
-
+          };
           setTimeout(() => {
             this.loadingModal = false;
           }, 500);
@@ -418,7 +448,7 @@ export class AssignShopsComponent implements OnInit {
     });
   }
 
-  getTaggings(shop) {}
+  getTaggings(shop) { }
 
   asIsOrder(a, b) {
     return 1;
@@ -453,7 +483,7 @@ export class AssignShopsComponent implements OnInit {
 
       const reader = new FileReader();
       reader.readAsDataURL(this.image);
-      reader.onload = (_event) => {};
+      reader.onload = (_event) => { };
     }
   }
 
@@ -592,34 +622,43 @@ export class AssignShopsComponent implements OnInit {
   }
 
   UpdateSurveyorTime() {
-    const obj = {
-      surveyorId: this.selectedSurveyor,
-      startTime: this.selectedStartTime,
-      endTime: this.selectedEndTime,
-      holiday: this.selectedDay,
-    };
-    debugger;
     this.loadingModal = true;
     this.loadingModalButton = true;
-    this.httpService.UpdateTime(obj).subscribe((data) => {
-      if (data) {
-        debugger;
-        this.response = data;
-       // this.getTabsData();
-        this.hideshowSurveyorTimeUpdateModal();
-        this.selectedShops = [];
-        if (this.response.length > 0) {
-          this.loadingModal = false;
-          this.loadingModalButton = false;
-          this.toastr.success(this.response, "Success");
-          this.getTabsData();
+
+    // Filter out selected days
+    const selectedDays = this.weekDays.filter(day => day.selected);
+
+    for (const selectedDay of selectedDays) {
+      console.log('Selected Day:', selectedDay.value);
+      console.log('Start Time:', selectedDay.startTime);
+      console.log('End Time:', selectedDay.endTime);
+
+      const obj = {
+        surveyorId: this.selectedSurveyor,
+        startTime:selectedDay.startTime || null,
+        endTime: selectedDay.endTime || null,
+        weekDay: selectedDay.value || null,
+        holiday: this.selectedDay || null
+      };
+
+      console.log("obj:", obj);
+
+      this.httpService.UpdateTime(obj).subscribe((data) => {
+        if (data) {
+          debugger;
+          this.response = data;
+          this.hideshowSurveyorTimeUpdateModal();
+          this.selectedShops = [];
+          if (this.response.length > 0) {
+            this.toastr.success(this.response, "Success");
+            this.getTabsData();
+          }
+        } else {
+          this.toastr.error("There is an error in your file!!");
         }
-      } else {
-        this.loadingModal = false;
-        this.loadingModalButton = false;
-        this.updateTimeModal.hide();
-        this.toastr.error("There is an error in ur file!!");
-      }
-    });
+      });
+    }
+    this.loadingModal = false;
+    this.loadingModalButton = false;
   }
 }
