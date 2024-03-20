@@ -7,27 +7,16 @@
       </mat-card-title>
       <section class="example-section">
         <mat-form-field class="example-margin mr-10-IMP">
-          <mat-select
-            placeholder="{{ labels.zoneLabel }}"
-            name="zone"
-            [(ngModel)]="selectedZone"
-            (ngModelChange)="zoneChange()"
-          >
+          <mat-select placeholder="{{ labels.zoneLabel }}" name="zone" [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()">
             <ng-container *ngFor="let zone of zones">
               <mat-option [value]="zone">{{ zone.title }}</mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field
-          *ngIf="regions.length > 0"
-          class="example-margin mr-10-IMP"
-        >
-          <mat-select
-            placeholder="{{ labels.regionLabel }}"
-            name="region"
-            [(ngModel)]="selectedRegion"
-          >
+        <mat-form-field *ngIf="regions.length > 0" class="example-margin mr-10-IMP">
+          <mat-select placeholder="{{ labels.regionLabel }}" name="region" [(ngModel)]="selectedRegion">
             <ng-container *ngFor="let region of regions">
               <mat-option [value]="region">{{ region.title }}</mat-option>
             </ng-container>
@@ -35,40 +24,22 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="shopList" class="example-margin mr-10-IMP">
-          <mat-select
-            placeholder="Shop"
-            name="shops"
-            [(ngModel)]="selectedShop"
-          >
-            <ngx-mat-select-search
-              [placeholderLabel]="'Find Shop...'"
-              [noEntriesFoundLabel]="'No Matching Shop Found'"
-              [(ngModel)]="selectedKeyword"
-              (ngModelChange)="filterItem(selectedKeyword)"
-            ></ngx-mat-select-search>
+          <mat-select placeholder="Shop" name="shops" [(ngModel)]="selectedShop">
+            <ngx-mat-select-search [placeholderLabel]="'Find Shop...'" [noEntriesFoundLabel]="'No Matching Shop Found'"
+              [(ngModel)]="selectedKeyword" (ngModelChange)="filterItem(selectedKeyword)"></ngx-mat-select-search>
             <mat-option [value]="shop" *ngFor="let shop of filteredShops">{{
               shop.title
-            }}</mat-option>
+              }}</mat-option>
           </mat-select>
         </mat-form-field>
       </section>
       <section>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="loadingData || (!selectedZone.id && !selectedShop.id)"
-          (click)="getTabsData()"
-        >
+        <button mat-raised-button color="primary" [disabled]="loadingData || (!selectedZone.id && !selectedShop.id)"
+          (click)="getTabsData()">
           Display Shops
         </button>
-        <button
-          *ngIf="!isAssignShopRequest"
-          mat-raised-button
-          class="ml-3"
-          color="primary"
-          [disabled]="loadingData"
-          (click)="showAddShopModal()"
-        >
+        <button *ngIf="!isAssignShopRequest" mat-raised-button class="ml-3" color="primary" [disabled]="loadingData"
+          (click)="showAddShopModal()">
           Create New Shop
           <mat-icon>add</mat-icon>
         </button>
@@ -82,31 +53,12 @@
     <div class="container-fluid">
       <div class="row js">
         <ng-container *ngFor="let item of tabsData | keyvalue: asIsOrder">
-          <mat-card
-            class="col-md-3 card2 example-card ml-3 mt-3"
-            style="text-align: center"
-          >
-            <img
-              (click)="setSelectedItem(item.value); showShopInfoModal()"
-              mat-card-image
-              class="small"
-              src="{{ ip }}{{ item.value.shopImageUrl }}"
-              alt=""
-              width="250"
-              height="300"
-            />
+          <mat-card class="col-md-3 card2 example-card ml-3 mt-3" style="text-align: center">
+            <img (click)="setSelectedItem(item.value); showShopInfoModal()" mat-card-image class="small"
+              src="{{ ip }}{{ item.value.shopImageUrl }}" alt="" width="250" height="300" />
 
-            <span
-              class="ribbon3"
-              *ngIf="!isAssignShopRequest"
-              (click)="showUpdateShopModal(item.value)"
-            >
-              <button
-                [disabled]="loadingData"
-                mat-mini-fab
-                color="primary"
-                aria-label="Example"
-              >
+            <span class="ribbon3" *ngIf="!isAssignShopRequest" (click)="showUpdateShopModal(item.value)">
+              <button [disabled]="loadingData" mat-mini-fab color="primary" aria-label="Example">
                 <mat-icon>edit</mat-icon>
               </button>
             </span>
@@ -125,48 +77,28 @@
               <ng-container *ngIf="isAssignShopRequest">
                 <mat-label><strong>Taggings:</strong></mat-label>
                 <div class="row js">
-                  <ng-container
-                    *ngIf="
+                  <ng-container *ngIf="
                       item?.value?.surveyorList.length > 0;
                       else noSurveyor
-                    "
-                  >
-                    <ng-container
-                      *ngFor="let surveyor of item.value.surveyorList"
-                    >
+                    ">
+                    <ng-container *ngFor="let surveyor of item.value.surveyorList">
                       <mat-card class="col-md-1 example-card ml-3 mt-3">
                         <div class="ribbon">
-                          <img
-                            (click)="
+                          <img (click)="
                               setSelectedItem(surveyor); showShopInfoModal()
-                            "
-                            mat-card-image
-                            class="small"
-                            src="{{ ip }}{{ surveyor.imageUrl }}"
-                            alt=""
-                            width="100"
-                            height="100"
-                          />
-                          <span
-                            class="ribbon2"
-                            (click)="DeactivateRoute(item.key, surveyor.id)"
-                          >
-                            <button
-                              [disabled]="loadingData"
-                              mat-mini-fab
-                              color="warn"
-                              aria-label="Example"
-                            >
+                            " mat-card-image class="small" src="{{ ip }}{{ surveyor.imageUrl }}" alt="" width="100"
+                            height="100" />
+                          <span class="ribbon2" (click)="DeactivateRoute(item.key, surveyor.id)">
+                            <button [disabled]="loadingData" mat-mini-fab color="warn" aria-label="Example">
                               <mat-icon>delete</mat-icon>
                             </button>
                           </span>
                         </div>
                         <mat-card-content>
-                          <mat-label style="color: blue; cursor: pointer" (click)="showSurveyorTimeUpdateModal(surveyor.id)"
-                            >{{ surveyor?.fullName }}({{
-                              surveyor?.mCode
-                            }})</mat-label
-                          >
+                          <mat-label style="color: blue; cursor: pointer"
+                            (click)="showSurveyorTimeUpdateModal(surveyor.id)">{{ surveyor?.fullName }}({{
+                            surveyor?.mCode
+                            }})</mat-label>
                         </mat-card-content>
                       </mat-card>
                     </ng-container>
@@ -177,14 +109,8 @@
                 </div>
               </ng-container>
             </mat-card-content>
-            <button
-              *ngIf="isAssignShopRequest"
-              [disabled]="loadingData"
-              (click)="showChildModal(item.key)"
-              mat-raised-button
-              color="primary"
-              style="margin-bottom: 5px"
-            >
+            <button *ngIf="isAssignShopRequest" [disabled]="loadingData" (click)="showChildModal(item.key)"
+              mat-raised-button color="primary" style="margin-bottom: 5px">
               Assign
             </button>
           </mat-card>
@@ -194,15 +120,8 @@
   </ng-container>
 </div>
 
-<div
-  bsModal
-  #childModal="bs-modal"
-  [config]="{ ignoreBackdropClick: true, keyboard: false, backdrop: 'static' }"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-child-name"
->
+<div bsModal #childModal="bs-modal" [config]="{ ignoreBackdropClick: true, keyboard: false, backdrop: 'static' }"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -210,26 +129,16 @@
           Select Program And BA
         </h4>
         <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
-        <button
-          [disabled]="loadingModal"
-          type="button"
-          class="close pull-right"
-          aria-label="Close"
-          (click)="hideChildModal()"
-        >
+        <button [disabled]="loadingModal" type="button" class="close pull-right" aria-label="Close"
+          (click)="hideChildModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label for="Programs">Select Program</label>
-          <select
-            class="form-control"
-            placeholder="Select Program"
-            name="program"
-            [(ngModel)]="selectedProgram"
-            (ngModelChange)="getSurveyors()"
-          >
+          <select class="form-control" placeholder="Select Program" name="program" [(ngModel)]="selectedProgram"
+            (ngModelChange)="getSurveyors()">
             <ng-container *ngFor="let program of programs">
               <option [value]="program.id">{{ program.title }}</option>
             </ng-container>
@@ -237,12 +146,7 @@
         </div>
         <div class="form-group" *ngIf="surveyors.length > 0">
           <label for="Surveyor">Select BA</label>
-          <select
-            class="form-control"
-            placeholder="Select BA"
-            name="surveyor"
-            [(ngModel)]="selectedSurveyor"
-          >
+          <select class="form-control" placeholder="Select BA" name="surveyor" [(ngModel)]="selectedSurveyor">
             <ng-container *ngFor="let surveyor of surveyors">
               <option [value]="surveyor.id">{{ surveyor.fullName }}</option>
             </ng-container>
@@ -250,12 +154,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="loadingModal || selectedSurveyor == -1"
-          (click)="AssignShops()"
-        >
+        <button mat-raised-button color="primary" [disabled]="loadingModal || selectedSurveyor == -1"
+          (click)="AssignShops()">
           <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
           Assign Shop
         </button>
@@ -267,80 +167,58 @@
   </div>
 </div>
 <!-- ///////////////////////Update Time Modal//////////////////////////////// -->
-<div
-  bsModal
-  #updateTimeModal="bs-modal"
-  [config]="{ ignoreBackdropClick: true, keyboard: false, backdrop: 'static' }"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-child-name"
->
-  <div class="modal-dialog">
+<div bsModal #updateTimeModal="bs-modal" [config]="{ ignoreBackdropClick: true, keyboard: false, backdrop: 'static' }"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+  <div class="modal-dialog modal-medium">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-child-name" class="modal-title pull-left">
-          Update Profile
+          Update Time
         </h4>
         <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
-        <button
-          [disabled]="loadingModal"
-          type="button"
-          class="close pull-right"
-          aria-label="Close"
-          (click)="hideshowSurveyorTimeUpdateModal()"
-        >
+        <button [disabled]="loadingModal" type="button" class="close pull-right" aria-label="Close"
+          (click)="hideshowSurveyorTimeUpdateModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <section>
-          <mat-form-field>
-            <input matInput placeholder="User Day Start Time"
-            aria-label="12hr format"
-            [disabled]="loadingModal"
-            [ngxTimepicker]="defaultPicker"
-            [(ngModel)]="selectedStartTime">
-          <ngx-material-timepicker
-            #defaultPicker
-            [preventOverlayClick]="true"
-          ></ngx-material-timepicker>
-          </mat-form-field>
+          <div *ngFor="let day of weekDays" class="row">
+            <div style="margin-left: 10px;">
+              <mat-form-field>
+                <input matInput placeholder="User Day Start Time" aria-label="12hr format" [disabled]="loadingModal"
+                  [ngxTimepicker]="defaultPicker" [(ngModel)]="day.startTime" name="startTime">
+                <ngx-material-timepicker #defaultPicker [preventOverlayClick]="true"></ngx-material-timepicker>
+              </mat-form-field>
+            </div>
+
+            <div style="margin-left: 10px;">
+              <mat-form-field>
+                <input matInput placeholder="User Day End Time" aria-label="12hr format" [disabled]="loadingModal"
+                  [ngxTimepicker]="defaultPicker1" [(ngModel)]="day.endTime" name="endTime">
+                <ngx-material-timepicker #defaultPicker1 [preventOverlayClick]="true"></ngx-material-timepicker>
+              </mat-form-field>
+            </div>
+
+            <div style="margin-left: 30px;">
+              <input type="checkbox" class="btn-check" id="{{ day.value }}" (change)="toggleDaySelection(day)" >
+              <label class="btn btn-primary custom-btn" for="{{ day.value }}">{{ day.value }}</label>
+              <!-- <input type="checkbox" id="{{ day.value }}Checkbox"
+                (change)="toggleDaySelection(day)">
+              <label for="{{ day.value }}Checkbox">{{ day.value }}</label> -->
+            </div>
+          </div>
         </section>
-        <section>
-          <mat-form-field>
-            <input matInput
-            placeholder="User Day End Time"
-            aria-label="12hr format"
-            [disabled]="loadingModal "
-            [ngxTimepicker]="defaultPicker1"
-            [(ngModel)]="selectedEndTime">
-          
-          <ngx-material-timepicker
-            #defaultPicker1
-            [preventOverlayClick]="true"
-          ></ngx-material-timepicker>
-          </mat-form-field>
-        </section>
+
         <label for="day">Select Weekly Day Off</label>
-        <select
-            class="form-control"
-            placeholder="Weekly off Days"
-            name="day"
-            [(ngModel)]="selectedDay"
-          >
-            <ng-container *ngFor="let day of daysList">
-              <option [value]="day">{{ day }}</option>
-            </ng-container>
-          </select>
+        <select class="form-control" placeholder="Weekly off Days" name="day" [(ngModel)]="selectedDay">
+          <ng-container *ngFor="let day of daysList">
+            <option [value]="day">{{ day }}</option>
+          </ng-container>
+        </select>
       </div>
       <div class="modal-footer">
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="loadingModal"
-          (click)="UpdateSurveyorTime()"
-        >
+        <button mat-raised-button color="primary" [disabled]="loadingModal" (click)="UpdateSurveyorTime()">
           Update
         </button>
         <button [disabled]="loadingModal" (click)="hideshowSurveyorTimeUpdateModal()">
@@ -352,52 +230,29 @@
 </div>
 <!-- /////////////////////////////////////////////////////////////// -->
 
-<div
-  bsModal
-  #shopInfoModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-child-name"
->
+<div bsModal #shopInfoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-child-name">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-child-name" class="modal-title pull-left">
           {{ selectedItem?.title || selectedItem?.fullName }}
         </h4>
-        <button
-          type="button"
-          class="close pull-right"
-          aria-label="Close"
-          (click)="hideShopInfoModal()"
-        >
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideShopInfoModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body text-center">
-        <img
-          class="img-responsive"
-          src="{{ ip }}{{
+        <img class="img-responsive" src="{{ ip }}{{
             selectedItem?.shopImageUrl || selectedItem?.imageUrl
-          }}"
-          alt=""
-          style="max-height: 500px"
-        />
+          }}" alt="" style="max-height: 500px" />
       </div>
     </div>
   </div>
 </div>
 
-<div
-  bsModal
-  #addEditShop="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-child-name"
->
+<div bsModal #addEditShop="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -405,12 +260,7 @@
           {{ modalTitle }}
           <i [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
         </h4>
-        <button
-          type="button"
-          class="close pull-right"
-          aria-label="Close"
-          (click)="hideAddEditShopModal()"
-        >
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideAddEditShopModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -421,26 +271,16 @@
           </div>
           <div class="form-group" formGroupName="program">
             <label for="program">Program</label>
-            <select
-              formControlName="id"
-              class="form-control"
-              placeholder="Select Program"
-              name="id"
-            >
+            <select formControlName="id" class="form-control" placeholder="Select Program" name="id">
               <ng-container *ngFor="let program of programs">
                 <option [value]="program.id">{{ program.title }}</option>
               </ng-container>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 form.controls.program.errors &&
                 (form.controls.program.touched || form.controls.program.dirty)
-              "
-            >
-              <mat-error
-                *ngIf="form.hasError('required', 'id')"
-                class="invalid-feedback"
-              >
+              ">
+              <mat-error *ngIf="form.hasError('required', 'id')" class="invalid-feedback">
                 Program Selection is Mandatory.
               </mat-error>
             </div>
@@ -448,22 +288,12 @@
           <div class="row">
             <div class="form-group col-md-7">
               <label for="title">Shop Title </label>
-              <input
-                type="text"
-                class="form-control"
-                id="title"
-                formControlName="title"
-              />
-              <div
-                *ngIf="
+              <input type="text" class="form-control" id="title" formControlName="title" />
+              <div *ngIf="
                   form.controls.title.errors &&
                   (form.controls.title.touched || form.controls.title.dirty)
-                "
-              >
-                <mat-error
-                  *ngIf="form.hasError('required', 'title')"
-                  class="invalid-feedback"
-                >
+                ">
+                <mat-error *ngIf="form.hasError('required', 'title')" class="invalid-feedback">
                   Valid Shop Title is Required.
                 </mat-error>
               </div>
@@ -471,26 +301,16 @@
 
             <div class="form-group col-md-5">
               <label for="active">Active</label>
-              <select
-                formControlName="active"
-                class="form-control"
-                placeholder="Select Status"
-                name="active"
-              >
+              <select formControlName="active" class="form-control" placeholder="Select Status" name="active">
                 <ng-container *ngFor="let status of shopStatus">
                   <option [value]="status.value">{{ status.value }}</option>
                 </ng-container>
               </select>
-              <div
-                *ngIf="
+              <div *ngIf="
                   form.controls.active.errors &&
                   (form.controls.active.touched || form.controls.active.dirty)
-                "
-              >
-                <mat-error
-                  *ngIf="form.hasError('required', 'active')"
-                  class="invalid-feedback"
-                >
+                ">
+                <mat-error *ngIf="form.hasError('required', 'active')" class="invalid-feedback">
                   Valid Status is Required.
                 </mat-error>
               </div>
@@ -498,38 +318,23 @@
           </div>
           <div class="form-group">
             <label for="address">Shop Address</label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              formControlName="address"
-            />
+            <input type="text" class="form-control" id="address" formControlName="address" />
           </div>
           <div class="form-group" formGroupName="region">
             <label for="region">Region</label>
 
-            <select
-              formControlName="id"
-              class="form-control"
-              placeholder="Select Region"
-              name="id"
-            >
+            <select formControlName="id" class="form-control" placeholder="Select Region" name="id">
               <ng-container *ngFor="let region of regionList">
                 <option *ngIf="region.id != -1" [value]="region.id">
                   {{ region.title }}
                 </option>
               </ng-container>
             </select>
-            <div
-              *ngIf="
+            <div *ngIf="
                 form.controls.region.errors &&
                 (form.controls.region.touched || form.controls.region.dirty)
-              "
-            >
-              <mat-error
-                *ngIf="form.hasError('required', 'id')"
-                class="invalid-feedback"
-              >
+              ">
+              <mat-error *ngIf="form.hasError('required', 'id')" class="invalid-feedback">
                 Region Selection is Mandatory.
               </mat-error>
             </div>
@@ -537,46 +342,25 @@
           <div class="row">
             <div class="form-group col-md-7">
               <label for="image">Image</label>
-              <input
-                type="file"
-                id="shopImageUrl"
-                name="shopImageUrl"
-                class="form-control-file"
-                formControlName="shopImageUrl"
-                accept="image/*"
-                (change)="onSelectFile($event)"
-              />
+              <input type="file" id="shopImageUrl" name="shopImageUrl" class="form-control-file"
+                formControlName="shopImageUrl" accept="image/*" (change)="onSelectFile($event)" />
             </div>
             <div class="form-group col-md-5">
               <small *ngIf="selectedShopForEdit.shopImageUrl">
-                <strong>Current Image:</strong
-                ><img
-                  src="{{ ip }}{{ selectedShopForEdit.shopImageUrl }}"
-                  width="80"
-                  height="80"
-              /></small>
+                <strong>Current Image:</strong><img src="{{ ip }}{{ selectedShopForEdit.shopImageUrl }}" width="80"
+                  height="80" /></small>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label for="longitude">Longitude</label>
-              <input
-                type="text"
-                class="form-control"
-                id="longitude"
-                formControlName="longitude"
-              />
-              <div
-                *ngIf="
+              <input type="text" class="form-control" id="longitude" formControlName="longitude" />
+              <div *ngIf="
                   form.controls.longitude.errors &&
                   (form.controls.longitude.touched ||
                     form.controls.longitude.dirty)
-                "
-              >
-                <mat-error
-                  *ngIf="form.hasError('required', 'title')"
-                  class="invalid-feedback"
-                >
+                ">
+                <mat-error *ngIf="form.hasError('required', 'title')" class="invalid-feedback">
                   Valid Coordinates Are required.
                 </mat-error>
               </div>
@@ -584,23 +368,13 @@
 
             <div class="form-group col-md-6">
               <label for="latitude">Latitude</label>
-              <input
-                type="text"
-                class="form-control"
-                id="latitude"
-                formControlName="latitude"
-              />
-              <div
-                *ngIf="
+              <input type="text" class="form-control" id="latitude" formControlName="latitude" />
+              <div *ngIf="
                   form.controls.latitude.errors &&
                   (form.controls.latitude.touched ||
                     form.controls.latitude.dirty)
-                "
-              >
-                <mat-error
-                  *ngIf="form.hasError('required', 'title')"
-                  class="invalid-feedback"
-                >
+                ">
+                <mat-error *ngIf="form.hasError('required', 'title')" class="invalid-feedback">
                   Valid Coordinates Are required.
                 </mat-error>
               </div>
@@ -608,26 +382,14 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            *ngIf="!isUpdateRequest"
-            (click)="saveShopData(form.value)"
-            class="mr-1"
-            [disabled]="!form.valid || loadingModal"
-            mat-raised-button
-            color="primary"
-          >
+          <button *ngIf="!isUpdateRequest" (click)="saveShopData(form.value)" class="mr-1"
+            [disabled]="!form.valid || loadingModal" mat-raised-button color="primary">
             <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
             Save Shop
           </button>
 
-          <button
-            *ngIf="isUpdateRequest"
-            (click)="updateShopData(form.value)"
-            class="mr-1"
-            [disabled]="loadingModal"
-            mat-raised-button
-            color="primary"
-          >
+          <button *ngIf="isUpdateRequest" (click)="updateShopData(form.value)" class="mr-1" [disabled]="loadingModal"
+            mat-raised-button color="primary">
             <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
             Update Shop
           </button>
