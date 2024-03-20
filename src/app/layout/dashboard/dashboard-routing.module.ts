@@ -59,9 +59,10 @@ import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
-import { SurmonComponent } from "src/app/surmon/surmon.component";
 import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
-
+import { SurmonComponent } from "src/app/surmon/surmon.component";
+import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
+import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
 const routes: Routes = [
   {
     path: "",
@@ -225,6 +226,8 @@ const routes: Routes = [
   { path: "tl-stock-distribution", component: ShowTLDistributionStockDataComponent },
   { path: "tl-swapped-distribution", component: ShowTLDistributionSwappedDataComponent },
   { path: "random-selfies", component: RandomSelfiesComponent },
+  { path: "shopper-engagement", component: ShopperEngagementComponent },
+  { path: "push-notification", component: PushNotificationComponent },
 ];
 
 @NgModule({

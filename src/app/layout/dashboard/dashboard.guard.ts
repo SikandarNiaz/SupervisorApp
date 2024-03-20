@@ -10,7 +10,8 @@ export class DashboardGuard implements CanActivate {
 
     canActivate() {
         if (localStorage.getItem('isLoggedin') || this.location.path().indexOf("/details/") > -1 || this.location.path().indexOf("/list/home") > -1
-        || this.location.path().indexOf("/dashboard/ndn-interception-summary") > -1) {
+        || this.location.path().indexOf("/dashboard/ndn-interception-summary") > -1 || this.location.path().indexOf("/dashboard/shopper-engagement") > -1
+        || this.location.path().indexOf("/dashboard/spin-the-wheel-reward") > -1)   {
             return true;
         }
 

@@ -1,0 +1,202 @@
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0,0,0,0.8)" color="#fafafa" size="medium" type="ball-scale-multiple">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
+<!-- <mat-card class="shadow-sm p-3 mb-4 bg-white rounded">
+    <mat-card-content>
+        <mat-card-title>
+            {{title| uppercase}}
+        </mat-card-title>
+        <section>
+            <mat-form-field class="mr-1">
+                <mat-select (selectionChange)="onClinetChangeGetDistributions()" [(ngModel)]="selectedClient" name='client'
+                            placeholder="Client">
+                    <ng-container *ngFor="let client of clients">
+                        <mat-option [value]="client">{{client.title}}</mat-option>
+                    </ng-container>
+
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mr-1">
+                <mat-select [(ngModel)]="selectedDistribution" name="distribution" placeholder="Distribution">
+                    <mat-option *ngFor="let distribution of distributionList" [value]="distribution">
+                        {{distribution.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </section>
+        <section>
+            <button (click)="getClientWiseShops()" [disabled]="!selectedClient" class="mr-1" color="primary"
+                    mat-raised-button>Submit
+            </button>
+            <button (click)="resetFilter()" [disabled]="!selectedClient" class="mr-1" color="primary" mat-raised-button>
+                Reset
+            </button>
+        </section>
+    </mat-card-content>
+
+</mat-card> -->
+
+
+
+<mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        Alert Manager
+      </mat-card-title>
+        <ng-container *ngIf="clusterList?.length > 0">
+          <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="{{ labels.clusterLabel }}"
+              name="cluster"
+              [(ngModel)]="selectedCluster"
+              (ngModelChange)="getZoneByCluster();"
+            >
+              <mat-option [value]="cluster" *ngFor="let cluster of clusterList">{{
+                cluster.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Zone"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange();"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+  
+  
+       
+  
+       
+  
+        <mat-form-field
+          *ngIf="regions.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Region"
+            name="region"
+            [(ngModel)]="selectedRegion"
+          >
+            <mat-option [value]="region" *ngFor="let region of regions">{{
+              region.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+
+        
+        
+             <button style="margin-left: 10px;"
+              mat-raised-button color="warn"
+              [disabled]="loading || !selectedRegion?.id"
+              (click)="getClientWiseShops()"
+            >
+            <i
+            [ngClass]="{ 'fa fa-spinner fa-spin': loading }"
+          ></i>
+              Display 
+            </button>
+    </mat-card-content>
+  </mat-card>
+
+
+
+
+<mat-card>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="legacy" class="mr-1">
+                    <mat-label>User Search</mat-label>
+                    <input (ngModelChange)="searchShop()" [(ngModel)]="shopSearch" matInput placeholder="Shop Name">
+                    <!--                    <mat-icon matSuffix>search</mat-icon>-->
+                </mat-form-field>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Mobile Search</mat-label>
+                    <input (ngModelChange)="searchMobile()" [(ngModel)]="mobileSearch" matInput
+                           placeholder="3001234567">
+                    <!--                    <mat-icon matSuffix>search</mat-icon>-->
+                </mat-form-field>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <mat-checkbox #isAllChecked (change)="checkUncheckAll($event)" color="primary">Select
+                                All
+                            </mat-checkbox>
+                        </td>
+                        <td class="text-center">
+                            {{selectedShops?.length}} / {{shops?.length}}
+                        </td>
+                    </tr>
+                    <ng-container *ngFor="let shop of shops;let i=index">
+                        <tr>
+                            <td scope="row">
+                                <mat-checkbox #checked (click)="checkUncheckSingle(checked,shop,i)" color="primary"
+                                              id="{{shop?.userMobile}}" name="{{shop?.shopName}}"></mat-checkbox>
+                            </td>
+                            <td>
+                                {{shop.shopName}}
+                            </td>
+                            <td>
+                                {{shop.userMobile}}
+                            </td>
+                        </tr>
+                    </ng-container>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-8">
+                <mat-tab-group>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="mr-2">add</mat-icon>
+                            New Message
+                        </ng-template>
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Message</mat-label>
+                            <textarea [(ngModel)]="message" matInput matTextareaAutosize></textarea>
+                        </mat-form-field>
+                    </mat-tab>
+                </mat-tab-group>
+                <div class="row">
+                    <div class="form-group col-md-7">
+                      <label for="image">Image</label>
+                      <input type="file" id="shopImageUrl" name="shopImageUrl" class="form-control-file"
+                        accept="image/*" (change)="onSelectFile($event)" />
+                    </div>
+                  </div>
+                <section>
+                    <mat-form-field class="mr-1">
+                        <mat-label>Alert Type</mat-label>
+                        <mat-select [(ngModel)]="selectedAlertType">
+                            <mat-option *ngFor="let alert of alertType" [value]="alert">
+                                {{alert}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button (click)="sendAlert()" [disabled]="selectedShops?.length == 0 || !selectedAlertType" color="primary"
+                        mat-raised-button>
+                        <mat-icon>send</mat-icon>
+                        Send
+                    </button>
+                </section>
+            </div>
+            
+            
+        </div>
+    </mat-card-content>
+</mat-card>

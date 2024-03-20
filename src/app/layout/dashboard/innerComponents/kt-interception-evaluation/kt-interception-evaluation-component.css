@@ -21,3 +21,8 @@
     height: auto;
   }
   
+  .rotated-image {
+    transform: rotate(90deg); /* Adjust the rotation angle as needed */
+    transition: transform 0.5s; /* Add a smooth transition effect */
+  }
+  

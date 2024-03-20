@@ -39,10 +39,8 @@ import {
     productsSetList: any = [];
     loadingData: boolean;
     regionList: any=[]; 
-    brandList : any=[];
     cityList: any=[];
     programList: any=[];
-    brand_id:any;
   
     projectType: any;
     sortOrder = true;
@@ -90,7 +88,6 @@ import {
         email: new FormControl(""),
         phone: new FormControl(""),
         cnic: new FormControl(""),
-        brand_id:new FormControl(""),
         active: new FormControl(""),
       });
   
@@ -119,7 +116,6 @@ import {
       this.getAllRegions();
      this.getAllcity();
      this.getAllprograms();
-     this.getAllBrands();
     }
     getAllprograms() {
       this.loadingData = true;
@@ -192,30 +188,6 @@ import {
         }
       );
     }
-    getAllBrands(){
-      debugger;
-      this.loadingData = true;
-      this.httpService.getBrand().subscribe(
-        (data) => {
-          const res: any = data;
-          if (res.BrandList) {
-            this.brandList = res.BrandList;
-            
-            // localStorage.setItem('regionList', JSON.stringify(res.regionList));
-          }
-          if (!res.BrandList) {
-            this.toastr.info("No data Found", "Info");
-          }
-          this.loadingData = false;
-        },
-        (error) => {
-          this.loadingData = false;
-          error.status === 0
-            ? this.toastr.error("Please check Internet Connection", "Error")
-            : this.toastr.error(error.description, "Error");
-        }
-      );
-    }
   
     zoneChange() {
       const hello = this.selectedZone;
@@ -246,178 +218,178 @@ import {
       );
     }
 
-    // zoneChange() {
-    //   this.getData(this.params);
-    //   this.loading = true;
-    //   this.httpService.getRegion(this.selectedZone.id).subscribe(
-    //     (data) => {
-    //       const res: any = data;
-    //       if (res) {
-    //         this.regions = res;
-    //       } else {
-    //         this.loading = false;
-    //         this.toastr.info(
-    //           "Something went wrong,Please retry",
-    //           "Connectivity Message"
-    //         );
-    //       }
-    //       this.loading = false;
-    //     },
-    //     (error) => {
-    //       this.loading = false;
-    //     }
-    //   );
-    // }
-  
-    // getZoneByCluster() {
-    //   this.loadingData = true;
-    //   this.selectedZone = {};
-    //   this.selectedRegion = {};
-    //   this.httpService.getZoneByCluster(this.selectedCluster.id || -1).subscribe(
-    //     (data) => {
-    //       const res: any = data;
-    //       if (res) {
-    //         this.zones = res;
-    //       }
-    //       this.loadingData = false;
-    //     },
-    //     (error) => {
-    //       error.status === 0
-    //         ? this.toastr.error("Please check Internet Connection", "Error")
-    //         : this.toastr.error(error.description, "Error");
-    //       this.loadingData = false;
-    //     }
-    //   );
-    // }
-  
-    loadSurveyors() {
-      this.loadingData = true;
-      this.httpService.getSurveyor(this.selectedProgram,this.selectedSupervisor.id|| -1,this.selectedZone.id || -1, this.selectedRegion.id || -1).subscribe(
-          (data) => {
-            const res: any = data;
-            if (res) {
-              this.surveyorList = res;
-              console.log("merch data: ", this.surveyorList);
-              this.getMerchandiser();
-             // this.getSupervisors();
-             // this.getManagers();
-            }
-            if (!res) {
-              this.toastr.info("No data Found", "Info");
-            }
-            this.loadingData = false;
-          },
-          (error) => {
-            this.loadingData = false;
-            error.status === 0
-              ? this.toastr.error("Please check Internet Connection", "Error")
-              : this.toastr.error(error.description, "Error");
+  // zoneChange() {
+  //   this.getData(this.params);
+  //   this.loading = true;
+  //   this.httpService.getRegion(this.selectedZone.id).subscribe(
+  //     (data) => {
+  //       const res: any = data;
+  //       if (res) {
+  //         this.regions = res;
+  //       } else {
+  //         this.loading = false;
+  //         this.toastr.info(
+  //           "Something went wrong,Please retry",
+  //           "Connectivity Message"
+  //         );
+  //       }
+  //       this.loading = false;
+  //     },
+  //     (error) => {
+  //       this.loading = false;
+  //     }
+  //   );
+  // }
+
+  // getZoneByCluster() {
+  //   this.loadingData = true;
+  //   this.selectedZone = {};
+  //   this.selectedRegion = {};
+  //   this.httpService.getZoneByCluster(this.selectedCluster.id || -1).subscribe(
+  //     (data) => {
+  //       const res: any = data;
+  //       if (res) {
+  //         this.zones = res;
+  //       }
+  //       this.loadingData = false;
+  //     },
+  //     (error) => {
+  //       error.status === 0
+  //         ? this.toastr.error("Please check Internet Connection", "Error")
+  //         : this.toastr.error(error.description, "Error");
+  //       this.loadingData = false;
+  //     }
+  //   );
+  // }
+
+  loadSurveyors() {
+    this.loadingData = true;
+    this.httpService.getSurveyor(this.selectedProgram,this.selectedSupervisor.id|| -1,this.selectedZone.id || -1, this.selectedRegion.id || -1).subscribe(
+        (data) => {
+          const res: any = data;
+          if (res) {
+            this.surveyorList = res;
+            console.log("merch data: ", this.surveyorList);
+            this.getMerchandiser();
+           // this.getSupervisors();
+           // this.getManagers();
           }
-        );
-    }
-  
-    // getEvaluator() {
-    //   this.loadingData = true;
-    //   this.httpService.getEvaluatorData().subscribe((data) => {
-    //     //this.eva = data;
-    //     if (data) {
-    //       // console.log("evaluator data", data);
-    //       this.eva = data;
-    //       this.loadingData = false;
-    //     }
-    //     this.loadingData = false;
-    //   });
-    // }
-  
-    // getProductsSet() {
-    //   this.loadingData = true;
-    //   this.httpService.getProductSets().subscribe((data) => {
-    //     if (data) {
-    //       this.productsSetList = data;
-    //       this.loadingData = false;
-    //     }
-    //     this.loadingData = false;
-    //   });
-    // }
-  
-    getArrowType(key) {
-      if (key === this.sortBy) {
-        return this.sortOrder ? "arrow_upward" : "arrow_downward";
-      } else {
-        return "";
-      }
-    }
-    sortIt(key) {
-      this.sortBy = key;
-      this.sortOrder = !this.sortOrder;
-    }
-  
-    updateSurveyorData(data) {
-      this.loadingModalButton = true;
-      const formData = new FormData();
-      // console.log("sup id: ", data.supervisorId);
-      // if (!data.supervisorId || !data.evaluatorId) {
-      //   data.supervisorId = -1;
-      // }
-      // if (!data.evaluatorId) {
-      //   data.evaluatorId = -1;
-      // }
-      // console.log("sup id: ", data.supervisorId);
-      // console.log("update data: ", data);
-      formData.append("formData", JSON.stringify(data));
-      this.httpService.updateSurveyorData(formData).subscribe((data: any) => {
-        if (data.success == "true") {
-          this.loadSurveyors();
-          this.hideSurveyorInfoModal();
-          this.toastr.success(data.message);
-        } else {
-          this.toastr.error(data.message, "Error");
+          if (!res) {
+            this.toastr.info("No data Found", "Info");
+          }
+          this.loadingData = false;
+        },
+        (error) => {
+          this.loadingData = false;
+          error.status === 0
+            ? this.toastr.error("Please check Internet Connection", "Error")
+            : this.toastr.error(error.description, "Error");
         }
-        this.loadingModalButton = false;
-      });
+      );
+  }
+
+  // getEvaluator() {
+  //   this.loadingData = true;
+  //   this.httpService.getEvaluatorData().subscribe((data) => {
+  //     //this.eva = data;
+  //     if (data) {
+  //       // console.log("evaluator data", data);
+  //       this.eva = data;
+  //       this.loadingData = false;
+  //     }
+  //     this.loadingData = false;
+  //   });
+  // }
+
+  // getProductsSet() {
+  //   this.loadingData = true;
+  //   this.httpService.getProductSets().subscribe((data) => {
+  //     if (data) {
+  //       this.productsSetList = data;
+  //       this.loadingData = false;
+  //     }
+  //     this.loadingData = false;
+  //   });
+  // }
+
+  getArrowType(key) {
+    if (key === this.sortBy) {
+      return this.sortOrder ? "arrow_upward" : "arrow_downward";
+    } else {
+      return "";
     }
-  
-    showSurveyorInfoModal(surveyor) {
-      debugger;
-      this.selectedSurveyor = surveyor;
-      debugger;
-      this.form.patchValue({
-        id: surveyor.id,
-        m_code: surveyor.mCode,
-        fullName: surveyor.fullName,
-        password: surveyor.password,
-       // supervisorId: surveyor.supervisorId,
-        email: surveyor.email,
-        phone: surveyor.phone,
-        active: surveyor.active,
-        cnic: surveyor.cnic,
-      //  evaluatorId: surveyor.evaluatorId,
-       // productsSetId: surveyor.productsSetId > 0 ? surveyor.productsSetId : null,
-       city_id: surveyor.cityId,
-        region_id: surveyor.region_id,
-       program_id: surveyor.programId,
-      });
-      this.surveyorInfoModal.show();
-    }
-  
-    hideSurveyorInfoModal() {
-      this.selectedSurveyor = {};
-      this.form.reset();
-      this.surveyorInfoModal.hide();
-    }
-  
-    // getMerchandisers(){
-    //   this.merchandiserList = [];
-    //   for (const surveyor of this.surveyorList) {
-    //     if (surveyor.type == 1) {
-    //       this.merchandiserList.push(surveyor);
-    //     }
-    //   }
-    //   // const noSuperVisor={
-    //   //   supervisorList.
-    //   // };
-    //   console.log(this.merchandiserList);
+  }
+  sortIt(key) {
+    this.sortBy = key;
+    this.sortOrder = !this.sortOrder;
+  }
+
+  updateSurveyorData(data) {
+    this.loadingModalButton = true;
+    const formData = new FormData();
+    // console.log("sup id: ", data.supervisorId);
+    // if (!data.supervisorId || !data.evaluatorId) {
+    //   data.supervisorId = -1;
     // }
+    // if (!data.evaluatorId) {
+    //   data.evaluatorId = -1;
+    // }
+    // console.log("sup id: ", data.supervisorId);
+    // console.log("update data: ", data);
+    formData.append("formData", JSON.stringify(data));
+    this.httpService.updateSurveyorData(formData).subscribe((data: any) => {
+      if (data.success == "true") {
+        this.loadSurveyors();
+        this.hideSurveyorInfoModal();
+        this.toastr.success(data.message);
+      } else {
+        this.toastr.error(data.message, "Error");
+      }
+      this.loadingModalButton = false;
+    });
+  }
+
+  showSurveyorInfoModal(surveyor) {
+    debugger;
+    this.selectedSurveyor = surveyor;
+    debugger;
+    this.form.patchValue({
+      id: surveyor.id,
+      m_code: surveyor.mCode,
+      fullName: surveyor.fullName,
+      password: surveyor.password,
+     // supervisorId: surveyor.supervisorId,
+      email: surveyor.email,
+      phone: surveyor.phone,
+      active: surveyor.active,
+      cnic: surveyor.cnic,
+    //  evaluatorId: surveyor.evaluatorId,
+     // productsSetId: surveyor.productsSetId > 0 ? surveyor.productsSetId : null,
+     city_id: surveyor.cityId,
+      region_id: surveyor.region_id,
+     program_id: surveyor.programId,
+    });
+    this.surveyorInfoModal.show();
+  }
+
+  hideSurveyorInfoModal() {
+    this.selectedSurveyor = {};
+    this.form.reset();
+    this.surveyorInfoModal.hide();
+  }
+
+  // getMerchandisers(){
+  //   this.merchandiserList = [];
+  //   for (const surveyor of this.surveyorList) {
+  //     if (surveyor.type == 1) {
+  //       this.merchandiserList.push(surveyor);
+  //     }
+  //   }
+  //   // const noSuperVisor={
+  //   //   supervisorList.
+  //   // };
+  //   console.log(this.merchandiserList);
+  // }
 
     getMerchandiser(){
       this.merchandiserList = [];
@@ -487,7 +459,6 @@ import {
         cityId: data.city_id,
         regionId: data.region_id,
         programId: data.program_id,
-        brandId: data.brand_id || -1,
         // evaluatorId: data.evaluatorId,
         email: data.email,
         cnic: data.cnic,
@@ -504,19 +475,6 @@ import {
         }
         this.loadingModalButton = false;
       });
-
-      
     }
-    selectAllBrands() {
-      const brandIds = this.brandList.map(b => b.id);
-      this.form.controls.brand_ids.patchValue(brandIds);
-    }
-    
-    deselectAllBrands() {
-      this.form.controls.brand_ids.patchValue([]);
-    }
-    
-    
-    
   }
   

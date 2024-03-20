@@ -1,0 +1,397 @@
+<!-- NO SUMMARY AVAILABLE IN SOME PROJECTS SCOPE -->
+<div class="animated slideInLeft">
+    <mat-card class="mb-20">
+      <mat-card-content>
+        <mat-card-title >
+          {{ title | uppercase }}
+          <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+        </mat-card-title>
+  
+        <section class="example-section">
+          <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="{{ labels.zoneLabel }}"
+              name="zone"
+              [(ngModel)]="selectedZone"
+              (ngModelChange)="zoneChange()"
+            >
+              <mat-option [value]="zone" *ngFor="let zone of zones">{{
+                zone.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field
+            *ngIf="regions.length > 0 && selectedZone.id !== -1"
+            class="example-margin mr-10-IMP"
+          >
+            <mat-select
+              placeholder="{{ labels.regionLabel }}"
+              name="region"
+              [(ngModel)]="selectedRegion"
+              (ngModelChange)="getStores(); getDashboardData()"
+            >
+              <mat-option [value]="region" *ngFor="let region of regions">{{
+                region.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <!-- <mat-form-field
+            *ngIf="stores.length > 0"
+            class="example-margin mr-10-IMP"
+          >
+            <mat-select
+              placeholder="Shops"
+              name="storeType"
+              [(ngModel)]="selectedStore"
+              (ngModelChange)="getDashboardData()"
+            >
+              <mat-option [value]="-1">ALL</mat-option>
+              <mat-option [value]="store" *ngFor="let store of stores">{{
+                store.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+          <!-- <ng-container *ngIf="projectType == 'NFL'">
+            <mat-form-field
+              *ngIf="brandList.length > 0"
+              class="example-margin mr-10-IMP"
+            >
+              <mat-select
+                placeholder="Brand"
+                name="brands"
+                [(ngModel)]="selectedBrand"
+                (ngModelChange)="getDashboardData()"
+              >
+                <mat-option [value]="-1" selected>All</mat-option>
+                <mat-option [value]="brand" *ngFor="let brand of brandList">{{
+                  brand.title
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container> -->
+  
+          <mat-form-field class="example-full-width mr-10-IMP">
+            <input
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker0"
+              [(ngModel)]="startDate"
+              (ngModelChange)="getDashboardData()"
+              placeholder="Choose a start date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker0"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker0></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="example-full-width mr-10-IMP">
+            <input
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker1"
+              [(ngModel)]="endDate"
+              (ngModelChange)="getDashboardData()"
+              placeholder="Choose a end date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </section>
+      </mat-card-content>
+    </mat-card>
+    <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center"> -->
+    <!-- <div class="container"> -->
+     <!-- <div class="row web-view">  -->
+      <!-- <p>web view</p> -->
+      <mat-card class="mb-20">
+      <div class="col-md-12">
+        <mat-card>
+          <mat-card-header style="justify-content: flex-end"> </mat-card-header>
+          <mat-card-content>
+            <div class="row justify-content-center">
+              <div class="col-md-3 col-sm-6">
+                <div>
+                  <app-skeleton-loader
+                    *ngIf="loadingData"
+                    Cwidth="145"
+                    Cheight="100"
+                  >
+                  </app-skeleton-loader>
+                  <app-stat
+                    *ngIf="!loadingData"
+                    [bgClass]="'warn'"
+                    [icon]="'list_alt'"
+                    [count]="dashboardStatsObj?.PlannedStores"
+                    [label]="'Planned Store'"
+                  ></app-stat>
+                </div>
+              </div>
+  
+              <div class="col-md-3 col-sm-6">
+                <div>
+                  <app-skeleton-loader
+                    *ngIf="loadingData"
+                    Cwidth="145"
+                    Cheight="100"
+                  >
+                  </app-skeleton-loader>
+                  <app-stat
+                    *ngIf="!loadingData"
+                    [bgClass]="'purple'"
+                    [icon]="'assignment'"
+                    [count]="dashboardStatsObj?.ActiveStores"
+                    [label]="'Active Stores'"
+                  ></app-stat>
+                </div>
+              </div>
+  
+              <div class="col-md-3 col-sm-6">
+                <div>
+                  <app-skeleton-loader
+                    *ngIf="loadingData"
+                    Cwidth="145"
+                    Cheight="100"
+                  >
+                  </app-skeleton-loader>
+                  <app-stat
+                    *ngIf="!loadingData"
+                    [bgClass]="'warn'"
+                    [icon]="'assignment'"
+                    [count]="dashboardStatsObj?.FOCPlanned"
+                    [label]="'FOC Planned'"
+                  ></app-stat>
+                </div>
+              </div>
+  
+              <div class="col-md-3 col-sm-6">
+                <div>
+                  <app-skeleton-loader
+                    *ngIf="loadingData"
+                    Cwidth="145"
+                    Cheight="100"
+                  >
+                  </app-skeleton-loader>
+                  <app-stat
+                    *ngIf="!loadingData"
+                    [bgClass]="'purple'"
+                    [icon]="'thumb_up'"
+                    [count]="dashboardStatsObj?.FOCGiven"
+                    [label]="'FOC Given'"
+                  ></app-stat>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+       </div> 
+      </mat-card>
+    <!-- </div> -->
+  <!-- </div> -->
+<!-- </div> -->
+    <ng-container *ngIf="tableData.length > 0">
+      <div class="animated slideInLeft">
+        <mat-card class="mb-20" style="border-top: 1px solid #afafaf">
+          <mat-card-content>
+            <section class="example-section">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('Region')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} Region
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("Region") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('PlannedStores')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} Planned Stores
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("PlannedStores") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('ActiveStores')"
+                      style="cursor: pointer"
+                    >
+                      {{ resourcePlaceHolder }} Active Stores
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("ActiveStores") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('FOCGiven')"
+                      style="cursor: pointer"
+                    >
+                      FOC Given
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("FOCGiven") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('FOCPlanned')"
+                      style="cursor: pointer"
+                    >
+                      FOC Planned
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("FOCPlanned") }}
+                      </i>
+                    </th>
+                    <!-- <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('TotalInterception')"
+                      style="cursor: pointer"
+                    >
+                      Total Interceptions
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("TotalInterception") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('Impressions')"
+                      style="cursor: pointer"
+                    >
+                      Impressions
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("Impressions") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('Successful')"
+                      style="cursor: pointer"
+                    >
+                      Successful Impressions
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("Successful") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('successful_percentage')"
+                      style="cursor: pointer"
+                    >
+                      Successful %
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("successful_percentage") }}
+                      </i>
+                    </th>
+                    <th
+                      scope="col"
+                      class="text-center"
+                      (click)="sortIt('successful_per_day')"
+                      style="cursor: pointer"
+                    >
+                      Avg Successful
+                      <i class="material-icons arrow material-icons-arrow">
+                        {{ getArrowType("successful_per_day") }}
+                      </i>
+                    </th>
+                    <ng-container *ngIf="projectType != 'NDN'">
+                      <th
+                        scope="col"
+                        class="text-center"
+                        (click)="sortIt('TotalSale')"
+                        style="cursor: pointer"
+                      >
+                        Unit Sold
+                        <i class="material-icons arrow material-icons-arrow">
+                          {{ getArrowType("TotalSale") }}
+                        </i>
+                      </th>
+  
+                      <th
+                        scope="col"
+                        class="text-center"
+                        (click)="sortIt('unit_sale_per_day')"
+                        style="cursor: pointer"
+                      >
+                        Avg Unit Sold
+                        <i class="material-icons arrow material-icons-arrow">
+                          {{ getArrowType("unit_sale_per_day") }}
+                        </i>
+                      </th> -->
+                    <!-- </ng-container> -->
+                  </tr>
+                </thead>
+  
+                <tbody *ngIf="tableData.length > 0 ">
+                  <!-- <ng-container *ngIf="tableData.some(item => item?.FOCGiven > 0)"> -->
+                  <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
+                  <tr
+                    *ngFor="let item of tableData | orderBy: sortBy:sortOrder"
+                    (click)="goToNewPage(item)"
+                  >
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.Region }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.PlannedStores }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.ActiveStores }}
+                    </td>
+                    <td class="text-center" style="cursor: pointer">
+                      {{ item?.FOCGiven }}
+                    </td>
+                    <td class="text-center" style="color: blue; cursor: pointer">
+                      {{ item?.FOCPlanned }}
+                    </td>
+                   
+                  </tr>
+                <!-- </ng-container> -->
+                </tbody>
+              </table>
+              <!-- (click)="goToNewPage(item)" -->
+            </section>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
+  
+  <div class="row" *ngIf="loading">
+    <div class="col-md-12 text-center">
+      <div class="img-center">
+        <img src="assets/images/basicloader.gif" alt="" srcset="" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="!loading && tableData.length == 0">
+    <div class="col-md-12 text-center">
+      <div class="alert alert-info">
+        <p>No Data Found</p>
+      </div>
+    </div>
+  </div>
+  

@@ -793,6 +793,40 @@ export class DashboardService {
     const url = this.ip + "/loadFilters";
     return this.http.post(url, filter);
   }
+
+  getEvaluationSummaryInBulkApprovalView(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/evaluatorSummaryDataInBulkApprovalView";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getShopperEngagementList(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "ShopperEngagement"; // ------> BAListController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getClientWiseShops(obj){
+    const filter = JSON.stringify({
+      act: 20,
+      regionId: obj.regionId
+    });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+
+  }
+
+  sendMessage(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/app/notification-manager" + '?' + body;
+    return this.http.post(url, obj,  this.httpOptions);
+}
+
+getBrand() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 37 });
+  return this.http.post(url, filter);
+}
   // updatef1f2(obj){
   // debugger;
   // const body = this.UrlEncodeMaker(obj);

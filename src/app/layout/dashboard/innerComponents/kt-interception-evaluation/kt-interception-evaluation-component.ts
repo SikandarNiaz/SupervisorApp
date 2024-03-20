@@ -29,6 +29,11 @@ export class KtInterceptionEvaluationComponent implements OnInit {
   selectedOption: string = '';
   selectedRemarks: any = [];
   title: '';
+  rotationAngle: number = 0;
+
+  rotateImage() {
+    this.rotationAngle += 90; // Increment by 90 degrees, you can adjust as needed
+  }
 
   constructor(
     private router: Router,
