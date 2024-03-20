@@ -98,6 +98,8 @@ import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
+import { SurmonComponent } from "src/app/surmon/surmon.component";
+import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -197,7 +199,9 @@ import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-
   ShowTLDistributionStockDataComponent,
   ShowTLDistributionSwappedDataComponent,
   MarketIntelligenceDetailComponent,
-  RandomSelfiesComponent
+  RandomSelfiesComponent,
+  SurmonComponent,
+  UploadMerchandisingShopTaskComponent
 ],
 })
 export class DashboardModule {}
