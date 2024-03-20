@@ -28,7 +28,7 @@ import {
 } from "@angular/common";
 //import {MaterialTimePickerModule} from '@candidosales/material-time-picker';
 import { MatDialogRef } from '@angular/material/dialog';
-
+import { UploadMerchandisingShopTaskComponent } from './upload-merchandising-shop-task/upload-merchandising-shop-task.component';
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
   /* for development
