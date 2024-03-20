@@ -59,6 +59,8 @@ import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
+import { SurmonComponent } from "src/app/surmon/surmon.component";
+import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
 
 const routes: Routes = [
   {
@@ -109,6 +111,14 @@ const routes: Routes = [
       {
         path: "pgjordan-summary-dashboard",
         component: PgjordanDashboardComponent,
+      },
+      {
+        path: "app-surmon",
+        component: SurmonComponent,
+      },
+      {
+        path: "app-upload-merchandising-shop-task",
+        component: UploadMerchandisingShopTaskComponent,
       },
       {
         path: "census-productivity-dashboard",
