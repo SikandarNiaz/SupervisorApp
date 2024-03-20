@@ -7,11 +7,15 @@
               <div class="ribbon">
                 <mat-card-title>SELFIE WITH CUSTOMER</mat-card-title>
                 <div class="image-container">
-                  <img *ngIf="projectType !== 'NIVEA'" class="responsive-image" [src]="item.RESPONDENT_PICTURE" alt="Customer Image" />
+                  <img *ngIf="projectType !== 'NIVEA'"
+                       class="responsive-image"
+                       [src]="item.RESPONDENT_PICTURE"
+                       alt="Customer Image"
+                       (click)="rotateImage()" [style.transform]="'rotate(' + rotationAngle + 'deg)'"/>
                 </div>
               </div>
             </mat-card>
-          </div>     
+          </div>
           
   
           <div class="col-md-6 mt-3 ">
@@ -101,3 +105,4 @@
       </div>
     </div>
   </ng-container>
+  
