@@ -822,7 +822,7 @@ export class DashboardService {
     return this.http.post(url, obj,  this.httpOptions);
 }
 
-getBrand() {
+getBrand1() {
   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
   const filter = JSON.stringify({ act: 37 });
   return this.http.post(url, filter);
@@ -913,9 +913,19 @@ deActivateField(obj){
     const url = this.ip + "portal/ndn/deactivateField";
     return this.http.post(url, body, this.httpOptions);
 }
+deActivateFieldValue(obj){
+  const body = this.UrlEncodeMaker(obj);
+  const url = this.ip + "/portal/ndn/deactivateFieldValue";
+  return this.http.post(url, body, this.httpOptions);
+}
   activateField(obj){
     const body = this.UrlEncodeMaker(obj);
     const url = this.ip + "portal/ndn/activateField";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  activateFieldValue(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/portal/ndn/activateFieldValue";
     return this.http.post(url, body, this.httpOptions);
   }
   activateForm(obj){

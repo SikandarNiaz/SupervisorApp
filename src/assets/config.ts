@@ -5,10 +5,11 @@ export class Config {
   //  ip: 'http://pg.concavetech.com/',
   // ip: "http://pghanger.concavetech.com/",
   // public static BASE_URI = "https://pgrdt.concavetech.com/";
+  // public static BASE_URI  = "https://nflce.rtdtradetracker.com/";
 
   // public static BASE_URI = window.location.origin + "/";
 
-  public static BASE_URI = "http://localhost:8095/CE/";
+  public static BASE_URI = "http://localhost:8085/CE/";
 
   // for nestle_survey live
   // public static BASE_URI = "http://nestlesurvey.concavetech.com/";

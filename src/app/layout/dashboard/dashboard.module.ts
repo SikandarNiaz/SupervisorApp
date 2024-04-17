@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
-
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatMenuModule,} from "@angular/material/menu";
 import { MatRadioModule } from "@angular/material/radio";
@@ -15,6 +14,10 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatGridListModule } from "@angular/material/grid-list";
 import {NgxSpinnerService} from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { MatTabsModule } from '@angular/material/tabs';
+
+
 import {
   MatDatepickerModule,
   MatDatepickerToggle,
@@ -99,6 +102,8 @@ import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SurmonComponent } from "src/app/surmon/surmon.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -108,6 +113,7 @@ import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-
     MatGridListModule,
     MatDatepickerModule,
     MatFormFieldModule,
+    NgbModule,
     MatNativeDateModule,
     MatInputModule,
     MatSelectModule,
@@ -200,7 +206,8 @@ import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-
   ShowTLDistributionStockDataComponent,
   ShowTLDistributionSwappedDataComponent,
   MarketIntelligenceDetailComponent,
-  RandomSelfiesComponent
+  RandomSelfiesComponent,
+  SurmonComponent
 ],
 })
 export class DashboardModule {}
