@@ -18,6 +18,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { MatTabsModule } from '@angular/material/tabs';
 
 
+
 import {
   MatDatepickerModule,
   MatDatepickerToggle,
@@ -104,6 +105,11 @@ import { MarketIntelligenceDetailComponent } from "./innerComponents/market-inte
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SurmonComponent } from "src/app/surmon/surmon.component";
+import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
+import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
+import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
+import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
+
 @NgModule({
   imports: [
     FormsModule,
@@ -145,6 +151,7 @@ import { SurmonComponent } from "src/app/surmon/surmon.component";
     LightboxModule,
     NgxSpinnerModule,
     MatTabsModule,
+    MatDatepickerModule
   ],
   declarations: [
     SectionElevenViewComponent,
@@ -207,7 +214,11 @@ import { SurmonComponent } from "src/app/surmon/surmon.component";
   ShowTLDistributionSwappedDataComponent,
   MarketIntelligenceDetailComponent,
   RandomSelfiesComponent,
-  SurmonComponent
+  SurmonComponent, 
+  UploadMerchandisingShopTaskComponent,
+  PushNotificationComponent,
+  ShopperEngagementComponent,
+  NewSurmonComponent
 ],
 })
 export class DashboardModule {}

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
+ import { Component, AfterViewInit, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
@@ -8,16 +8,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
-  selector: 'app-surmon',
-  templateUrl: './surmon.component.html',
-  styleUrls: ['./surmon.component.css']
+  selector: 'app-new-surmon',
+  templateUrl: './new-surmon.component.html',
+  styleUrls: ['./new-surmon.component.css']
 })
-export class SurmonComponent implements OnInit, AfterViewInit {
+export class NewSurmonComponent implements OnInit {
   propFormTitle:any;
   propFieldTitle:any;
   obj: any;
   defaultFields:any
-  toggelView:boolean=true;
+  toggelView:boolean=false;
   formsid:any;
   @ViewChild('formslistModal') formslistModal: ModalDirective;
   @ViewChild('CaptureModal') CaptureModal: ModalDirective;
@@ -32,6 +32,7 @@ export class SurmonComponent implements OnInit, AfterViewInit {
   loadingdata:Boolean=false;
   fvti:String;
   isTextType:boolean=false;
+  showForms : boolean = false;
   item:any;
   op:any;
    a:any;
@@ -150,18 +151,19 @@ ffid:any;
     });
   }
 // FOR LOADING FORMSLIST
-  ngAfterViewInit(): void {
-    this.showFormList();
-  }
+  // ngAfterViewInit(): void {
+  //   this.showFormList();
+  // }
 
   ngOnInit(): void {
+    this.showForms = true;
     // this.toaster.success('Almost there');
     this.getformslist();
     this.gettingBrands();
     this.gettingCompaign();
-    // x  
+    
     this.gettingFormTypes();
-    this.ngAfterViewInit();
+    // this.ngAfterViewInit
   }
   // refreshComponent(): void {
   //   // You can perform any logic here before refreshing, if needed
@@ -234,7 +236,7 @@ ffid:any;
           this.formtitle = selectedform.title;
           this.cdr.detectChanges();
           this.nextorder = selectedform.options + 2;
-          this.closeFormList();
+          // this.closeFormList();
         };
         console.log("selectedForm:",this.formid);
         console.log("selectedForm:",selectedform);
@@ -251,6 +253,8 @@ ffid:any;
             this.ql = response.map((item) => ({ ...item }));
             this.loadingdata = true
             this.populateQLAndLastOrderID();
+            this.showForms = false;
+            this.toggelView=true;
           },
           (error) => {
             console.log(error, 'error');
@@ -674,6 +678,9 @@ ffid:any;
   
   hc(){
     this.CaptureModal.hide()
+  }
+  toggleDiv(): void {
+    this.showForms = !this.showForms;
   }
   viewFormPattern(){
     this.toggelView=!this.toggelView;

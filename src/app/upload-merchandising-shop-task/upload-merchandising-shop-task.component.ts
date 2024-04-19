@@ -8,6 +8,7 @@ import {
   FormControl,
   Validators,
   FormBuilder,
+ 
 } from '@angular/forms';
 
 
@@ -182,34 +183,5 @@ export class UploadMerchandisingShopTaskComponent implements OnInit {
     // Get the date part only
     const formattedDate = date.toISOString().split('T')[0];
     return formattedDate;
-  }
-
-
-  loadTasks() {
-    this.loadingModal = true;
-    this.httpService
-      .getActiveShops(-1, -1)
-      .subscribe(
-        (data) => {
-          const res: any = data;
-          if (res) {
-            this.shopList = res;
-
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "Connectivity Message"
-            );
-          };
-          setTimeout(() => {
-            this.loadingModal = false;
-          }, 500);
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
   }
 }
