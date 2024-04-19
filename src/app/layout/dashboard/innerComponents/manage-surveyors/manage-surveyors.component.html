@@ -22,17 +22,28 @@
       </ng-container> -->
       <ng-container *ngIf="zones?.length > 0">
         <mat-form-field class="example-margin mr-10-IMP">
-          <mat-select placeholder="{{ labels.zoneLabel }}" name="zone" [(ngModel)]="selectedZone"
-            (ngModelChange)="zoneChange()">
+          <mat-select
+            placeholder="{{ labels.zoneLabel }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
             <mat-option [value]="zone" *ngFor="let zone of zones">{{
               zone.title
-              }}</mat-option>
+            }}</mat-option>
           </mat-select>
         </mat-form-field>
       </ng-container>
 
-      <mat-form-field *ngIf="regions.length > 0" class="example-margin mr-10-IMP">
-        <mat-select placeholder="{{ labels.regionLabel }}" name="region" [(ngModel)]="selectedRegion">
+      <mat-form-field
+        *ngIf="regions.length > 0"
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="{{ labels.regionLabel }}"
+          name="region"
+          [(ngModel)]="selectedRegion"
+        >
           <ng-container *ngFor="let region of regions">
             <mat-option [value]="region">{{ region.title }}</mat-option>
           </ng-container>
@@ -41,21 +52,37 @@
     </section>
 
     <section class="example-section">
-      <button [disabled]="loadingData || !selectedZone.id" mat-raised-button color="primary" (click)="loadSurveyors()">
+      <button
+        [disabled]="loadingData || !selectedZone.id"
+        mat-raised-button
+        color="primary"
+        (click)="loadSurveyors()"
+      >
         Submit
       </button>
     </section>
   </mat-card-content>
 </mat-card>
 
-<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4 mat-group"
-  *ngIf="surveyorList.length > 0">
+<mat-tab-group
+  mat-stretch-tabs
+  class="example-stretched-tabs mat-elevation-z4 mat-group"
+  *ngIf="surveyorList.length > 0"
+>
   <mat-tab label="Merchandisers">
-    <manage-merchandiser [surveyorList]="merchandiserList" (updateMerchandiser)="updateSurveyorData($event)"
-      (showModal)="showSurveyorInfoModal($event)" (addMerchandiserModal)="showInsertModal($event)"
-      *ngIf="surveyorList.length > 0">
+    <manage-merchandiser
+      [surveyorList]="merchandiserList"
+      (updateMerchandiser)="updateSurveyorData($event)"
+      (showModal)="showSurveyorInfoModal($event)"
+      (addMerchandiserModal)="showInsertModal($event)"
+      *ngIf="surveyorList.length > 0"
+    >
     </manage-merchandiser>
-    <div class="row" style="margin: 20px" *ngIf="!loadingData && surveyorList.length == 0">
+    <div
+      class="row"
+      style="margin: 20px"
+      *ngIf="!loadingData && surveyorList.length == 0"
+    >
       <div class="col-md-12 text-center">
         <div class="alert alert-info">
           <p>No Data Found</p>
@@ -105,10 +132,17 @@
       </div>
     </div>
   </mat-tab>-->
-</mat-tab-group>
+</mat-tab-group> 
 
-<div bsModal #surveyorInfoModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false }" class="modal fade"
-  tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+<div
+  bsModal
+  #surveyorInfoModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -116,7 +150,12 @@
           Update {{ insertTitle }}
           <i [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
         </h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="hideSurveyorInfoModal()">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideSurveyorInfoModal()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -127,18 +166,34 @@
           </div>
           <div class="form-group">
             <label for="m_code"> {{ labels?.surveyorLabel }} Code</label>
-            <input type="text" class="form-control" id="m_code" formControlName="m_code" readonly />
+            <input
+              type="text"
+              class="form-control"
+              id="m_code"
+              formControlName="m_code"
+              readonly
+            />
           </div>
           <div class="row">
             <div class="form-group col-md-8">
               <label for="fullName"> {{ labels?.surveyorLabel }} Name</label>
-              <input type="text" class="form-control" id="fullName" formControlName="fullName" />
-              <div *ngIf="
+              <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                formControlName="fullName"
+              />
+              <div
+                *ngIf="
                   form.controls.fullName.errors &&
                   (form.controls.fullName.touched ||
                     form.controls.fullName.dirty)
-                ">
-                <mat-error *ngIf="form.hasError('required', 'fullName')" class="invalid-feedback">
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'fullName')"
+                  class="invalid-feedback"
+                >
                   Valid {{ labels?.surveyorLabel }} Name is required.
                 </mat-error>
               </div>
@@ -146,16 +201,26 @@
 
             <div class="form-group col-md-4">
               <label for="active">Active</label>
-              <select formControlName="active" class="form-control" placeholder="Change Status" name="active">
+              <select
+                formControlName="active"
+                class="form-control"
+                placeholder="Change Status"
+                name="active"
+              >
                 <ng-container *ngFor="let status of activeStatus">
                   <option [value]="status">{{ status }}</option>
                 </ng-container>
               </select>
-              <div *ngIf="
+              <div
+                *ngIf="
                   form.controls.active.errors &&
                   (form.controls.active.touched || form.controls.active.dirty)
-                ">
-                <mat-error *ngIf="form.hasError('required', 'active')" class="invalid-feedback">
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'active')"
+                  class="invalid-feedback"
+                >
                   Valid Status is Required.
                 </mat-error>
               </div>
@@ -163,12 +228,22 @@
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="text" class="form-control" id="password" formControlName="password" />
-            <div *ngIf="
+            <input
+              type="text"
+              class="form-control"
+              id="password"
+              formControlName="password"
+            />
+            <div
+              *ngIf="
                 form.controls.password.errors &&
                 (form.controls.password.touched || form.controls.password.dirty)
-              ">
-              <mat-error *ngIf="form.hasError('required', 'password')" class="invalid-feedback">
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'password')"
+                class="invalid-feedback"
+              >
                 Valid Password is Required.
               </mat-error>
             </div>
@@ -189,7 +264,7 @@
                 </option>
               </ng-container>
             </select> -->
-          <!-- <div
+            <!-- <div
               *ngIf="
                 form.controls.supervisorId.errors &&
                 (form.controls.supervisorId.touched ||
@@ -220,7 +295,7 @@
                 </option>
               </ng-container>
             </select> -->
-          <!-- <div
+            <!-- <div
               *ngIf="
                 form.controls.supervisorId.errors &&
                 (form.controls.supervisorId.touched ||
@@ -272,8 +347,13 @@
           <div class="form-group" *ngIf="regionList.length > 0">
             <label for="Region">{{labels.regionLabel}}</label>
 
-            <select formControlName="region_id" class="form-control" placeholder="Select Region" name="region_id"
-              required>
+            <select
+              formControlName="region_id"
+              class="form-control"
+              placeholder="Select Region"
+              name="region_id"
+              required
+            >
               <ng-container *ngFor="let r of regionList">
                 <!-- <option [value]="evaitem.id" [label]="evaitem.username"> -->
                 <option [value]="r.id">
@@ -281,13 +361,18 @@
                 </option>
               </ng-container>
             </select>
-            <div *ngIf="
+            <div
+              *ngIf="
                 form.controls.region_id.errors &&
                 (form.controls.region_id.touched ||
                   form.controls.region_id.dirty)
-              ">
-              <mat-error *ngIf="form.hasError('required', 'region_id')" class="invalid-feedback">
-                {{labels.regionLabel}} Selection is Mandatory.
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'region_id')"
+                class="invalid-feedback"
+              >
+              {{labels.regionLabel}} Selection is Mandatory.
               </mat-error>
             </div>
           </div>
@@ -313,20 +398,40 @@
 
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" formControlName="email" />
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              formControlName="email"
+            />
           </div>
           <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" class="form-control" id="phone" formControlName="phone" />
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              formControlName="phone"
+            />
           </div>
           <div class="form-group">
             <label for="cnic">Cnic</label>
-            <input type="text" class="form-control" id="cnic" formControlName="cnic" />
+            <input
+              type="text"
+              class="form-control"
+              id="cnic"
+              formControlName="cnic"
+            />
           </div>
         </div>
         <div class="modal-footer">
-          <button (click)="updateSurveyorData(form.value)" class="mr-1" [disabled]="!form.valid || loadingModalButton"
-            mat-raised-button color="primary">
+          <button
+            (click)="updateSurveyorData(form.value)"
+            class="mr-1"
+            [disabled]="!form.valid || loadingModalButton"
+            mat-raised-button
+            color="primary"
+          >
             <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
             Update
           </button>
@@ -336,13 +441,25 @@
   </div>
 </div>
 
-<div bsModal #insertModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false }" class="modal fade" tabindex="-1"
-  role="dialog" aria-labelledby="dialog-child-name">
+<div
+  bsModal
+  #insertModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-child-name" class="modal-title pull-left">Add</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="hideInsertModal()">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideInsertModal()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -354,12 +471,22 @@
           </div> -->
           <div class="form-group">
             <label for="m_code"> {{ labels?.surveyorLabel }} Code</label>
-            <input type="text" class="form-control" id="m_code" formControlName="m_code" />
-            <div *ngIf="
+            <input
+              type="text"
+              class="form-control"
+              id="m_code"
+              formControlName="m_code"
+            />
+            <div
+              *ngIf="
                 form.controls.m_code.errors &&
                 (form.controls.m_code.touched || form.controls.m_code.dirty)
-              ">
-              <mat-error *ngIf="form.hasError('required', 'm_code')" class="invalid-feedback">
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'm_code')"
+                class="invalid-feedback"
+              >
                 Valid Code is required.
               </mat-error>
             </div>
@@ -367,13 +494,23 @@
           <div class="row">
             <div class="form-group col-md-8">
               <label for="fullName"> {{ labels?.surveyorLabel }} Name</label>
-              <input type="text" class="form-control" id="fullName" formControlName="fullName" />
-              <div *ngIf="
+              <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                formControlName="fullName"
+              />
+              <div
+                *ngIf="
                   form.controls.fullName.errors &&
                   (form.controls.fullName.touched ||
                     form.controls.fullName.dirty)
-                ">
-                <mat-error *ngIf="form.hasError('required', 'fullName')" class="invalid-feedback">
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'fullName')"
+                  class="invalid-feedback"
+                >
                   Valid {{ labels?.surveyorLabel }} Name is required.
                 </mat-error>
               </div>
@@ -381,16 +518,26 @@
 
             <div class="form-group col-md-4">
               <label for="active">Active</label>
-              <select formControlName="active" class="form-control" placeholder="Change Status" name="active">
+              <select
+                formControlName="active"
+                class="form-control"
+                placeholder="Change Status"
+                name="active"
+              >
                 <ng-container *ngFor="let status of activeStatus">
                   <option [value]="status">{{ status }}</option>
                 </ng-container>
               </select>
-              <div *ngIf="
+              <div
+                *ngIf="
                   form.controls.active.errors &&
                   (form.controls.active.touched || form.controls.active.dirty)
-                ">
-                <mat-error *ngIf="form.hasError('required', 'active')" class="invalid-feedback">
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'active')"
+                  class="invalid-feedback"
+                >
                   Valid Status is Required.
                 </mat-error>
               </div>
@@ -399,20 +546,35 @@
           <div class="row">
             <div class="form-group" class="col-md-6">
               <label for="password">Password</label>
-              <input type="text" class="form-control" id="password" formControlName="password" />
-              <div *ngIf="
+              <input
+                type="text"
+                class="form-control"
+                id="password"
+                formControlName="password"
+              />
+              <div
+                *ngIf="
                   form.controls.password.errors &&
                   (form.controls.password.touched ||
                     form.controls.password.dirty)
-                ">
-                <mat-error *ngIf="form.hasError('required', 'password')" class="invalid-feedback">
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'password')"
+                  class="invalid-feedback"
+                >
                   Valid Password is Required.
                 </mat-error>
               </div>
             </div>
             <div class="form-group" class="col-md-6">
               <label for="phone">Phone</label>
-              <input type="text" class="form-control" id="phone" formControlName="phone" />
+              <input
+                type="text"
+                class="form-control"
+                id="phone"
+                formControlName="phone"
+              />
             </div>
           </div>
           <!-- <div class="form-group" *ngIf="insertType == 1">
@@ -467,7 +629,13 @@
 
           <div class="form-group" *ngIf="cityList.length > 0">
             <label for="City">City</label>
-            <select formControlName="city_id" class="form-control" placeholder="Select City" name="city_id" required>
+            <select
+              formControlName="city_id"
+              class="form-control"
+              placeholder="Select City"
+              name="city_id"
+              required
+            >
               <ng-container *ngFor="let c of cityList">
 
                 <option [value]="c.id">
@@ -475,13 +643,18 @@
                 </option>
               </ng-container>
             </select>
-            <div *ngIf="
+            <div
+              *ngIf="
                 form.controls.city_id.errors &&
                 (form.controls.city_id.touched ||
                   form.controls.city_id.dirty)
-              ">
-              <mat-error *ngIf="form.hasError('required', 'city_id')" class="invalid-feedback">
-                Selection is Mandatory.
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'city_id')"
+                class="invalid-feedback"
+              >
+               Selection is Mandatory.
               </mat-error>
             </div>
           </div>
@@ -516,8 +689,13 @@
             <label for="Region">Region</label>
             <!-- <label for="Region">{{labels.regionLabel}}</label> -->
 
-            <select formControlName="region_id" class="form-control" placeholder="Select Region" name="region_id"
-              required>
+            <select
+              formControlName="region_id"
+              class="form-control"
+              placeholder="Select Region"
+              name="region_id"
+              required
+            >
               <ng-container *ngFor="let r of regionList">
                 <!-- <option [value]="evaitem.id" [label]="evaitem.username"> -->
                 <option [value]="r.id">
@@ -525,21 +703,31 @@
                 </option>
               </ng-container>
             </select>
-            <div *ngIf="
+            <div
+              *ngIf="
                 form.controls.region_id.errors &&
                 (form.controls.region_id.touched ||
                   form.controls.region_id.dirty)
-              ">
-              <mat-error *ngIf="form.hasError('required', 'region_id')" class="invalid-feedback">
-                {{labels.regionLabel}} Selection is Mandatory.
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'region_id')"
+                class="invalid-feedback"
+              >
+              {{labels.regionLabel}} Selection is Mandatory.
               </mat-error>
             </div>
           </div>
 
           <div class="form-group" *ngIf="programList.length > 0">
             <label for="Program">Program</label>
-            <select formControlName="program_id" class="form-control" placeholder="Select Program" name="program_id"
-              required>
+            <select
+              formControlName="program_id"
+              class="form-control"
+              placeholder="Select Program"
+              name="program_id"
+              required
+            >
               <ng-container *ngFor="let p of programList">
 
                 <option [value]="p.id">
@@ -547,13 +735,18 @@
                 </option>
               </ng-container>
             </select>
-            <div *ngIf="
+            <div
+              *ngIf="
                 form.controls.program_id.errors &&
                 (form.controls.program_id.touched ||
                   form.controls.program_id.dirty)
-              ">
-              <mat-error *ngIf="form.hasError('required', 'program_id')" class="invalid-feedback">
-                Selection is Mandatory.
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'program_id')"
+                class="invalid-feedback"
+              >
+               Selection is Mandatory.
               </mat-error>
             </div>
           </div>
@@ -594,7 +787,7 @@
                 </option>
               </ng-container>
             </select> -->
-          <!-- <div
+            <!-- <div
             *ngIf="
               form.controls.supervisorId.errors &&
               (form.controls.supervisorId.touched ||
@@ -613,24 +806,41 @@
           <div class="row">
             <div class="form-group" class="col-md-6">
               <label for="email">Email</label>
-              <input type="text" class="form-control" id="email" formControlName="email" />
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                formControlName="email"
+              />
             </div>
 
             <div class="form-group" class="col-md-6">
               <label for="cnic">Cnic</label>
-              <input type="text" class="form-control" id="cnic" formControlName="cnic" />
+              <input
+                type="text"
+                class="form-control"
+                id="cnic"
+                formControlName="cnic"
+              />
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="brandList.length > 0">
+            <label for="Brand">Brand</label>
+            <select formControlName="brand_id" class="form-control" placeholder="Select Brand" name="brand_id" required>
+              <option [value]="-1" selected>ALL</option>
+              <option *ngFor="let b of brandList" [value]="b.id">{{ b.title }}</option>
+            </select>
+            <div *ngIf="form.controls.brand_id.errors && (form.controls.brand_id.touched || form.controls.brand_id.dirty)">
+              <mat-error *ngIf="form.hasError('required', 'brand_id')" class="invalid-feedback">
+                Selection is Mandatory.
+              </mat-error>
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button
-            (click)="addSurveyor(form.value)"
-            class="mr-1"
-            mat-raised-button
-            color="primary"
-            [disabled]="!form.valid || loadingModalButton"
-          >
+          <button (click)="addSurveyor(form.value)" class="mr-1" mat-raised-button color="primary" [disabled]="!form.valid || loadingModalButton">
             <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
             Save
           </button>
