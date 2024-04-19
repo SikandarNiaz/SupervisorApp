@@ -36,6 +36,7 @@ import { SectionTwoViewComponent } from "./section-two-view/section-two-view.com
 import { SectionThreeViewComponent } from "./section-three-view/section-three-view.component";
 import { FlaggedShopsListComponent } from "./flagged-shops-list/flagged-shops-list.component";
 import { Ng2OrderModule } from "ng2-order-pipe";
+import { ASMHomeComponent } from "./asm-home/asm-home.component";
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { Ng2OrderModule } from "ng2-order-pipe";
     SectionTwoViewComponent,
     SectionThreeViewComponent,
     FlaggedShopsListComponent,
+    ASMHomeComponent,
   ],
 })
 export class EvaluationModule {}
