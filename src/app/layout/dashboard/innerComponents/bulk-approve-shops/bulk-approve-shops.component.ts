@@ -21,6 +21,7 @@ import { environment } from "src/environments/environment";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Config } from 'src/assets/config';
 
+
 @Component({
   selector: 'bulk-approve-shops.component',
   templateUrl: './bulk-approve-shops.component.html',
@@ -34,13 +35,15 @@ export class BulkApproveShopsComponent implements OnInit {
   title = "Shops Approval";
   minDate = new Date(2000, 0, 1);
   maxDate: any = new Date();
-  startDate: any = new Date();
+ // startDate: any = new Date();
+ startDate: Date | null = null;
   zones: any = [];
   regions: any = [];
   form: FormGroup;
   selectedZone: any = {};
   selectedRegion: any = {};
-  endDate = new Date();
+ // endDate = new Date();
+ endDate: Date | null = null;
   loadingReportMessage = false;
   selectedEvaluator: any = {};
   evaluatorList: any = [];
@@ -89,17 +92,22 @@ obj = {
   supervisorId: any;
   surveyorId: any;
   dashboardData: any;
+  filteredList: any = [];
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService,
     public fb: FormBuilder
-  ) {
+  ) { 
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.userTypeId = localStorage.getItem("user_type");
     if (this.userTypeId == this.evaluatorRole) {
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.startDate.setDate(this.startDate.getDate() - 1);
       this.endDate.setDate(this.endDate.getDate() - 1);
+    }
+    else{
+      this.startDate = null;
+    this.endDate = null;
     }
     // if (localStorage.getItem("projectType") == "PMI_CENSUS") {
     //   this.title = "BDE List";
@@ -126,11 +134,14 @@ obj = {
       reason: new FormControl(""),
     });
   }
-
+  ngOnChanges() {
+    // changes.prop contains the old and the new value...
+    this.filteredList = this.merchandiserList;
+  }
   ngOnInit() {
     this.loadingData = false;
     // this.loadEvaluationSummary();
-    this.getMerchandiserList();
+   // this.getMerchandiserList();
     console.log('Merchandiser List:', this.merchandiserList);
   //  this.getBaSupervisorList();
     this.getAttendanceRemarkList();
@@ -316,6 +327,8 @@ obj = {
 
   getMerchandiserList() {
     this.loadingData = true;
+    const startDateParam = this.startDate ? moment(this.startDate).format("YYYY-MM-DD") : -1;
+    const endDateParam = this.endDate ? moment(this.endDate).format("YYYY-MM-DD") : -1;
     const obj = {
       zoneId: this.selectedZone.id
         ? this.selectedZone.id == -1
@@ -336,8 +349,10 @@ obj = {
       reason:this.Reason,
       supervisorId: this.supervisorId,
       surveyorId: this.surveyorId,
-      startDate: moment(this.startDate).format("YYYY-MM-DD"),
-      endDate: moment(this.endDate).format("YYYY-MM-DD"),
+      // startDate: moment(this.startDate).format("YYYY-MM-DD")||-1,
+      // endDate: moment(this.endDate).format("YYYY-MM-DD")||-1,
+      startDate: startDateParam,
+        endDate: endDateParam,
       id: this.id,
     };
 
@@ -347,6 +362,7 @@ obj = {
          console.log('merchandiser list for evaluation',data);
         if (data) {
           this.merchandiserList = data;
+          this.filteredList= data;
           console.log("merchandiserList:", this.merchandiserList)
           this.loading = false;
           this.loadingData = false;
@@ -371,6 +387,8 @@ obj = {
 
   loadEvaluationSummary() {
     this.cardLoading = true;
+    const startDateParam = this.startDate ? moment(this.startDate).format("YYYY-MM-DD") : -1;
+    const endDateParam = this.endDate ? moment(this.endDate).format("YYYY-MM-DD") : -1;
     const obj = {
       zoneId: this.selectedZone.id
         ? this.selectedZone.id == -1
@@ -386,8 +404,10 @@ obj = {
       selectedSupervisor: this.selectedSupervisor.id || -1,
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
-      startDate: moment(this.startDate).format("YYYY-MM-DD"),
-      endDate: moment(this.endDate).format("YYYY-MM-DD"),
+      // startDate: moment(this.startDate).format("YYYY-MM-DD"),
+      // endDate: moment(this.endDate).format("YYYY-MM-DD"),
+      startDate: startDateParam,
+        endDate: endDateParam,
     };
 
     this.httpService.getEvaluationSummaryInBulkApprovalView(obj).subscribe((data: any) => {
@@ -735,14 +755,14 @@ obj = {
     // Sending notEditable Param if shop is already Evaluated (Shop cant be evaluated Twice)
     
       window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.shop_id}`,
+        `${environment.hash}dashboard/evaluation/list/details-asm/${item.id}`,
         "_blank"
       );
   }
 
   evaluateShops(status) {
     this.loading = true;
-    debugger;
+    debugger
     const obj = {
       userId: localStorage.getItem("user_id"),
       // isZsmRedFlagShopRequest: true,
@@ -763,6 +783,7 @@ obj = {
             this.myCheckbox._results[index]._checked = false;
           }
           this.getMerchandiserList();
+          this.loadEvaluationSummary();
           this.loading = false;
         } else {
           this.toastr.error(data.title, data.description);
@@ -775,6 +796,11 @@ obj = {
         this.loading = false;
       }
     );
+  }
+
+  onNotifyClicked(filteredlist: any){
+    console.log(this.filteredList)
+    this.filteredList=filteredlist;
   }
  
 }

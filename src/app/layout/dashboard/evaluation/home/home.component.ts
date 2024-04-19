@@ -75,6 +75,7 @@ export class HomeComponent implements OnInit {
   surveyDetails: any;
   showCriteria: boolean = false;
   id: any;
+  asmevaluatorRole: string;
 
   constructor(
     private router: Router,
@@ -130,6 +131,7 @@ export class HomeComponent implements OnInit {
     // this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
     this.evaluatorRole = localStorage.getItem("Evaluator");
+    this.asmevaluatorRole = localStorage.getItem("AsmEvaluator");
     this.amRole = localStorage.getItem("amRole");
     this.projectType = localStorage.getItem("projectType");
   }
