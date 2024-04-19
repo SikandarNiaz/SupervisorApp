@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
         );
         localStorage.setItem("menu", JSON.stringify(res.list));
         localStorage.setItem("Evaluator", res.Evaluator);
+        localStorage.setItem("AsmEvaluator", res.AsmEvaluator);
         localStorage.setItem("projectType", res.projectType);
         localStorage.setItem("amRole", res.amRole);
         localStorage.setItem(

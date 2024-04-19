@@ -11,10 +11,10 @@ import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
+  templateUrl: "./asm-home.component.html",
+  styleUrls: ["./asm-home.component.scss"],
 })
-export class HomeComponent implements OnInit {
+export class ASMHomeComponent implements OnInit {
   data: any = [];
   // ip = environment.ip;
 
@@ -75,7 +75,6 @@ export class HomeComponent implements OnInit {
   surveyDetails: any;
   showCriteria: boolean = false;
   id: any;
-  asmevaluatorRole: string;
 
   constructor(
     private router: Router,
@@ -130,8 +129,7 @@ export class HomeComponent implements OnInit {
     this.availabilityCount = 0;
     // this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
-    this.evaluatorRole = localStorage.getItem("Evaluator");
-    this.asmevaluatorRole = localStorage.getItem("AsmEvaluator");
+    this.evaluatorRole = localStorage.getItem("AsmEvaluator");
     this.amRole = localStorage.getItem("amRole");
     this.projectType = localStorage.getItem("projectType");
   }
@@ -177,7 +175,7 @@ export class HomeComponent implements OnInit {
           } else if (
             (this.userType == this.evaluatorRole ||
               this.userType == this.amRole) &&
-            this.surveyDetails.status == "Pending"
+            this.surveyDetails.status == "Pending" ||this.surveyDetails.status == "Approved" && this.surveyDetails.asmStatus == "Pending"
           ) {
             this.isEditable = true;
             this.showCriteria = true;

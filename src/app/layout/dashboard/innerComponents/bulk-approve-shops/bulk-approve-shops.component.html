@@ -72,23 +72,24 @@
       </mat-form-field>
     </ng-container> -->
 
-        <mat-form-field class="example-full-width mr-10-IMP">
-          <input
-            matInput
-            [min]="minDate"
-            [max]="maxDate"
-            [matDatepicker]="picker0"
-            [(ngModel)]="startDate"
-            placeholder="Choose a start date"
-            (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
-            readonly
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker0"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker0></mat-datepicker>
-        </mat-form-field>
+    <mat-form-field class="example-full-width mr-10-IMP">
+      <input
+        matInput
+        [min]="minDate"
+        [max]="maxDate"
+        [matDatepicker]="picker0"
+        [(ngModel)]="startDate"
+        placeholder="Choose a start date"
+        (ngModelChange)="loadEvaluationSummary(); getMerchandiserList()"
+        readonly
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker0"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker0></mat-datepicker>
+      </mat-form-field>
+    
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
             matInput
@@ -106,6 +107,8 @@
           ></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="loadEvaluationSummary(); getMerchandiserList()">Load Data</button>
 
       </section>
     </mat-card-content>
@@ -217,6 +220,11 @@ Approve ({{ selectedIds?.length }})
       </button>
     </div>
     <mat-card class="mb-20" style="border-top: 1px solid #afafaf">
+      <search-box
+    [list]="merchandiserList"
+    (notify)="onNotifyClicked($event)"
+  >
+  </search-box>
       <mat-card-content>
         <section class="example-section"> 
           <table class="table table-hover">
@@ -236,12 +244,12 @@ Approve ({{ selectedIds?.length }})
                     {{ getArrowType("BA_Code") }}
                   </i>
                 </th>
-                <th (click)="sortIt('BA_Name')" style="cursor: pointer">
+                <!-- <th (click)="sortIt('BA_Name')" style="cursor: pointer">
                   Name
                   <i class="material-icons arrow material-icons-arrow">
                     {{ getArrowType("BA_Name") }}
                   </i>
-                </th>
+                </th> -->
                 <th (click)="sortIt('Area_Name')" style="cursor: pointer">
                   Area Name
                   <i class="material-icons arrow material-icons-arrow">
@@ -288,6 +296,12 @@ Approve ({{ selectedIds?.length }})
                     {{ getArrowType("Status") }}
                   </i>
                 </th>
+                <th (click)="sortIt('ASM_Status')" style="cursor: pointer">
+                  Asm Status
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("ASM_Status") }}
+                  </i>
+                </th>
                 <!-- <th></th> -->
               </tr>
             </thead>
@@ -296,9 +310,14 @@ Approve ({{ selectedIds?.length }})
               <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
               <tr
                 *ngFor="
-                  let item of merchandiserList | orderBy: sortBy:sortOrder
+                  let item of filteredList | orderBy: sortBy:sortOrder
                 "
               >
+              <!-- <tr
+                  *ngFor="
+                    let item of filteredList | orderBy: sortBy:sortOrder
+                    "
+                > -->
               <td>
                 <!-- <input type="checkbox" name="trades" [checked]="item.selected" (change)="singleCheckbox($event)"> -->
                 <mat-checkbox
@@ -311,7 +330,7 @@ Approve ({{ selectedIds?.length }})
           </mat-checkbox>
               </td>
                 <td style="color: blue; cursor: pointer" class="link" (click)="goToEvaluationPage(item)">{{ item?.BA_Code }}</td>
-                <td>{{ item?.BA_Name }}</td>
+                <!-- <td>{{ item?.BA_Name }}</td> -->
                 <td>{{ item?.Area_Name }}</td>
                 <td>{{ item?.shop_title }}</td>
                 <td>{{ item?.channel_type }}</td>
@@ -327,6 +346,9 @@ Approve ({{ selectedIds?.length }})
                 <td>{{ item?.visit_date }}</td>
                 <td>
                   {{ item?.Status }}
+                </td>
+                <td>
+                  {{ item?.ASM_Status }}
                 </td>
                 <!-- <td *ngIf="item?.captured_shops==item?.evaluated_shops">
                                     <img src="./assets/images/Checked-Checkbox-icon.png" alt="">

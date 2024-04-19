@@ -21,7 +21,8 @@ export class SectionTwoViewComponent implements OnInit {
     // mapboxgl.accessToken =
     //   "pk.eyJ1Ijoic2lrYW5kYXJuaWF6IiwiYSI6ImNrd3FiYWkwZzBrd3UycHBtOGNnYWY1Nm4ifQ.NSL0s456ejrd4QFu4cvZ6w";
     // mapboxgl.accessToken = "pk.eyJ1IjoibWFya3NtYW5jdWxpbmFyeSIsImEiOiJjbGcxdXI3ZXYwYXRiM29sMmQ5Z2R2czZmIn0.4ufF0qk-0hh0aC0gGes0WQ";
-    mapboxgl.accessToken = "pk.eyJ1IjoiaGFsZWViY29uY2F2ZXRlY2hjb20iLCJhIjoiY2xpbjF0cnA3MHFjMDNrcGNidHdyZngzZiJ9.8J-Ge14qfoHmbkzIHL5ofg";
+    // mapboxgl.accessToken = "pk.eyJ1IjoicGVwc2ljb25jYXZldGVjaGNvbSIsImEiOiJjbGlrMXRqbXAwZHJlM2Zraml6bHp4c24wIn0.IZz-CZN9m2MMbz-i29C1WA";
+    mapboxgl.accessToken = "pk.eyJ1IjoibWFya3NtYW5jb25kaW1lbnRzIiwiYSI6ImNsZzF2NnJwdDF6amkzZHF1dmtiZXA4dGkifQ.lxdRQPwK9rxcw4csSPwSIA";
   }
 
   ngOnInit() {}
