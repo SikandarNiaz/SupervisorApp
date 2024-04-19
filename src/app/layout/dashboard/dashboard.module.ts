@@ -1,7 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FlexLayoutModule } from "@angular/flex-layout";
-
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatMenuModule,} from "@angular/material/menu";
 import { MatRadioModule } from "@angular/material/radio";
@@ -15,6 +14,10 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatGridListModule } from "@angular/material/grid-list";
 import {NgxSpinnerService} from 'ngx-spinner';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { MatTabsModule } from '@angular/material/tabs';
+
+
 import {
   MatDatepickerModule,
   MatDatepickerToggle,
@@ -99,10 +102,8 @@ import { ShowTLDistributionStockDataComponent } from "./innerComponents/show-TL-
 import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-TL-distribution-swapped-data/show-TL-distribution-swapped-data.component";
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
-import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
-import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
-import { NgxSpinnerModule } from "ngx-spinner";
-import { MatTabsModule } from '@angular/material/tabs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SurmonComponent } from "src/app/surmon/surmon.component";
 @NgModule({
   imports: [
     FormsModule,
@@ -112,6 +113,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatGridListModule,
     MatDatepickerModule,
     MatFormFieldModule,
+    NgbModule,
     MatNativeDateModule,
     MatInputModule,
     MatSelectModule,
@@ -205,8 +207,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   ShowTLDistributionSwappedDataComponent,
   MarketIntelligenceDetailComponent,
   RandomSelfiesComponent,
-  ShopperEngagementComponent,
-  PushNotificationComponent
+  SurmonComponent
 ],
 })
 export class DashboardModule {}

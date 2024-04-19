@@ -177,6 +177,11 @@ export class DashboardService {
     const filter = JSON.stringify({ act: 4 });
     return this.http.post(url, filter);
   }
+  getBrand() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 39 });
+    return this.http.post(url, filter);
+  }
 
   getZones() {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
@@ -353,6 +358,10 @@ export class DashboardService {
   }
   uploadRoutes(obj) {
     const url = this.ip + "uploadRoutes"; // -------> UploadExcelController
+    return this.http.post(url, obj);
+  }
+  uploadmerchandisingShops(obj) {
+    const url = this.ip + "merchandisingShopTask"; // -------> UploadExcelController
     return this.http.post(url, obj);
   }
   getKey(obj) {
@@ -670,6 +679,11 @@ export class DashboardService {
     const filter = JSON.stringify({ act: 36 });
     return this.http.post(url, filter);
   }
+  getTask() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 40 });
+    return this.http.post(url, filter);
+  }
 
   getKTDayStartData(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
@@ -808,7 +822,7 @@ export class DashboardService {
     return this.http.post(url, obj,  this.httpOptions);
 }
 
-getBrand() {
+getBrand1() {
   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
   const filter = JSON.stringify({ act: 37 });
   return this.http.post(url, filter);
@@ -822,4 +836,126 @@ getBrand() {
 
 
   // }
+
+
+gettingCampaigns() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 38 });
+  return this.http.post(url, filter);
+}
+
+gettingBrands() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 37 });
+  return this.http.post(url, filter);
+}
+  gettingFormTypes(){
+    // const body = this.UrlEncodeMaker();
+ const url = this.ip + "portal/ndn/getformstypes";
+ return this.http.post(url,this.httpOptions);
+}
+getformslist(){
+  const url = this.ip + "portal/ndn/getformslist";
+  return this.http.post(url,this.httpOptions);
+}
+gettingeildsV2(formId){
+       const body = this.UrlEncodeMaker(formId);
+    const url = this.ip + "portal/ndn/mfl";
+    return this.http.post(url, body, this.httpOptions);
+  }
+gettingFeildsvaluesV2(obj:any){
+       const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/mfv";
+    return this.http.post(url, body, this.httpOptions);
+  }
+createNewForm(newForm) {
+    const body = this.UrlEncodeMaker(newForm);
+    const url = this.ip + "portal/ndn/getnewForm";
+    return this.http.post(url, body, this.httpOptions);
+  }
+ getNewFeild(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/getnewFeild";
+    return this.http.post(url, body, this.httpOptions);
+  }
+ changPositon(obj){
+  const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/getposition";
+    return this.http.post(url, body, this.httpOptions);
+  }
+gettingFeildInfo(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/gettingFieldInfo";
+    return this.http.post(url, body, this.httpOptions);
+  }
+updatingFieldProperties(obj){
+    debugger;
+    const url = this.ip + "portal/ndn/changingfieldattribute";
+    return this.http.post(url, obj);
+  }
+updatingFormProperties(obj){
+    const url = this.ip + "portal/ndn/changingformattribute";
+    return this.http.post(url, obj);
+  }
+feildValueOperation(obj){
+    debugger;
+     const body = this.UrlEncodeMaker(obj);
+     const url = this.ip + "portal/ndn/valueop";
+     return this.http.post(url, body, this.httpOptions);
+   }
+getQuestionList(obj){
+       const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/getquestionlist";
+    return this.http.post(url, body, this.httpOptions);
+  }
+deActivateField(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/deactivateField";
+    return this.http.post(url, body, this.httpOptions);
+}
+deActivateFieldValue(obj){
+  const body = this.UrlEncodeMaker(obj);
+  const url = this.ip + "/portal/ndn/deactivateFieldValue";
+  return this.http.post(url, body, this.httpOptions);
+}
+  activateField(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/activateField";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  activateFieldValue(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/portal/ndn/activateFieldValue";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  activateForm(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/activateForm";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  logicFieldlist(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/logicfieldlist";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  applyLogic(obj){
+    const url = this.ip + "portal/ndn/formlogic";
+    return this.http.post(url, obj);
+  }
+  deActivateForm(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/deactivateForm";
+    return this.http.post(url, body, this.httpOptions);
+  }
+
+
+
+
+
+
+
+
+
+
+
 }

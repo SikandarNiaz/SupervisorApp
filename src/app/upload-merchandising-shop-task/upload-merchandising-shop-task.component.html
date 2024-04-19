@@ -1,0 +1,44 @@
+<form (ngSubmit)="uploadData()" [formGroup]="form" enctype="multipart/form-data">
+    <div class="animated slideInLeft">
+        <mat-card class="mb-20">
+            <mat-card-content>
+                <mat-card-title>
+                    {{ title | uppercase }}
+                    <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+                </mat-card-title>
+                <section class="example-section">
+                    <mat-form-field class="example-margin mr-10-IMP">
+                        <mat-select placeholder="{{ labels.shopLabel }}" name="shop" formControlName="selectedShop"
+                            [panelClass]="'custom-dropdown'">
+                            <ng-container *ngFor="let shop of shopList">
+                                <mat-option [value]="shop">{{ shop.title }}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="example-margin mr-10-IMP" style="margin-left: 15px;">
+                        <mat-select placeholder="{{ labels1.taskLabel }}" name="task" formControlName="selectedTask"
+                            [panelClass]="'custom-dropdown'">
+                            <ng-container *ngFor="let task of taskList">
+                                <mat-option [value]="task">{{ task.name }}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width mr-10-IMP" style="margin-left: 15px;">
+                        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0"
+                            formControlName="visitDate" placeholder="Choose a visit date" readonly />
+                        <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                        <mat-datepicker #picker0></mat-datepicker>
+                    </mat-form-field>
+
+                    <div class="upload-section">
+                        <input type="file" #fileInput style="display: none;" (change)="onFileChange($event)"
+                            formControlName="fileInput">
+                        <button type="button" class="btn btn-primary" (click)="fileInput.click()">Upload Image</button>
+                        <button type="submit" mat-raised-button color="warn" style="margin-left: 10px;">Save</button>
+                    </div>
+                </section>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</form>

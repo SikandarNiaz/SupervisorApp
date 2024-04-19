@@ -141,5 +141,8 @@
       }
     }
   },
-  "defaultProject": "ng-material"
+  "defaultProject": "ng-material",
+  "cli": {
+    "analytics": "77cbcbbd-fef8-4480-b78e-6241dd9b56f7"
+  }
 }

@@ -5,7 +5,7 @@ export class Config {
   // ip: "http://localhost:8080/audit/";
   //  ip: 'http://pg.concavetech.com/',
   // ip: "http://pghanger.concavetech.com/",
-   public static BASE_URI = window.location.origin + "/";
+  //  public static BASE_URI = window.location.origin + "/";
  // public static BASE_URI = "http://pgrdt.concavetech.com/";
   // public static BASE_URI = "http://pguae.concavetech.com/";
  // public static BASE_URI = "http://pngiba.concavetech.com/";
@@ -20,7 +20,7 @@ export class Config {
 //  public static BASE_URI = "http://pilotba.concavetech.com//";
 //public static BASE_URI = "https://pmitraining.rtdtradetracker.com//";
 // public static BASE_URI = "http://ndnba.concavetech.com//";
-  // public static BASE_URI = "http://reckittcensus.concavetech.com//";
+  public static BASE_URI = "http://reckittcensus.concavetech.com//";
 
   public static hash = environment.hash;
   public static main_logo = "assets/images/logo.png";

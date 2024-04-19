@@ -249,14 +249,14 @@ export class AssignShopsComponent implements OnInit {
   }
 
   hideshowSurveyorTimeUpdateModal() {
-    this.selectedStartTime = null;
-    this.selectedEndTime = null;
-    this.selectedDay = null;
-    // this.programs = [];
-    this.surveyors = [];
-    this.updateTimeModal.hide();
-    // this.selectedStartTime.reset;
-    // this.selectedEndTime.reset;
+ this.weekDays.forEach(day => {
+      day.startTime = null;
+      day.endTime = null;
+      day.value = null;
+      this.selectedDay = null;
+  });
+  this.updateTimeModal.hide();
+    
   }
 
   showShopInfoModal(): void {

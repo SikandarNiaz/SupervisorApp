@@ -1,0 +1,575 @@
+<div bsModal #formslistModal="bs-modal" class="modal fade container-fluid lemon-modal" tabindex="-1" role="dialog"
+  aria-labelledby="two-button-modal" [config]="{ backdrop: 'static', keyboard: false }" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-child-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 id="dialog-child-name" class="modal-title">SELECT OR ADD NEW SCREEN</h1>
+
+        <!-- Add New Button (Right Side, Under the Title) -->
+        <button type="button" class="close" aria-label="Close" (click)="closeFormList()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <mat-card>
+        <!-- Table of options -->
+        <button type="button"  class="btn btn-primary" (click)="showaddModal()">Add New</button>
+        <table class="table table-striped mb-0 custom-table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">type</th>
+              <th scope="col">Lastupdated</th>
+              <th scope="col">Fields</th>
+              <!-- <th scope="col">Status</th> -->
+              <th scope="col">Swap</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of obj; let x = index"
+    [class.inactive-background]="item.active === 'N'"
+    [class.hover-effect-active]="hoveredRowIndex === x && item.active === 'Y'"
+    [class.hover-effect-inactive]="hoveredRowIndex === x && item.active === 'N'">
+              <th scope="row">{{ x + 1 }}</th>
+              <td><a role="button" (click)="gettingformProperties(item)" style="cursor: pointer; color: rgb(12, 107, 107);">{{ item.title }}</a></td>
+              <td>{{ item.ft }}</td>
+              <td>{{ item.formatted_last_updated }}</td>
+              <td>
+                <a *ngIf="item.active === 'Y'" role="button" (click)="getforminfo(item)" style="cursor: pointer; color: rgb(12, 107, 107);">{{ item.field_count }}</a>
+                <span *ngIf="item.active !== 'Y'">{{ item.field_count }}</span>
+              </td>
+              
+              <!-- <td>
+                <h6 *ngIf="item.active==='Y'">Active</h6>
+                <h6 *ngIf="item.active==='N'">Inactive</h6>
+              </td> -->
+              <td>
+                <div class="button-container">
+                  <button *ngIf="item.active === 'Y'" type="button"   class="btn btn-outline-danger round-button"  class="btn btn-outline-success round-button" 
+                      (click)="deActivateForm(item)" 
+                      (mouseenter)="setHoveredRowIndex(x)" 
+                      (mouseleave)="setHoveredRowIndex(null)">
+                      Activate
+                  </button>
+                  <button *ngIf="item.active === 'N'" type="button" class="btn btn-outline-danger round-button"
+                      (click)="activateForm(item)" 
+                      (mouseenter)="setHoveredRowIndex(x)" 
+                      (mouseleave)="setHoveredRowIndex(null)">
+                      Deactivate
+                  </button>
+              </div>
+              
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="toggelView">
+    <div *ngIf="formtitle">
+        <mat-card class="header">
+            <mat-card-title>
+                {{ formtitle }}
+            </mat-card-title>
+        </mat-card>
+    </div>
+    <div>
+        <!-- <button type="button" class="btn btn-outline-warning pull-right" (click)="showaddModal()">Add NewForm</button> -->
+        <button type="button" class="btn btn-primary" (click)="showAddnewfeild()" style="margin-right: 10px;">Add New Field</button>
+<button type="button" class="btn btn-primary" (click)="ngOnInit()" style="margin-right: 10px;">Form List</button>
+<button type="button" class="btn btn-primary" (click)="viewFormPattern()">Toggle View</button>
+
+        <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar"></div> -->
+        <table class="table table-striped mb-0 custom-table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Formtype</th>
+                    <!-- <th scope="col">Edit</th> -->
+                    <th scope="col">Options</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">ChangePosition</th>
+                    <!-- <th scope="col">Status</th> -->
+                    <th scope="col">Swap Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ql; let x = index" [class.inactive-background]="item.status === 'N'"
+                    [class.hover-effect-active]="item.status === 'N'"
+                    [class.hover-effect-inactive]="item.status === 'Y'">
+                    <th scope="row">{{ x + 1 }}</th>
+                    <td><a role="button" (click)="gettingFieldInfo(item)" style="cursor: pointer; color: blue;">{{ item.fieldtitle }}</a></td>
+                    <td>{{ item.field_type }}</td>
+                    <td>{{ item.form_type }}</td>
+                    <td>
+                        <a role="button"
+                            [disabled]="item.field_type === 'text_field' || 
+                                        item.field_type === 'date' || 
+                                        item.field_type === 'rating' || 
+                                        item.field_type === 'exist_question' || 
+                                        item.field_type === 'form' || 
+                                        item.field_type === 'image'"
+                            (click)="item.field_type !== 'text_field' && 
+                                     item.field_type !== 'date' && 
+                                     item.field_type !== 'rating' && 
+                                     item.field_type !== 'exist_question' && 
+                                     item.field_type !== 'form' && 
+                                     item.field_type !== 'image' && gettingFieldValue(item)"
+                            style="cursor: pointer; color: blue;">
+                            {{ ['text_field', 'date', 'image', 'exist_question'].includes(item.field_type) ? 0 : item.options }}
+                        </a>
+                    </td>
+                    <td>{{ item.order_id }}</td>
+                    <td>
+                        <div class="button-container">
+                            <button type="button" style="border: none;"
+                                [disabled]="item.status === 'N'" (click)="changefeildPosition(item, 'up')">
+                                🔼
+                            </button>
+                            <button type="button" style="border: none;"
+                                [disabled]="item.status === 'N'" (click)="changefeildPosition(item, 'down')">
+                                🔽
+                            </button>
+                        </div>
+                    </td>
+                    <!-- <td>
+                        <h6 *ngIf="item.status === 'Y'">Active</h6>
+                        <h6 *ngIf="item.status === 'N'">Inactive</h6>
+                    </td> -->
+                    <td>
+                        <div class="button-container">
+                            <button *ngIf="item.status === 'Y'" type="button" class="btn btn-outline-success round-button" (click)="deActivateField(item)">
+                                Activate  
+                            </button>
+                            <button *ngIf="item.status === 'N'" type="button"  class="btn btn-outline-danger round-button" (click)="activateField(item)">
+                                Deactivate
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div bsModal #FvModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="two-button-modal"
+    [config]="{ backdrop: 'static', keyboard: false }">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-child-name" class="modal-title">{{fieldTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideFv()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <mat-card>
+                <!-- <i [ngClass]="{ 'fa fa-cog': !loadingData, 'fa fa-cog fa-spin': loadingData }"></i> -->
+
+<ng-container *ngIf="ff && ff.length > 0">
+    <button class="btn btn-primary" (click)="sc(ff, 'add')">Add</button>
+    <table class="table table-bordered table-striped mb-0 custom-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">OrderId</th>
+                <th scope="col">Child</th>
+                <th scope="col">Status</th>
+                <!-- <th scope="col">Logic</th>  -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of ff; let x = index">
+                <th scope="row">{{ x + 1 }}</th>
+                <td><a role="button" (click)="logicFieldList(item)" style="cursor: pointer; color: rgb(12, 107, 107);">{{ item.title }}</a></td>
+                <td>{{ item.order_id }}</td>
+                <td>
+                    <h6 *ngIf="item.child !== null && item.child !== undefined">{{ item.child }}</h6>
+                    <h6 *ngIf="item.child === null || item.child === undefined">Null</h6>
+                </td>
+                <td>
+                    <div class="button-container">
+                        <button *ngIf="item.active === 'Y'" type="button"
+                            class="btn btn-outline-danger round-button" class="btn btn-outline-success round-button" (click)="deActivateFieldValue(item)"
+                            (mouseenter)="setHoveredRowIndex(x)" (mouseleave)="setHoveredRowIndex(null)">
+                            Activate  
+                        </button>
+                        <button *ngIf="item.active === 'N'" type="button"
+                        class="btn btn-outline-danger round-button" (click)="activateFieldValue(item)"
+                            (mouseenter)="setHoveredRowIndex(x)" (mouseleave)="setHoveredRowIndex(null)">
+                           Deactivate
+                        </button>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
+
+
+                <ng-container *ngIf="!ff || ff.length === 0">
+                    <p>No items available.</p>
+                    <!-- Optionally display a message or handle the case where ff is empty -->
+                </ng-container>
+            </mat-card>
+
+        </div>
+    </div>
+</div>
+<div bsModal #AddModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="two-button-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ADD SCREEN</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeaddModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Add title here -->
+                <input type="text" class="form-control" placeholder="Enter your Form Name" [(ngModel)]="ft">
+            </div>
+            <div class="modal-body" *ngIf="ft">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dataType">Select Data Type:</label>
+                        <select id="dataType" [(ngModel)]="selectedFormType" name="dataType" class="form-control" >
+                            <option disabled [selected]="!selectedFormType" value="">Select Data Type</option>
+                            <option *ngFor="let field of formtypes" [value]="field.title">{{ field.title }}</option>
+                        </select>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="campaign">Select Campaign:</label>
+                        <select id="campaign" class="form-control" [(ngModel)]="selectedCampaignId">
+                            <option disabled [selected]="!selectedCampaignId" value="">Select Campaign</option>
+                            <option *ngFor="let campaign of Campaigns" [value]="campaign.id">{{ campaign.title }}</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brand">Select Brand:</label>
+                        <select id="brand" class="form-control" [(ngModel)]="selectedBrandId">
+                            <option disabled [selected]="!selectedBrandId" value="">Select Brand</option>
+                            <option *ngFor="let brand of Brands" [value]="brand.id">{{ brand.title }}</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="modal-footer" *ngIf="ft && selectedFormType && selectedCampaignId && selectedBrandId">
+                <!-- Button only appears when all requirements are completed -->
+                <button type="button" class="btn btn-primary" (click)="addform()">Add New Form</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+<div bsModal #AddNewFeildModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>{{formtitle}}</h1>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideAddnewfeild()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newFieldTitle">Add Field:</label>
+                    <input type="text" class="form-control" id="newFieldTitle" placeholder="Enter your Question" [(ngModel)]="newFieldtitle">
+                </div>
+                <div class="form-group">
+                    <label for="newFeildType">Select Data Type:</label>
+                    <select *ngIf="newFieldtitle" [(ngModel)]="newfeildtype" (change)="updateOptions()" class="form-control">
+                        <option disabled selected value="">Select Data Type</option>
+                        <option *ngFor="let field of fieldOptions" [value]="field">{{ field }}</option>
+                    </select>
+                </div>
+                
+                <!-- Add input field for rating -->
+                <div *ngIf="newfeildtype === 'rating'">
+                    <div class="form-group">
+                        <label for="ratingValue">Rating Value:</label>
+                        <input type="number" class="form-control" id="ratingValue" placeholder="Enter rating value" [(ngModel)]="ratingValue">
+                    </div>
+                </div>
+                
+                <div *ngIf="newfeildtype !== 'form' && newfeildtype !== 'text_field' && newfeildtype !== 'image' && newfeildtype !== 'Select Data Type' && newfeildtype !== 'rating' && newfeildtype">
+                    <div class="form-group">
+                        <label for="numberOfOptions">Number of Options:</label>
+                        <input type="number" class="form-control" id="numberOfOptions" placeholder="Enter number of options" [(ngModel)]="numberOfOptions">
+                    </div>
+                    
+                    <!-- Button to trigger option creation -->
+                    <button type="button" class="btn btn-primary" (click)="addOption()">Add Option</button>
+
+                    <div *ngFor="let option of options; let i = index" class="form-group">
+                        <label for="option{{ i + 1 }}">Option {{ i + 1 }}:</label>
+                        <input type="text" class="form-control" id="option{{ i + 1 }}" [(ngModel)]="option.value">
+                        <button type="button" class="btn btn-danger" (click)="removeOption(i)">Remove</button>
+                    </div>
+                </div>
+            </div> <!-- Closing modal-body div -->
+            <div class="modal-footer">
+                <!-- Add button placed inside modal footer -->
+                <button type="button" class="btn btn-primary" (click)="addFields()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div bsModal #CaptureModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="two-button-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{fieldTitle}}</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hc()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="fieldValueInput">Field Value Title:</label>
+        <input type="text" id="fieldValueInput" class="form-control" placeholder="Enter your Field Value" [(ngModel)]="naam">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="addFieldValueWithPrompt(item, op)">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="objg && toggelView === false" style="height: 300px; overflow-y: auto;">
+  <div>
+    <button type="button" class="btn btn-primary" (click)="gobutton()">Toggle</button>
+    <div>
+     
+      <div class="pop"*ngFor="let item of objg; let i = index; trackBy: trackByFn" class="question-container">
+        <div class="question">
+          <span class="question-label">Question {{ i + 1 }}:</span>
+          {{ item.feildtitle }}
+        </div>
+    
+       <!-- For single_selection (radio buttons) -->
+       <!-- item.formvalue_ids.length > 1 && -->
+<div *ngIf=" item.datatype === 'single_selection'" class="answers">
+  <div *ngFor="let itemId of item.formvalue_titles; let j = index">
+    <label for="{{ item.itemId }}_radio{{ j + 1 }}" class="answer-label">{{ itemId }}  </label>
+    <input type="radio" id="{{ item.itemId }}_radio{{ j + 1 }}" name="{{ item.itemId }}_radioGroup" >
+   
+  </div>
+</div>
+
+<!-- For multi_text (checkboxes) -->
+<div *ngIf=" item.datatype === 'multi_selection'" class="answers">
+  <div *ngFor="let itemId of item.formvalue_titles; let j = index">
+    <label for="{{ item.itemId }}_checkbox{{ j + 1 }}" class="answer-label">{{ itemId }}  </label>
+    <input type="checkbox" id="{{ item.formvalue_titles }}_checkbox{{ j + 1 }}" >
+   
+  </div>
+</div>
+
+    
+        <!-- Add an input field only when the length is 1 -->
+        <div *ngIf="item.datatype === 'text_field'" class="answer-input">
+          <!-- Text Input -->
+          <input type="text" placeholder="Enter Answer">
+        </div>
+        <div *ngIf="item.datatype === 'image'" class="answer-input">
+          <!-- Text Input -->
+          <input type="file" placeholder="Select Image">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #FormPropertiesModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false }" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="two-button-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>{{propFormTitle}}</h1>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideFormProperties()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formProperties" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="campaign">Form Type:</label>
+                        <select id="formType" formControlName="formType" class="form-control">
+                            <option disabled [selected]="!formProperties.get('formType').value" value="">Select Form Type</option>
+                            <option *ngFor="let field of formtypes" [value]="field.title">{{ field.title }}</option>
+                        </select>
+                        <div *ngIf="formProperties.get('formType').hasError('required') && formProperties.get('formType').touched">
+                            Form Type is required.
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="brand">Title:</label>
+                        <input type="text" id="title" formControlName="title" class="form-control">
+                        <div *ngIf="formProperties.get('title').hasError('required') && formProperties.get('title').touched">
+                            Title is required.
+                        </div>
+                        <div *ngIf="formProperties.get('title').hasError('maxlength') && formProperties.get('title').touched">
+                            Title cannot exceed 50 characters.
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="campaign">Select Campaign:</label>
+                        <select id="campaign" formControlName="campaignId" class="form-control">
+                            <option disabled [selected]="!formProperties.get('campaignId').value" value="">Select Campaign</option>
+                            <option *ngFor="let campaign of Campaigns" [value]="campaign.id">{{ campaign.title }}</option>
+                        </select>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="brand">Select Brand:</label>
+                        <select id="brand" formControlName="brandId" class="form-control">
+                            <option disabled [selected]="!formProperties.get('brandId').value" value="">Select Brand</option>
+                            <option *ngFor="let brand of Brands" [value]="brand.id">{{ brand.title }}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button
+                    (click)="updatingFormProperties(formProperties.value)"
+                    class="mr-1"
+                    [disabled]="!formProperties.valid"
+                    mat-raised-button
+                    color="primary"
+                >Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #FieldPropertiesModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="two-button-modal">
+    <div class="modal-dialog modal-lg" role="document"> <!-- Added modal-lg class for larger modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">{{formtitle}}</h2> <!-- Added modal-title class -->
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideFieldProperties()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="fieldProperties" enctype="multipart/form-data">
+                    <div class="form-group"> <!-- Added form-group class -->
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" formControlName="title" class="form-control"> <!-- Added form-control class -->
+                        <div *ngIf="fieldProperties.get('title').hasError('required') && fieldProperties.get('title').touched" class="text-danger">
+                            Title is required.
+                        </div>
+                        <div *ngIf="fieldProperties.get('title').hasError('maxlength') && fieldProperties.get('title').touched" class="text-danger">
+                            Title cannot exceed 50 characters.
+                        </div>
+                    </div>
+
+                    <div *ngIf="fieldProperties && fieldProperties.get('fieldType') && fieldProperties.get('fieldType').value !== 'single_selection' && fieldProperties.get('fieldType').value !== 'multi_selection'">
+                        <div class="form-group">
+                            <label for="minLength">Min Length:</label>
+                            <input type="number" id="minLength" formControlName="minLength" class="form-control">
+                            <div *ngIf="fieldProperties.get('minLength').hasError('required') && fieldProperties.get('minLength').touched" class="text-danger">
+                                Min Length is required.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fieldLength">Field Length:</label>
+                            <input type="number" id="fieldLength" formControlName="fieldLength" class="form-control">
+                            <div *ngIf="fieldProperties.get('fieldLength').hasError('required') && fieldProperties.get('fieldLength').touched" class="text-danger">
+                                Field Length is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="fieldProperties.get('fieldType').value === 'single_selection' || fieldProperties.get('fieldType').value === 'multi_selection'" class="form-group">
+                        <label for="fieldType">Field Type:</label>
+                        <select id="fieldType" formControlName="fieldType" class="form-control">
+                            <option disabled selected value="">Select Data Type</option>
+                            <option *ngFor="let i of list" [value]="i">{{ i }}</option>
+                        </select>
+                        <div *ngIf="fieldProperties.get('fieldType').hasError('required') && fieldProperties.get('fieldType').touched" class="text-danger">
+                            Select Appropriate FieldType
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="updatingFieldInfo(fieldProperties.value)" class="btn btn-primary" [disabled]="!fieldProperties.valid">
+                    Upload
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div bsModal #logicModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="two-button-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>{{formtitle}}</h3>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="closeLogicModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="logicProperties " enctype="multipart/form-data">
+              <!-- <div class="form-group">
+                <label for="formFieldId">Form Field ID:</label>
+                <input type="text" id="formFieldId" formControlName="formFieldId" class="form-control" />
+                <div *ngIf="logicProperties.get('formFieldId').hasError('required')" class="text-danger">
+                  Form Field ID is required.
+                </div>
+              </div> -->
+            
+              <!-- <div class="form-group">
+                <label for="fieldValueId">Field Value ID:</label>
+                <input type="text" id="fieldValueId" formControlName="fieldValueId" class="form-control" />
+                <div *ngIf="logicProperties.get('fieldValueId').hasError('required')" class="text-danger">
+                  Field Value ID is required.
+                </div>
+              </div> -->
+            
+              <div class="form-group">
+                <!-- <label for="gotoFormFieldId">GO WHERE</label>
+                <input type="text" id="gotoFormFieldId" formControlName="gotoFormFieldId" class="form-control" />
+                <div *ngIf="logicProperties.get('gotoFormFieldId').hasError('required')" class="text-danger">
+                  Goto Form Field ID is required.
+                </div> -->
+              
+
+              <label for="formType">go where:</label>
+              <select id="gotoFormFieldId" formControlName="gotoFormFieldId">
+                  <option disabled [selected]="!gotoFormFieldId" value="">SELECT</option>
+                  <option *ngFor="let field of logicFields" [value]="field.id">{{ field.title }}</option>
+                  <div *ngIf="logicProperties.get('gotoFormFieldId').hasError('required')" class="text-danger">
+                    Goto Form Field ID is required.
+                  </div>
+                </select></div>
+            
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" [disabled]="!logicProperties.valid" class="btn btn-warning" (click)="applyLogic(logicProperties.value)">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
