@@ -63,6 +63,8 @@ import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandisi
 import { SurmonComponent } from "src/app/surmon/surmon.component";
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
+import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
+
 const routes: Routes = [
   {
     path: "",
@@ -116,6 +118,10 @@ const routes: Routes = [
       {
         path: "app-surmon",
         component: SurmonComponent,
+      },
+      {
+        path: "app-new-surmon",
+        component: NewSurmonComponent,
       },
       {
         path: "app-upload-merchandising-shop-task",

@@ -3,7 +3,7 @@
   background-color: rgb(238, 137, 5);
 } */
 .lemon-modal {
-  background-color: rgb(255, 255, 255);
+  z-index: 1050; /* or any value higher than other elements */
 }
 
 .lemon-modal-content
@@ -104,10 +104,10 @@ pop {
 }
 
 /* Override Bootstrap styles for striped rows */
-.custom-table tbody tr:nth-of-type(odd) {
+/* .custom-table tbody tr:nth-of-type(odd) {
   background-color:rgb(233, 233, 233)
-  /* // #adecbb;  */
-}
+ 
+} */
 
 /* Override Bootstrap styles for bordered cells */
 .custom-table td, .custom-table th {

@@ -1,74 +1,56 @@
-<div bsModal #formslistModal="bs-modal" class="modal fade container-fluid lemon-modal" tabindex="-1" role="dialog"
-  aria-labelledby="two-button-modal" [config]="{ backdrop: 'static', keyboard: false }" tabindex="-1" role="dialog"
-  aria-labelledby="dialog-child-name">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 id="dialog-child-name" class="modal-title">SELECT OR ADD NEW SCREEN</h1>
 
-        <!-- Add New Button (Right Side, Under the Title) -->
-        <button type="button" class="close" aria-label="Close" (click)="closeFormList()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <mat-card>
-        <!-- Table of options -->
-        <button type="button"  class="btn btn-primary" (click)="showaddModal()">Add New</button>
-        <table class="table table-hover mb-0 custom-table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Title</th>
-              <th scope="col">type</th>
-              <th scope="col">Lastupdated</th>
-              <th scope="col">Fields</th>
-              <!-- <th scope="col">Status</th> -->
-              <th scope="col">Status</th> 
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of obj; let x = index"
-    [class.inactive-background]="item.active === 'N'"
-    [class.hover-effect-active]="hoveredRowIndex === x && item.active === 'Y'"
-    [class.hover-effect-inactive]="hoveredRowIndex === x && item.active === 'N'">
-              <th scope="row">{{ x + 1 }}</th>
-              <td><a role="button" (click)="gettingformProperties(item)" style="cursor: pointer; color: rgb(0, 0, 255);">{{ item.title }}</a></td>
-              <td>{{ item.ft }}</td>
-              <td>{{ item.formatted_last_updated }}</td>
-              <td>
+<div *ngIf="showForms" class="container-fluid">
+    <h1 id="dialog-child-name">SELECT OR ADD NEW SCREEN</h1>
+    <mat-card>
+      <!-- Add New Button -->
+      <button type="button" class="btn btn-primary" (click)="showaddModal()">Add New</button>
+      <!-- Table of options -->
+      <table class="table table-hover mb-0 custom-table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Type</th>
+            <th scope="col">Last Updated</th>
+            <th scope="col">Fields</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of obj; let x = index"
+              [class.inactive-background]="item.active === 'N'"
+              [class.hover-effect-active]="hoveredRowIndex === x && item.active === 'Y'"
+              [class.hover-effect-inactive]="hoveredRowIndex === x && item.active === 'N'">
+            <th scope="row">{{ x + 1 }}</th>
+            <td><a role="button" (click)="gettingformProperties(item)" style="cursor: pointer; color: rgb(0, 0, 255);">{{ item.title }}</a></td>
+            <td>{{ item.ft }}</td>
+            <td>{{ item.formatted_last_updated }}</td>
+            <td>
                 <a *ngIf="item.active === 'Y'" role="button" (click)="getforminfo(item)" style="cursor: pointer; color: rgb(0, 0, 255);">{{ item.field_count }}</a>
                 <span *ngIf="item.active !== 'Y'">{{ item.field_count }}</span>
-              </td>
-              
-              <!-- <td>
-                <h6 *ngIf="item.active==='Y'">Active</h6>
-                <h6 *ngIf="item.active==='N'">Inactive</h6>
-              </td> -->
-              <td>
-                <div class="button-container">
-                  <button *ngIf="item.active === 'Y'" type="button" style="width: 100px; padding: 5px 10px; font-size: 16px; height: 40px;"  class="btn btn-primary round-button" 
-                      (click)="deActivateForm(item)" 
-                      (mouseenter)="setHoveredRowIndex(x)" 
-                      (mouseleave)="setHoveredRowIndex(null)">
-                      Activate
-                  </button>
-                  <button *ngIf="item.active === 'N'" style="width: 100px; padding: 5px 10px; font-size: 16px; height: 40px;" type="button" class="btn btn-danger round-button"
-                      (click)="activateForm(item)" 
-                      (mouseenter)="setHoveredRowIndex(x)" 
-                      (mouseleave)="setHoveredRowIndex(null)">
-                      Deactivate
-                  </button>
+            </td>
+            <td>
+              <div class="button-container">
+                <button *ngIf="item.active === 'Y'" type="button" style="width: 100px; padding: 5px 10px; font-size: 16px; height: 40px;" class="btn btn-primary round-button" 
+                    (click)="deactivateForm(item)" 
+                    (mouseenter)="setHoveredRowIndex(x)" 
+                    (mouseleave)="setHoveredRowIndex(null)">
+                    Activate
+                </button>
+                <button *ngIf="item.active === 'N'" style="width: 100px; padding: 5px 10px; font-size: 16px; height: 40px;" type="button" class="btn btn-danger round-button"
+                    (click)="activateForm(item)" 
+                    (mouseenter)="setHoveredRowIndex(x)" 
+                    (mouseleave)="setHoveredRowIndex(null)">
+                    Deactivate
+                </button>
               </div>
-              
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card>
-    </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card>
   </div>
-</div>
-
+  
 <div *ngIf="toggelView">
     <div *ngIf="formtitle">
         <mat-card class="header">
@@ -79,9 +61,9 @@
     </div>
     <div>
         <!-- <button type="button" class="btn btn-outline-warning pull-right" (click)="showaddModal()">Add NewForm</button> -->
-        <button type="button" class="btn btn-primary" (click)="showAddnewfeild()" style="margin-right: 10px;">Add New Field</button>
-<button type="button" class="btn btn-primary" (click)="ngOnInit()" style="margin-right: 10px;">Form List</button>
-<button type="button" class="btn btn-primary" (click)="viewFormPattern()">Toggle View</button>
+        <button type="button" class="btn btn-primary" (click)="showAddnewfeild()" style="margin-right: 10px;margin-top: 10px;margin-bottom: 10px;">Add New Field</button>
+<button type="button" class="btn btn-primary" (click)="toggleDiv()" style="margin-right: 10px;margin-top: 10px;margin-bottom: 10px;">Form List</button>
+<button type="button" class="btn btn-primary" style="margin-top: 10px;margin-bottom: 10px;" (click)="viewFormPattern()">Toggle View</button>
 
         <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar"></div> -->
         <table class="table table-hover mb-0 custom-table">
@@ -125,7 +107,7 @@
                             {{ ['text_field', 'date', 'image', 'exist_question'].includes(item.field_type) ? 0 : item.options }}
                         </a>
                     </td>
-                    <td>{{ item.order_id }}</td>
+                    <td>{{ item.order_id}}</td>
                     <td>
                         <div class="button-container">
                             <button type="button" style="border: none;"
@@ -345,12 +327,12 @@
         <input type="text" id="fieldValueInput" class="form-control" placeholder="Enter your Field Value" [(ngModel)]="naam">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning" (click)="addFieldValueWithPrompt(item, op)">Save</button>
+        <button type="button" class="btn btn-primary" (click)="addFieldValueWithPrompt(item, op)">Save</button>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="objg && toggelView === false" style="height: 300px; overflow-y: auto;">
+<div *ngIf="objg && toggelView === false" style="height: 300px;">
   <div>
     <button type="button" class="btn btn-primary" (click)="gobutton()">Toggle</button>
     <div>
@@ -567,7 +549,7 @@
             
           </div>
           <div class="modal-footer">
-            <button type="button" [disabled]="!logicProperties.valid" class="btn btn-warning" (click)="applyLogic(logicProperties.value)">Save</button>
+            <button type="button" [disabled]="!logicProperties.valid" class="btn btn-primary" (click)="applyLogic(logicProperties.value)">Save</button>
           </div>
         </div>
       </div>
