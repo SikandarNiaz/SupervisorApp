@@ -64,6 +64,7 @@ import { SurmonComponent } from "src/app/surmon/surmon.component";
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
 import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
+import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
 
 const routes: Routes = [
   {
@@ -234,6 +235,7 @@ const routes: Routes = [
   { path: "random-selfies", component: RandomSelfiesComponent },
   { path: "shopper-engagement", component: ShopperEngagementComponent },
   { path: "push-notification", component: PushNotificationComponent },
+  { path: "UploadTarget-Vs-AcheivementComponent", component: UploadTargetVsAchievementComponent },
 ];
 
 @NgModule({

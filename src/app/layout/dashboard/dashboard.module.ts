@@ -109,6 +109,7 @@ import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandisi
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
 import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
+import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
 
 @NgModule({
   imports: [
@@ -218,7 +219,8 @@ import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
   UploadMerchandisingShopTaskComponent,
   PushNotificationComponent,
   ShopperEngagementComponent,
-  NewSurmonComponent
+  NewSurmonComponent,
+  UploadTargetVsAchievementComponent
 ],
 })
 export class DashboardModule {}
