@@ -166,6 +166,7 @@ export class ASMHomeComponent implements OnInit {
     this.httpService.getShopDetails(obj).subscribe(
       (data) => {
         if (data) {
+          debugger
           this.data = data;
           this.surveyDetails = this.data.shopDetails.surveyDetails;
           document.title = this.data.section[0].sectionTitle;
@@ -175,7 +176,7 @@ export class ASMHomeComponent implements OnInit {
           } else if (
             (this.userType == this.evaluatorRole ||
               this.userType == this.amRole) &&
-            this.surveyDetails.status == "Pending" ||this.surveyDetails.status == "Approved" && this.surveyDetails.asmStatus == "Pending"
+            this.surveyDetails.status == "Approved" && this.surveyDetails.asmStatus == "Pending"
           ) {
             this.isEditable = true;
             this.showCriteria = true;

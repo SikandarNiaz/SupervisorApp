@@ -953,14 +953,28 @@ deActivateFieldValue(obj){
     return this.http.post(url, body, this.httpOptions);
   }
 
+  uploadTargetVsAchievement(obj) {
+    const url = this.ip + "/uploadTargetVsAchievement";
+    return this.http.post(url, obj);
+  }
 
+  downloadFile(obj, url) {
+    let path;
 
+    path = this.ip + url;
 
+    const form = document.createElement("form");
 
+    form.setAttribute("action", path);
 
+    form.setAttribute("method", "post");
 
+    document.body.appendChild(form);
 
+    this.appendInputToForm(form, obj);
 
+    form.submit();
 
-
+    document.body.removeChild(form);
+  }
 }
