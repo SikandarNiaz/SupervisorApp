@@ -60,10 +60,9 @@ import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-T
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
 import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
-import { SurmonComponent } from "src/app/surmon/surmon.component";
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
-import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
+import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
 
 const routes: Routes = [
   {
@@ -115,15 +114,11 @@ const routes: Routes = [
         path: "pgjordan-summary-dashboard",
         component: PgjordanDashboardComponent,
       },
-      {
-        path: "app-surmon",
-        component: SurmonComponent,
+           {
+        path: "app-new-screen",
+        component:  NewScreenComponent,
       },
-      {
-        path: "app-new-surmon",
-        component: NewSurmonComponent,
-      },
-      {
+           {
         path: "app-upload-merchandising-shop-task",
         component: UploadMerchandisingShopTaskComponent,
       },

@@ -104,11 +104,10 @@ import { ShowTLDistributionSwappedDataComponent } from "./innerComponents/show-T
 import { MarketIntelligenceDetailComponent } from "./innerComponents/market-intelligence-detail/market-intelligence-detail.component";
 import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-selfies.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SurmonComponent } from "src/app/surmon/surmon.component";
 import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
-import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
+import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
 
 @NgModule({
   imports: [
@@ -213,12 +212,11 @@ import { NewSurmonComponent } from "src/app/new-surmon/new-surmon.component";
   ShowTLDistributionStockDataComponent,
   ShowTLDistributionSwappedDataComponent,
   MarketIntelligenceDetailComponent,
-  RandomSelfiesComponent,
-  SurmonComponent, 
+  RandomSelfiesComponent, 
   UploadMerchandisingShopTaskComponent,
   PushNotificationComponent,
   ShopperEngagementComponent,
-  NewSurmonComponent
+  NewScreenComponent
 ],
 })
 export class DashboardModule {}

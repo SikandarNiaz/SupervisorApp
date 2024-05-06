@@ -947,6 +947,11 @@ deActivateFieldValue(obj){
     const url = this.ip + "portal/ndn/deactivateForm";
     return this.http.post(url, body, this.httpOptions);
   }
+  childVisibility(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/childVisibility";
+    return this.http.post(url, body, this.httpOptions);
+  }
 
 
 
