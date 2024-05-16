@@ -16,6 +16,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import {NgxSpinnerService} from 'ngx-spinner';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDatepicker } from "@angular/material/datepicker";
 
 
 
@@ -108,6 +109,8 @@ import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandisi
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
 import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
+import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
+import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-assets/upload-distribution-assets.component";
 
 
 @NgModule({
@@ -150,8 +153,7 @@ import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
     NgxImageZoomModule,
     LightboxModule,
     NgxSpinnerModule,
-    MatTabsModule,
-    MatDatepickerModule
+    MatTabsModule
   ],
   declarations: [
     SectionElevenViewComponent,
@@ -217,7 +219,9 @@ import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
   UploadMerchandisingShopTaskComponent,
   PushNotificationComponent,
   ShopperEngagementComponent,
-  NewScreenComponent
+  NewScreenComponent,
+  UploadTargetVsAchievementComponent,
+  UploadDistributionAssetsComponent
 ],
 })
 export class DashboardModule {}

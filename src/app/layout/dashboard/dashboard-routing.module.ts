@@ -62,10 +62,9 @@ import { RandomSelfiesComponent } from "./innerComponents/random-selfies/random-
 import { UploadMerchandisingShopTaskComponent } from "src/app/upload-merchandising-shop-task/upload-merchandising-shop-task.component";
 import { PushNotificationComponent } from "./innerComponents/push-notification/push-notification.component";
 import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement/shopper-engagement.component";
- 
-import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
-
+ import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
 import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
+import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-assets/upload-distribution-assets.component";
 
 
 const routes: Routes = [
@@ -118,10 +117,7 @@ const routes: Routes = [
         path: "pgjordan-summary-dashboard",
         component: PgjordanDashboardComponent,
       },
-           {
-        path: "app-new-screen",
-        component:  NewScreenComponent,
-      },
+          
            {
         path: "app-upload-merchandising-shop-task",
         component: UploadMerchandisingShopTaskComponent,
@@ -234,6 +230,14 @@ const routes: Routes = [
   { path: "shopper-engagement", component: ShopperEngagementComponent },
   { path: "push-notification", component: PushNotificationComponent },
   { path: "UploadTarget-Vs-AcheivementComponent", component: UploadTargetVsAchievementComponent },
+  {
+    path: "app-upload-distribution-assets",
+    component:  UploadDistributionAssetsComponent,
+  },
+  {
+    path: "app-new-screen",
+    component:  NewScreenComponent,
+  },
 ];
 
 @NgModule({

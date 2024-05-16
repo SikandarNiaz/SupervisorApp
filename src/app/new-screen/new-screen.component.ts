@@ -1,5 +1,3 @@
-
-
 import { Component, AfterViewInit, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -7,6 +5,7 @@ import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
 import { ToastrService } from 'ngx-toastr';
 import { id } from 'date-fns/locale';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 
 @Component({
@@ -124,7 +123,7 @@ export class NewScreenComponent  implements OnInit {
   fty: String;//forgettingnewform
   newformobj2: { id: any; title: any; };
   options: any[] = [];
-  numberOfOptions: number;
+  numberOfOptions: number = 0;
   objq: any[];
   objg: any[];
   rating: any;
@@ -193,7 +192,6 @@ export class NewScreenComponent  implements OnInit {
       }
     );
   }
-
   gettingCompaign() {
     this.dashboardService.gettingCampaigns().subscribe(
       (response: any[]) => {
@@ -420,6 +418,7 @@ export class NewScreenComponent  implements OnInit {
 
   addOption() {
     this.options.push({ value: '' });
+    this.numberOfOptions = this.options.length; 
   }
 
   removeOption(index: number) {
@@ -864,6 +863,26 @@ export class NewScreenComponent  implements OnInit {
     this.logicModal.hide();
 
   }
+  handleChange(item: any) {
+    const data = {
+selectedFormFieldId : item.form_field_id,
+  selectedFieldId:item.id,
+  selectedValue:  item.selected 
+    }
+   console.log("Data",data)
+   this.dashboardService.selectedFieldValues(data).subscribe(
+    (res: any) => {
+
+      this.toaster.success('Successfully updated')
+      this.FvModal.hide();
+      console.log("calling after updating form attributes");
+    },
+    (error) => {
+      console.log(error, 'error');
+    },
+  );
+  }
+  
   logicFieldList(item) {
     const data = {
       formId: this.formid
@@ -925,7 +944,7 @@ export class NewScreenComponent  implements OnInit {
         this.closeLogicModal();
         this.toaster.success('Successfully added')
         console.log("calling after updating form attributes")
-        this.getformslist();
+        // this.getformslist();
       },
       (error) => {
         this.loadingData = false;

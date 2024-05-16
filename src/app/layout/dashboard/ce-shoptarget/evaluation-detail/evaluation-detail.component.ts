@@ -151,7 +151,7 @@ export class EvaluationDetailComponent implements OnInit {
       );
 
   }
-
+  
   zoneChange() {
     this.loading = true;
     this.selectedRegion.id = -1;

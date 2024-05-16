@@ -113,6 +113,11 @@
               mat-raised-button color="primary" style="margin-bottom: 5px">
               Assign
             </button>
+            <button [disabled]="loadingData" (click)="goToUpdateTargetPage(item)"
+              mat-raised-button color="primary" style="margin-bottom: 5px; margin-left: 10px;">
+              Target
+            </button>
+            
           </mat-card>
         </ng-container>
       </div>
@@ -398,3 +403,113 @@
     </div>
   </div>
 </div>
+
+<div bsModal #ShopTargetDetail="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h5 class="modal-title">{{ products && products.length > 0 ? products[0]?.sectionTitle : 'Enter Answers' }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="hc()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <table class="table table-bordered table-hover w-100">
+          <thead>
+            <tr>
+              <th style="width: 60%;">Question</th>
+              <th style="width: 40%;">Answer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="products && products.length > 0; else noProducts">
+              <ng-container *ngFor="let product of products">
+                <tr *ngFor="let question of product.sectionArray; let i = index">
+                  <td>{{ question.question }}</td>
+                  <td>
+                    <input type="text" [(ngModel)]="question.answer" style="width: 100%;" (change)="updateAssignShop(question)" />
+                  </td>
+                </tr>
+            
+            <tr>
+              <td>Brand</td>
+              <td>
+                <select [(ngModel)]="selectedBrand" style="width: 100%;" (change)="updateAssignShop({ question: 'Brand', answer: selectedBrand })">
+                  <!-- <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.title }}</option> -->
+                  <option *ngFor="let brand of brands" [value]="brand.id" [selected]="brand.id === selectedBrand">{{ brand.title }}</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Sku</td>
+              <td>
+                <select [(ngModel)]="selectedForm" style="width: 100%;" (change)="updateAssignShop({ question: 'Sku', answer: selectedForm })">
+                  <option *ngFor="let form of forms" [value]="form.id" [selected]="form.id === selectedForm">{{ form.title }}</option>
+                </select>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+            
+          
+            <ng-template #noProducts>
+              <tr>
+                <td>
+                  Brand
+                </td>
+                <td>
+                  <select [(ngModel)]="selectedBrand" style="width: 100%;">
+                    <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.title }}</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Sku
+                </td>
+                <td>
+                  <select [(ngModel)]="selectedForm" style="width: 100%;">
+                    <option *ngFor="let form of forms" [value]="form.id">{{ form.title }}</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Total Interception
+                </td>
+                <td>
+                  <input #totalInterception type="text"  style="width: 100%;" [value]="-1"  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Successful Interception
+                </td>
+                <td>
+                  <input #successfulInterception type="text"  style="width: 100%;" [value]="-1"  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Total Sale
+                </td>
+                <td>
+                  <input  #totalSaleInput type="text" style="width: 100%;"/>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: right;">
+                  <button class="btn btn-primary" (click)="submitShopBrandTarget(selectedBrand, totalSaleInput.value, selectedForm, totalInterception.value, successfulInterception.value)">Submit</button>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -849,6 +849,11 @@ gettingBrands() {
   const filter = JSON.stringify({ act: 37 });
   return this.http.post(url, filter);
 }
+gettingSkuType() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 41 });
+  return this.http.post(url, filter);
+}
   gettingFormTypes(){
     // const body = this.UrlEncodeMaker();
  const url = this.ip + "portal/ndn/getformstypes";
@@ -938,6 +943,11 @@ deActivateFieldValue(obj){
     const url = this.ip + "portal/ndn/logicfieldlist";
     return this.http.post(url, body, this.httpOptions);
   }
+  selectedFieldValues(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/portal/ndn/selectedvalue";
+    return this.http.post(url, body, this.httpOptions);
+  }
   applyLogic(obj){
     const url = this.ip + "portal/ndn/formlogic";
     return this.http.post(url, obj);
@@ -952,12 +962,32 @@ deActivateFieldValue(obj){
     const url = this.ip + "portal/ndn/childVisibility";
     return this.http.post(url, body, this.httpOptions);
   }
+  
+  getShopDetails(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/evaluationManager";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  updateShopData(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "update-shop-Target"; // -------> UpdateShopTargets
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
+
+  updateShopBrandTarget(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "update-shop-brand-target"; // -------> ShopBrandTarget
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
 
   uploadTargetVsAchievement(obj) {
     const url = this.ip + "/uploadTargetVsAchievement";
     return this.http.post(url, obj);
   }
-
+  uploadDistributionAssets(obj) {
+    const url = this.ip + "/uploadDistributionAssets";
+    return this.http.post(url, obj);
+  }
   downloadFile(obj, url) {
     let path;
 
