@@ -676,10 +676,9 @@
             [(ngModel)]="newFieldtitle"
           />
         </div>
-        <div class="form-group">
+        <div *ngIf="newFieldtitle" class="form-group">
           <label for="newFeildType">Select Data Type:</label>
           <select
-            *ngIf="newFieldtitle"
             [(ngModel)]="newfeildtype"
             (change)="updateOptions()"
             class="form-control"
@@ -703,6 +702,17 @@
             />
           </div>
         </div>
+        <div *ngIf="newfeildtype === 'date'">
+          <div class="form-group">
+            <label for="dateValue">Select Date:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dateValue"
+              [(ngModel)]="dateValue"
+            />
+          </div>
+        </div>
         <div
           *ngIf="
             newfeildtype !== 'form' &&
@@ -710,6 +720,9 @@
             newfeildtype !== 'image' &&
             newfeildtype !== 'Select Data Type' &&
             newfeildtype !== 'rating' &&
+            newfeildtype !== 'date'  &&
+            newfeildtype !== 'multi_text'  &&
+            newfeildtype !== 'exist_question'  &&
             newfeildtype
           "
         >
@@ -981,59 +994,68 @@
         <span class="question-label">Question {{ i + 1 }}:</span>
         {{ item.feildtitle }}
       </div>
+
+      <!-- For single_selection (radio buttons) -->
       <div *ngIf="item.datatype === 'single_selection' && item.fieldtype === 'NORMAL'" class="answers">
         <div *ngFor="let itemId of item.formvalue_titles; let j = index">
           <label for="{{ item.itemId }}_radio{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
           <input type="radio" id="{{ item.itemId }}_radio{{ j + 1 }}" name="{{ item.itemId }}_radioGroup" (change)="childVisibility(item.formvalue_ids[j], i)" />
         </div>
-        <div *ngFor="let ob of objr; let i = index">
-          <div *ngIf="objr && objr.length > 0 && ob.ffid === item.formfeild_id">
+
+        <!-- Nested child questions based on objr -->
+        <div *ngFor="let ob of objr; let k = index">
+          <div *ngIf="objr.length > 0 && ob.ffid === item.formfeild_id">
             <span class="question-label">Question:</span>
             {{ ob.field }}
+
+            <!-- Inner single_selection (radio buttons) -->
             <div *ngIf="ob.datatype === 'single_selection'" class="answers">
               <div *ngFor="let data of ob.field_values.split(','); let j = index">
                 <label for="{{ ob.field }}_radio{{ j + 1 }}" class="answer-label">{{ data }}</label>
                 <input type="radio" id="{{ ob.field }}_radio{{ j + 1 }}" name="{{ ob.field }}_radioGroup" />
-                <!-- <input type="radio" id="{{ ob.field }}_radio{{ j + 1 }}" name="{{ ob.field }}_radioGroup" (change)="childVisibility(ob.formvalue_ids[j], i)" /> -->
               </div>
             </div>
+
+            <!-- Inner multi_selection (checkboxes) -->
             <div *ngIf="ob.datatype === 'multi_selection'" class="answers">
               <div *ngFor="let data of ob.field_values.split(','); let j = index">
                 <label for="{{ ob.field }}_checkbox{{ j + 1 }}" class="answer-label">{{ data }}</label>
                 <input type="checkbox" id="{{ ob.field }}_checkbox{{ j + 1 }}" />
               </div>
             </div>
-            <div *ngIf="ob.datatype === 'text_field' || ob.datatype === 'image' || ob.datatype === 'form' || ob.datatype === 'date'" class="answers">
+
+            <!-- Inner other input types (text, image, date, form) -->
+            <div *ngIf="['text_field', 'image', 'form', 'date'].includes(ob.datatype)" class="answers">
               <input *ngIf="ob.datatype === 'text_field'" type="text" placeholder="Enter Answer" />
               <input *ngIf="ob.datatype === 'image'" type="file" placeholder="Select Image" />
               <button *ngIf="ob.datatype === 'form'" type="submit">Submit</button>
               <div *ngIf="ob.datatype === 'date'" class="date-input-container">
                 <input type="date" />
                 <i class="fas fa-calendar-alt" (click)="openDatePicker()"></i>
-            </div>
-              <!-- <input *ngIf="ob.datatype === 'date'" type="text" /> -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- For multi_text (checkboxes) -->
+
+      <!-- For multi_selection (checkboxes) -->
       <div *ngIf="item.datatype === 'multi_selection' && item.fieldtype === 'NORMAL'" class="answers">
         <div *ngFor="let itemId of item.formvalue_titles; let j = index">
           <label for="{{ item.itemId }}_checkbox{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
           <input type="checkbox" id="{{ item.itemId }}_checkbox{{ j + 1 }}" />
         </div>
       </div>
-      <!-- Add an input field only when the length is 1 -->
-      <div *ngIf="(item.datatype === 'text_field' || item.datatype === 'image' || item.datatype === 'form' || item.datatype === 'date' ) && item.fieldtype === 'NORMAL'" class="answer-input">
+
+      <!-- For other input types (text, image, date, form) -->
+      <div *ngIf="['text_field', 'image', 'form', 'date'].includes(item.datatype) && item.fieldtype === 'NORMAL'" class="answer-input">
         <input *ngIf="item.datatype === 'text_field'" type="text" placeholder="Enter Answer" />
         <input *ngIf="item.datatype === 'image'" type="file" placeholder="Select Image" />
         <button *ngIf="item.datatype === 'form'" type="submit">Submit</button>
         <div *ngIf="item.datatype === 'date'" class="date-input-container">
           <input type="date" />
-           <!-- Font Awesome calendar icon -->
-      </div>
-        <!-- <input *ngIf="item.datatype === 'date'" type="text" /> -->
+        </div>
       </div>
     </ng-container>
   </div>
 </div>
+

@@ -25,6 +25,7 @@ export class NewScreenComponent  implements OnInit {
   propFormTitle: any;
   propFieldTitle: any;
   obj: any;
+  dateValue:any
   searchQuery: string = '';
   defaultFields: any
   toggelView: boolean = false;
@@ -170,7 +171,15 @@ export class NewScreenComponent  implements OnInit {
     this.newfeildtype = ''; // Reset newfeildtype
     this.ratingValue = null; // Reset ratingValue
     this.numberOfOptions = null; // Reset numberOfOptions
-    this.options = []; // Reset options
+    this.options = [];
+     // Reset options
+  }
+
+  resetAddModalValues(): void {
+    this.ft = '';
+    this.selectedFormType = '';
+    this.selectedCampaignId = null;
+    this.selectedBrandId = null;
   }
 
   ngOnInit(): void {
@@ -382,8 +391,10 @@ export class NewScreenComponent  implements OnInit {
       feildType: this.newfeildtype,
       options: optionValues, // Use optionValues instead of this.options
       orderId: this.lastOrderID ?? 0,
-      fieldLength: this.ratingValueToSend ?? 50
+      fieldLength: this.ratingValueToSend ?? 50,
+      date:this.dateValue
     };
+    console.log("new field: ", newField)
 
     // Sending newField object to the backend
     this.dashboardService.getNewFeild(newField).subscribe(
@@ -620,6 +631,8 @@ export class NewScreenComponent  implements OnInit {
   }
   closeaddModal() {
     this.AddModal.hide();
+    this. resetAddModalValues();
+    
   }
 
   showFv() {
@@ -640,6 +653,7 @@ export class NewScreenComponent  implements OnInit {
   }
   hideAddnewfeild() {
     this.AddNewFeildModal.hide();
+    this.resetModalValues();
   }
   populateQLAndLastOrderID() {
     if (this.ql.length > 0) {
