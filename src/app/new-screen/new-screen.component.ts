@@ -50,6 +50,7 @@ export class NewScreenComponent  implements OnInit {
   showForms: boolean = false;
   item: any;
   op: any;
+  dataType:any;
   a: any;
   tog :boolean = false ;
   selectedCampaignId: any;
@@ -383,6 +384,13 @@ export class NewScreenComponent  implements OnInit {
       this.ratingValueToSend = this.ratingValue;
       console.log("Rating value to send:", this.ratingValueToSend);
     }
+    let dataType;
+    if (this.newfeildtype === 'single_selection' || this.newfeildtype === 'multi_selection'|| this.newfeildtype === 'form'|| this.newfeildtype === 'image'||this.newfeildtype === 'date'||this.newfeildtype === 'rating'||this.newfeildtype === 'multi_text'||this.newfeildtype === 'exist_question') {
+        dataType = 1;
+    } else if (this.newfeildtype === 'text_field') {
+        dataType = 2;
+    }
+
 
     // Creating the newField object with the optionValues array
     const newField = {
@@ -392,7 +400,9 @@ export class NewScreenComponent  implements OnInit {
       options: optionValues, // Use optionValues instead of this.options
       orderId: this.lastOrderID ?? 0,
       fieldLength: this.ratingValueToSend ?? 50,
-      date:this.dateValue
+      date:this.dateValue,
+      dataType: dataType 
+
     };
     console.log("new field: ", newField)
 
