@@ -962,6 +962,11 @@ deActivateFieldValue(obj){
     const url = this.ip + "portal/ndn/childVisibility";
     return this.http.post(url, body, this.httpOptions);
   }
+  childVisibility1(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "portal/ndn/childVisibility";
+    return this.http.post(url, body, this.httpOptions);
+  }
   
   getShopDetails(obj){
     const body = this.UrlEncodeMaker(obj);
@@ -988,7 +993,58 @@ deActivateFieldValue(obj){
     const url = this.ip + "/uploadDistributionAssets";
     return this.http.post(url, obj);
   }
-  downloadFile(obj, url) {
+  formMoveTo(obj){
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/formMoveToController";
+    return this.http.post(url, body, this.httpOptions);
+  }
+  getAreaByRegion(regionId) {
+    this.user_id = localStorage.getItem("user_id");
+
+    const filter = JSON.stringify({
+      act: 45,
+      regionId: regionId,
+      userId: this.user_id,
+    });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+  addUpdateEmail(obj, url) {
+    return this.http.post(this.ip + url, obj);
+  }
+
+  addUpdateEmailById(obj){
+    // const objId={
+    //   id: id
+    // }
+    const obj2 = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/updateEmail";
+    return this.http.post(url, obj2, this.httpOptions);
+
+  }
+  getAllClusters() {
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({ act: 43, userId: this.user_id });
+    const url = this.ip + "/loadFilters";
+    return this.http.post(url, filter);
+  }
+  getFilterData(obj) {
+    
+    const url = this.ip + "/loadFilters";
+    // const filter = JSON.stringify({ act: 23, userId: this.user_id });
+    return this.http.post(url, obj);
+  }
+  getZoneByCluster(clusterId) {
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({
+      act: 44,
+      userId: this.user_id,
+      clusterId: clusterId,
+    });
+    const url = this.ip + "/loadFilters";
+    return this.http.post(url, filter);
+  }
+downloadFile(obj, url) {
     let path;
 
     path = this.ip + url;

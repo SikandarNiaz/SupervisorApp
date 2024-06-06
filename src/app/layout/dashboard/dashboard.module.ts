@@ -111,6 +111,7 @@ import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement
 import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
 import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
 import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-assets/upload-distribution-assets.component";
+import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.component";
 
 
 @NgModule({
@@ -221,7 +222,8 @@ import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-a
   ShopperEngagementComponent,
   NewScreenComponent,
   UploadTargetVsAchievementComponent,
-  UploadDistributionAssetsComponent
+  UploadDistributionAssetsComponent,
+  ManageEmailsComponent
 ],
 })
 export class DashboardModule {}
