@@ -18,9 +18,8 @@
         </mat-card-title> -->
       </div>
   
-      <section class="example-section">
+      <!-- <section class="example-section">
         <mat-form-field class="example-margin mr-10-IMP">
-          <!-- <mat-label>Date of Birth</mat-label> -->
           <input
             matInput
             placeholder="Choose a Year"
@@ -40,13 +39,6 @@
           >
           </mat-datepicker>
   
-          <!-- for closing datePicker After year nd month selection
-        (yearSelected)="chosenYearHandler($event)"
-        (monthSelected)="chosenMonthHandler($event, dp)" -->
-  
-          <!-- startView="multi-year"
-        startView="year"
-        startView="month" -->
         </mat-form-field>
   
         <mat-form-field class="example-margin mr-10-IMP">
@@ -60,7 +52,7 @@
             </ng-container>
           </mat-select>
         </mat-form-field>
-      </section>
+      </section> -->
   
       <section class="example-section">
         <form
@@ -68,7 +60,7 @@
           [formGroup]="form"
           enctype="multipart/form-data"
         >
-          <mat-form-field class="example-margin mr-10-IMP">
+          <!-- <mat-form-field class="example-margin mr-10-IMP">
             <mat-select
               placeholder="{{ labels.regionLabel }}"
               name="cityId"
@@ -80,7 +72,7 @@
                 <mat-option [value]="region.id">{{ region.title }}</mat-option>
               </ng-container>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
   
           <input
             #fileInput
