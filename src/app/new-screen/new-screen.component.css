@@ -119,9 +119,9 @@
   position: relative;
   }
   /* CSS for table headers */
-  th {
-  font-size: 16px; /* Adjust the font size for table headers */
-  }
+  /* th {
+  font-size: 16px;
+  } */
   
   /* CSS for table rows */
   tr {

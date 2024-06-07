@@ -14,9 +14,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./new-screen.component.css']
 })
 export class NewScreenComponent  implements OnInit {
+  objg = []; // Your initial data
+  objr = []; // Your initial data for first level child
+  objp = [];
   noramlFormFieldId: any;
+  childdFormValueId:any;
+  formValueIdAtIndex0:any;
+  childdFormFieldId:any;
   ffDataType;
-  objr:any;
+  // objr:any;
+  // objp:any;
+  selectedFormId:any;
   fieldValueId: any;
   gotoFormFieldId: any;
   gotoFieldID: any;
@@ -25,6 +33,10 @@ export class NewScreenComponent  implements OnInit {
   propFormTitle: any;
   propFieldTitle: any;
   obj: any;
+  formSubmit:any;
+  textFieldType:any;
+  selectedAction: string = 'exit';
+  selectedFormId1: string = '-1';
   dateValue:any
   searchQuery: string = '';
   defaultFields: any
@@ -33,14 +45,17 @@ export class NewScreenComponent  implements OnInit {
   formsid: any;
   // @ViewChild('formslistModal') formslistModal: ModalDirective;
   // @ViewChild('ExtraModal') ExtraModal: ModalDirective;
+  @ViewChild('submitForm') submitForm: ModalDirective;
   @ViewChild('CaptureModal') CaptureModal: ModalDirective;
   @ViewChild('FvModal') FvModal: ModalDirective;
   @ViewChild('AddModal') AddModal: ModalDirective;
   @ViewChild('AddNewFeildModal') AddNewFeildModal: ModalDirective;
   @ViewChild('AddModalSample') AddModalSample: ModalDirective; 
+ 
   // @ViewChild('FieldPropertiesModal') FieldPropertiesModal: ModalDirective;  AddModalSample
   @ViewChild('FormPropertiesModal') FormPropertiesModal: ModalDirective;
   @ViewChild('logicModal') logicModal: ModalDirective;
+ 
   brandID: any;
   child:boolean=false;
   campaingId: any;
@@ -117,6 +132,7 @@ export class NewScreenComponent  implements OnInit {
   ff: any;
   //  SELECTEDFORTHROUGOUT
   formtitle: any;
+  submitFormFieldId:any;
   ql: any;
   // FORMFEILDID
   ffid: any;
@@ -127,15 +143,17 @@ export class NewScreenComponent  implements OnInit {
   options: any[] = [];
   numberOfOptions: number = 0;
   objq: any[];
-  objg: any[];
+  // objg: any[];
   rating: any;
   ratingValue: any = 5;
+  orderId:any = 1;
   lastOrderID: any;
   selectedFormType: any;
   formProperties: FormGroup;
   fieldProperties: FormGroup;
   logicProperties: FormGroup;
   formFieldId: any;
+  selectedFormTitle: string = '';
   list: any[] = ['single_selection', 'multi_selection'];
 
   constructor(
@@ -310,7 +328,7 @@ export class NewScreenComponent  implements OnInit {
     console.log("abcd", this.fieldTitle)
     console.trace(data, 'data')
     console.log("data", data);
-    debugger;
+    
      this.ffDataType=data.field_type;
      console.log("vv", this.ffDataType)
     this.dashboardService.gettingFeildsvaluesV2(objx).subscribe(
@@ -388,7 +406,12 @@ export class NewScreenComponent  implements OnInit {
     if (this.newfeildtype === 'single_selection' || this.newfeildtype === 'multi_selection'|| this.newfeildtype === 'form'|| this.newfeildtype === 'image'||this.newfeildtype === 'date'||this.newfeildtype === 'rating'||this.newfeildtype === 'multi_text'||this.newfeildtype === 'exist_question') {
         dataType = 1;
     } else if (this.newfeildtype === 'text_field') {
+      // Check the value of textFieldType to set dataType
+      if (this.textFieldType === 'numeric') {
         dataType = 2;
+      } else if (this.textFieldType === 'alphabetic') {
+        dataType = 1;
+      }
     }
 
 
@@ -401,7 +424,8 @@ export class NewScreenComponent  implements OnInit {
       orderId: this.lastOrderID ?? 0,
       fieldLength: this.ratingValueToSend ?? 50,
       date:this.dateValue,
-      dataType: dataType 
+      dataType: dataType ,
+    
 
     };
     console.log("new field: ", newField)
@@ -500,7 +524,7 @@ export class NewScreenComponent  implements OnInit {
 
   }
   gettingFieldInfo(data) {
-    debugger;
+    
 
     const objx = { formFeildId: data.formfieldid }
     console.log("data", data);
@@ -533,7 +557,7 @@ export class NewScreenComponent  implements OnInit {
   }
   gettingformProperties(data) {
     // this.showFormProperties();
-         debugger;
+         
     console.log("updating form attributes", data);
     this.formProperties.patchValue({
       formType: data.form_type || null,
@@ -644,6 +668,18 @@ export class NewScreenComponent  implements OnInit {
     this. resetAddModalValues();
     
   }
+  showsubmitFormModal(data) {
+    this.submitForm.show();
+    this.submitFormFieldId = { formFieldId: data.formfieldid      
+       };
+    
+    console.log("submitFormField:", this.submitFormFieldId )
+
+  }
+  closesubmitFormModal() {
+    this.submitForm.hide();
+    
+  }
 
   showFv() {
     this.FvModal.show();
@@ -709,7 +745,7 @@ export class NewScreenComponent  implements OnInit {
     this.CaptureModal.hide()
   }
   toggleDiv(): void {
-    debugger;
+    
     this.showForms = true;
     this.toggelView=false;
     if (this.showForms) {
@@ -760,7 +796,7 @@ export class NewScreenComponent  implements OnInit {
     // this.FieldPropertiesModal.hide();
   }
   showFormProperties() {
-    debugger;
+    
     this.FormPropertiesModal.show();
       // this.AddModal.show();
   }
@@ -878,7 +914,7 @@ export class NewScreenComponent  implements OnInit {
 
   }
   openLogicModal() {
-    debugger;
+    
     this.logicModal.show();
 
   }
@@ -931,7 +967,7 @@ selectedFormFieldId : item.form_field_id,
   }
 
   setLogicProperties(item: any) {
-    debugger;
+    
     this.noramlFormFieldId = item.form_field_id;
     this.fieldValueId = item.id
 
@@ -944,6 +980,7 @@ selectedFormFieldId : item.form_field_id,
 
   applyLogic() {
     debugger;
+    
     console.log(this.selectedField); // Accessing id property
     const gtff: number | null = this.selectedField.formfield ? parseInt(this.selectedField.formfield) : null;
 
@@ -966,9 +1003,16 @@ selectedFormFieldId : item.form_field_id,
     this.dashboardService.applyLogic(formData).subscribe(
       (res: any) => {
         this.closeLogicModal();
+        console.log("selectedForm:", this.formid);
+     
         this.toaster.success('Successfully added')
         console.log("calling after updating form attributes")
-        // this.getformslist();
+        const b = {
+          id: this.formid,
+          title: this.title
+        }
+        
+        this.getforminfo(b);
       },
       (error) => {
         this.loadingData = false;
@@ -982,45 +1026,147 @@ selectedFormFieldId : item.form_field_id,
     this.hoveredRowIndex = index;
   }
 
+
+  submit() {
+    console.log("Additional Data:", this.submitFormFieldId.formFieldId);
+  
+    let data = {};
+  
+    if (this.selectedAction === 'exit') {
+      this.selectedFormId = '-1'; // Ensure selectedFormId is -1 for exit action
+      console.log("Action: Exit");
+      console.log("selectedFormId:", this.selectedFormId);
+  
+      // Prepare data object for exit action
+      data = {
+        formId: this.selectedFormId,
+        formFieldId: this.submitFormFieldId.formFieldId,
+        orderId: this.orderId
+      };
+      console.log("formFieldData for exit:", data);
+  
+    } else if (this.selectedAction === 'move_to' && this.selectedFormId !== '-1') {
+      console.log("Action: Move to Form ID:", this.selectedFormId);
+  
+      // Prepare data object for move_to action
+      data = {
+        formId: this.selectedFormId,
+        formFieldId: this.submitFormFieldId.formFieldId,
+        orderId: this.orderId
+      };
+      console.log("formFieldData for move_to:", data);
+    } else {
+      console.log("Object not found or not enough elements");
+      return; // Exit early if no valid action
+    }
+  
+    // Call the service with the prepared data
+    this.dashboardService.formMoveTo(data).subscribe(
+      (res: any) => {
+        
+        // Update the corresponding item in objr with the response
+        this.formSubmit = res.map((item) => ({ ...item }));
+        console.log("Response data:", this.formSubmit);
+      },
+      (error) => {
+        // Handle errors
+        this.loadingData = false;
+        this.toaster.error(error.message, "Error");
+      }
+    );
+  
+    this.closesubmitFormModal();
+  }
+  
+  
+  onRadioChange(item: any, optionIndex: number, fieldIndex: number) {
+    console.log('onRadioChange - item:', item, 'optionIndex:', optionIndex, 'fieldIndex:', fieldIndex);
+    const selectedFormValueId = item.formvalue_ids ? item.formvalue_ids[optionIndex] : null;
+    if (selectedFormValueId !== undefined) {
+        this.childVisibility(selectedFormValueId, fieldIndex);
+    }
+}
+
+onNestedRadioChange(data: any, optionIndex: number) {
+  debugger;
+
+  // Extracting form_field_id and formvalue_ids from the data object
+  const formFieldId = data.form_field_id;
+  const formValueIdsString = data.formvalue_ids;
+
+  // Splitting the formvalue_ids string by comma to get individual IDs
+  const formValueIdsArray = formValueIdsString.split(',');
+
+  // Ensure that optionIndex is within bounds
+  if (optionIndex >= 0 && optionIndex < formValueIdsArray.length) {
+      // Retrieve the selected form value ID using optionIndex
+      const selectedFormValueId = formValueIdsArray[optionIndex];
+
+      // Call childVisibility1 with the selectedFormValueId and formFieldId
+      this.childVisibility1(selectedFormValueId,data.form_field_id1);
+  } else {
+      console.error('Invalid optionIndex:', optionIndex);
+      // Handle the case where optionIndex is out of bounds
+  }
+}
+
+
+
   childVisibility(formValueId: any, formFieldId: any) {
-    console.log("noo", formValueId);
-    console.log("habib", formFieldId);
+    console.log("childVisibility - formValueId:", formValueId);
+    console.log("childVisibility - formFieldId:", formFieldId);
   
-    // Check if objg is defined and has enough elements
     if (this.objg && this.objg.length > formFieldId) {
-      console.log("fff", this.objg[formFieldId].formfeild_id);
-      
+      const currentField = this.objg[formFieldId];
+      console.log("childVisibility - currentField:", currentField);
   
-      const ffid = this.objg[formFieldId].formfeild_id;
+      const ffid = currentField.formfeild_id;
       const data = {
         formValueId: formValueId,
         formfieldID: ffid
       };
-
-      //29-04
+  
       this.objr = [];
   
-      // Call the backend service
       this.dashboardService.childVisibility(data).subscribe(
         (res: any) => {
-          debugger;
-          // Update the corresponding item in objg with the response
-            this.objr =res.map((item) => ({ ...item }));
-            console.log("hah",this.objr);
-            // console.log("formfieldid:",this.objr[0].form_field_id)
+          console.log("childVisibility - API response:", res);
+          this.objr = res.map((item) => ({ ...item }));
+          console.log("childVisibility - updated objr:", this.objr);
         },
         (error) => {
-          // Handle errors
-          this.loadingData = false;
+          console.error("childVisibility - error:", error);
           this.toaster.error(error.message, "Error");
         }
       );
     } else {
-      console.log("Object not found or not enough elements");
+      console.log("childVisibility - objg not found or not enough elements");
     }
   }
-  
-  
 
+  childVisibility1(formValueId1: any, formFieldId: any) {
+    console.log("childVisibility1 - formValueId:", formValueId1);
+    console.log("childVisibility1 - formFieldId:", formFieldId); // Log formFieldId
   
-}
+   
+      const data = {
+        formValueId: formValueId1,
+        formfieldID: formFieldId // Use the passed formFieldId argument
+      };
+      console.log("childVisibility1 - data:", data);
+  
+      this.objp = [];
+  
+      this.dashboardService.childVisibility1(data).subscribe(
+        (res: any) => {
+          console.log("childVisibility1 - API response:", res);
+          this.objp = res.map((item) => ({ ...item }));
+          console.log("childVisibility1 - updated objp:", this.objp);
+        },
+        (error) => {
+          console.error("childVisibility1 - error:", error);
+          this.toaster.error(error.message, "Error");
+        }
+      );
+    }
+  }
