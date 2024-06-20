@@ -240,7 +240,7 @@ const routes: Routes = [
     component:  NewScreenComponent,
   },
   {
-    path: "app-manage-emails-component",
+    path: "app-manage-emails",
     component:  ManageEmailsComponent,
   },
 ];

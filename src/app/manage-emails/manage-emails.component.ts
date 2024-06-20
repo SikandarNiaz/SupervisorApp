@@ -28,6 +28,7 @@ export class ManageEmailsComponent implements OnInit, AfterViewInit {
   projectType: any;
   emailList: any = [];
   tmpEmailList: any = [];
+  searchTerm: string = '';
   emailTypes: any = [];
   selectedEmailType: any;
   addressTypes: any = [];

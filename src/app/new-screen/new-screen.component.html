@@ -210,7 +210,9 @@
                   item.field_type !== 'image' &&
                   gettingFieldValue(item)
               "
+               [ngClass]="{'disabled': item.field_type === 'form'}"
               style="cursor: pointer; color: blue"
+              (click)="item.field_type === 'form' && showsubmitFormModal(item)"
             >
               {{
                 ["text_field", "date", "image", "exist_question"].includes(
@@ -703,6 +705,15 @@
             />
           </div>
         </div>
+        <!-- Input type for text_field -->
+        <div *ngIf="newfeildtype === 'text_field'" class="form-group">
+          <label for="textFieldType">Data Type:</label>
+          <select [(ngModel)]="textFieldType" class="form-control" id="textFieldType">
+            <option value="numeric">Numeric</option>
+            <option value="alphabetic">Alphabetic</option>
+          </select>
+        </div>
+        <!-- Input type for date -->
         <div *ngIf="newfeildtype === 'date'">
           <div class="form-group">
             <label for="dateValue">Select Date:</label>
@@ -714,6 +725,8 @@
             />
           </div>
         </div>
+      
+        <!-- Options input for other field types -->
         <div
           *ngIf="
             newfeildtype !== 'form' &&
@@ -730,12 +743,12 @@
           <div class="form-group">
             <label for="numberOfOptions">Number of Options:</label>
             <input
-        type="number"
-        class="form-control"
-        id="numberOfOptions"
-        [value]="options.length" 
-        readonly
-    />
+              type="number"
+              class="form-control"
+              id="numberOfOptions"
+              [value]="options.length" 
+              readonly
+            />
           </div>
           <!-- Button to trigger option creation -->
           <button type="button" class="btn btn-primary" (click)="addOption()">
@@ -769,6 +782,8 @@
     </div>
   </div>
 </div>
+
+
 <!-- ////////////////LogicModal////////// -->
 
 <div
@@ -989,6 +1004,7 @@
 
 <div *ngIf="objg && !toggelView && !showForms" style="height: 300px">
   <button type="button" class="btn btn-primary" (click)="gobutton()">Preview</button>
+
   <div *ngFor="let item of objg; let i = index; trackBy: trackByFn" class="question-container">
     <ng-container *ngIf="item.fieldtype !== 'CHILD'">
       <div class="question">
@@ -1000,12 +1016,16 @@
       <div *ngIf="item.datatype === 'single_selection' && item.fieldtype === 'NORMAL'" class="answers">
         <div *ngFor="let itemId of item.formvalue_titles; let j = index">
           <label for="{{ item.itemId }}_radio{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
-          <input type="radio" id="{{ item.itemId }}_radio{{ j + 1 }}" name="{{ item.itemId }}_radioGroup" (change)="childVisibility(item.formvalue_ids[j], i)" />
+          <input 
+            type="radio" 
+            id="{{ item.itemId }}_radio{{ j + 1 }}" 
+            name="{{ item.itemId }}_radioGroup" 
+            (change)="onRadioChange(item, j, i)" />
         </div>
 
         <!-- Nested child questions based on objr -->
         <div *ngFor="let ob of objr; let k = index">
-          <div *ngIf="objr.length > 0 && ob.ffid === item.formfeild_id">
+          <div *ngIf="ob.ffid === item.formfeild_id">
             <span class="question-label">Question:</span>
             {{ ob.field }}
 
@@ -1013,7 +1033,11 @@
             <div *ngIf="ob.datatype === 'single_selection'" class="answers">
               <div *ngFor="let data of ob.field_values.split(','); let j = index">
                 <label for="{{ ob.field }}_radio{{ j + 1 }}" class="answer-label">{{ data }}</label>
-                <input type="radio" id="{{ ob.field }}_radio{{ j + 1 }}" name="{{ ob.field }}_radioGroup" />
+                <input 
+                  type="radio" 
+                  id="{{ ob.field }}_radio{{ j + 1 }}" 
+                  name="{{ ob.field }}_radioGroup" 
+                  (change)="onNestedRadioChange(ob,j)"/>
               </div>
             </div>
 
@@ -1035,6 +1059,44 @@
                 <i class="fas fa-calendar-alt" (click)="openDatePicker()"></i>
               </div>
             </div>
+
+            <!-- Nested child questions based on objp -->
+          <!-- Nested child questions based on objp -->
+<div *ngFor="let op of objp; let l = index">
+  <div *ngIf="op.ffid === ob.form_field_id1"> <!-- Adjust to match your logic -->
+    <span class="question-label">Question:</span>
+    {{ op.field }}
+
+    <!-- Inner single_selection (radio buttons) -->
+    <div *ngIf="op.datatype === 'single_selection'" class="answers">
+      <div *ngFor="let data of op.field_values.split(','); let m = index">
+        <label for="{{ op.field }}_radio{{ m + 1 }}" class="answer-label">{{ data }}</label>
+        <input type="radio" id="{{ op.field }}_radio{{ m + 1 }}" name="{{ op.field }}_radioGroup"/>
+      </div>
+    </div>
+
+    <!-- Inner multi_selection (checkboxes) -->
+    <div *ngIf="op.datatype === 'multi_selection'" class="answers">
+      <div *ngFor="let data of op.field_values.split(','); let m = index">
+        <label for="{{ op.field }}_checkbox{{ m + 1 }}" class="answer-label">{{ data }}</label>
+        <input type="checkbox" id="{{ op.field }}_checkbox{{ m + 1 }}" />
+      </div>
+    </div>
+
+    <!-- Inner other input types (text, image, date, form) -->
+    <div *ngIf="['text_field', 'image', 'form', 'date'].includes(op.datatype)" class="answers">
+      <input *ngIf="op.datatype === 'text_field'" type="text" placeholder="Enter Answer" />
+      <input *ngIf="op.datatype === 'image'" type="file" placeholder="Select Image" />
+      <button *ngIf="op.datatype === 'form'" type="submit">Submit</button>
+      <div *ngIf="op.datatype === 'date'" class="date-input-container">
+        <input type="date" />
+        <i class="fas fa-calendar-alt" (click)="openDatePicker()"></i>
+      </div>
+    </div>
+
+  </div>
+</div>
+
           </div>
         </div>
       </div>
@@ -1059,4 +1121,48 @@
     </ng-container>
   </div>
 </div>
+
+
+
+                                            <!-- Submit Form  -->
+<div bsModal #submitForm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="two-button-modal" [config]="{ backdrop: 'static', keyboard: false }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Form</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closesubmitFormModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="actionSelect">Action:</label>
+          <select [(ngModel)]="selectedAction" class="form-control" id="actionSelect">
+            <option value="exit">Exit</option>
+            <option value="move_to">Move to</option>
+          </select>
+        </div>
+        <div *ngIf="selectedAction === 'move_to'" class="form-group">
+          <label for="formSelect">Select Form:</label>
+          <select [(ngModel)]="selectedFormId" class="form-control" id="formSelect">
+            <option value="-1">Select Form</option>
+            <option *ngFor="let form of obj" [value]="form.id">{{ form.title }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 
