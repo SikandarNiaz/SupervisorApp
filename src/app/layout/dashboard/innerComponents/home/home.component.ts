@@ -57,7 +57,8 @@ export class HomeComponent implements OnInit {
       this.projectType == "NDN" ||
       this.projectType == "DALDA"||
       this.projectType == "SAMSUNG"||
-      this.projectType == "PILOT_BA"
+      this.projectType == "PILOT_BA" ||
+      this.projectType == "DIPITT"
     ) {
       this.isBaModule = true;
     }
