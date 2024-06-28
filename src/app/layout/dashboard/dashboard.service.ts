@@ -1054,17 +1054,6 @@ deActivateFieldValue(obj){
     const url = this.ip + "/loadFilters";
     return this.http.post(url, filter);
   }
-  getDistributionAssets(obj){
-    const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + "/getdistributionassests";
-    return this.http.post(url, urlEncode, this.httpOptions);
-  }
- 
-  ViewDistributionAuditDetail(obj) {
-    const url = this.ip + "/viewDistributionAuditDetai"; // ----------->ViewDistributionAuditDetai
-    const body = this.UrlEncodeMaker(obj);
-    return this.http.post(url, body, this.httpOptions);
-  }
 downloadFile(obj, url) {
     let path;
 
