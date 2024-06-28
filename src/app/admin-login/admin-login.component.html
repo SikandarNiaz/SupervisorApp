@@ -1,0 +1,27 @@
+ <div class="login-page">
+    <div class="content">
+       
+        <form #f="ngForm" class="login-form" fxFlex>
+            <div class="text-center">
+                <h2 class="app-name">
+                    <img src="{{login_logo}}" height="100" alt="">
+                </h2>
+            </div>
+            
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
+                <div fxFlexFill>
+                    <button [disabled]="!agreeToTerms" class="btn btn-primary btn-large w-100" (click)="samlLogin()">Login With PMI</button>
+                </div>
+            </div>
+              
+            <div *ngIf="pmirm" class="checkbox-container">
+                <mat-checkbox name="checkbox1" [(ngModel)]="agreeToTerms" (change)="onCheckboxChange($event)">
+                    Agree to Terms
+                </mat-checkbox>
+                <span (click)="onCheckboxChangeNew()" class="privacy-statement-link">
+                    PMI Employee Privacy Statement
+                </span>
+            </div>
+        </form>
+    </div>
+</div> 

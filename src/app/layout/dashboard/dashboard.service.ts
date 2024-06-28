@@ -1044,6 +1044,17 @@ deActivateFieldValue(obj){
     const url = this.ip + "/loadFilters";
     return this.http.post(url, filter);
   }
+  getProjectName() {
+    const filter = JSON.stringify({ act: 21 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  samlLogin(){
+    const url = this.ip + "/saml/login";
+    return this.http.post(url, {}, { responseType: 'text' });
+  }
+  
 downloadFile(obj, url) {
     let path;
 

@@ -6,11 +6,11 @@ import * as moment from "moment";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Config } from "src/assets/config";
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: "app-admin-login",
+  templateUrl: "./admin-login.component.html",
+  styleUrls: ["./admin-login.component.scss"],
 })
-export class LoginComponent implements OnInit {
+export class AdminLoginComponent implements OnInit {
   background_color = Config.login_theme_color;
   login_logo = Config.login_logo;
   supPlaceHolder: any;
@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   projectType: any;
   loading = false;
   loadingData: boolean;
-pmida:boolean=false;
   projectName: any;
   pmirm: boolean = true;
   email: any;
@@ -37,10 +36,9 @@ pmida:boolean=false;
 
   ngOnInit() {
     localStorage.clear();
-    //this.getProjectNameData();
+    this.getProjectNameData();
     const hostName = window.location.hostname;
-    console.log("Host Name ",hostName)
-    this.pmida = hostName?.indexOf("pmida") >= 0 || hostName?.indexOf("localhost") >= 0;
+    this.pmirm = hostName?.indexOf("pmida") >= 0 || hostName?.indexOf("localhost") >= 0;
     // debugger;
     // localStorage.clear();
     this.route.queryParams.subscribe((params) => {
@@ -58,6 +56,7 @@ pmida:boolean=false;
         this.onLogin(this.samlLoginForm);
       }
     });
+   
   }
 
   onLogin(loginForm: any) {
@@ -116,13 +115,9 @@ pmida:boolean=false;
       (data) => {
         console.log('Data received:', data);
         const res: any = data;
-
         localStorage.setItem("projectType", res.projectType);
         var storedProjectType = localStorage.getItem("projectType");
-        if(storedProjectType === 'PMI_AUDIT'){
-          this.pmida=true;
-        }
-         console.log("Project Name",storedProjectType,this.pmida);
+         console.log("Project Name",storedProjectType);
         if (res) {
           this.projectName = res;
           this.loadingData = false;
@@ -164,7 +159,6 @@ pmida:boolean=false;
   //   localStorage.setItem("resourcePlaceHolder", this.resourcePlaceHolder);
   //   localStorage.setItem("supPlaceHolder", this.supPlaceHolder);
   // }
-
   samlLogin() {
     this.httpService.samlLogin().subscribe(
         (data: string) => {
@@ -204,4 +198,5 @@ onCheckboxChangeNew(){
 // window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
 window.open('https://pmirm.rtdtradetracker.com/images/PMI%20Employee%20Privacy%20Statement.pdf', '_blank');
 }
+
 }
