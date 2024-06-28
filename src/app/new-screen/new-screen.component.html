@@ -688,7 +688,7 @@
           >
             <option disabled selected value="">Select Data Type</option>
             <option *ngFor="let field of fieldOptions" [value]="field">
-              {{ field }}
+              {{ field.fieldType }}
             </option>
           </select>
         </div>

@@ -84,57 +84,26 @@ export class NewScreenComponent  implements OnInit {
   newFieldtitle: String;
   hoveredRowIndex: any;
   ratingValueToSend: any;
-  fieldOptions: string[] = [
-    'text_field',
-    'single_selection',
-    'multi_selection',
-    'date',
-    'rating',
-    'multi_text',
-    'exist_question',
-    'form',
-    'image'
-  ];
+  // fieldOptions: string[] = [
+  //   'text_field',
+  //   'single_selection',
+  //   'multi_selection',
+  //   'date',
+  //   'rating',
+  //   'multi_text',
+  //   'exist_question',
+  //   'form',
+  //   'image'
+  // ];
+  fieldOptions:any;
   formtypes: any;
-  // string[] = [
-  //     'MAIN',
-  // 'INTERESTED',
-  // 'NOTINTERESTED',
-  // 'SIGNATURE RATING BRAND PURCHASE VIDEO_TYPE',
-  // 'CATEGORY FEEDBACK',
-  // 'OOS_CATEGORY OOS_BRAND',
-  // 'MARKET_INTELLIGENCE','MANUAL',
-  // 'ARIEL_KBD',
-  // 'SX_KBD',
-  // 'AUDIO_SUP',
-  // 'VIDEO SUP IMAGE FEEDBACK_1',
-  // 'FEEDBACK_2',
-  // 'KBD',
-  // 'FEEDBACK_3',
-  // 'SHOP_DETAIL', 
-  // 'BA_ASSESSMENT',
-  // 'STORE_EVALUATION',
-  // 'TRAINING',
-  // 'QUIZ',
-  // 'COMPETITION_USER',
-  // 'COMPETITION',
-  // 'SPW',
-  // 'INVENTORY_IN_HAND',
-  // 'INVENTORY_RETURN',
-  // 'SCRATCH',
-  // 'SC',
-  // 'SPW_BEFORE',
-  // 'SPW_AFTER',
-  // 'FAQ',
-  // 'EXPIRY',
-  // 'SURVEY'
-  //   ];
+  
   ff: any;
-  //  SELECTEDFORTHROUGOUT
+  
   formtitle: any;
   submitFormFieldId:any;
   ql: any;
-  // FORMFEILDID
+  
   ffid: any;
   title: String = 'SELECT OR CREATE NEW FORM';
   ft: String; //forgettingnewform
@@ -143,12 +112,12 @@ export class NewScreenComponent  implements OnInit {
   options: any[] = [];
   numberOfOptions: number = 0;
   objq: any[];
-  // objg: any[];
+  
   rating: any;
   ratingValue: any = 5;
   orderId:any = 1;
   lastOrderID: any;
-  selectedFormType: any;
+    selectedFormType: any;
   formProperties: FormGroup;
   fieldProperties: FormGroup;
   logicProperties: FormGroup;
@@ -208,12 +177,24 @@ export class NewScreenComponent  implements OnInit {
     this.gettingBrands();
     this.gettingCompaign();
     this.gettingFormTypes();
+    this.gettingFieldDataTypes();
   }
   gettingFormTypes() {
     this.dashboardService.gettingFormTypes().subscribe(
       (response: any[]) => {
         this.formtypes = response.map((item) => ({ ...item }));
         console.log(this.formtypes, 'habshi')
+      },
+      (error) => {
+        console.log(error, 'error');
+      }
+    );
+  }
+  gettingFieldDataTypes() {
+    this.dashboardService.gettingFieldDataTypes().subscribe(
+      (response: any[]) => {
+        this.fieldOptions = response.map((item) => ({ ...item }));
+        console.log(this.fieldOptions, 'FieldDataTypes')
       },
       (error) => {
         console.log(error, 'error');

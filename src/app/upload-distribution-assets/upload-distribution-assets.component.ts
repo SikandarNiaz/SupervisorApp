@@ -194,33 +194,7 @@ monthList =[
       this.drawingManager,
       'overlaycomplete',
       (event) => {
-        // if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-        //   const paths = event.overlay.getPaths();
-        //   for (let p = 0; p < paths.getLength(); p++) {
-        //     google.maps.event.addListener(
-        //       paths.getAt(p),
-        //       'set_at',
-        //       () => {
-        //         if (!event.overlay.drag) {
-        //           self.updatePointList(event.overlay.getPath());
-        //         }
-        //       }
-        //     );
-        //     google.maps.event.addListener(
-        //       paths.getAt(p),
-        //       'insert_at',
-        //       () => {
-        //         self.updatePointList(event.overlay.getPath());
-        //       }
-        //     );
-        //     google.maps.event.addListener(
-        //       paths.getAt(p),
-        //       'remove_at',
-        //       () => {
-        //         self.updatePointList(event.overlay.getPath());
-        //       }
-        //     );
-        //   }
+       
           self.updatePointList(event.overlay.getPath());
           this.selectedShape = event.overlay;
           this.selectedShape.type = event.type;
@@ -242,38 +216,6 @@ monthList =[
       );
 
      const that=this;
-
-
-      // const triangleCoords = [
-      //   { lat: 25.774, lng: -80.19 },
-      //   { lat: 18.466, lng: -66.118 },
-      //   { lat: 32.321, lng: -64.757 },
-      // ];
-      // const bermudaTriangle = new google.maps.Polygon({ paths: triangleCoords });
-      // console.log("bermudaTriangle",bermudaTriangle);
-
-
-      // google.maps.event.addListener(this.drawingManager, 'overlaycomplete', (event) => {
-      //   // Polygon drawn
-      //   if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-      //     //this is the coordinate, you can assign it to a variable or pass into another function.
-      //     alert(event.overlay.getPath().getArray());
-      //     console.log("event",event.overlay.getPath().getArray());
-      //   }
-      // });
-
-      // this.getShopsId();
-
-      // google.maps.event.addListener(map, "click", (e) => {
-      //   console.log("e.bermudaTriangle2,", this.bermudaTriangle2);
-      //   console.log("e.latLng,", e.latLng);
-      //   const resultColor = google.maps.geometry.poly.containsLocation(
-      //     e.latLng,
-      //     this.bermudaTriangle2
-      //   );
-      //   console.log("e.resultColor,", resultColor);
-      // }
-      // );
 
       google.maps.event.addListener(this.drawingManager, 'polygoncomplete', function (polygon) {
         const len = polygon.getPath().getLength();
@@ -316,10 +258,7 @@ monthList =[
 
       });
 
-      // const bermudaTriangle2 = new google.maps.Polygon({ paths: this.polyArrayLatLng });
-
-      // console.log("bermudaTriangle",bermudaTriangle2);
-      // this.getShopsId(bermudaTriangle2);
+      
 
     }
   getShopsId() {
@@ -384,63 +323,7 @@ monthList =[
   }
    getShops() {
     
-//     if (this.regionId) {
-//     this.trackedShops = [];
-//     this.loadingData = true;
-//    this.httpService
-//       .getAllShops(this.zoneId || -1, this.regionId || -1)
-//       .subscribe((res: any) =>{
-//         console.log("res ", res);
-//         if(res.length <=0){
-//           this.toastr.error("Shop Not Found");
-          
-//           this.loading = false;
-//         }else{
 
-//         this.trackedShops = [];
-//         this.trackedShops = res
-//         console.log("tracked shop: ", this.trackedShops);
-//         this.loading = false;
-//         // this.latitude = parseFloat(this.trackedShops[0].latitude);
-//         // this.longitude = parseFloat(this.trackedShops[0].longitude);
-//       //   const alldata = this.trackedShops.map((id) => {
-          
-//       //     return id.regionId ;
-        
-
-//       // //  this.legends = new Set(alldata);
-//       //  } );
-//         }
-      
-//     });
-  
-      // this.loadingData = true;
-      // this.httpService
-      //   .getAllShops(this.zoneId || -1, this.regionId || -1)
-      //   .subscribe(
-      //     (data) => {
-      //       const res: any = data;
-      //       if (res) {
-      //         this.shops = res;
-      //         this.filteredShops = this.shops;
-      //       } else {
-      //         this.clearLoading();
-  
-      //         this.toastr.info(
-      //           "Something went wrong,Please retry",
-      //           "Connectivity Message"
-      //         );
-      //       }
-  
-      //       setTimeout(() => {
-      //         this.loadingData = false;
-      //       }, 500);
-      //     },
-      //     (error) => {
-      //       this.clearLoading();
-      //     }
-      //   );
-    //  }
   }
   deleteSelectedShape() {
     if (this.selectedShape) {
@@ -454,23 +337,7 @@ monthList =[
     }
   }
 
-//   insertShopIds(){
-//     this.httpService.insertShopsIds(this.shopIds).subscribe(
-//       (data) => {
-//         if (data) {
-//           this.toastr.success(" ID's Added Successfully  ");
-//           this.showCount("show");
-//         }
-//         this.clearLoading();
-//       },
-//       (error) => {
-//         error.status === 0
-//           ? this.toastr.error("Please check Internet Connection", "Error")
-//           : this.toastr.error(error.description, "Error");
-//         this.clearLoading();
-//       }
-//     );
-//   }
+
   
   deleteRoutes(action) {
     this.loadingData = true;

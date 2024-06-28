@@ -57,7 +57,12 @@ export class DashboardService {
     //   })
     // );
   }
-
+  login1() {
+   
+    const url = this.ip + "getProjectType";   // JsonLoginController
+    return this.http.post(url,this.httpOptions);
+    
+  }
   updatePassword(obj) {
     const url = this.ip + "change-password";
     return this.http.post(url, obj, this.httpOptions);
@@ -854,6 +859,11 @@ gettingSkuType() {
   const filter = JSON.stringify({ act: 41 });
   return this.http.post(url, filter);
 }
+gettingFieldDataTypes() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 46 });
+  return this.http.post(url, filter);
+}
   gettingFormTypes(){
     // const body = this.UrlEncodeMaker();
  const url = this.ip + "portal/ndn/getformstypes";
@@ -1043,6 +1053,17 @@ deActivateFieldValue(obj){
     });
     const url = this.ip + "/loadFilters";
     return this.http.post(url, filter);
+  }
+  getDistributionAssets(obj){
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/getdistributionassests";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+ 
+  ViewDistributionAuditDetail(obj) {
+    const url = this.ip + "/viewDistributionAuditDetai"; // ----------->ViewDistributionAuditDetai
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
   }
 downloadFile(obj, url) {
     let path;

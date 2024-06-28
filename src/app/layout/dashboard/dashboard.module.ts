@@ -112,6 +112,9 @@ import { NewScreenComponent } from "src/app/new-screen/new-screen.component";
 import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
 import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-assets/upload-distribution-assets.component";
 import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.component";
+import { PmiHomeComponent } from "src/app/pmi-home/pmi-home.component";
+import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.component";
+// import { AdminLoginPmiComponent } from "src/app/admin-login-pmi/admin-login-pmi.component";
 
 
 @NgModule({
@@ -223,7 +226,10 @@ import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.compo
   NewScreenComponent,
   UploadTargetVsAchievementComponent,
   UploadDistributionAssetsComponent,
-  ManageEmailsComponent
+  ManageEmailsComponent,
+  PmiHomeComponent,
+  PmiHomeDetailComponent
+  // AdminLoginPmiComponent
 ],
 })
 export class DashboardModule {}
