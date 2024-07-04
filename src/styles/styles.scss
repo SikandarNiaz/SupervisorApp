@@ -88,3 +88,11 @@ mat-card {
   .timepicker-backdrop-overlay {
   z-index: 10000000 !important;
   }
+
+  check-cookie-policy {
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+  }

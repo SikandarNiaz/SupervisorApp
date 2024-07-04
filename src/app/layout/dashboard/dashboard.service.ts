@@ -1003,6 +1003,16 @@ deActivateFieldValue(obj){
     const url = this.ip + "/uploadDistributionAssets";
     return this.http.post(url, obj);
   }
+  getDistributionAssets(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/getdistributionassests";
+    return this.http.post(url, body,this.httpOptions);
+  }
+  ViewDistributionAuditDetail(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/viewDistributionAuditDetail";
+    return this.http.post(url, body,this.httpOptions);
+  }
   formMoveTo(obj){
     const body = this.UrlEncodeMaker(obj);
     const url = this.ip + "/formMoveToController";
@@ -1052,6 +1062,15 @@ deActivateFieldValue(obj){
       clusterId: clusterId,
     });
     const url = this.ip + "/loadFilters";
+    return this.http.post(url, filter);
+  }
+  samlLogin(){
+    const url = this.ip + "/saml/login";
+    return this.http.post(url, {}, { responseType: 'text' });
+  }
+  getProjectName() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 21 });
     return this.http.post(url, filter);
   }
 downloadFile(obj, url) {

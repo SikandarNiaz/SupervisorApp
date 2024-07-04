@@ -11,7 +11,9 @@ import { Config } from "src/assets/config";
 export class TopnavComponent implements OnInit {
   public pushRightClass: string;
   showButton = true;
+  isLoggedIn = true;
   userName;
+  pmida:boolean;
   main_logo = Config.main_logo;
   @Output("hideSideBar") hideBar: any = new EventEmitter<any>();
   constructor(public router: Router, private translate: TranslateService) {
@@ -29,6 +31,8 @@ export class TopnavComponent implements OnInit {
   }
 
   ngOnInit() {
+    const hostName = window.location.hostname;
+    this.pmida = hostName?.indexOf("pmida") >= 0 || hostName?.indexOf("localhost") >= 0;
     this.pushRightClass = "push-right";
     let url: any = new Array();
     url = this.router.url.split("/");

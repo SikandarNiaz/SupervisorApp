@@ -1,73 +1,61 @@
 <div class="login-page">
-<div *ngIf ="!pmida">
-    <div class="login-page">
-
-        <div class="content">
-            <form #f="ngForm" class="login-form" fxFlex>
-                <div class="text-center">
-                    <h2 class="app-name">
-                        <img src="{{login_logo}}" height="100" alt="">
-                    </h2>
-                </div>
-                <div fxFlex fxLayout="row" fxLayout.lt-md="column">
-                    <div fxFlexFill>
-                        <mat-form-field class="w-100">
-                            <input matInput name="userName" placeholder="User Name" [(ngModel)]="loginForm.userName" #userName="ngModel" required>
-                            <mat-error *ngIf="userName.invalid">User name is required.</mat-error>
-                        </mat-form-field>
+    <div *ngIf="!pmida">
+        <div class="login-page">
+            <div class="content">
+                <form #f="ngForm" class="login-form" fxFlex>
+                    <div class="text-center">
+                        <h2 class="app-name">
+                            <img [src]="login_logo" height="100" alt="">
+                        </h2>
                     </div>
-                </div>
-                <div fxFlex fxLayout="row" fxLayout.lt-md="column">
-                    <div fxFlexFill>
-                        <mat-form-field class="w-100">
-                            <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="loginForm.password" #password="ngModel" required>
-                            <mat-error *ngIf="password.invalid">Password is required.</mat-error>
-                        </mat-form-field>
+                    <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                        <div fxFlexFill>
+                            <mat-form-field class="w-100">
+                                <input matInput name="userName" placeholder="User Name" [(ngModel)]="loginForm.userName" #userName="ngModel" required>
+                                <mat-error *ngIf="userName.invalid">User name is required.</mat-error>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-                <div hidden fxFlex fxLayout="row" fxLayout.lt-md="column">
-                    <div fxFlexFill>
-                        <mat-form-field class="w-100">
-                            <input matInput type="text" name="angularRequest" [(ngModel)]="loginForm.angularRequest">
-                        </mat-form-field>
+                    <div fxFlex fxLayout="row" fxLayout.lt-md="column">
+                        <div fxFlexFill>
+                            <mat-form-field class="w-100">
+                                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="loginForm.password" #password="ngModel" required>
+                                <mat-error *ngIf="password.invalid">Password is required.</mat-error>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-                <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
-                    <div fxFlexFill>
-                        <button [disabled]="f.invalid || loading" mat-raised-button color="primary" class="w-100" (click)="onLogin(f.value)">
-                            <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i> Login
-                        </button>
+                    <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="display: none;">
+                        <div fxFlexFill>
+                            <mat-form-field class="w-100">
+                                <input matInput type="text" name="angularRequest" [(ngModel)]="loginForm.angularRequest">
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
+                        <div fxFlexFill>
+                            <button [disabled]="f.invalid || loading" mat-raised-button color="primary" class="w-100" (click)="onLogin(f.value)">
+                                <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i> Login
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-<div *ngIf="pmida">
-    <div class="login-page">
+    <div *ngIf="pmida" class="login-page">
         <div class="content">
-            <form #f="ngForm" class="login-form" fxFlex>
-                <div class="text-center">
-                    <h2 class="app-name">
-                        <img src="{{login_logo}}" height="100" alt="">
-                    </h2>
-                </div>
-                <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
-                    <div fxFlexFill>
-                        <button [disabled]="!agreeToTerms" class="btn btn-primary btn-large w-100" (click)="samlLogin()">Login With PMI</button>
-                    </div>
-                </div>
-                <div class="checkbox-container">
-                    <mat-checkbox name="checkbox1" [(ngModel)]="agreeToTerms" (change)="onCheckboxChange($event)">
-                        Agree to Terms
-                    </mat-checkbox>
-                    <span (click)="onCheckboxChangeNew()" class="privacy-statement-link">
-                        PMI Employee Privacy Statement
-                    </span>
-                </div>
-            </form>
+          <form #f="ngForm" class="login-form" fxFlex>
+            <div class="text-center">
+              <h2 class="app-name">
+                <img [src]="login_logo" height="100" alt="">
+              </h2>
+            </div>
+            <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
+              <div fxFlexFill>
+                <button class="btn btn-primary btn-large w-100" (click)="samlLogin()">Login With PMI</button>
+              </div>
+            </div>
+          </form>
         </div>
-    </div>
-</div>
-</div>
+      </div>
+   </div>   

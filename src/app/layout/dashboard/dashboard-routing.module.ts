@@ -71,6 +71,7 @@ import { AdminLoginPmiComponent } from "src/app/admin-login-pmi/admin-login-pmi.
 import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.component";
 
 
+
 const routes: Routes = [
   {
     path: "",
@@ -255,6 +256,7 @@ const routes: Routes = [
     path: "app-pmi-home-detail",
     component:  PmiHomeDetailComponent,
   },
+
 ];
 
 @NgModule({
