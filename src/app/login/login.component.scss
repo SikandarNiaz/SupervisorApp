@@ -99,14 +99,13 @@
     width: 100%;
 }
 
-// media queries
-@media only screen and (max-width: 500px) {
-    // .login-page[_ngcontent-c1] .content[_ngcontent-c1] 
-    .login-form {
+
+@media only screen and (max-width: 420px) {
+    .login-page[_ngcontent-c1] .content[_ngcontent-c1] .login-form[_ngcontent-c1] {
         padding: 40px;
         background: #fff;
         width: 300px !important;
         box-shadow: 0 0 10px #ddd;
     }
-    /* STYLES HERE */
+    
 }
