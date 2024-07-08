@@ -13,6 +13,7 @@ import { TopnavComponent } from './components/topnav/topnav.component';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { NavComponent } from './nav/nav.component';
+import { CheckCookiePolicyComponent } from './dashboard/innerComponents/check-cookie-policy/check-cookie-policy.component';
 
 @NgModule({
     imports: [
@@ -27,6 +28,6 @@ import { NavComponent } from './nav/nav.component';
         MatListModule,
         TranslateModule
     ],
-    declarations: [LayoutComponent, NavComponent, TopnavComponent, SidebarComponent]
+    declarations: [LayoutComponent, NavComponent, TopnavComponent, SidebarComponent,CheckCookiePolicyComponent]
 })
 export class LayoutModule {}

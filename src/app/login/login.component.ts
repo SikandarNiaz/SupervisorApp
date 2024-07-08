@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import * as moment from "moment";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Config } from "src/assets/config";
+import { DecryptionService } from "../decryption.service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -28,38 +29,82 @@ pmida:boolean=false;
   email: any;
   notOnOrAfter: any;
   samlLoginForm: { userName: any; notOnOrAfter: any; angularRequest: string; };
+  hitTime: string | number | Date;
   constructor(
     private router: Router,
     private httpService: DashboardService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
+    private decryptionService: DecryptionService
   ) {}
 
   ngOnInit() {
+    this.hideCookieBanner();
     localStorage.clear();
-    //this.getProjectNameData();
+      this.getProjectNameData();
     const hostName = window.location.hostname;
     console.log("Host Name ",hostName)
     this.pmida = hostName?.indexOf("pmida") >= 0 || hostName?.indexOf("localhost") >= 0;
     // debugger;
     // localStorage.clear();
-    this.route.queryParams.subscribe((params) => {
-      this.email = params["email"];
-      this.notOnOrAfter = params["notOnOrAfter"];
-      console.log("Email:", this.email);
-      console.log("Not On Or After:", this.notOnOrAfter);
+    this.route.queryParams.subscribe(params => {
+      // console.log('Received query params:', params); 
 
-      if (this.notOnOrAfter !== null && this.notOnOrAfter !== undefined) {
-        this.samlLoginForm = {
-          userName: this.email,
-          notOnOrAfter: this.notOnOrAfter,
-          angularRequest: "Y",
-        };
-        this.onLogin(this.samlLoginForm);
+      Object.keys(params).forEach(key => {
+        const decryptedKey = this.decryptionService.decrypt(decodeURIComponent(key));
+        // console.log(`Decrypted Key: ${decryptedKey}`);
+
+        const encryptedValue = params[key];
+        // console.log(`Encrypted Value: ${encryptedValue}`); 
+
+        const decryptedValue = this.decryptionService.decrypt(decodeURIComponent(encryptedValue));
+        // console.log(`Decrypted Value for ${decryptedKey}: ${decryptedValue}`); 
+
+        switch (decryptedKey) {
+          case 'email': 
+            this.email = decryptedValue;
+            break;
+          case 'notOnOrAfter': 
+            this.notOnOrAfter = decryptedValue;
+            break;
+          case 'currentTime': 
+            this.hitTime = decryptedValue;
+            break;
+          default:
+            break;
+        }
+      });
+
+      // console.log("Final Decrypted Email:", this.email);
+      // console.log("Final Decrypted Not On Or After:", this.notOnOrAfter);
+      // console.log("Final Decrypted Current Time:", this.hitTime);
+
+      if (this.notOnOrAfter !== "" &&this.notOnOrAfter !== null && this.notOnOrAfter !== undefined) {
+        // Check if notOnOrAfter is within one minute from currentTime
+        const hitTime = new Date(this.hitTime).getTime();
+        const currentTime = new Date().getTime();
+        const timeDifference =   currentTime - hitTime
+        // debugger;
+        if (timeDifference <= 20000 && timeDifference >= 0) { // 60000 milliseconds = 1 minute
+          this.samlLoginForm = {
+            userName: this.email,
+            notOnOrAfter: this.notOnOrAfter,
+            angularRequest: "Y",
+          };
+          this.onLogin(this.samlLoginForm);
+        } else {
+          console.log("Token Expired");
+          // Handle the case where notOnOrAfter is not within one minute from the current time
+        }
       }
     });
   }
-
+  private hideCookieBanner(): void {
+    const cookieBanner = document.querySelector('.ot-sdk-container') as HTMLElement;
+    if (cookieBanner) {
+      cookieBanner.style.display = 'none';
+    }
+  }
   onLogin(loginForm: any) {
     this.loading = true;
     // console.log(loginForm);
@@ -109,8 +154,17 @@ pmida:boolean=false;
       }
     );
   }
+  checkProjectType() {
+    debugger;
+    this.projectType = localStorage.getItem("projectType");
+    if (this.projectType === 'PMI_AUDIT') {
+      // this.pmida = true;
+      // this.injectScript();
+    }
+  }
 
   getProjectNameData(){
+    debugger;
     this.loadingData = true;
     this.httpService.getProjectName().subscribe(
       (data) => {
@@ -121,6 +175,7 @@ pmida:boolean=false;
         var storedProjectType = localStorage.getItem("projectType");
         if(storedProjectType === 'PMI_AUDIT'){
           this.pmida=true;
+          // this.injectScript();
         }
          console.log("Project Name",storedProjectType,this.pmida);
         if (res) {
@@ -166,6 +221,7 @@ pmida:boolean=false;
   // }
 
   samlLogin() {
+    debugger;
     this.httpService.samlLogin().subscribe(
         (data: string) => {
             debugger;
@@ -174,11 +230,9 @@ pmida:boolean=false;
               const redirectUrl = data.replace('redirect:', '');
               window.location.replace(data);
 
-              // + '?_format=' + encodeURIComponent('text/plain')
-              // Redirect if data is valid
             } else {
                 console.error("Invalid redirect URL: ", data);
-                // Handle the error condition, e.g., display an error message to the user
+                
             }
         },
         (error) => {
@@ -186,22 +240,9 @@ pmida:boolean=false;
             console.error("Status: ", error.status);
             console.error("Status Text: ", error.statusText);
             console.error("Message: ", error.message);
-            // Handle the error condition, e.g., display an error message to the user
+           
         }
     );
 }
-agreeToTerms = false;
-onCheckboxChange(event: any): void {
-  console.log("event: ",event);
-  console.log("event.checked: ",event?.checked);
-  this.agreeToTerms = event.checked;
-  if (this.agreeToTerms) {
-      window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
-  }
-}
 
-onCheckboxChangeNew(){
-// window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
-window.open('https://pmirm.rtdtradetracker.com/images/PMI%20Employee%20Privacy%20Statement.pdf', '_blank');
-}
 }

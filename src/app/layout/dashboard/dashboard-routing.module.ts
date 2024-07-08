@@ -66,6 +66,10 @@ import { ShopperEngagementComponent } from "./innerComponents/shopper-engagement
 import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-achievement/upload-target-vs-achievement.component";
 import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-assets/upload-distribution-assets.component";
 import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.component";
+import { PmiHomeComponent } from "src/app/pmi-home/pmi-home.component";
+import { AdminLoginPmiComponent } from "src/app/admin-login-pmi/admin-login-pmi.component";
+import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.component";
+
 
 
 const routes: Routes = [
@@ -188,6 +192,7 @@ const routes: Routes = [
 
       { path: "payroll-process", component: PayrollProcessComponent },
       { path: "payroll-unprocess", component: PayrollUnprocessComponent },
+      // {path: 'app-admin-login-pmi', component:  AdminLoginPmiComponent},
       
     ],
   },
@@ -243,6 +248,15 @@ const routes: Routes = [
     path: "app-manage-emails",
     component:  ManageEmailsComponent,
   },
+  {
+    path: "app-pmi-home",
+    component:  PmiHomeComponent,
+  },
+  {
+    path: "app-pmi-home-detail",
+    component:  PmiHomeDetailComponent,
+  },
+
 ];
 
 @NgModule({

@@ -1,0 +1,99 @@
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+
+      <!-- Header Section with Date Pickers and Search -->
+      <section class="header-section">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input matInput
+                     [min]="minDate"
+                     [max]="maxDate"
+                     [matDatepicker]="picker0"
+                     [(ngModel)]="startDate"
+                     (ngModelChange)="getDashboardData()"
+                     placeholder="Choose a start date"
+                     readonly />
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input matInput
+                     [min]="minDate"
+                     [max]="maxDate"
+                     [matDatepicker]="picker1"
+                     [(ngModel)]="endDate"
+                     (ngModelChange)="getDashboardData()"
+                     placeholder="Choose an end date"
+                     readonly />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-auto ml-auto">
+            <div class="input-group" style="height: 40px">
+              <div id="search-autocomplete" class="form-outline" style="width: 250px">
+                <input type="search"
+                       id="form1"
+                       class="form-control form-control-sm"
+                       placeholder="Search..."
+                       [(ngModel)]="searchQuery"
+                       style="height: 40px; padding-top: 8px; padding-bottom: 8px" />
+              </div>
+              <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Horizontal Divider Line -->
+      <!-- <hr style="margin: 20px 0; border-top: 1px solid #ccc;" /> -->
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Main Content Body (Table) -->
+<section class="main-content">
+  <table class="table table-hover mb-0 custom-table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">m_code</th>
+        <th scope="col">full_name</th>
+        <th scope="col">dsr_name</th>
+        <th scope="col"> activity_id</th>
+        <th scope="col"> distribution_audit_id</th>
+       
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems; let x = index"
+          [class.inactive-background]="item.active === 'N'"
+          [class.hover-effect-active]="hoveredRowIndex === x && item.active === 'Y'"
+          [class.hover-effect-inactive]="hoveredRowIndex === x && item.active === 'N'">
+        <th scope="row">{{ x + 1 }}</th>
+        <td role="button">
+          <button (click)="openNewWindow(item)"
+                  class="btn btn-link"
+                  type="button">
+            {{ item.m_code }}
+          </button>
+        </td>
+        <td>{{ item.full_name }}</td>
+        <td>{{ item.dsr_name }}</td>
+        <td>{{ item.activity_id }}</td>
+        <td>{{ item.distribution_audit_id }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

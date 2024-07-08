@@ -1,0 +1,14 @@
+#content {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #router-outlet-wrapper {
+    flex: 1;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: auto;
+  }

@@ -57,7 +57,12 @@ export class DashboardService {
     //   })
     // );
   }
-
+  login1() {
+   
+    const url = this.ip + "getProjectType";   // JsonLoginController
+    return this.http.post(url,this.httpOptions);
+    
+  }
   updatePassword(obj) {
     const url = this.ip + "change-password";
     return this.http.post(url, obj, this.httpOptions);
@@ -854,6 +859,11 @@ gettingSkuType() {
   const filter = JSON.stringify({ act: 41 });
   return this.http.post(url, filter);
 }
+gettingFieldDataTypes() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 46 });
+  return this.http.post(url, filter);
+}
   gettingFormTypes(){
     // const body = this.UrlEncodeMaker();
  const url = this.ip + "portal/ndn/getformstypes";
@@ -993,6 +1003,16 @@ deActivateFieldValue(obj){
     const url = this.ip + "/uploadDistributionAssets";
     return this.http.post(url, obj);
   }
+  getDistributionAssets(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/getdistributionassests";
+    return this.http.post(url, body,this.httpOptions);
+  }
+  ViewDistributionAuditDetail(obj) {
+    const body = this.UrlEncodeMaker(obj);
+    const url = this.ip + "/viewDistributionAuditDetail";
+    return this.http.post(url, body,this.httpOptions);
+  }
   formMoveTo(obj){
     const body = this.UrlEncodeMaker(obj);
     const url = this.ip + "/formMoveToController";
@@ -1044,17 +1064,15 @@ deActivateFieldValue(obj){
     const url = this.ip + "/loadFilters";
     return this.http.post(url, filter);
   }
-  getProjectName() {
-    const filter = JSON.stringify({ act: 21 });
-    const url = this.ip + "loadFilters";
-    return this.http.post(url, filter);
-  }
-
   samlLogin(){
     const url = this.ip + "/saml/login";
     return this.http.post(url, {}, { responseType: 'text' });
   }
-  
+  getProjectName() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 21 });
+    return this.http.post(url, filter);
+  }
 downloadFile(obj, url) {
     let path;
 

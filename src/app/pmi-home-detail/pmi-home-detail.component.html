@@ -1,0 +1,73 @@
+<div class="container-fluid">
+    <!-- Horizontal Line -->
+    <div class="row" style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"></div>
+  
+    <div class="row justify-content-center">
+      <div class="col-md-12 text-center">
+        <h4>
+          <!-- <u>{{ data?.sectionTitle }}</u> -->
+          <!-- <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i> -->
+        </h4>
+      </div>
+  
+      <!-- Check if there is data -->
+      <ng-container *ngIf="data && data.length > 0">
+        <!-- Display images section -->
+        <div class="col-md-12 mt-3">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card mb-3">
+                <img *ngIf="data[0]?.first_image_url" [src]="ip + data[0]?.first_image_url" class="card-img-top" alt="First Image" (click)="showImageModal(data[0]?.first_image_url)">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-3">
+                <img *ngIf="data[0]?.second_image_url" [src]="ip + data[0]?.second_image_url" class="card-img-top" alt="Second Image" (click)="showImageModal(data[0]?.second_image_url)">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-3">
+                <img *ngIf="data[0]?.third_image_url" [src]="ip + data[0]?.third_image_url" class="card-img-top" alt="Third Image" (click)="showImageModal(data[0]?.third_image_url)">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Display the table -->
+        <div class="tableFixHead col-md-12 mt-4">
+          <table class="table table-bordered table-hover w-100">
+            <thead style="background: lightgray">
+              <tr>
+                <!-- Table headers -->
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Distribution Audit ID</th>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Vehicle Type</th>
+                <th>Variance</th>
+                <th>Actual Mileage</th>
+                <th>Avg Mileage</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <!-- Loop through data and display each item -->
+              <tr *ngFor="let item of data">
+                <td>{{ item.user_id }}</td>
+                <td>{{ item.full_name }}</td>
+                <td>{{ item.distribution_audit_id }}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.vehicle_type }}</td>
+                <td>{{ item.variance }}</td>
+                <td>{{ item.actual_mileage }}</td>
+                <td>{{ item.avg_mileage }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  

@@ -1,10 +1,15 @@
-<!-- <app-nav></app-nav> -->
+  <!-- <app-nav></app-nav> -->
 
-<app-topnav (hideSideBar)="hideBarStatus()"></app-topnav>
-<ng-container >
-  <app-sidebar *ngIf="!hideSideBar"></app-sidebar>
-  <div class="main-container"  [ngClass]="{'main-container': !hideSideBar, 'container-fluid mt-12':hideSideBar}">
+  <app-topnav (hideSideBar)="hideBarStatus()"></app-topnav>
+  <ng-container >
+    <app-sidebar *ngIf="!hideSideBar"></app-sidebar>
+    <div class="main-container"  [ngClass]="{'main-container': !hideSideBar, 'container-fluid mt-12':hideSideBar}">
+      
 
-      <router-outlet></router-outlet>
-  </div>
-</ng-container>
+        <router-outlet></router-outlet>
+      
+    </div>
+    
+  </ng-container>
+  <app-check-cookie-policy></app-check-cookie-policy>
+
