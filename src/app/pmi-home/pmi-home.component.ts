@@ -66,8 +66,8 @@ export class PmiHomeComponent implements OnInit {
   openNewWindow(item: any) {
 
     window.open(
-      `${environment.hash}dashboard/app-pmi-home-detail?mCode=${
-        item.m_code
+      `${environment.hash}dashboard/app-pmi-home-detail?survey_id=${
+        item.distribution_audit_id
       }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
         this.endDate
       )}`,

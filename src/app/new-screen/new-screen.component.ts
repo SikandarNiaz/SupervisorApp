@@ -57,6 +57,7 @@ export class NewScreenComponent  implements OnInit {
   @ViewChild('logicModal') logicModal: ModalDirective;
  
   brandID: any;
+  moveOrExit: string = '';
   child:boolean=false;
   campaingId: any;
   loadingdata: Boolean = false;
@@ -95,7 +96,7 @@ export class NewScreenComponent  implements OnInit {
   //   'form',
   //   'image'
   // ];
-  fieldOptions:any;
+  // fieldOptions:any;
   formtypes: any;
   
   ff: any;
@@ -109,7 +110,9 @@ export class NewScreenComponent  implements OnInit {
   ft: String; //forgettingnewform
   fty: String;//forgettingnewform
   newformobj2: { id: any; title: any; };
-  options: any[] = [];
+  // options: any[] = [];
+  options: { value: string }[] = [];
+  fieldOptions: { fieldType: string }[] = [];
   numberOfOptions: number = 0;
   objq: any[];
   
@@ -179,22 +182,35 @@ export class NewScreenComponent  implements OnInit {
     this.gettingFormTypes();
     this.gettingFieldDataTypes();
   }
+  // gettingFormTypes() {
+  //   this.dashboardService.gettingFormTypes().subscribe(
+  //     (response: any[]) => {
+  //       this.formtypes = response.map((item) => ({ ...item }));
+  //       console.log(this.formtypes, 'habshi')
+  //     },
+  //     (error) => {
+  //       console.log(error, 'error');
+  //     }
+  //   );
+  // }
   gettingFormTypes() {
     this.dashboardService.gettingFormTypes().subscribe(
       (response: any[]) => {
-        this.formtypes = response.map((item) => ({ ...item }));
-        console.log(this.formtypes, 'habshi')
+        this.formtypes = response.map((item) => ({ id: item.id, title: item.title }));
+        console.log(this.formtypes, 'FormTypes');
       },
       (error) => {
         console.log(error, 'error');
       }
     );
   }
+
+ 
   gettingFieldDataTypes() {
     this.dashboardService.gettingFieldDataTypes().subscribe(
       (response: any[]) => {
-        this.fieldOptions = response.map((item) => ({ ...item }));
-        console.log(this.fieldOptions, 'FieldDataTypes')
+        this.fieldOptions = response.map((item) => ({ fieldType: item.fieldType }));
+        console.log(this.fieldOptions, 'FieldDataTypes');
       },
       (error) => {
         console.log(error, 'error');

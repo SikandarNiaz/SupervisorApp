@@ -1,0 +1,33 @@
+/* your-component.component.css */
+.header-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .header-section .col {
+    flex: 1;
+    min-width: 200px; /* Adjust this as needed */
+    margin: 10px;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  }
+  
+  .select-all-button {
+    color: #ffff;
+    background-color: green;
+  }
+  
+  .deselect-all-button {
+    color: #ffff;
+    background-color: red;
+  }
+  

@@ -1,17 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardService } from '../layout/dashboard/dashboard.service';
-import { KeyValuePipe } from "@angular/common";
-
-import {
- EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-
+import { ToastrService } from 'ngx-toastr';
+import { Config } from "src/assets/config";
 
 @Component({
   selector: 'app-pmi-home-detail',
@@ -19,63 +10,81 @@ import { ToastrService } from "ngx-toastr";
   styleUrls: ['./pmi-home-detail.component.css']
 })
 export class PmiHomeDetailComponent implements OnInit {
-  @Input("data") data;
-  mCode: string;
-  formData: any;
-  loading:boolean;
+  data: any[];
+  formData: any[];
   selectedImage: any = {};
- 
+  loading: boolean;
+  ip: any = Config.BASE_URI;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private httpService: DashboardService,
-    private toastr: ToastrService,
-    private keyValuePipe: KeyValuePipe,) {
+    private toastr: ToastrService
+  ) {}
 
-    this.route.queryParams.subscribe((p) => {
-      console.log("active params", p);
-      this.mCode = p.mCode;
-    });
-   }
-
-   ngOnInit(): void {
-    // Using queryParams to get mCode parameter
+  ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.mCode = params['mCode'];
-      console.log("mCode from queryParams:", this.mCode);
-      this.updateTextDataNew();
+      const surveyId = params['survey_id'];
+      const startDate = params['startDate'];
+      const endDate = params['endDate'];
+
+      this.loadData(surveyId, startDate, endDate);
     });
   }
 
-
-  updateTextDataNew() {
+  loadData(surveyId: string, startDate: string, endDate: string): void {
     this.loading = true;
     const obj = {
-      mCode: this.mCode
+      surveyId,
+      startDate,
+      endDate
     };
-    console.log("mCode:", this.mCode);
 
-    this.httpService.ViewDistributionAuditDetail(obj).subscribe((data: any) => {
-      console.log("API Response:", JSON.stringify(data, null, 2));
-      this.loading = false;
-      if (data && Array.isArray(data) && data.length > 0) {
-        this.data = data;
-        console.log("this.data:", JSON.stringify(this.data, null, 2));
-        if (data[0].imageList && Array.isArray(data[0].imageList) && data[0].imageList.length > 0) {
-          this.selectedImage = data[0].imageList[0];
-          console.log("this.selectedImage:", this.selectedImage);
+    this.httpService.ViewDistributionAuditDetail(obj).subscribe(
+      (response: any) => {
+        this.loading = false;
+        if (response && Array.isArray(response) && response.length > 0) {
+          this.data = response;
+          this.handleImageData();
+          this.formData = this.transformFormData(this.data[0]?.formData);
+        } else {
+          this.handleError('No data or data in unexpected format');
         }
-        // Assuming data[0].formData is the correct path to your form data
-        this.formData = data[0].formData || [];
-        console.log("this.formData:", JSON.stringify(this.formData, null, 2));
-      } else {
-        console.error("No data or data in unexpected format");
-        this.toastr.error("Data not found or in unexpected format", "Error");
+      },
+      error => {
+        this.loading = false;
+        console.error('API Error:', error);
+        this.handleError('An error occurred while fetching data');
       }
-    }, error => {
-      this.loading = false;
-      console.error("API Error:", error);
-      this.toastr.error("An error occurred while fetching data", "Error");
-    });
+    );
   }
 
+  handleImageData(): void {
+    if (this.data[0]?.imageList1 && this.data[0].imageList1.length > 0) {
+      this.selectedImage = this.data[0].imageList1[0];
+    } else {
+      console.error('No images found in data');
+    }
+  }
+
+  transformFormData(formDataObj: any): any[] {
+    return Object.keys(formDataObj).map(key => formDataObj[key]);
+  }
+
+  setSelectedImage(image: any): void {
+    this.selectedImage = image;
+  }
+
+  showChildModal(image: any): void {
+    // Implement modal logic if needed
+  }
+
+  updateTextData(item: any): void {
+    // Implement logic to update text data if needed
+  }
+
+  private handleError(message: string): void {
+    console.error(message);
+    this.toastr.error(message, 'Error');
+  }
 }

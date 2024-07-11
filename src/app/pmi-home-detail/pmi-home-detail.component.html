@@ -1,73 +1,116 @@
 <div class="container-fluid">
-    <!-- Horizontal Line -->
-    <div class="row" style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"></div>
-  
-    <div class="row justify-content-center">
-      <div class="col-md-12 text-center">
-        <h4>
-          <!-- <u>{{ data?.sectionTitle }}</u> -->
-          <!-- <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i> -->
-        </h4>
-      </div>
-  
-      <!-- Check if there is data -->
-      <ng-container *ngIf="data && data.length > 0">
-        <!-- Display images section -->
-        <div class="col-md-12 mt-3">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card mb-3">
-                <img *ngIf="data[0]?.first_image_url" [src]="ip + data[0]?.first_image_url" class="card-img-top" alt="First Image" (click)="showImageModal(data[0]?.first_image_url)">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-3">
-                <img *ngIf="data[0]?.second_image_url" [src]="ip + data[0]?.second_image_url" class="card-img-top" alt="Second Image" (click)="showImageModal(data[0]?.second_image_url)">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-3">
-                <img *ngIf="data[0]?.third_image_url" [src]="ip + data[0]?.third_image_url" class="card-img-top" alt="Third Image" (click)="showImageModal(data[0]?.third_image_url)">
-              </div>
-            </div>
+  <!-- Horizontal line -->
+  <div class="row" style="border-bottom: 2px solid black; width: 100%; margin: 5px 0;"></div>
+
+  <!-- Main content -->
+  <div class="row justify-content-center">
+
+    <!-- Section title -->
+    <div class="col-md-12 text-center" *ngIf="data && data.length > 0">
+      <h4>
+        <u>{{ data[0]?.sectionTitle }}</u>
+      </h4>
+    </div>
+
+    <!-- Image gallery and details -->
+    <ng-container *ngIf="data[0]?.imageList1">
+      <div class="col-md-5">
+        <!-- Selected image display -->
+        <div style="position: relative">
+          <mat-card class="col-md-3.5 example-card card2 ml-3 mt-3">
+            <lib-ngx-image-zoom
+              [zoomMode]="'hover'"
+              [magnification]="2"
+              [enableScrollZoom]="true"
+              [lensWidth]="230"
+              [lensHeight]="300"
+              [enableLens]="true"
+              [thumbImage]="selectedImage?.isExternalUrl ? selectedImage?.url : ip + selectedImage?.url"
+              [fullImage]="selectedImage?.isExternalUrl ? selectedImage?.url : ip + selectedImage?.url"
+            ></lib-ngx-image-zoom>
+          </mat-card>
+          <img *ngIf="selectedImage?.isExternalUrl"
+               [src]="selectedImage?.url"
+               class="img-thumbnail"
+               style="height: 450px; width: 100%"
+               (click)="showChildModal(selectedImage)"
+          />
+          <div class="imageDetails">
+            <p *ngIf="selectedImage?.visitDateTime">Time Stamp: {{ selectedImage?.visitDateTime }}</p>
           </div>
         </div>
   
-        <!-- Display the table -->
-        <div class="tableFixHead col-md-12 mt-4">
+        <!-- Thumbnail gallery -->
+        <div class="col-12 ml-3 mt-2">
+          <div class="row">
+            <ng-container *ngFor="let img of data[0]?.imageList1; let i = index">
+              <div class="col-2 mb-1 card mt-5 mr-2"
+                   (click)="setSelectedImage(img)"
+                   style="padding: 0% !important; cursor: pointer"
+                   [ngClass]="{ bgColor: img?.url == selectedImage?.url }">
+                <img [src]="img?.isExternalUrl ? img?.url : ip + img?.url"
+                     width="100"
+                     class="img-thumbnail side-image"
+                     style="height: 80px !important; width: 120px !important"
+                />
+              </div>
+            </ng-container>
+            <!-- Placeholder if no images are present -->
+            <ng-container *ngIf="data[0]?.imageList1.length === 0">
+              <div class="col-2 mb-1 card mt-5 mr-2" style="height: 80px !important; width: 120px !important">
+              
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Form data table -->
+    <ng-container *ngIf="formData?.length > 0">
+      <div class="col-md-12 mt-3">
+        <div class="tableFixHead">
           <table class="table table-bordered table-hover w-100">
             <thead style="background: lightgray">
               <tr>
-                <!-- Table headers -->
-                <th>User ID</th>
-                <th>Full Name</th>
-                <th>Distribution Audit ID</th>
-                <th>Type</th>
-                <th>Title</th>
-                <th>Vehicle Type</th>
-                <th>Variance</th>
-                <th>Actual Mileage</th>
-                <th>Avg Mileage</th>
+                <th>Question</th>
+                <th>Answer</th>
               </tr>
             </thead>
-  
             <tbody>
-              <!-- Loop through data and display each item -->
-              <tr *ngFor="let item of data">
-                <td>{{ item.user_id }}</td>
-                <td>{{ item.full_name }}</td>
-                <td>{{ item.distribution_audit_id }}</td>
-                <td>{{ item.type }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.vehicle_type }}</td>
-                <td>{{ item.variance }}</td>
-                <td>{{ item.actual_mileage }}</td>
-                <td>{{ item.avg_mileage }}</td>
-              </tr>
+              <!-- Loop through form data -->
+              <ng-container *ngFor="let item of formData">
+                <tr>
+                  <td>{{ item.question }}</td>
+                  <td>
+                    <ng-container *ngIf="!isEditable">{{ item.answer }}</ng-container>
+                    <ng-container *ngIf="isEditable">
+                      <!-- Handle input field or select dropdown based on fieldType -->
+                      <ng-container *ngIf="item.fieldType === 'text_field'">
+                        <input type="text"
+                               [(ngModel)]="item.answer"
+                               maxlength="10"
+                               style="width: 100%"
+                               placeholder="Enter value"
+                               (change)="updateTextData(item)"
+                        />
+                      </ng-container>
+                      <ng-container *ngIf="item.fieldType !== 'text_field'">
+                        <select [(ngModel)]="item.answer" (change)="updateTextData(item)">
+                          <option *ngFor="let option of item.optionList" [value]="option.id">
+                            {{ option.title }}
+                          </option>
+                        </select>
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
+
   </div>
-  
+</div>

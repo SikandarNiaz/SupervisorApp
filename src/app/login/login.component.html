@@ -24,13 +24,13 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="display: none;">
+                    <!-- <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="display: none;">
                         <div fxFlexFill>
                             <mat-form-field class="w-100">
                                 <input matInput type="text" name="angularRequest" [(ngModel)]="loginForm.angularRequest">
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div> -->
                     <div fxFlex fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
                         <div fxFlexFill>
                             <button [disabled]="f.invalid || loading" mat-raised-button color="primary" class="w-100" (click)="onLogin(f.value)">

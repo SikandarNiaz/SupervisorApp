@@ -629,7 +629,7 @@ export class DashboardService {
   }
 
   ViewStockDataNew(obj) {
-    const url = this.ip + "/viewStockDataController"; // -----------> UpdateGiftController
+    const url = this.ip + "/viewStockDataController"; // -----------> ViewStockDataController
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body, this.httpOptions);
   }
@@ -1072,6 +1072,15 @@ deActivateFieldValue(obj){
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({ act: 21 });
     return this.http.post(url, filter);
+  }
+  gettingSurveyors() {
+    const filter = JSON.stringify({ act: 13 });
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    return this.http.post(url, filter);
+  }
+  uploadTrainingPDF(formData: FormData){
+    const url = this.ip + "upload-training";
+    return this.http.post(url, formData);
   }
 downloadFile(obj, url) {
     let path;

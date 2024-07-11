@@ -646,65 +646,34 @@
 </div>
 <!-- ////////////AddFieldModal///////////// -->
 
-<div
-  bsModal
-  #AddNewFeildModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  [config]="{ backdrop: 'static', keyboard: false }"
-  aria-labelledby="two-button-modal"
->
+<div bsModal #AddNewFeildModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h1>{{ formtitle }}</h1>
-        <button
-          type="button"
-          class="close pull-right"
-          aria-label="Close"
-          (click)="hideAddnewfeild()"
-        >
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideAddnewfeild()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label for="newFieldTitle">Add Field:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="newFieldTitle"
-            placeholder="Enter your Question"
-            [(ngModel)]="newFieldtitle"
-          />
+          <input type="text" class="form-control" id="newFieldTitle" placeholder="Enter your Question" [(ngModel)]="newFieldtitle" />
         </div>
         <div *ngIf="newFieldtitle" class="form-group">
           <label for="newFeildType">Select Data Type:</label>
-          <select
-            [(ngModel)]="newfeildtype"
-            (change)="updateOptions()"
-            class="form-control"
-          >
+          <select [(ngModel)]="newfeildtype" (change)="updateOptions()" class="form-control">
             <option disabled selected value="">Select Data Type</option>
-            <option *ngFor="let field of fieldOptions" [value]="field">
-              {{ field.fieldType }}
-            </option>
+            <option *ngFor="let field of fieldOptions" [value]="field.fieldType">{{ field.fieldType }}</option>
           </select>
         </div>
-        <!-- Add input field for rating -->
-        <div *ngIf="newfeildtype === 'rating'">
-          <div class="form-group">
-            <label for="ratingValue">Rating Value:</label>
-            <input
-              type="number"
-              class="form-control"
-              id="ratingValue"
-              placeholder="Enter rating value"
-              [(ngModel)]="ratingValue"
-            />
-          </div>
+        <!-- Add conditional fields here as needed based on newfeildtype -->
+        <!-- Example for rating -->
+        <div *ngIf="newfeildtype === 'rating'" class="form-group">
+          <label for="ratingValue">Rating Value:</label>
+          <input type="number" class="form-control" id="ratingValue" placeholder="Enter rating value" [(ngModel)]="ratingValue" />
         </div>
+        <!-- Continue with other conditional fields -->
         <!-- Input type for text_field -->
         <div *ngIf="newfeildtype === 'text_field'" class="form-group">
           <label for="textFieldType">Data Type:</label>
@@ -714,16 +683,9 @@
           </select>
         </div>
         <!-- Input type for date -->
-        <div *ngIf="newfeildtype === 'date'">
-          <div class="form-group">
-            <label for="dateValue">Select Date:</label>
-            <input
-              type="date"
-              class="form-control"
-              id="dateValue"
-              [(ngModel)]="dateValue"
-            />
-          </div>
+        <div *ngIf="newfeildtype === 'date'" class="form-group">
+          <label for="dateValue">Select Date:</label>
+          <input type="date" class="form-control" id="dateValue" [(ngModel)]="dateValue" />
         </div>
       
         <!-- Options input for other field types -->
@@ -782,6 +744,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!-- ////////////////LogicModal////////// -->

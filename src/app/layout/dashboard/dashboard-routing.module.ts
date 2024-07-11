@@ -67,9 +67,8 @@ import { UploadTargetVsAchievementComponent } from "src/app/upload-target-vs-ach
 import { UploadDistributionAssetsComponent } from "src/app/upload-distribution-assets/upload-distribution-assets.component";
 import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.component";
 import { PmiHomeComponent } from "src/app/pmi-home/pmi-home.component";
-import { AdminLoginPmiComponent } from "src/app/admin-login-pmi/admin-login-pmi.component";
 import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.component";
-
+import { UploadTrainingComponent } from "src/app/upload-training/upload-training.component";
 
 
 const routes: Routes = [
@@ -256,6 +255,11 @@ const routes: Routes = [
     path: "app-pmi-home-detail",
     component:  PmiHomeDetailComponent,
   },
+  {
+    path: "app-upload-training",
+    component:  UploadTrainingComponent,
+  },
+
 
 ];
 

@@ -46,9 +46,11 @@ export class HomeComponent implements OnInit {
   tableData: any = [];
   isBaModule: boolean;
   isBaModule1: boolean;
+  checkCookiePolicy: boolean;
   
   ngOnInit() {
     this.projectType = localStorage.getItem("projectType");
+    console.log("project:",this.projectType);
    this.userType = localStorage.getItem("user_type");
     debugger;
     if (
@@ -68,8 +70,23 @@ export class HomeComponent implements OnInit {
     {
       this.isBaModule1 = true;
     }
+    else if (this.projectType =='PMI_AUDIT') {
+      debugger;
+      this.checkCookiePolicy = true;
+      // this.injectScript();
+    }
     else{
 
     }
+  }
+  injectScript() {
+    debugger;
+    const script = document.createElement('script');
+    script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+    script.type = 'text/javascript';
+    script.charset = 'UTF-8';
+    script.setAttribute('data-document-language', 'true');
+    script.setAttribute('data-domain-script', '018fb8e3-85fa-776f-ac5c-7c95e632510d-test');
+    document.head.appendChild(script);
   }
 }
