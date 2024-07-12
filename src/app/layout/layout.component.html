@@ -11,5 +11,7 @@
     </div>
     
   </ng-container>
-  <app-check-cookie-policy></app-check-cookie-policy>
+  <ng-container *ngIf="pmida || localhost"><app-check-cookie-policy  ></app-check-cookie-policy>
+
+  <!-- <app-check-cookie-policy></app-check-cookie-policy> -->
 

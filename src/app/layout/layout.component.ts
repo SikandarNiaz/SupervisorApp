@@ -10,8 +10,17 @@ import { filter } from "rxjs/operators";
 export class LayoutComponent implements OnInit {
   hideSideBar = false; // make default value to false after completing SMS manager;
   isTableauRequest = false;
+  localhost: boolean=false;
+  pmida: boolean;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    const hostName = window.location.hostname;
+    this.pmida = hostName?.indexOf("pmida") >= 0;
+    this.localhost = hostName?.indexOf("localhost") >= 0;
+
+
+
+  }
 
   ngOnInit() {
     // Hide Side Bar for Tableau Urls

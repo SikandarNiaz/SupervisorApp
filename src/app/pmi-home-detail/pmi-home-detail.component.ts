@@ -10,11 +10,11 @@ import { Config } from "src/assets/config";
   styleUrls: ['./pmi-home-detail.component.css']
 })
 export class PmiHomeDetailComponent implements OnInit {
-  data: any[];
-  formData: any[];
+  data: any[] = [];
+  formData: any[] = [];
   selectedImage: any = {};
-  loading: boolean;
-  ip: any = Config.BASE_URI;
+  loading: boolean = false;
+  ip: string = Config.BASE_URI;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,7 +68,7 @@ export class PmiHomeDetailComponent implements OnInit {
   }
 
   transformFormData(formDataObj: any): any[] {
-    return Object.keys(formDataObj).map(key => formDataObj[key]);
+    return formDataObj ? Object.keys(formDataObj).map(key => formDataObj[key]) : [];
   }
 
   setSelectedImage(image: any): void {

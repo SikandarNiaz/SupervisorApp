@@ -1,73 +1,69 @@
 <div class="animated slideInLeft">
-    <mat-card class="mb-20">
-      <mat-card-content>
-        <mat-card-title>
-          {{ title | uppercase }}
-          <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
-        </mat-card-title>
-        
-        <!-- Updated code for the date pickers, file upload, and surveyor dropdown with custom buttons -->
-        <section class="header-section">
-          <div class="row">
-            <div class="col">
-              <mat-form-field class="example-full-width">
-                <input matInput
-                       [min]="minDate"
-                       [max]="maxDate"
-                       [matDatepicker]="picker0"
-                       [(ngModel)]="startDate"
-                       (ngModelChange)="getDashboardData()"
-                       placeholder="Choose a start date"
-                       readonly />
-                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
-                <mat-datepicker #picker0></mat-datepicker>
-              </mat-form-field>
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+      
+      <!-- Updated code for the date pickers, file upload, and surveyor dropdown with custom buttons -->
+      <section class="header-section">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input matInput
+                     [min]="minDate"
+                     [max]="maxDate"
+                     [matDatepicker]="picker0"
+                     [(ngModel)]="startDate"
+                     placeholder="Choose a start date"
+                     readonly />
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input matInput
+                     [min]="minDate"
+                     [max]="maxDate"
+                     [matDatepicker]="picker1"
+                     [(ngModel)]="endDate"
+                     placeholder="Choose an end date"
+                     readonly />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-select multiple placeholder="Select a surveyor" [(ngModel)]="selectedSurveyors" (selectionChange)="onSurveyorChange($event)">
+                <mat-select-trigger>
+                  {{ selectedSurveyors?.length }} selected
+                </mat-select-trigger>
+                <div class="button-row">
+                  <button mat-button class="select-all-button" (click)="selectAllSurveyors($event)">Select All</button>
+                  <button mat-button class="deselect-all-button" (click)="deselectAllSurveyors($event)">Deselect All</button>
+                </div>
+                <mat-option *ngFor="let surveyor of Surveyors" [value]="surveyor.id">
+                  {{ surveyor.fullName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="file-upload">
+              <input #fileInput (change)="onFileChange($event)" id="avatar" type="file" />
             </div>
-            <div class="col">
-              <mat-form-field class="example-full-width">
-                <input matInput
-                       [min]="minDate"
-                       [max]="maxDate"
-                       [matDatepicker]="picker1"
-                       [(ngModel)]="endDate"
-                       (ngModelChange)="getDashboardData()"
-                       placeholder="Choose an end date"
-                       readonly />
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="col">
-              <mat-form-field class="example-full-width">
-                <mat-select multiple placeholder="Select a surveyor" [(ngModel)]="selectedSurveyors" (selectionChange)="onSurveyorChange($event)">
-                  <mat-select-trigger>
-                    {{ selectedSurveyors?.length }} selected
-                  </mat-select-trigger>
-                  <div class="button-row">
-                    <button mat-button class="select-all-button" (click)="selectAllSurveyors($event)">Select All</button>
-                    <button mat-button class="deselect-all-button" (click)="deselectAllSurveyors($event)">Deselect All</button>
-                  </div>
-                  <mat-option *ngFor="let surveyor of Surveyors" [value]="surveyor.id">
-                    {{ surveyor.fullName }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+            <div class="upload-button">
+              <button type="submit" mat-raised-button color="warn" [disabled]="loadingData" style="margin-top: 10px;" (click)="uploadTrainingPDF()">Upload</button>
             </div>
           </div>
-          <!-- File upload section -->
-          <div class="row mt-3">
-            <div class="col">
-              <input type="file" (change)="onFileChange($event)" accept=".pdf" />
-            </div>
-            <div class="col">
-              <button type="button" mat-raised-button color="warn" [disabled]="loadingData || !fileToUpload" (click)="uploadTrainingPDF()">
-                Upload
-              </button>
-            </div>
-          </div>
-        </section>
-        
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
+        </div>
+      </section>
+      
+    </mat-card-content>
+  </mat-card>
+</div>
