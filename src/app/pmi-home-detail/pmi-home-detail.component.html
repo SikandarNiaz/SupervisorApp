@@ -66,12 +66,10 @@
         </div>
       </div>
     </ng-container>
-    <ng-container *ngIf="!data?.length">
-      <!-- <p>No data available</p> -->
-    </ng-container>
+   
 
     <!-- Form data table -->
-    <ng-container *ngIf="formData?.length > 0">
+    <ng-container *ngIf="formData1?.length > 0">
       <div class="col-md-12 mt-3">
         <div class="tableFixHead">
           <table class="table table-bordered table-hover w-100">
@@ -83,7 +81,7 @@
             </thead>
             <tbody>
               <!-- Loop through form data -->
-              <ng-container *ngFor="let item of formData">
+              <ng-container *ngFor="let item of formData1">
                 <tr>
                   <td>{{ item.question }}</td>
                   <td>

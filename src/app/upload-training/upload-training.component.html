@@ -5,48 +5,85 @@
         {{ title | uppercase }}
         <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
       </mat-card-title>
-      
+
       <!-- Updated code for the date pickers, file upload, and surveyor dropdown with custom buttons -->
       <section class="header-section">
         <div class="row">
           <div class="col">
             <mat-form-field class="example-full-width">
-              <input matInput
-                     [min]="minDate"
-                     [max]="maxDate"
-                     [matDatepicker]="picker0"
-                     [(ngModel)]="startDate"
-                     placeholder="Choose a start date"
-                     readonly />
-              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <input
+                matInput
+                [min]="minDate"
+                [matDatepicker]="picker0"
+                [(ngModel)]="startDate"
+                placeholder="Choose a start date"
+                readonly
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker0"
+              ></mat-datepicker-toggle>
               <mat-datepicker #picker0></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="col">
             <mat-form-field class="example-full-width">
-              <input matInput
-                     [min]="minDate"
-                     [max]="maxDate"
-                     [matDatepicker]="picker1"
-                     [(ngModel)]="endDate"
-                     placeholder="Choose an end date"
-                     readonly />
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <input
+                matInput
+                [min]="minDate"
+                [matDatepicker]="picker1"
+                [(ngModel)]="endDate"
+                placeholder="Choose an end date"
+                readonly
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker1"
+              ></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="col">
             <mat-form-field class="example-full-width">
-              <mat-select multiple placeholder="Select a surveyor" [(ngModel)]="selectedSurveyors" (selectionChange)="onSurveyorChange($event)">
+              <mat-select
+                multiple
+                placeholder="Select a surveyor"
+                [(ngModel)]="selectedSurveyors"
+                (selectionChange)="onSurveyorChange($event)"
+              >
                 <mat-select-trigger>
                   {{ selectedSurveyors?.length }} selected
                 </mat-select-trigger>
-                <div class="button-row">
-                  <button mat-button class="select-all-button" (click)="selectAllSurveyors($event)">Select All</button>
-                  <button mat-button class="deselect-all-button" (click)="deselectAllSurveyors($event)">Deselect All</button>
+                <div class="toolbar">
+                  <div class="button-row">
+                    <button
+                      mat-button
+                      class="select-all-button"
+                      (click)="selectAllSurveyors($event)"
+                    >
+                      Select All
+                    </button>
+                    <button
+                      mat-button
+                      class="deselect-all-button"
+                      (click)="deselectAllSurveyors($event)"
+                    >
+                      Deselect All
+                    </button>
+                  </div>
+                  <mat-form-field class="search-input">
+                    <input
+                      matInput
+                      placeholder="Search by mCode"
+                      [(ngModel)]="searchQuery"
+                    />
+                  </mat-form-field>
                 </div>
-                <mat-option *ngFor="let surveyor of Surveyors" [value]="surveyor.id">
-                  {{ surveyor.fullName }}
+                <mat-option
+                  *ngFor="let surveyor of filteredSurveyors()"
+                  [value]="surveyor.id"
+                >
+                  {{ surveyor.mCode }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -55,15 +92,28 @@
         <div class="row">
           <div class="col">
             <div class="file-upload">
-              <input #fileInput (change)="onFileChange($event)" id="avatar" type="file" />
+              <input
+                #fileInput
+                (change)="onFileChange($event)"
+                id="avatar"
+                type="file"
+              />
             </div>
             <div class="upload-button">
-              <button type="submit" mat-raised-button color="warn" [disabled]="loadingData" style="margin-top: 10px;" (click)="uploadTrainingPDF()">Upload</button>
+              <button
+                type="submit"
+                mat-raised-button
+                color="warn"
+                [disabled]="loadingData"
+                style="margin-top: 10px"
+                (click)="uploadTrainingPDF()"
+              >
+                Upload
+              </button>
             </div>
           </div>
         </div>
       </section>
-      
     </mat-card-content>
   </mat-card>
 </div>

@@ -12,6 +12,7 @@ import { Config } from "src/assets/config";
 export class PmiHomeDetailComponent implements OnInit {
   data: any[] = [];
   formData: any[] = [];
+  formData1: any[] = [];
   selectedImage: any = {};
   loading: boolean = false;
   ip: string = Config.BASE_URI;
@@ -46,7 +47,7 @@ export class PmiHomeDetailComponent implements OnInit {
         if (response && Array.isArray(response) && response.length > 0) {
           this.data = response;
           this.handleImageData();
-          this.formData = this.transformFormData(this.data[0]?.formData);
+          this.formData1 = this.transformFormData(this.data[0]?.formData1);
         } else {
           this.handleError('No data or data in unexpected format');
         }
