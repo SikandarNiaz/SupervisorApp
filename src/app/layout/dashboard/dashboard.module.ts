@@ -115,6 +115,8 @@ import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.compo
 import { PmiHomeComponent } from "src/app/pmi-home/pmi-home.component";
 import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.component";
 import { UploadTrainingComponent } from "src/app/upload-training/upload-training.component";
+import { RmStockAssignComponent } from "src/app/rm-stock-assign/rm-stock-assign.component";
+import { RmStockReturnComponent } from "src/app/rm-stock-return/rm-stock-return.component";
 
 // import { AdminLoginPmiComponent } from "src/app/admin-login-pmi/admin-login-pmi.component";
 
@@ -231,7 +233,9 @@ import { UploadTrainingComponent } from "src/app/upload-training/upload-training
   ManageEmailsComponent,
   PmiHomeComponent,
   PmiHomeDetailComponent,
-  UploadTrainingComponent
+  UploadTrainingComponent,
+  RmStockAssignComponent,
+  RmStockReturnComponent
   // AdminLoginPmiComponent
 ],
 })

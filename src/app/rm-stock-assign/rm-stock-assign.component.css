@@ -1,0 +1,22 @@
+.product-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between items */
+    max-width: 500px; /* Limit the width of each brand item */
+  }
+  
+  .product-name {
+    width: 150px; /* Fixed width for brand names */
+    margin-right: 10px; /* Space between brand name and input field */
+  }
+  
+  .product-input {
+    flex: 1; /* Take up remaining space */
+    max-width: 200px; /* Limit the width of input fields */
+  }
+  

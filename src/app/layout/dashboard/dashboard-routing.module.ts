@@ -69,6 +69,8 @@ import { ManageEmailsComponent } from "src/app/manage-emails/manage-emails.compo
 import { PmiHomeComponent } from "src/app/pmi-home/pmi-home.component";
 import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.component";
 import { UploadTrainingComponent } from "src/app/upload-training/upload-training.component";
+import { RmStockAssignComponent } from "src/app/rm-stock-assign/rm-stock-assign.component";
+import { RmStockReturnComponent } from "src/app/rm-stock-return/rm-stock-return.component";
 
 
 const routes: Routes = [
@@ -259,7 +261,14 @@ const routes: Routes = [
     path: "app-upload-training",
     component:  UploadTrainingComponent,
   },
-
+  {
+    path: "app-rm-stock-assign",
+    component:  RmStockAssignComponent,
+  },
+  {
+    path: "app-rm-stock-return",
+    component:  RmStockReturnComponent,
+  },
 
 ];
 
