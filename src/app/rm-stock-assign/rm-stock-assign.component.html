@@ -1,87 +1,110 @@
-<div class="animated slideInLeft">
-  <mat-card class="mb-20">
-    <mat-card-content>
-      <mat-card-title>
-        {{ title | uppercase }}
-        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
-      </mat-card-title>
-
-      <!-- Header Section with Date Pickers and Supervisor -->
-      <section class="header-section">
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="example-full-width">
-              <input matInput
-                     [min]="minDate"
-                     [max]="maxDate"
-                     [matDatepicker]="picker0"
-                     [(ngModel)]="startDate"
-                     placeholder="Choose a start date"
-                     readonly />
-              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
-              <mat-datepicker #picker0></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="example-full-width">
-              <input matInput
-                     [min]="minDate"
-                     [max]="maxDate"
-                     [matDatepicker]="picker1"
-                     [(ngModel)]="endDate"
-                     placeholder="Choose an end date"
-                     readonly />
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-              <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="example-full-width">
-              <mat-label>Select Supervisor</mat-label>
-              <mat-select [(value)]="selectedSupervisor">
-                <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
-                  {{ supervisor.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </section>
-
-      <!-- Brands with Quantity and Assign Stock Button -->
-      <section class="product-section mt-20" *ngIf="!assignedProducts.length">
-        <div class="product-list">
-          <div *ngFor="let product of Products" class="product-item">
-            <span class="product-name">{{ product.title }}</span>
-            <mat-form-field class="example-full-width product-input">
-              <input matInput type="number" [(ngModel)]="product.quantity" min="0" />
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="button-section mt-20">
-          <button mat-raised-button color="primary" (click)="assignStock()">
-            Assign Stock
-          </button>
-        </div>
-      </section>
-
-      <!-- Display Assigned Stock Details -->
-      <div class="assigned-stock-section mt-20" *ngIf="assignedProducts.length">
-        <h3>Assigned Stock Details</h3>
-        <div class="product-list">
-          <div *ngFor="let product of assignedProducts" class="product-item">
-            <span class="product-name">{{ product.title }}</span>
-            <mat-form-field class="example-full-width product-input">
-              <input matInput 
-                     type="number" 
-                     [(ngModel)]="product.quantity" 
-                     (ngModelChange)="onQuantityChange(product)" 
-                     min="0" />
-            </mat-form-field>
-          </div>
-        </div>
+<div *ngIf="showForms" class="container-fluid">
+  <h1 id="dialog-child-name">Stock Details</h1>
+  <mat-card>
+    <div class="row mb-3">
+      <div class="col">
+        <button mat-raised-button color="primary" (click)="openAssignStockModal()">
+          Add Stock
+        </button>
       </div>
-    </mat-card-content>
+    </div>
+    <table class="table table-hover mb-0 custom-table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">StockId</th>
+          <th scope="col">Title</th>
+          <th scope="col">Supervisor</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems; let x = index">
+          <th scope="row">{{ x + 1 }}</th>
+          <td>{{ item.id }}</td>
+          <td>{{ item.title }}</td>
+          <td>{{ item.userName }}</td>
+          <td>
+            <mat-form-field class="example-full-width product-input">
+              <input matInput type="number" [(ngModel)]="item.quantity" (ngModelChange)="onQuantityChange(item)" min="0" />
+            </mat-form-field>
+          </td>
+          <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+        </tr>
+      </tbody>
+    </table>
   </mat-card>
 </div>
+
+<!-- Assign Stock Modal -->
+<div bsModal #AddStockModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Assign Stock</h5>
+        <button type="button" class="close" aria-label="Close" (click)="hideStockModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <section class="header-section">
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="example-full-width">
+                <input matInput
+                       [min]="minDate"
+                       [max]="maxDate"
+                       [matDatepicker]="picker0"
+                       [(ngModel)]="startDate"
+                       placeholder="Choose a start date"
+                       readonly />
+                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                <mat-datepicker #picker0></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="example-full-width">
+                <input matInput
+                       [min]="minDate"
+                       [max]="maxDate"
+                       [matDatepicker]="picker1"
+                       [(ngModel)]="endDate"
+                       placeholder="Choose an end date"
+                       readonly />
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="example-full-width">
+                <mat-label>Select Supervisor</mat-label>
+                <mat-select [(value)]="selectedSupervisor">
+                  <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
+                    {{ supervisor.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+
+        <!-- Brands with Quantity -->
+        <section class="product-section mt-20">
+          <div class="product-list">
+            <div *ngFor="let product of Products" class="product-item">
+              <span class="product-name">{{ product.title }}</span>
+              <mat-form-field class="example-full-width product-input">
+                <input matInput type="number" [(ngModel)]="product.quantity" min="0" (ngModelChange)="onQuantityChange(product)" />
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="assignStock()">Assign Stock</button>
+      </div>
+    </div>
+  </div>
+</div>
+

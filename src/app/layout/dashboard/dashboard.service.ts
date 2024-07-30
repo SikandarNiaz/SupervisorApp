@@ -1105,6 +1105,11 @@ deActivateFieldValue(obj){
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body, this.httpOptions);
   }
+  gettingStockDetail() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 48 });
+    return this.http.post(url, filter);
+  }
  
 downloadFile(obj, url) {
     let path;
