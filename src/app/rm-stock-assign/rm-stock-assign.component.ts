@@ -27,6 +27,7 @@ export class RmStockAssignComponent implements OnInit {
   showForms: boolean = true;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
 
+
   constructor(
     private dashboardService: DashboardService, 
     private toastr: ToastrService
@@ -47,17 +48,22 @@ export class RmStockAssignComponent implements OnInit {
     this.AddStockModal.hide();  // Make sure to include the parentheses
   }
 
-  gettingSupervisors() {
-    this.dashboardService.gettingSupervisors().subscribe(
-      (response: any[]) => {
-        this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
-        console.log('Supervisors:', this.Supervisors);
-      },
-      (error) => {
-        console.error('Error fetching supervisors:', error);
-      }
-    );
-  }
+ // Component TypeScript file
+gettingSupervisors() {
+  this.dashboardService.gettingSupervisors().subscribe(
+    (response: any[]) => {
+      this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
+      this.Supervisors.unshift({ id: -1, name: 'All' });
+      
+      
+      console.log('Supervisors:', this.Supervisors);
+    },
+    (error) => {
+      console.error('Error fetching supervisors:', error);
+    }
+  );
+}
+
 
   gettingStockDetail() {
     this.dashboardService.gettingStockDetail().subscribe(
@@ -68,6 +74,7 @@ export class RmStockAssignComponent implements OnInit {
           quantity: item.quantity,
           userName: item.userName,
           date: new Date(item.visitDate),
+          isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail];
         console.log('Formatted Stock Detail:', this.StockDetail);
@@ -128,9 +135,12 @@ export class RmStockAssignComponent implements OnInit {
     );
   }
 
-  onQuantityChange(item) {
-    console.log('Updating item:', item);
+  startEditing(item: any): void {
+    item.isEditing = true;
+  }
 
+  updateItem(item: any): void {
+    item.isEditing = false;
     const obj = {
       stockLoadingId: item.id,
       quantity: item.quantity
@@ -145,6 +155,12 @@ export class RmStockAssignComponent implements OnInit {
         console.error('Error updating product', error);
       }
     );
+  }
+
+  cancelEdit(item: any): void {
+    item.isEditing = false;
+    // Optionally revert changes if needed
+    this.gettingStockDetail(); // Refresh stock details to revert changes
   }
 
   resetForm() {

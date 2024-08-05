@@ -59,6 +59,12 @@
   max-height: 200px; /* Adjust based on your needs */
   overflow-y: auto;
 }
+.edit-icon-button {
+  margin-left: 20px; /* Adjust the margin as needed */
+}
+.large-icon {
+  font-size: 24px; /* Adjust this size as needed */
+}
 
   
   

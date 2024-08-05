@@ -861,7 +861,7 @@ gettingProducts() {
 }
 gettingSupervisors() {
   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
-  const filter = JSON.stringify({ act: 33 });
+  const filter = JSON.stringify({ act: 49 });
   return this.http.post(url, filter);
 }
 gettingSkuType() {
@@ -1109,6 +1109,17 @@ deActivateFieldValue(obj){
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({ act: 48 });
     return this.http.post(url, filter);
+  }
+  gettingStockDetail1() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 50 });
+    return this.http.post(url, filter);
+  }
+
+  getSummery(obj) {
+    const url = this.ip + "stock-management-summery";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
   }
  
 downloadFile(obj, url) {

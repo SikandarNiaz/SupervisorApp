@@ -71,6 +71,7 @@ import { PmiHomeDetailComponent } from "src/app/pmi-home-detail/pmi-home-detail.
 import { UploadTrainingComponent } from "src/app/upload-training/upload-training.component";
 import { RmStockAssignComponent } from "src/app/rm-stock-assign/rm-stock-assign.component";
 import { RmStockReturnComponent } from "src/app/rm-stock-return/rm-stock-return.component";
+import { StockManagementSummeryComponent } from "src/app/stock-management-summery/stock-management-summery.component";
 
 
 const routes: Routes = [
@@ -269,6 +270,11 @@ const routes: Routes = [
     path: "app-rm-stock-return",
     component:  RmStockReturnComponent,
   },
+  {
+    path: "app-stock-management-summery",
+    component: StockManagementSummeryComponent,
+  },
+
 
 ];
 

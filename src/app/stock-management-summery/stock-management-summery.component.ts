@@ -1,0 +1,150 @@
+import { Component, OnInit } from '@angular/core';
+import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
+import { Router } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
+import * as moment from 'moment'; 
+import { RouterModule, Routes } from '@angular/router';
+import { RmStockAssignComponent } from '../rm-stock-assign/rm-stock-assign.component';
+import { RmStockReturnComponent } from '../rm-stock-return/rm-stock-return.component';
+import { environment } from 'src/environments/environment';
+
+const routes: Routes = [
+  { path: 'app-rm-stock-assign', component: RmStockAssignComponent },
+  { path: 'app-rm-stock-return', component: RmStockReturnComponent },
+  // other routes...
+];
+
+@Component({
+  selector: 'app-stock-management-summery',
+  templateUrl: './stock-management-summery.component.html',
+  styleUrls: ['./stock-management-summery.component.css']
+})
+export class StockManagementSummeryComponent implements OnInit {
+
+  loadingData: boolean = false;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date(2100, 0, 1);
+  startDate: Date;
+  endDate: Date;
+  selectedSupervisor: any;
+  selectedZone: any;
+  selectedRegion: any;
+  title = "Stock Management Summary";
+  Supervisors: any[] = [];
+  Regions: any[] = [];
+  Zones: any[] = [];
+  filteredItems: any[] = [];
+
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router
+  ) {
+    this.startDate = new Date();
+    this.endDate = new Date();
+  }
+
+  ngOnInit(): void {
+    this.gettingSupervisors();
+    this.getZone();
+  }
+
+  gettingSupervisors() {
+    this.dashboardService.gettingSupervisors().subscribe(
+      (response: any[]) => {
+        this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
+        this.Supervisors.unshift({ id: -1, name: 'All' });
+        console.log('Supervisors:', this.Supervisors);
+      },
+      (error) => {
+        console.error('Error fetching supervisors:', error);
+      }
+    );
+  }
+
+  getZone() {
+    this.dashboardService.getZone().subscribe(
+      (response: any) => {
+        console.log('Response from getZone:', response);
+        if (response && Array.isArray(response.zoneList)) {
+          this.Zones = response.zoneList.map((item) => ({ id: item.id, name: item.title }));
+        } else {
+          console.error('Expected response.zoneList to be an array but got:', response);
+        }
+      },
+      (error) => {
+        console.error('Error fetching zones:', error);
+      }
+    );
+  }
+
+  onZoneChange(event: MatSelectChange): void {
+    console.log('Zone changed:', event.value);
+    this.selectedZone = event.value;
+    this.getRegion(this.selectedZone);
+  }
+
+  getRegion(zoneId: string) {
+    this.dashboardService.getRegion(zoneId).subscribe(
+      (response: any) => {
+        console.log('Response from getRegion:', response);
+        if (response && Array.isArray(response)) {
+          this.Regions = response.map((item) => ({ id: item.id, name: item.title }));
+        } else {
+          console.error('Expected response to be an array but got:', response);
+        }
+      },
+      (error) => {
+        console.error('Error fetching regions:', error);
+      }
+    );
+  }
+  onSelectChange(): void {
+    this.checkAndFetchSummary();
+  }
+
+  onDateChange(): void {
+    this.checkAndFetchSummary();
+  }
+
+  checkAndFetchSummary(): void {
+    if (this.startDate && this.endDate && this.selectedSupervisor && this.selectedZone && this.selectedRegion) {
+      this.getSummeryDetail();
+    }
+  }
+
+  getSummeryDetail() {
+    this.loadingData = true;
+    const obj = {
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD'),
+      supervisorId: this.selectedSupervisor ? this.selectedSupervisor : -1,
+      zoneId: this.selectedZone ? this.selectedZone : -1,
+      regionId: this.selectedRegion ? this.selectedRegion : -1
+    };
+    console.log("Summary:", obj);
+    this.dashboardService.getSummery(obj).subscribe(
+      (response: any[]) => {
+        this.filteredItems = response;
+        this.loadingData = false;
+        console.log('Summary data:', this.filteredItems);
+      },
+      (error) => {
+        console.error('Error fetching summary:', error);
+      }
+    );
+  }
+ 
+  goToEvaluation() {
+    window.open(
+      `${environment.hash}dashboard/app-rm-stock-assign`,
+      "_blank"
+    );
+  }
+  goToEvaluation1() {
+    window.open(
+      `${environment.hash}dashboard/app-rm-stock-return`,
+      "_blank"
+    );
+  }
+
+}

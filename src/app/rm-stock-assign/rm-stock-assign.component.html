@@ -15,8 +15,11 @@
           <th scope="col">StockId</th>
           <th scope="col">Title</th>
           <th scope="col">Supervisor</th>
-          <th scope="col">Quantity</th>
           <th scope="col">Date</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Edit</th>
+           <!-- New column for edit icon -->
+          
         </tr>
       </thead>
       <tbody>
@@ -25,17 +28,41 @@
           <td>{{ item.id }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.userName }}</td>
-          <td>
-            <mat-form-field class="example-full-width product-input">
-              <input matInput type="number" [(ngModel)]="item.quantity" (ngModelChange)="onQuantityChange(item)" min="0" />
-            </mat-form-field>
-          </td>
           <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <ng-container *ngIf="!item.isEditing">
+              {{ item.quantity }}
+            </ng-container>
+            <ng-container *ngIf="item.isEditing">
+              <mat-form-field class="example-full-width product-input">
+                <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+              </mat-form-field>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing">
+              <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+                <mat-icon class="large-icon" color="warn">edit</mat-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.isEditing">
+              <button mat-button color="primary" (click)="updateItem(item)">
+                Update
+              </button>
+              <button mat-button color="warn" (click)="cancelEdit(item)">
+                Cancel
+              </button>
+            </ng-container>
+          </td>
+         
         </tr>
       </tbody>
     </table>
+    
   </mat-card>
 </div>
+
+
 
 <!-- Assign Stock Modal -->
 <div bsModal #AddStockModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
@@ -57,13 +84,13 @@
                        [max]="maxDate"
                        [matDatepicker]="picker0"
                        [(ngModel)]="startDate"
-                       placeholder="Choose a start date"
+                       placeholder="Choose Date"
                        readonly />
                 <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
                 <mat-datepicker #picker0></mat-datepicker>
               </mat-form-field>
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <mat-form-field class="example-full-width">
                 <input matInput
                        [min]="minDate"
@@ -75,7 +102,7 @@
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
-            </div>
+            </div> -->
             <div class="col">
               <mat-form-field class="example-full-width">
                 <mat-label>Select Supervisor</mat-label>
@@ -95,7 +122,7 @@
             <div *ngFor="let product of Products" class="product-item">
               <span class="product-name">{{ product.title }}</span>
               <mat-form-field class="example-full-width product-input">
-                <input matInput type="number" [(ngModel)]="product.quantity" min="0" (ngModelChange)="onQuantityChange(product)" />
+                <input matInput type="number" [(ngModel)]="product.quantity" min="0"/>
               </mat-form-field>
             </div>
           </div>

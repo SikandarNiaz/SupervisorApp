@@ -59,5 +59,27 @@ border-color: #004085;
 max-height: 200px; /* Adjust based on your needs */
 overflow-y: auto;
 }
+.edit-icon-button {
+margin-left: 20px; /* Adjust the margin as needed */
+}
+.large-icon {
+font-size: 24px; /* Adjust this size as needed */
+}
+/* .product-item {
+  margin-bottom: 10px;
+}
 
+.product-item .mat-form-field {
+  width: 100%;
+} */
+.product-item {
+  margin-bottom: 15px; 
+}
 
+.product-item .col-4 {
+  padding-right: 15px; 
+}
+
+.product-item .mat-form-field {
+  width: 100%;
+}

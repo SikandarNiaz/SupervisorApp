@@ -4,7 +4,7 @@
     <div class="row mb-3">
       <div class="col">
         <button mat-raised-button color="primary" (click)="openAssignStockModal()">
-          Add Stock
+          Return Stock
         </button>
       </div>
     </div>
@@ -15,8 +15,11 @@
           <th scope="col">StockId</th>
           <th scope="col">Title</th>
           <th scope="col">Supervisor</th>
-          <th scope="col">Quantity</th>
           <th scope="col">Date</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Edit</th>
+           <!-- New column for edit icon -->
+          
         </tr>
       </thead>
       <tbody>
@@ -25,17 +28,41 @@
           <td>{{ item.id }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.userName }}</td>
-          <td>
-            <mat-form-field class="example-full-width product-input">
-              <input matInput type="number" [(ngModel)]="item.quantity" (ngModelChange)="onQuantityChange(item)" min="0" />
-            </mat-form-field>
-          </td>
           <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <ng-container *ngIf="!item.isEditing">
+              {{ item.quantity }}
+            </ng-container>
+            <ng-container *ngIf="item.isEditing">
+              <mat-form-field class="example-full-width product-input">
+                <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+              </mat-form-field>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngIf="!item.isEditing">
+              <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+                <mat-icon class="large-icon" color="warn">edit</mat-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="item.isEditing">
+              <button mat-button color="primary" (click)="updateItem(item)">
+                Update
+              </button>
+              <button mat-button color="warn" (click)="cancelEdit(item)">
+                Cancel
+              </button>
+            </ng-container>
+          </td>
+         
         </tr>
       </tbody>
     </table>
+    
   </mat-card>
 </div>
+
+
 
 <!-- Assign Stock Modal -->
 <div bsModal #AddStockModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
@@ -57,23 +84,10 @@
                        [max]="maxDate"
                        [matDatepicker]="picker0"
                        [(ngModel)]="startDate"
-                       placeholder="Choose a start date"
+                       placeholder="Choose Date"
                        readonly />
                 <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
                 <mat-datepicker #picker0></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="col">
-              <mat-form-field class="example-full-width">
-                <input matInput
-                       [min]="minDate"
-                       [max]="maxDate"
-                       [matDatepicker]="picker1"
-                       [(ngModel)]="endDate"
-                       placeholder="Choose an end date"
-                       readonly />
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
             </div>
             <div class="col">
@@ -87,22 +101,63 @@
               </mat-form-field>
             </div>
           </div>
-        </section>
+          <!-- <div class="product-list">
+            <div *ngFor="let product of Products" class="product-item row align-items-center">
+              <div class="col-3">
+                <span class="product-name">{{ product.title }}</span>
+              </div>
+              <div class="col-3">
+                <mat-form-field class="example-full-width product-input">
+                  <input matInput type="number" [(ngModel)]="product.quantity" min="0" />
+                </mat-form-field>
+              </div>
+               <div class="col-3">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Quantity</mat-label>
+                  <input matInput [(ngModel)]="product.enteredQuantity" placeholder="Enter Quantity" />
+                </mat-form-field>
+              </div> -->
+              <!-- <div class="col-3">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Lost</mat-label>
+                  <input matInput [(ngModel)]="product.lost" placeholder="Enter Lost" />
+                </mat-form-field>
+              </div>
+            </div> 
+          </div>  -->
 
-        <!-- Brands with Quantity -->
-        <section class="product-section mt-20">
           <div class="product-list">
-            <div *ngFor="let product of Products" class="product-item">
-              <span class="product-name">{{ product.title }}</span>
-              <mat-form-field class="example-full-width product-input">
-                <input matInput type="number" [(ngModel)]="product.quantity" min="0" (ngModelChange)="onQuantityChange(product)" />
-              </mat-form-field>
+            <div *ngFor="let product of Products" class="product-item row align-items-center">
+              <div class="col-3">
+                <span class="product-name">{{ product.title }}</span>
+              </div>
+              <div class="col-4">
+                <mat-form-field class="example-full-width product-input">
+                  <mat-label>Quantity</mat-label>
+                  <input matInput type="number" [(ngModel)]="product.quantity" placeholder="Enter Quantity"  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Lost</mat-label>
+                  <input matInput [(ngModel)]="product.lost" placeholder="Enter Lost" />
+                </mat-form-field>
+              </div>
             </div>
+          </div>
+          
+          
+          
+        </section>
+        <section class="voucher-upload mt-20">
+          <div class="form-group">
+            <label for="voucherImage"></label>
+            <input type="file" id="voucherImage" (change)="onFileChange($event)" class="form-control-file">
           </div>
         </section>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="assignStock()">Assign Stock</button>
+        <button type="button" class="btn btn-primary" (click)="returnStock()">Return Stock</button>
       </div>
     </div>
   </div>
