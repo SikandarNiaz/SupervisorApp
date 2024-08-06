@@ -10,11 +10,12 @@ import { Config } from "src/assets/config";
   styleUrls: ['./pmi-home-detail.component.css']
 })
 export class PmiHomeDetailComponent implements OnInit {
-  data: any[];
-  formData: any[];
+  data: any[] = [];
+  formData: any[] = [];
+  formData1: any[] = [];
   selectedImage: any = {};
-  loading: boolean;
-  ip: any = Config.BASE_URI;
+  loading: boolean = false;
+  ip: string = Config.BASE_URI;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +47,7 @@ export class PmiHomeDetailComponent implements OnInit {
         if (response && Array.isArray(response) && response.length > 0) {
           this.data = response;
           this.handleImageData();
-          this.formData = this.transformFormData(this.data[0]?.formData);
+          this.formData1 = this.transformFormData(this.data[0]?.formData1);
         } else {
           this.handleError('No data or data in unexpected format');
         }
@@ -68,7 +69,7 @@ export class PmiHomeDetailComponent implements OnInit {
   }
 
   transformFormData(formDataObj: any): any[] {
-    return Object.keys(formDataObj).map(key => formDataObj[key]);
+    return formDataObj ? Object.keys(formDataObj).map(key => formDataObj[key]) : [];
   }
 
   setSelectedImage(image: any): void {

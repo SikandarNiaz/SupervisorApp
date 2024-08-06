@@ -7,16 +7,25 @@ import { Component, OnInit,Renderer2, AfterViewInit } from '@angular/core';
 })
 export class CheckCookiePolicyComponent implements OnInit, AfterViewInit {
   private intervalId: any;
+  localhost: boolean=false;
+  pmida: boolean;
   constructor(private renderer: Renderer2) { }
 
   ngOnInit(): void {
+    const hostName = window.location.hostname;
+    this.pmida = hostName?.indexOf("pmida") >= 0;
+    this.localhost = hostName?.indexOf("localhost") >= 0;
+    if(this.pmida || this.localhost === true){
     this.loadOneTrustScript();
-  }
+  }}
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.ensureScreenInteractive();
-    }, 1000); 
+    if(this.pmida || this.localhost === true){
+
+      setTimeout(() => {
+        this.ensureScreenInteractive();
+      }, 1000); 
+    }
   }
 
 

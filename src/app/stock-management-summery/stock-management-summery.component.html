@@ -1,0 +1,100 @@
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+
+      <section class="header-section">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepicker]="picker0"
+                [(ngModel)]="startDate"
+                placeholder="From"
+                readonly
+                (ngModelChange)="onDateChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepicker]="picker1"
+                [(ngModel)]="endDate"
+                placeholder="To"
+                readonly
+                (ngModelChange)="onDateChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Zone</mat-label>
+              <mat-select [(value)]="selectedZone" (selectionChange)="onZoneChange($event)">
+                <mat-option *ngFor="let zone of Zones" [value]="zone.id">
+                  {{ zone.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Region</mat-label>
+              <mat-select [(value)]="selectedRegion" (selectionChange)="onSelectChange()">
+                <mat-option *ngFor="let region of Regions" [value]="region.id">
+                  {{ region.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Supervisor</mat-label>
+              <mat-select [(value)]="selectedSupervisor" (selectionChange)="onSelectChange()">
+                <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
+                  {{ supervisor.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<table class="table table-hover mb-0 custom-table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Supervisor</th>
+      <th scope="col">Date</th>
+      <th scope="col">Issuance</th>
+      <th scope="col">Return</th>
+       <th scope="col">Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of filteredItems; let x = index">
+      <th scope="row">{{ x + 1 }}</th>
+      <td>{{ item.user_name }}</td>
+      <td>{{ item.visit_date }}</td>
+      <td class="clickable" (click)=" goToEvaluation() ">{{ item.issuance }}</td>
+      <td class="clickable" (click)="goToEvaluation1()">{{ item.return_value }}</td>
+      <td>{{ item.balance }}</td>
+    </tr>
+  </tbody>
+</table>

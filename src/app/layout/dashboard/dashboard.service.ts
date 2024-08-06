@@ -854,6 +854,16 @@ gettingBrands() {
   const filter = JSON.stringify({ act: 37 });
   return this.http.post(url, filter);
 }
+gettingProducts() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 47 });
+  return this.http.post(url, filter);
+}
+gettingSupervisors() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 49 });
+  return this.http.post(url, filter);
+}
 gettingSkuType() {
   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
   const filter = JSON.stringify({ act: 41 });
@@ -1082,6 +1092,36 @@ deActivateFieldValue(obj){
     const url = this.ip + "upload-training";
     return this.http.post(url, formData);
   }
+  assignStock(formData: FormData){
+    const url = this.ip + "assign-stock"
+    return this.http.post(url, formData);
+  }
+  returnStock(formData: FormData){
+    const url = this.ip + "return-stock"
+    return this.http.post(url, formData);
+  }
+  updateAssignedProduct(obj) {
+    const url = this.ip + "/update-assign-stock-controller"; // -----------> UpdateAssignStockController
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body, this.httpOptions);
+  }
+  gettingStockDetail() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 48 });
+    return this.http.post(url, filter);
+  }
+  gettingStockDetail1() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 50 });
+    return this.http.post(url, filter);
+  }
+
+  getSummery(obj) {
+    const url = this.ip + "stock-management-summery";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
+  }
+ 
 downloadFile(obj, url) {
     let path;
 

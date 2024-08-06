@@ -13,12 +13,13 @@
     </div>
 
     <!-- Image gallery and details -->
-    <ng-container *ngIf="data[0]?.imageList1">
+    <ng-container *ngIf="data?.length > 0">
       <div class="col-md-5">
         <!-- Selected image display -->
         <div style="position: relative">
           <mat-card class="col-md-3.5 example-card card2 ml-3 mt-3">
             <lib-ngx-image-zoom
+              *ngIf="selectedImage?.url"
               [zoomMode]="'hover'"
               [magnification]="2"
               [enableScrollZoom]="true"
@@ -39,7 +40,7 @@
             <p *ngIf="selectedImage?.visitDateTime">Time Stamp: {{ selectedImage?.visitDateTime }}</p>
           </div>
         </div>
-  
+    
         <!-- Thumbnail gallery -->
         <div class="col-12 ml-3 mt-2">
           <div class="row">
@@ -56,18 +57,19 @@
               </div>
             </ng-container>
             <!-- Placeholder if no images are present -->
-            <ng-container *ngIf="data[0]?.imageList1.length === 0">
+            <ng-container *ngIf="data[0]?.imageList1?.length === 0">
               <div class="col-2 mb-1 card mt-5 mr-2" style="height: 80px !important; width: 120px !important">
-              
+                
               </div>
             </ng-container>
           </div>
         </div>
       </div>
     </ng-container>
+   
 
     <!-- Form data table -->
-    <ng-container *ngIf="formData?.length > 0">
+    <ng-container *ngIf="formData1?.length > 0">
       <div class="col-md-12 mt-3">
         <div class="tableFixHead">
           <table class="table table-bordered table-hover w-100">
@@ -79,7 +81,7 @@
             </thead>
             <tbody>
               <!-- Loop through form data -->
-              <ng-container *ngFor="let item of formData">
+              <ng-container *ngFor="let item of formData1">
                 <tr>
                   <td>{{ item.question }}</td>
                   <td>

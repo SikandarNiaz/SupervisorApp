@@ -30,4 +30,19 @@
     color: #ffff;
     background-color: red;
   }
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .button-row {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .search-input {
+    width: 200px;
+  }
   
