@@ -79,7 +79,7 @@ export class ManageSurveyorsComponent implements OnInit, AfterContentChecked {
     this.form = formBuilder.group({
       id: new FormControl(""),
       m_code: new FormControl(""),
-      fullName: new FormControl("", [Validators.required]),
+      fullName: new FormControl(""),
       password: new FormControl("", [Validators.required]),
     //  supervisorId: new FormControl(""),
     //  evaluatorId: new FormControl(""),
@@ -393,9 +393,10 @@ export class ManageSurveyorsComponent implements OnInit, AfterContentChecked {
       cnic: surveyor.cnic,
     //  evaluatorId: surveyor.evaluatorId,
      // productsSetId: surveyor.productsSetId > 0 ? surveyor.productsSetId : null,
-     city_id: surveyor.cityId,
-      region_id: surveyor.region_id,
-     program_id: surveyor.programId,
+     city_id: surveyor.cityId || 1,
+      region_id: surveyor.region_id || 1,
+     program_id: surveyor.programId || 1,
+     brand_id: surveyor.brand_id || 1,
     });
     this.surveyorInfoModal.show();
   }
