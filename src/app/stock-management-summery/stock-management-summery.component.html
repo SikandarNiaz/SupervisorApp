@@ -92,8 +92,8 @@
       <th scope="row">{{ x + 1 }}</th>
       <td>{{ item.user_name }}</td>
       <td>{{ item.visit_date }}</td>
-      <td class="clickable" (click)=" goToEvaluation() ">{{ item.issuance }}</td>
-      <td class="clickable" (click)="goToEvaluation1()">{{ item.return_value }}</td>
+      <td class="clickable" (click)="goToEvaluation(item.stock_loading_id, item.visit_date)">{{ item.issuance }}</td>
+      <td class="clickable" (click)="goToEvaluation1(item.stock_loading_id, item.visit_date)">{{ item.return_value }}</td>
       <td>{{ item.balance }}</td>
     </tr>
   </tbody>

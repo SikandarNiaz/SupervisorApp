@@ -9,9 +9,8 @@ import { RmStockReturnComponent } from '../rm-stock-return/rm-stock-return.compo
 import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
-  { path: 'app-rm-stock-assign', component: RmStockAssignComponent },
-  { path: 'app-rm-stock-return', component: RmStockReturnComponent },
-  // other routes...
+  { path: 'dashboard/app-rm-stock-assign/:id', component: RmStockAssignComponent },
+  { path: 'dashboard/app-rm-stock-return/:id', component: RmStockReturnComponent },
 ];
 
 @Component({
@@ -133,18 +132,44 @@ export class StockManagementSummeryComponent implements OnInit {
       }
     );
   }
+  goToEvaluation(id: number, visitDate: string) {
+    const formattedDate = this.formatDate(visitDate);
+    console.log("goToEvaluation called with id:", id, "visitDate:", formattedDate);
+    if (id && formattedDate) {
+      window.open(
+        `${environment.hash}dashboard/app-rm-stock-assign?id=${id}&visitDate=${formattedDate}`,
+        "_blank"
+      );
+    } else {
+      console.error("Missing id or visitDate", id, formattedDate);
+    }
+  }
+  
+  goToEvaluation1(id: number, visitDate: string) {
+    const formattedDate = this.formatDate(visitDate);
+    console.log("goToEvaluation1 called with id:", id, "visitDate:", formattedDate);
+    if (id && formattedDate) {
+      window.open(
+        `${environment.hash}dashboard/app-rm-stock-return?id=${id}&visitDate=${formattedDate}`,
+        "_blank"
+      );
+    } else {
+      console.error("Missing id or visitDate", id, formattedDate);
+    }
+  }
+  
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Add leading zero
+    const day = ('0' + date.getDate()).slice(-2); // Add leading zero
+    return `${year}-${month}-${day}`;
+  }
+  
+  
+  }
+  
  
-  goToEvaluation() {
-    window.open(
-      `${environment.hash}dashboard/app-rm-stock-assign`,
-      "_blank"
-    );
-  }
-  goToEvaluation1() {
-    window.open(
-      `${environment.hash}dashboard/app-rm-stock-return`,
-      "_blank"
-    );
-  }
+ 
 
-}
+

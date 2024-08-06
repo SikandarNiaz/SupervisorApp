@@ -3,6 +3,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-rm-stock-assign',
@@ -16,6 +18,8 @@ export class RmStockAssignComponent implements OnInit {
   maxDate = new Date(2100, 0, 1);
   startDate = new Date();
   endDate = new Date();
+  specificDetails: any = null;
+  itemId: string;
   title = "Assign Stock";
   Products: any[] = [];
   Supervisors: any[] = [];
@@ -25,19 +29,35 @@ export class RmStockAssignComponent implements OnInit {
   selectedSupervisor: any;
   rm_id: string;
   showForms: boolean = true;
+  id: string;
+  visitDate: string;
+  detail: any;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
 
 
   constructor(
     private dashboardService: DashboardService, 
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+
+
+
     this.rm_id = localStorage.getItem("user_id");
     this.gettingProducts();
     this.gettingSupervisors();
     this.gettingStockDetail();
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+      this.visitDate = params['visitDate'];
+      // if (this.id && this.visitDate) {
+      //   this. fetchSpecificDetails(this.id, this.visitDate);
+      // } else {
+      //   console.error('Missing id or visitDate');
+      // }
+    });
   }
 
   openAssignStockModal() {
@@ -169,4 +189,14 @@ gettingSupervisors() {
     this.selectedSupervisor = null;
     this.Products.forEach(product => product.quantity = 0);
   }
+  // fetchSpecificDetails(id: string, visitDate: string): void {
+  //   this.dashboardService.getSpecificDetail(id, visitDate).subscribe(
+  //     (response) => {
+  //       this.specificDetails = response;
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching specific details:', error);
+  //     }
+  //   );
+  // }
 }

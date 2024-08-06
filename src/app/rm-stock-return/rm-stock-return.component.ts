@@ -20,6 +20,7 @@ export class RmStockReturnComponent implements OnInit {
   title = "Return Stock";
   quantity: number;
   price:number;
+  amount: number;
   lost: number;
   Products: any[] = [];
   Supervisors: any[] = [];
@@ -91,7 +92,7 @@ export class RmStockReturnComponent implements OnInit {
         this.Products = response.map((item) => ({
           id: item.id,
           brandId: item.brandId,
-          quantity: item.quantity || 0,
+          quantity: item.quantity,
           title: item.title
         }));
         console.log('Products:', this.Products);

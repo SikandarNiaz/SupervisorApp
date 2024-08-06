@@ -3,7 +3,11 @@
   <mat-card>
     <div class="row mb-3">
       <div class="col">
-        <button mat-raised-button color="primary" (click)="openAssignStockModal()">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openAssignStockModal()"
+        >
           Return Stock
         </button>
       </div>
@@ -18,8 +22,6 @@
           <th scope="col">Date</th>
           <th scope="col">Quantity</th>
           <th scope="col">Edit</th>
-           <!-- New column for edit icon -->
-          
         </tr>
       </thead>
       <tbody>
@@ -28,20 +30,29 @@
           <td>{{ item.id }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.userName }}</td>
-          <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ item.date | date : "yyyy-MM-dd" }}</td>
           <td>
             <ng-container *ngIf="!item.isEditing">
               {{ item.quantity }}
             </ng-container>
             <ng-container *ngIf="item.isEditing">
               <mat-form-field class="example-full-width product-input">
-                <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="item.quantity"
+                  min="0"
+                />
               </mat-form-field>
             </ng-container>
           </td>
           <td>
             <ng-container *ngIf="!item.isEditing">
-              <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+              <button
+                mat-icon-button
+                class="edit-icon-button"
+                (click)="startEditing(item)"
+              >
                 <mat-icon class="large-icon" color="warn">edit</mat-icon>
               </button>
             </ng-container>
@@ -54,23 +65,31 @@
               </button>
             </ng-container>
           </td>
-         
         </tr>
       </tbody>
     </table>
-    
   </mat-card>
 </div>
 
-
-
-<!-- Assign Stock Modal -->
-<div bsModal #AddStockModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
+<div
+  bsModal
+  #AddStockModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  aria-labelledby="two-button-modal"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Return Stock</h5>
-        <button type="button" class="close" aria-label="Close" (click)="hideStockModal()">
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="hideStockModal()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -79,14 +98,19 @@
           <div class="row">
             <div class="col">
               <mat-form-field class="example-full-width">
-                <input matInput
-                       [min]="minDate"
-                       [max]="maxDate"
-                       [matDatepicker]="picker0"
-                       [(ngModel)]="startDate"
-                       placeholder="Choose Date"
-                       readonly />
-                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                <input
+                  matInput
+                  [min]="minDate"
+                  [max]="maxDate"
+                  [matDatepicker]="picker0"
+                  [(ngModel)]="startDate"
+                  placeholder="Choose Date"
+                  readonly
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker0"
+                ></mat-datepicker-toggle>
                 <mat-datepicker #picker0></mat-datepicker>
               </mat-form-field>
             </div>
@@ -94,72 +118,78 @@
               <mat-form-field class="example-full-width">
                 <mat-label>Select Supervisor</mat-label>
                 <mat-select [(value)]="selectedSupervisor">
-                  <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
+                  <mat-option
+                    *ngFor="let supervisor of Supervisors"
+                    [value]="supervisor.id"
+                  >
                     {{ supervisor.name }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
           </div>
-          <!-- <div class="product-list">
-            <div *ngFor="let product of Products" class="product-item row align-items-center">
-              <div class="col-3">
-                <span class="product-name">{{ product.title }}</span>
-              </div>
-              <div class="col-3">
-                <mat-form-field class="example-full-width product-input">
-                  <input matInput type="number" [(ngModel)]="product.quantity" min="0" />
-                </mat-form-field>
-              </div>
-               <div class="col-3">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Quantity</mat-label>
-                  <input matInput [(ngModel)]="product.enteredQuantity" placeholder="Enter Quantity" />
-                </mat-form-field>
-              </div> -->
-              <!-- <div class="col-3">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Lost</mat-label>
-                  <input matInput [(ngModel)]="product.lost" placeholder="Enter Lost" />
-                </mat-form-field>
-              </div>
-            </div> 
-          </div>  -->
 
           <div class="product-list">
-            <div *ngFor="let product of Products" class="product-item row align-items-center">
+            <div
+              *ngFor="let product of Products"
+              class="product-item row align-items-center"
+            >
               <div class="col-3">
                 <span class="product-name">{{ product.title }}</span>
               </div>
               <div class="col-4">
                 <mat-form-field class="example-full-width product-input">
-                  <mat-label>Quantity</mat-label>
-                  <input matInput type="number" [(ngModel)]="product.quantity" placeholder="Enter Quantity"  />
+                  <mat-label>Return</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="product.quantity"
+                    placeholder="Enter Return"
+                  />
                 </mat-form-field>
               </div>
               <div class="col-4">
                 <mat-form-field class="example-full-width">
                   <mat-label>Lost</mat-label>
-                  <input matInput [(ngModel)]="product.lost" placeholder="Enter Lost" />
+                  <input
+                    matInput
+                    [(ngModel)]="product.lost"
+                    placeholder="Enter Lost"
+                  />
                 </mat-form-field>
               </div>
             </div>
           </div>
-          
-          
-          
         </section>
+
+        <!-- Added amount field -->
+        <!-- <section class="amount-input mt-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Sale Amount</mat-label>
+            <input
+              matInput
+              [(ngModel)]="amount"
+              placeholder="Enter Amount"
+                          />
+          </mat-form-field>
+        </section> -->
+
         <section class="voucher-upload mt-20">
           <div class="form-group">
             <label for="voucherImage"></label>
-            <input type="file" id="voucherImage" (change)="onFileChange($event)" class="form-control-file">
+            <input
+              type="file"
+              id="voucherImage"
+              (change)="onFileChange($event)"
+              class="form-control-file"
+            />
           </div>
         </section>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="returnStock()">Return Stock</button>
+        <button type="button" class="btn btn-primary" (click)="returnStock()">
+          Return Stock
+        </button>
       </div>
     </div>
   </div>
 </div>
-
