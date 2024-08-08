@@ -72,6 +72,7 @@ import { UploadTrainingComponent } from "src/app/upload-training/upload-training
 import { RmStockAssignComponent } from "src/app/rm-stock-assign/rm-stock-assign.component";
 import { RmStockReturnComponent } from "src/app/rm-stock-return/rm-stock-return.component";
 import { StockManagementSummeryComponent } from "src/app/stock-management-summery/stock-management-summery.component";
+import { StockIssueToRmComponent } from "src/app/stock-issue-to-rm/stock-issue-to-rm.component";
 
 
 const routes: Routes = [
@@ -274,6 +275,11 @@ const routes: Routes = [
     path: "app-stock-management-summery",
     component: StockManagementSummeryComponent,
   },
+  {
+    path: "app-stock-issue-to-rm",
+    component: StockIssueToRmComponent,
+  },
+
 
 
 ];

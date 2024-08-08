@@ -23,39 +23,76 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of filteredItems; let x = index">
-          <th scope="row">{{ x + 1 }}</th>
-          <td>{{ item.id }}</td>
-          <td>{{ item.title }}</td>
-          <td>{{ item.userName }}</td>
-          <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
-          <td>
-            <ng-container *ngIf="!item.isEditing">
-              {{ item.quantity }}
-            </ng-container>
-            <ng-container *ngIf="item.isEditing">
-              <mat-form-field class="example-full-width product-input">
-                <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
-              </mat-form-field>
-            </ng-container>
-          </td>
-          <td>
-            <ng-container *ngIf="!item.isEditing">
-              <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
-                <mat-icon class="large-icon" color="warn">edit</mat-icon>
-              </button>
-            </ng-container>
-            <ng-container *ngIf="item.isEditing">
-              <button mat-button color="primary" (click)="updateItem(item)">
-                Update
-              </button>
-              <button mat-button color="warn" (click)="cancelEdit(item)">
-                Cancel
-              </button>
-            </ng-container>
-          </td>
-         
-        </tr>
+        <ng-container >
+          <tr *ngFor="let item of filteredItems; let x = index">
+            <th scope="row">{{ x + 1 }}</th>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.userName }}</td>
+            <td>{{ item.date }}</td>
+            <td>
+              <ng-container *ngIf="!item.isEditing">
+                {{ item.quantity }}
+              </ng-container>
+              <ng-container *ngIf="item.isEditing">
+                <mat-form-field class="example-full-width product-input">
+                  <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+                </mat-form-field>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngIf="!item.isEditing">
+                <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+                  <mat-icon class="large-icon" color="warn">edit</mat-icon>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="item.isEditing">
+                <button mat-button color="primary" (click)="updateItem(item)">
+                  Update
+                </button>
+                <button mat-button color="warn" (click)="cancelEdit(item)">
+                  Cancel
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+    
+        <!-- Show specificDetails if available -->
+        <ng-container >
+          <tr *ngFor="let item of specificDetails; let x = index">
+            <th scope="row">{{ x + 1 }}</th>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.userName }}</td>
+            <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+            <td>
+              <ng-container *ngIf="!item.isEditing">
+                {{ item.quantity }}
+              </ng-container>
+              <ng-container *ngIf="item.isEditing">
+                <mat-form-field class="example-full-width product-input">
+                  <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+                </mat-form-field>
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngIf="!item.isEditing">
+                <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+                  <mat-icon class="large-icon" color="warn">edit</mat-icon>
+                </button>
+              </ng-container>
+              <ng-container *ngIf="item.isEditing">
+                <button mat-button color="primary" (click)="updateItem(item)">
+                  Update
+                </button>
+                <button mat-button color="warn" (click)="cancelEdit(item)">
+                  Cancel
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
     
@@ -78,7 +115,7 @@
         <section class="header-section">
           <div class="row">
             <div class="col">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="example-full-width date-picker">
                 <input matInput
                        [min]="minDate"
                        [max]="maxDate"
@@ -122,7 +159,7 @@
             <div *ngFor="let product of Products" class="product-item">
               <span class="product-name">{{ product.title }}</span>
               <mat-form-field class="example-full-width product-input">
-                <input matInput type="number" [(ngModel)]="product.quantity" min="0"/>
+                <input matInput [(ngModel)]="product.quantity" min="0"/>
               </mat-form-field>
             </div>
           </div>
@@ -134,4 +171,5 @@
     </div>
   </div>
 </div>
+
 

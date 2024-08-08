@@ -70,31 +70,41 @@
               </mat-select>
             </mat-form-field>
           </div>
+          
+          <div class="col summary-button-container">
+            <button mat-raised-button color="primary" class="summary-button" (click)="getSummeryDetail()">Get Summary</button>
+          </div>
+        
         </div>
+       
       </section>
     </mat-card-content>
   </mat-card>
 </div>
 
-<table class="table table-hover mb-0 custom-table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Supervisor</th>
-      <th scope="col">Date</th>
-      <th scope="col">Issuance</th>
-      <th scope="col">Return</th>
-       <th scope="col">Balance</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of filteredItems; let x = index">
-      <th scope="row">{{ x + 1 }}</th>
-      <td>{{ item.user_name }}</td>
-      <td>{{ item.visit_date }}</td>
-      <td class="clickable" (click)="goToEvaluation(item.stock_loading_id, item.visit_date)">{{ item.issuance }}</td>
-      <td class="clickable" (click)="goToEvaluation1(item.stock_loading_id, item.visit_date)">{{ item.return_value }}</td>
-      <td>{{ item.balance }}</td>
-    </tr>
-  </tbody>
-</table>
+<div *ngIf="filteredItems.length > 0">
+  <table class="table table-hover mb-0 custom-table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Supervisor</th>
+        <th scope="col">Date</th>
+        <th scope="col">Issuance</th>
+        <th scope="col">Return</th>
+        <th scope="col">Lost</th>
+        <th scope="col">Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems; let x = index">
+        <th scope="row">{{ x + 1 }}</th>
+        <td>{{ item.user_name }}</td>
+        <td>{{ item.visit_date }}</td>
+        <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
+        <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
+        <td>{{ item.lost }}</td>
+        <td>{{ item.balance }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

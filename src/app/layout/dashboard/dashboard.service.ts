@@ -14,6 +14,7 @@ import { Config } from "src/assets/config";
 export class DashboardService {
   dashboardStatsObj: any;
   filteredList: any;
+  filter1:any=null;
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
@@ -1096,6 +1097,10 @@ deActivateFieldValue(obj){
     const url = this.ip + "assign-stock"
     return this.http.post(url, formData);
   }
+  assignRmStock(formData: FormData){
+    const url = this.ip + "rm-assign-stock"
+    return this.http.post(url, formData);
+  }
   returnStock(formData: FormData){
     const url = this.ip + "return-stock"
     return this.http.post(url, formData);
@@ -1110,6 +1115,22 @@ deActivateFieldValue(obj){
     const filter = JSON.stringify({ act: 48 });
     return this.http.post(url, filter);
   }
+  gettingRmStockDetail() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 52 });
+    return this.http.post(url, filter);
+  }
+  getSpecificDetail(id: number, visitDate: string,formType: string) {
+    const url = this.ip + "loadFilters"; // URL of the backend endpoint
+    const filter = JSON.stringify({ 
+        act: 51, 
+        id: id,
+        visitDate: visitDate ,
+        formType: formType // Include stockLoadingId in the request body
+    });
+    return this.http.post(url, filter);
+}
+
   gettingStockDetail1() {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({ act: 50 });
@@ -1141,4 +1162,5 @@ downloadFile(obj, url) {
 
     document.body.removeChild(form);
   }
+  
 }

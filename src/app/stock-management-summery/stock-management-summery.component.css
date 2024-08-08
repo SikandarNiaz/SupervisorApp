@@ -4,3 +4,14 @@
     text-decoration: underline;
   }
   
+  .summary-button-container {
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: flex-start; /* Align with other form elements */
+    margin-top: 16px; /* Adjust as necessary */
+  }
+  
+  .summary-button {
+    margin-left: 250px; /* Adjust as necessary to align with other elements */
+  }
+  

@@ -98,18 +98,18 @@ export class StockManagementSummeryComponent implements OnInit {
     );
   }
   onSelectChange(): void {
-    this.checkAndFetchSummary();
+    // this.checkAndFetchSummary();
   }
 
   onDateChange(): void {
-    this.checkAndFetchSummary();
+    // this.checkAndFetchSummary();
   }
 
-  checkAndFetchSummary(): void {
-    if (this.startDate && this.endDate && this.selectedSupervisor && this.selectedZone && this.selectedRegion) {
-      this.getSummeryDetail();
-    }
-  }
+  // checkAndFetchSummary(): void {
+  //   if (this.startDate && this.endDate && this.selectedSupervisor && this.selectedZone && this.selectedRegion) {
+  //     this.getSummeryDetail();
+  //   }
+  // }
 
   getSummeryDetail() {
     this.loadingData = true;
@@ -132,6 +132,7 @@ export class StockManagementSummeryComponent implements OnInit {
       }
     );
   }
+  
   goToEvaluation(id: number, visitDate: string) {
     const formattedDate = this.formatDate(visitDate);
     console.log("goToEvaluation called with id:", id, "visitDate:", formattedDate);
