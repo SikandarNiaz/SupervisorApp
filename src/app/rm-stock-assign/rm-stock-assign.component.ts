@@ -94,7 +94,7 @@ gettingSupervisors() {
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
-          date: moment(item.startTime).format('DD-MM-YYYY h:mm A'),
+          date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];

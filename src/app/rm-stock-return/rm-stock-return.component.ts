@@ -32,6 +32,7 @@ export class RmStockReturnComponent implements OnInit {
   loadingData: boolean;
   selectedSupervisor: any;
   rm_id: string;
+  visitDate: string;
   showForms: boolean = true;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
   voucherImage: File | null = null;
@@ -91,8 +92,8 @@ export class RmStockReturnComponent implements OnInit {
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
-          date: moment(item.startTime).format('DD-MM-YYYY h:mm A'),
-          isEditing: false // Initialize editing state
+          date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+          isEditing: false 
         }));
         this.filteredItems = [...this.StockDetail];
         console.log('Formatted Stock Detail:', this.StockDetail);

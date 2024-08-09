@@ -29,7 +29,7 @@
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.userName }}</td>
-            <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ item.date }}</td>
             <td>
               <ng-container *ngIf="!item.isEditing">
                 {{ item.quantity }}
@@ -65,7 +65,7 @@
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.userName }}</td>
-            <td>{{ item.date }}</td>
+            <td>{{ item.date | date: 'YYYY-MM-dd' }}</td>
             <td>
               <ng-container *ngIf="!item.isEditing">
                 {{ item.quantity }}

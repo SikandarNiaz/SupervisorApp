@@ -14,7 +14,7 @@
             <th scope="col">#</th>
             <th scope="col">StockId</th>
             <th scope="col">Title</th>
-            <th scope="col">Supervisor</th>
+            <th scope="col">Rm</th>
             <th scope="col">Date</th>
             <th scope="col">Quantity</th>
             <th scope="col">Edit</th>
@@ -135,7 +135,7 @@
               <div *ngFor="let product of Products" class="product-item">
                 <span class="product-name">{{ product.title }}</span>
                 <mat-form-field class="example-full-width product-input">
-                  <input matInput [(ngModel)]="product.quantity" type="number" min="0" placeholder="Enter quantity"/>
+                  <input matInput [(ngModel)]="product.quantity" min="0"/>
                 </mat-form-field>
               </div>
             </div>
