@@ -51,6 +51,7 @@ export class ManageSurveyorsComponent implements OnInit, AfterContentChecked {
   loadingModal: boolean;
   loadingModalButton: boolean;
   activeStatus: any = ["Y", "N"];
+  profileUpdate: any = ["Y", "N"];
   selectedSurveyor: any = {};
   clusterList: any = [];
   labels: any;
@@ -92,6 +93,7 @@ export class ManageSurveyorsComponent implements OnInit, AfterContentChecked {
       cnic: new FormControl(""),
       brand_id:new FormControl(""),
       active: new FormControl(""),
+      isProfileUpdated: new FormControl(""),
     });
 
     // this.form = formBuilder.group({
@@ -397,6 +399,7 @@ export class ManageSurveyorsComponent implements OnInit, AfterContentChecked {
       region_id: surveyor.region_id || 1,
      program_id: surveyor.programId || 1,
      brand_id: surveyor.brand_id || 1,
+     isProfileUpdated: surveyor.isProfileUpdated,
     });
     this.surveyorInfoModal.show();
   }

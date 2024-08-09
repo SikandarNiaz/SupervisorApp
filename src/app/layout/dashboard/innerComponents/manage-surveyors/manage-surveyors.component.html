@@ -423,6 +423,32 @@
               formControlName="cnic"
             />
           </div>
+          <div class="form-group col-md-4">
+            <label for="isProfileUpdated">Profile Update</label>
+            <select
+              formControlName="isProfileUpdated"
+              class="form-control"
+              placeholder="Change Status"
+              name="isProfileUpdated"
+            >
+              <ng-container *ngFor="let statusP of profileUpdate">
+                <option [value]="statusP">{{ statusP }}</option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+                form.controls.isProfileUpdated.errors &&
+                (form.controls.isProfileUpdated.touched || form.controls.isProfileUpdated.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'isProfileUpdated')"
+                class="invalid-feedback"
+              >
+                Valid Status is Required.
+              </mat-error>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button
