@@ -92,6 +92,7 @@
         <th scope="col">Issuance</th>
         <th scope="col">Return</th>
         <th scope="col">Lost</th>
+        <th scope="col">Cash Collected</th>
         <th scope="col">Balance</th>
       </tr>
     </thead>
@@ -103,6 +104,7 @@
         <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
         <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
         <td>{{ item.lost }}</td>
+        <td>{{ item.cash_collected }}</td>
         <td>{{ item.balance }}</td>
       </tr>
     </tbody>
