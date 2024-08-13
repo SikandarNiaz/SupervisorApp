@@ -44,9 +44,10 @@ import { AgmDirectionModule } from "agm-direction";
 import { Ng2OrderModule } from "ng2-order-pipe";
 import { NdnVoLiveTrackingComponent } from "./ndn-vo-live-tracking/ndn-vo-live-tracking-component";
 import { NdnRouterTrackerComponent } from "./ndn-router-tracker/ndn-router-tracker.component";
+import { PtcRouteTrackerComponent } from "./ptc-router-tracker/ptc-router-tracker.component";
 
 @NgModule({
-  declarations: [VoTrackingComponent,DataTrackingComponent,UnvisistedMapComponent,RouteTrackerComponent, CapturedShopsComponent,VoLiveTrackingComponent,MainComponent,NdnVoLiveTrackingComponent,NdnRouterTrackerComponent],
+  declarations: [VoTrackingComponent,DataTrackingComponent,UnvisistedMapComponent,RouteTrackerComponent, CapturedShopsComponent,VoLiveTrackingComponent,MainComponent,NdnVoLiveTrackingComponent,NdnRouterTrackerComponent,PtcRouteTrackerComponent],
   imports: [
     CommonModule,
     VirtualViewRoutingModule,

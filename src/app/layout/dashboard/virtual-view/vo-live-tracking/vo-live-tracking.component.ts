@@ -155,6 +155,18 @@ export class VoLiveTrackingComponent implements OnInit {
 
   goToEvaluation(shop) {
     console.log("shop", shop);
+    if(this.projectType == "PTC"){
+      window.open(
+        `${
+          environment.hash
+        }dashboard/virtual_view/list/ptc-routerTracking?surveyorId=${
+          shop.surveyorId
+        }&startDate=${this.modifyDate(
+          shop.visit_date
+        )}&userType=${localStorage.getItem("user_id")}`,
+        "_blank"
+      );
+    }else{
     window.open(
       `${
         environment.hash
@@ -165,6 +177,7 @@ export class VoLiveTrackingComponent implements OnInit {
       )}&userType=${localStorage.getItem("user_id")}`,
       "_blank"
     );
+  }
   }
   // goToMap(){
 

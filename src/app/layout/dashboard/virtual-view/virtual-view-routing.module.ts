@@ -9,7 +9,7 @@ import { VoLiveTrackingComponent } from './vo-live-tracking/vo-live-tracking.com
 import { RouteTrackerComponent } from './route-tracker/route-tracker.component';
 import { NdnVoLiveTrackingComponent } from './ndn-vo-live-tracking/ndn-vo-live-tracking-component';
 import { NdnRouterTrackerComponent } from './ndn-router-tracker/ndn-router-tracker.component';
-
+import { PtcRouteTrackerComponent } from './ptc-router-tracker/ptc-router-tracker.component';
 const routes: Routes = [
   { path: '',redirectTo:'list' ,pathMatch:'full' },
   { path: 'list', component:MainComponent,
@@ -29,6 +29,10 @@ children:[
             path:"ndn-routerTracker",
             component:NdnRouterTrackerComponent
                   },
+  {
+    path:"ptc-routerTracking",
+    component:PtcRouteTrackerComponent
+  },                
 
   // { path: 'vo-live-tracking/:surveyorId', component: VoLiveTrackingComponent }
   
