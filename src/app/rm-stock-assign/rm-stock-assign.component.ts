@@ -129,6 +129,8 @@ gettingSupervisors() {
     formData.append('endDate', moment(this.endDate).format('YYYY-MM-DD HH:mm:ss'));
     formData.append('supervisorId', this.selectedSupervisor);
     formData.append('form_type', 'STOCK');
+    formData.append('user_type', 'RM');
+    formData.append('entry_type', 'WEB');
     formData.append('user_id', this.rm_id);
 
     this.Products.forEach(product => {
@@ -200,7 +202,7 @@ gettingSupervisors() {
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
-            date: new Date(item.visitDate),
+            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
             isEditing: false // Initialize editing state
           }));
           this.filteredItems = [...this.StockDetail]; // Update filteredItems

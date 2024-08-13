@@ -105,7 +105,8 @@ export class StockIssueToRmComponent implements OnInit {
     formData.append('form_type', 'DISTRIBUTION');
     formData.append('user_id', this.rm_id);
     formData.append('entry_type', 'WEB');
-    // formData.append('user_type', 'RM');
+    formData.append('user_type', 'DISTRIBUTION');
+    
 
     this.Products.forEach(product => {
       if (product.id && product.brandId !== undefined && product.quantity !== undefined) {
