@@ -356,6 +356,7 @@ export class PtcRouteTrackerComponent implements OnInit {
             visit_date: this.trackedShops[i].visit_date,
             address: this.trackedShops[i].address,
             remarks_id: this.trackedShops[i].remarks_id,
+            Interception_type:this.trackedShops[i].Interception_type,
            // iconUrl:this.trackedShops[i].remarks_id==1 ? this.colorType + 'yellow' + '.png': this.colorType + 'red' + '.png',
             isVisible: true,
           };
