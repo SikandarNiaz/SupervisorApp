@@ -116,7 +116,7 @@ export class DashboardService {
   //#region FILTER CALL
   getZone() {
     this.user_id = localStorage.getItem("user_id");
-    const filter = JSON.stringify({ act: 0, userId: this.user_id });
+    const filter = JSON.stringify({ act: 34, userId: this.user_id });
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     return this.http.post(url, filter);
     // .pipe(
@@ -1105,6 +1105,12 @@ deActivateFieldValue(obj){
     const url = this.ip + "return-stock"
     return this.http.post(url, formData);
   }
+  insertEvaluationData(data) {
+    const url = this.ip + "/supervisor-evaluation-data"; 
+    const body = this.UrlEncodeMaker(data);
+    return this.http.post(url, body, this.httpOptions);
+  }
+  
   updateAssignedProduct(obj) {
     const url = this.ip + "/update-assign-stock-controller"; // -----------> UpdateAssignStockController
     const body = this.UrlEncodeMaker(obj);
@@ -1119,6 +1125,16 @@ deActivateFieldValue(obj){
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
     const filter = JSON.stringify({ act: 52 });
     return this.http.post(url, filter);
+  }
+  // gettingSupervisorEvaluationDetail(obj) {
+  //   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  //   const filter = JSON.stringify({ act: 55 });
+  //   return this.http.post(url, filter);
+  // }
+  gettingSupervisorEvaluationDetail(obj) {
+    const url = this.ip + "supervisor-evaluation-summary";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
   }
   getSpecificDetail(id: number, visitDate: string,formType: string) {
     const url = this.ip + "loadFilters"; // URL of the backend endpoint
@@ -1141,6 +1157,34 @@ deActivateFieldValue(obj){
     const url = this.ip + "stock-management-summery";
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body,this.httpOptions);
+  }
+  getPtcFileData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "ptcFileDataController";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  updateComplianceTableData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "complianceTableDataController";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+  uploadPtcFileData(file: any, userId: string, userName: string) {
+    const url = this.ip + "/uploadPtcFile";
+    let formData=new FormData()
+    formData.append("file",file)
+    formData.append("userId",userId)
+    formData.append("userName",userName)
+      return this.http.post(url,formData);
+  }
+  gettingCallRemarks() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 53 });
+    return this.http.post(url, filter);
+  }
+  gettingSmsRemarks() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 54 });
+    return this.http.post(url, filter);
   }
  
 downloadFile(obj, url) {

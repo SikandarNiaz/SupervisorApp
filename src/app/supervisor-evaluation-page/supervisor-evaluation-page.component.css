@@ -1,0 +1,43 @@
+.custom-button-size {
+    font-size: 14px; /* Smaller text size */
+    padding: 6px 12px; /* Adjust padding to make the button smaller */
+  }
+  .header-section .mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .search-bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar-container .form-control {
+    flex: 1;
+    /* margin-right: 10px; */
+    height: 40px;
+    padding: 8px 12px;
+  }
+  
+  .search-bar-container .btn {
+    height: 40px;
+    padding: 0 16px;
+  }
+  
+  .search-bar-container .btn i {
+    margin-right: 0;
+  }
+  
+  .table-section {
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+  }
+  .custom-width {
+    width: 50px; 
+  }
+  
+  

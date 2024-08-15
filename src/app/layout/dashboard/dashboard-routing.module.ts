@@ -73,6 +73,8 @@ import { RmStockAssignComponent } from "src/app/rm-stock-assign/rm-stock-assign.
 import { RmStockReturnComponent } from "src/app/rm-stock-return/rm-stock-return.component";
 import { StockManagementSummeryComponent } from "src/app/stock-management-summery/stock-management-summery.component";
 import { StockIssueToRmComponent } from "src/app/stock-issue-to-rm/stock-issue-to-rm.component";
+import { ManagePtcFileComponent } from "src/app/manage-ptc-file/manage-ptc-file.component";
+import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation-page/supervisor-evaluation-page.component";
 
 
 const routes: Routes = [
@@ -279,7 +281,15 @@ const routes: Routes = [
     path: "app-stock-issue-to-rm",
     component: StockIssueToRmComponent,
   },
-
+  {
+    path: "app-manage-ptc-file",
+    component: ManagePtcFileComponent,
+  },
+  {
+    path: "app-supervisor-evaluation-page",
+    component: SupervisorEvaluationPageComponent,
+  },
+  
 
 
 ];

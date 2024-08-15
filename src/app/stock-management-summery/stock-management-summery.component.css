@@ -6,12 +6,15 @@
   
   .summary-button-container {
     display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: flex-start; /* Align with other form elements */
-    margin-top: 16px; /* Adjust as necessary */
+    align-items: center; 
+    justify-content: flex-start; 
+    margin-top: 16px; 
   }
-  
+
   .summary-button {
-    margin-left: 250px; /* Adjust as necessary to align with other elements */
+    margin-left: 250px; 
   }
   
+  /* .summary-button {
+    margin-left: 50px; 
+  } */

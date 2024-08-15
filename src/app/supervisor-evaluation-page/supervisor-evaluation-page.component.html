@@ -1,0 +1,194 @@
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+
+      <!-- Header Section with Filters -->
+      <section class="header-section">
+        <div class="row">
+          <!-- Existing Filters -->
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepicker]="picker0"
+                [(ngModel)]="startDate"
+                placeholder="From"
+                readonly
+                (ngModelChange)="onDateChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepicker]="picker1"
+                [(ngModel)]="endDate"
+                placeholder="To"
+                readonly
+                (ngModelChange)="onDateChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Zone</mat-label>
+              <mat-select [(value)]="selectedZone" (selectionChange)="onZoneChange($event)">
+                <mat-option *ngFor="let zone of Zones" [value]="zone.id">
+                  {{ zone.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Region</mat-label>
+              <mat-select [(value)]="selectedRegion" (selectionChange)="onSelectChange()">
+                <mat-option *ngFor="let region of Regions" [value]="region.id">
+                  {{ region.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- New Status Filter -->
+          <div class="col-md-3"> <!-- Adjust column size as needed -->
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Status</mat-label>
+              <mat-select [(value)]="selectedStatus" (selectionChange)="filterEvaluationDetail()">
+                <!-- <mat-option [value]="''">All</mat-option> -->
+                <mat-option value="Approved">Approved</mat-option>
+                <mat-option value="Pending">Pending</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col summary-button-container">
+            <button mat-raised-button color="primary" class="summary-button" style="margin-top: 10px;" (click)="gettingEvaluationDetail()">Get Summary</button>
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- Table -->
+      <section class="table-section">
+        <div *ngIf="showForms" class="container-fluid">
+          <mat-card>
+            <table class="table table-hover mb-0 custom-table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Ba_Code</th>
+                  <th scope="col">Ba_Name</th>
+                  <th scope="col">Deployment</th>
+                  <th scope="col">Cnic</th>
+                  <th scope="col">Conversion_Date</th>
+                  <!-- <th scope="col">Update</th> -->
+                </tr>
+                <!-- Search Bar in Table Header -->
+                <tr>
+                  <th colspan="7">
+                    <div class="search-bar-container">
+                      <input
+                        type="search"
+                        id="search-bar"
+                        class="form-control"
+                        placeholder="Search by BA Code or Deployment..."
+                        [(ngModel)]="searchQuery"
+                        (ngModelChange)="filterEvaluationDetail()"
+                      />
+                      <button type="button" class="btn btn-primary" (click)="filterEvaluationDetail()">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of filteredEvaluationDetail; let x = index">
+                  <th scope="row">{{ x + 1 }}</th>
+                  <td>{{ item.baCode }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.deployment }}</td>
+                  <td>{{ item.cnic }}</td>
+                  <td>{{ item.conversionDate }}</td>
+                  <td>
+                    <button mat-raised-button color="primary" (click)="openUploadModal(item)">
+                      Update
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card>
+        </div>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+  <div
+  bsModal
+  #AddStockModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Update Details</h5>
+      <button type="button" class="close" aria-label="Close" (click)="closeUploadModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>SMS Remarks</mat-label>
+            <mat-select [(ngModel)]="smsRemarks">
+              <mat-option *ngFor="let remark of smsRemarksList" [value]="remark.title">
+                {{ remark.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>Call Remarks</mat-label>
+            <mat-select [(ngModel)]="callRemarks">
+              <mat-option *ngFor="let remark of callRemarksList" [value]="remark.title">
+                {{ remark.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Button to insert data -->
+      <div class="row mt-3">
+        <div class="col">
+          <button mat-raised-button color="primary" (click)="assignStock()">
+            Update Data
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
