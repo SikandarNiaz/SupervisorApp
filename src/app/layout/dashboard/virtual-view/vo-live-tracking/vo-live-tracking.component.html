@@ -512,6 +512,12 @@
                   {{ getArrowType("Purchase_Trial_And_Info_Pass") }}
                 </i>
               </th>
+              <th (click)="sortIt('Idle_Time')" style="cursor: pointer">
+                Idle Time
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("Idle_Time") }}
+                </i>
+              </th>
             </tr>
           </thead>
           <tbody *ngIf="trackedShops2.length > 0" class="trS14">
@@ -566,6 +572,9 @@
               </td>
               <td>
                 {{ shop.Purchase_Trial_And_Info_Pass }}
+              </td>
+              <td>
+                {{ shop.Idle_Time }}
               </td>
             </tr>
 
