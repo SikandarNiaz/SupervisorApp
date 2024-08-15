@@ -135,12 +135,13 @@
                   </i>
                 </th> -->
   
-                  <th>Shop Code</th>
-                  <th>Shop Name</th>
-                  <th>Interception Type</th>
-                  <th>Start Time</th>
-                  <th>End Time</th>
-                  <th>Time Difference</th>
+                 <!-- <th>Shop Code</th> -->
+                 <th>Visit Date</th>
+                  <th>Visit Time</th>
+                  <th>Info Pass</th>
+                  <th>Purchase Trial</th>
+                  <!-- <th>End Time</th>
+                  <th>Time Difference</th> -->
                 </tr>
               </thead>
   
@@ -150,16 +151,19 @@
               >
                 <tr *ngIf="shop.Type == 'Visit'">
                   <td>
-                    {{ shop.shop_code }}
+                    {{ shop.visit_date }}
+                  </td>
+                  <td>
+                    {{ shop.time }}
                   </td>
   
                   <td>
-                    {{ shop.shop_title }}
+                    {{ shop.Info_Pass }}
                   </td>
                   <td>
-                    {{ shop.Interception_type}}
+                    {{ shop.Purchase_Trial}}
                   </td>
-                  <td>
+                  <!-- <td>
                     {{ shop.time }}
                   </td>
                   <td>
@@ -167,7 +171,7 @@
                   </td>
                   <td>
                     {{ shop.time_difference }}
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
