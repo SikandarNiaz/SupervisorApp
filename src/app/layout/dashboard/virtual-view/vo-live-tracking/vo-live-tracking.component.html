@@ -158,7 +158,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="trackedShops2.length > 0">
+<mat-card *ngIf="trackedShops2.length > 0 && projectType != 'PTC'">
   <div class="row">
     <div class="col-md-5">
       <div class="tableFixHead col-md-12 example-container mat-elevation-z8">
@@ -275,6 +275,327 @@
     </div>
 
     <div class="col-md-7">
+      <section class="example-section">
+        <agm-map
+          [latitude]="latitude"
+          [longitude]="longitude"
+          [fitBounds]="trackedShops2.length > 1"
+          [zoom]=""
+          style="height: 600px"
+        >
+          <!-- <ng-container *ngFor="let shop of trackedShops"> -->
+          <!-- <div *ngIf = "shop.shop_status == 'Captured'"> -->
+          <ng-container *ngFor="let shop of trackedShops2">
+            <div *ngIf="shop.last_update_before <= '30'">
+              <agm-marker
+                [agmFitBounds]="true"
+                latitude="{{ shop.latitude }}"
+                longitude="{{ shop.longitude }}"
+                iconUrl="{{ colorType + 'greenish' + '.png' }}"
+                [label]="{
+                  color: 'black',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  text: shop.m_code
+                }"
+              >
+                &lt;!&ndash; (mouseOver)="showInfo($event)"
+                (mouseOut)="hideInfo($event)"&ndash;&gt;
+                <!-- &lt;!&ndash; (mouseOver)="showInfo($event)"
+                (mouseOut)="hideInfo($event)"&ndash;&gt; -->
+
+                <agm-snazzy-info-window
+                  [maxWidth]="400"
+                  [closeWhenOthersOpen]="true"
+                >
+                  <ng-template>
+                    <strong>Code:</strong> {{ shop.m_code }}
+                    <br />
+                    <strong>Name:</strong> {{ shop.full_name }}
+                    <br />
+                    <strong>Last Updated:</strong>
+                    {{ shop.last_update_before }} <span>m Ago</span>
+                    <br />
+                    <a (click)="goToEvaluation(shop)">
+                      <button backgroundcolor="#2196F3">Tracker Link</button></a
+                    >
+                  </ng-template>
+                </agm-snazzy-info-window>
+              </agm-marker>
+            </div>
+            <!-- </ng-container> -->
+
+            <!-- <ng-container *ngFor="let shop of trackedShops"> -->
+            <div
+              *ngIf="
+                shop.last_update_before > '30' &&
+                shop.last_update_before <= '120'
+              "
+            >
+              <agm-marker
+                [agmFitBounds]="true"
+                latitude="{{ shop.latitude }}"
+                longitude="{{ shop.longitude }}"
+                iconUrl="{{ colorType + 'yellows' + '.png' }}"
+                [label]="{
+                  color: 'black',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  text: shop.m_code
+                }"
+              >
+                <!-- (mouseOver)="showInfo($event)"  (mouseOut)="hideInfo($event)"-->
+                &lt;!&ndash; (mouseOver)="showInfo($event)"
+                (mouseOut)="hideInfo($event)"&ndash;&gt;
+
+                <agm-snazzy-info-window
+                  [maxWidth]="400"
+                  [closeWhenOthersOpen]="true"
+                >
+                  <ng-template>
+                    <strong>Code:</strong> {{ shop.m_code }}
+                    <br />
+                    <strong>Name:</strong> {{ shop.full_name }}
+                    <br />
+                    <strong>Last Updated:</strong>
+                    {{ shop.last_update_before }} <span>m Ago</span>
+                    <br />
+                    <a (click)="goToEvaluation(shop)"
+                      ><button backgroundcolor="#2196F3">
+                        Tracker Link
+                      </button></a
+                    >
+                  </ng-template>
+                </agm-snazzy-info-window>
+              </agm-marker>
+            </div>
+            <div *ngIf="shop.last_update_before > '120'">
+              <agm-marker
+                [agmFitBounds]="true"
+                latitude="{{ shop.latitude }}"
+                longitude="{{ shop.longitude }}"
+                iconUrl="{{ colorType + 'redish' + '.png' }}"
+                [label]="{
+                  color: 'black',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  text: shop.m_code
+                }"
+              >
+                &lt;!&ndash; (mouseOver)="showInfo($event)"
+                (mouseOut)="hideInfo($event)"&ndash;&gt;
+
+                <agm-snazzy-info-window
+                  [maxWidth]="400"
+                  [closeWhenOthersOpen]="true"
+                >
+                  <ng-template>
+                    <strong>Code:</strong> {{ shop.m_code }}
+                    <br />
+                    <strong>Name:</strong> {{ shop.full_name }}
+                    <br />
+                    <strong>Last Updated:</strong>
+                    {{ shop.last_update_before }} <span>m Ago</span>
+                    <br />
+                    <a (click)="goToEvaluation(shop)"
+                      ><button backgroundcolor="#2196F3">
+                        Tracker Link
+                      </button></a
+                    >
+                  </ng-template>
+                </agm-snazzy-info-window>
+              </agm-marker>
+            </div>
+          </ng-container>
+        </agm-map>
+      </section>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card *ngIf="trackedShops2.length > 0 && projectType == 'PTC'">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tableFixHead col-md-12 example-container mat-elevation-z8">
+        <table class="table table-bordered table-hover">
+          <thead style="background: lightgray">
+            <tr>
+              <th (click)="sortIt('m_code')" style="cursor: pointer">
+                code
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("m_code") }}
+                </i>
+              </th>
+
+              <!-- <th (click)="sortIt('m_code')" style="cursor: pointer">
+                code
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("m_code") }}
+                </i>
+              </th>
+              <th (click)="sortIt('m_code')" style="cursor: pointer">
+                code
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("m_code") }}
+                </i>
+              </th> -->
+
+              <th (click)="sortIt('full_name')" style="cursor: pointer" *ngIf="projectType != 'Coke_Audit'">
+                Full Name
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("full_name") }}
+                </i>
+              </th>
+              <th (click)="sortIt('day_start_time')" style="cursor: pointer">
+                Day Start
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("day_start_time") }}
+                </i>
+              </th>
+              <th (click)="sortIt('day_end_time')" style="cursor: pointer">
+                Day End 
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("day_end_time") }}
+                </i>
+              </th>
+              <th (click)="sortIt('Stock_Issue_to_Supervisor')" style="cursor: pointer">
+                Stock Issue to Supervisor
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("Stock_Issue_to_Supervisor") }}
+                </i>
+              </th>
+              <th (click)="sortIt('Stock_Issue_to_BA')" style="cursor: pointer">
+                Stock Issue To BA
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("Stock_Issue_to_BA") }}
+                </i>
+              </th>
+              <th (click)="sortIt('visit_start_time')" style="cursor: pointer">
+                First Interception
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("visit_start_time") }}
+                </i>
+              </th>
+              <th (click)="sortIt('visit_end_time')" style="cursor: pointer">
+                Last Interception
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("visit_end_time") }}
+                </i>
+              </th>
+              <th (click)="sortIt('Total_Interceptions')" style="cursor: pointer">
+                Total Interceptions
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("Total_Interceptions") }}
+                </i>
+              </th>
+              <th (click)="sortIt('productive_interceptions')" style="cursor: pointer">
+                Productive Interception
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("productive_interceptions") }}
+                </i>
+              </th>
+              <th (click)="sortIt('Purchase_trial')" style="cursor: pointer">
+                Purchase Trial
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("Purchase_trial") }}
+                </i>
+              </th>
+              <th (click)="sortIt('Info_pass')" style="cursor: pointer">
+                Info Pass
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("Info_pass") }}
+                </i>
+              </th>
+              <th (click)="sortIt('last_visited_time')" style="cursor: pointer">
+                Purchase trial & Info Pass
+                <i class="material-icons arrow material-icons-arrow">
+                  {{ getArrowType("last_visited_time") }}
+                </i>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="trackedShops2.length > 0" class="trS14">
+            <tr *ngFor="let shop of trackedShops2 | orderBy: sortBy:sortOrder">
+              <td class="a-namelink" title="Code">
+                <a
+                  class="a-namelink"
+                  target="_blank"
+                  title="View Visit Details"
+                  (click)="goToEvaluation(shop)"
+                  >{{ shop.m_code }}</a
+                >
+              </td>
+
+              <td *ngIf="projectType != 'Coke_Audit'">
+                {{ shop.full_name }}
+              </td>
+
+              <td>
+                {{ shop.day_start_time }}
+              </td>
+              <td>
+                {{ shop.day_end_time }}
+              </td>
+
+              <td>
+                {{ shop.Stock_Issue_to_Supervisor }}
+              </td>
+
+              <td>
+                {{ shop.Stock_Issue_to_BA }}
+              </td>
+              <td>
+                {{ shop.visit_start_time }}
+              </td>
+              <td>
+                {{ shop.visit_end_time }}
+              </td>
+
+              <td>
+                {{ shop.Total_Interceptions }}
+              </td>
+
+              <td>
+                {{ shop.productive_interceptions }}
+              </td>
+              <td>
+                {{ shop.Purchase_trial }}
+              </td>
+              <td>
+                {{ shop.Info_pass }}
+              </td>
+            </tr>
+
+            <!-- <tr *ngFor="let shop of trackedShops | orderBy: sortBy:sortOrder">
+              <td>
+                {{ shop.m_code }}
+              </td>
+
+              <td>
+                {{ shop.full_name }}
+              </td>
+
+              <td>
+                {{ shop.visited }}
+              </td>
+              <td>
+                {{ shop.visit_start_time }}
+              </td>
+
+              <td>
+                {{ shop.last_visited_time }}
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card *ngIf="trackedShops2.length > 0 && projectType == 'PTC'">
+  <div class="row">
+    <div class="col-md-12">
       <section class="example-section">
         <agm-map
           [latitude]="latitude"
