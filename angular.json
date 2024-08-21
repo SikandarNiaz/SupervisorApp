@@ -27,7 +27,7 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles/styles.scss",
+              "src/styles/styles.scss","node_modules/snazzy-info-window/dist/snazzy-info-window.css",
               "./node_modules/@syncfusion/ej2-material-theme/styles/material.css"
             ],
             "scripts": [
@@ -89,7 +89,7 @@
               "node_modules/chart.js/dist/Chart.js"
             ],
             "styles": [
-              "styles.scss",
+              "styles.scss","node_modules/snazzy-info-window/dist/snazzy-info-window.css",
               "./node_modules/@syncfusion/ej2-material-theme/styles/material.css"
             ],
             "assets": [

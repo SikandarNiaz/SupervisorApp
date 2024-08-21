@@ -38,8 +38,8 @@ export class PtcRouteTrackerComponent implements OnInit {
   userType: any = -1;
   latitude;
   longitude;
-  lat: Number;
-  lng: Number;
+  lat = 24.8357775;
+  lng = 67.0264893;
   visitedShops: any = [];
 
   trackedShops: any = [];
@@ -72,6 +72,8 @@ export class PtcRouteTrackerComponent implements OnInit {
   obj: any = {};
   visitedtrackedShops: any = [];
   labels: any;
+  convertedLocationData: any;
+  trackedShops2: any;
 
 
   constructor(
@@ -183,184 +185,206 @@ export class PtcRouteTrackerComponent implements OnInit {
       userId: p.userType,
       surveyorId: p.surveyorId,
     };
-    this.httpService
-      .getShopsForSurveyorLiveTrackingById(obj)
-      .subscribe((res: any) => {
-        if (res.length <= 0) {
-          this.toastr.error("No Tracked Shops");
-          // this.toastr.error(error.description, "Error");
-          this.loading = false;
-        } else {
-          this.trackedShops = res.liveTrackingDataMap;
-          console.log("trackedshops: ",this.trackedShops);
-          this.dataShops = res.shopDataMap;
-          this.visitedtrackedShops = this.trackedShops.filter(
-            (t) => t.Type == "Visit"
+  
+    this.httpService.getShopsForSurveyorLiveTrackingById(obj).subscribe((res: any) => {
+      if (res.length <= 0) {
+        this.toastr.error("No Tracked Shops");
+        this.loading = false;
+      } else {
+        this.trackedShops = res.liveTrackingDataMap;
+        
+        // Create a map to store occurrences of each lat/lng pair
+        const latLngMap = new Map<string, number>();
+  
+        this.trackedShops2 = this.trackedShops.map((shop, index) => {
+          const latLngKey = `${shop.latitude},${shop.longitude}`;
+  
+          // Check how many times this lat/lng pair has been seen
+          let occurrence = latLngMap.get(latLngKey) || 0;
+          latLngMap.set(latLngKey, occurrence + 1);
+  
+          // Apply offset only if there are multiple markers with the same lat/lng
+          const offsetFactor = occurrence * 0.00001; // Smaller offset value
+          return {
+            ...shop,
+            latitude: +shop.latitude + offsetFactor,
+            longitude: +shop.longitude + offsetFactor
+          };
+        });
+  
+        this.dataShops = res.shopDataMap;
+        this.visitedtrackedShops = this.trackedShops.filter((t) => t.Type == "Visit");
+        this.setTimeDifference();
+        this.removeMarkers();
+        this.getvisitedShops();
+  
+        this.latitude = this.trackedShops[0].latitude;
+        this.longitude = this.trackedShops[0].longitude;
+        this.visitedShops.forEach((element, i) => {
+          element.trackNumber = (i + 1).toString();
+          this.totalDistanceCovered += Math.ceil(
+            i > 0
+              ? this.getDistanceFromLatLonInKm(
+                  this.visitedShops[i - 1].latitude,
+                  this.visitedShops[i - 1].longitude,
+                  this.visitedShops[i].latitude,
+                  this.visitedShops[i].longitude,
+                  i
+                )
+              : 0
           );
-          this.setTimeDifference();
-          this.removeMarkers();
-          this.getvisitedShops();
-
-          // this.getCapturedShops();
-          this.latitude = this.trackedShops[0].latitude;
-          this.longitude = this.trackedShops[0].longitude;
-          this.visitedShops.forEach((element, i) => {
-            element.trackNumber = (i + 1).toString();
-            this.totalDistanceCovered =
-              this.totalDistanceCovered +
-              Math.ceil(
-                i > 0
-                  ? this.getDistanceFromLatLonInKm(
-                      this.visitedShops[i - 1].latitude,
-                      this.visitedShops[i - 1].longitude,
-                      this.visitedShops[i].latitude,
-                      this.visitedShops[i].longitude,
-                      i
-                    )
-                  : 0
-              );
-            this.loading = false;
-            const alldata = this.trackedShops.map((id) => {
-              return id.shop_flag + "," + id.shop_status;
-            });
-
-            this.legends = new Set(alldata);
-          });
-          //console.log('this.trackedShops', this.trackedShops)
-
-          let locations = this.trackedShops.map((m) => {
-            let obj = {
-              location: { lat: +m.latitude, lng: +m.longitude },
-              stopover: true,
-            };
-            return obj;
-          });
-
-          // this.waypoints = locations.slice(0, 24);
-          this.waypoints = locations;
-          // this.trackedShops=[];
-          // this.trackedShops=[...this.waypoints]
-          this.loading = false;
-        }
-      });
+        });
+  
+        let locations = this.trackedShops2.map((m) => ({
+          location: { lat: +m.latitude, lng: +m.longitude },
+          stopover: true,
+        }));
+  
+        this.waypoints = locations;
+        this.loading = false;
+      }
+    });
   }
-
+  
   removeMarkers() {
     for (let i = 0; i < this.trackedShops.length; i++) {
       this.trackedShops[i].isVisible = false;
     }
   }
+  
   onMapReady(map: any) {
-    this.map = map;
-    //this.calcRoute();
-    this.mockDirections();
-    this.initEvents();
-  }
-  mockDirections() {
-    const locationArray = this.waypoints.map(
-      (l) => new google.maps.LatLng(l.location.lat, l.location.lng)
-    );
-    const lineSymbol = {
-      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-    };
-    this.line = new google.maps.Polyline({
-      // strokeOpacity: 0.5,
-      path: [],
-      map: this.map,
-      strokeColor: "#5FA5EB",
-      strokeWeight: 6,
-      icons: [
-        {
-          icon: lineSymbol,
-          offset: "100%",
-          repeat: "100px",
-        },
-      ],
+    this.trackedShops = this.trackedShops.filter((e) => e.Type == 'Visit');
+    this.lat = this.trackedShops[0].latitude;
+    this.lng = this.trackedShops[0].longitude;
+    console.log("this.lat: ", this.lat);
+    console.log("this.lng: ", this.lng);
+    console.log(" filtered this.trackedShops: ", this.trackedShops);
+    this.convertedLocationData = this.trackedShops.map((coords) => {
+      return {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      };
     });
-    locationArray.forEach((l) => this.line.getPath().push(l));
+    console.log(map);
+    // const centerLatLng = new google.maps.LatLng(this.lat, this.lng);
 
-    // const start = new google.maps.LatLng(51.513237, -0.099102);
-    // const end = new google.maps.LatLng(51.514786, -0.080799);
-
-    // const startMarker = new google.maps.Marker({position: start, map: this.map, label: 'A'});
-    // const endMarker = new google.maps.Marker({position: end, map: this.map, label: 'B'});
-    this.initRoute();
+    // // Center the map on the specified coordinates
+    // map.setCenter(centerLatLng);
+    this.map = map;
+    console.log("console.log(map);", map);
+    this.mockDirections6();
+    // this.initEvents();
   }
-  initRoute() {
-    const route = this.line.getPath().getArray();
+  // mockDirections() {
+  //   const locationArray = this.waypoints.map(
+  //     (l) => new google.maps.LatLng(l.location.lat, l.location.lng)
+  //   );
+  //   const lineSymbol = {
+  //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+  //   };
+  //   this.line = new google.maps.Polyline({
+  //     // strokeOpacity: 0.5,
+  //     path: [],
+  //     map: this.map,
+  //     strokeColor: "#5FA5EB",
+  //     strokeWeight: 6,
+  //     icons: [
+  //       {
+  //         icon: lineSymbol,
+  //         offset: "100%",
+  //         repeat: "100px",
+  //       },
+  //     ],
+  //   });
+  //   locationArray.forEach((l) => this.line.getPath().push(l));
 
-    // options
-    const options: TravelMarkerOptions = {
-      map: this.map, // map object
-      speed: 50, // default 10 , animation speed
-      interval: 10, // default 10, marker refresh time
-      cameraOnMarker: true, // default false, move camera with marker
-      speedMultiplier: this.speedMultiplier,
-      markerType: "overlay",
-      markerOptions: {
-        title: "Travel Marker",
-        animation: google.maps.Animation.DROP,
-        icon: {
-          url: "./assets/images/bicycle.gif",
-          // This marker is 20 pixels wide by 32 pixels high.
-          animation: google.maps.Animation.DROP,
-          // size: new google.maps.Size(256, 256),
-          scaledSize: new google.maps.Size(128, 128),
-          // The origin for this image is (0, 0).
-          origin: new google.maps.Point(0, 0),
-          // The anchor for this image is the base of the flagpole at (0, 32).
-          anchor: new google.maps.Point(53, 110),
-        },
-      },
-    };
-    // define marker
-    this.marker = new TravelMarker(options);
+  //   // const start = new google.maps.LatLng(51.513237, -0.099102);
+  //   // const end = new google.maps.LatLng(51.514786, -0.080799);
 
-    // add locations from direction service
+  //   // const startMarker = new google.maps.Marker({position: start, map: this.map, label: 'A'});
+  //   // const endMarker = new google.maps.Marker({position: end, map: this.map, label: 'B'});
+  //   this.initRoute();
+  // }
+  // initRoute() {
+  //   const route = this.line.getPath().getArray();
 
-    const myArray: any = [];
+  //   // options
+  //   const options: TravelMarkerOptions = {
+  //     map: this.map, // map object
+  //     speed: 50, // default 10 , animation speed
+  //     interval: 10, // default 10, marker refresh time
+  //     cameraOnMarker: true, // default false, move camera with marker
+  //     speedMultiplier: this.speedMultiplier,
+  //     markerType: "overlay",
+  //     markerOptions: {
+  //       title: "Travel Marker",
+  //       animation: google.maps.Animation.DROP,
+  //       icon: {
+  //         url: "./assets/images/bicycle.gif",
+  //         // This marker is 20 pixels wide by 32 pixels high.
+  //         animation: google.maps.Animation.DROP,
+  //         // size: new google.maps.Size(256, 256),
+  //         scaledSize: new google.maps.Size(128, 128),
+  //         // The origin for this image is (0, 0).
+  //         origin: new google.maps.Point(0, 0),
+  //         // The anchor for this image is the base of the flagpole at (0, 32).
+  //         anchor: new google.maps.Point(53, 110),
+  //       },
+  //     },
+  //   };
+  //   // define marker
+  //   this.marker = new TravelMarker(options);
 
-    for (const wp of this.waypoints) {
-      myArray.push(new google.maps.LatLng(wp.location.lat, wp.location.lng));
-    }
+  //   // add locations from direction service
 
-    this.marker.addLocation(myArray);
-    // this.marker.addLocation([new google.maps.LatLng(24.9625457,67.0461976), new google.maps.LatLng(24.9573833,67.0592702),
-    //   new google.maps.LatLng(24.9603729, 67.0620511), new google.maps.LatLng(24.9488047, 67.0437489),
-    //   new google.maps.LatLng(24.948709, 67.0438441)]);
+  //   const myArray: any = [];
 
-    setTimeout(() => this.play(), 2000);
-  }
+  //   for (const wp of this.waypoints) {
+  //     myArray.push(new google.maps.LatLng(wp.location.lat, wp.location.lng));
+  //   }
+
+  //   this.marker.addLocation(myArray);
+  //   // this.marker.addLocation([new google.maps.LatLng(24.9625457,67.0461976), new google.maps.LatLng(24.9573833,67.0592702),
+  //   //   new google.maps.LatLng(24.9603729, 67.0620511), new google.maps.LatLng(24.9488047, 67.0437489),
+  //   //   new google.maps.LatLng(24.948709, 67.0438441)]);
+
+  //   setTimeout(() => this.play(), 2000);
+  // }
   goToEvaluation(shop) {
     window.open(
       `${environment.hash}dashboard/evaluation/list/details/${shop.survey_id}?shopId=${shop.shop_id}&surveyorId=${shop.surveyor_id}&visitDate=${shop.visit_date}`,
       "_blank"
     );
   }
+  onMarkerClick(shop: any) {
+    shop.isVisible = !shop.isVisible; // Toggle visibility
+  }
+  
   initEvents() {
     this.marker.event.onEvent((event: EventType, data: TravelData) => {
       for (let i = 0; i < this.trackedShops.length; i++) {
-        if (data.index == i && this.trackedShops[i].Type == "Visit") {
-          const obj = {
-            longitude: this.trackedShops[i].longitude,
-            latitude: this.trackedShops[i].latitude,
-            time: this.trackedShops[i].time,
-            visit_datetime: this.trackedShops[i].visit_datetime,
-            Type: this.trackedShops[i].Type,
-            shop_code: this.trackedShops[i].shop_code,
-            shop_title: this.trackedShops[i].shop_title,
-            survey_id: this.trackedShops[i].survey_id,
-            end_time: this.trackedShops[i].end_time,
-            shop_id: this.trackedShops[i].shop_id,
-            surveyor_id: this.trackedShops[i].surveyor_id,
-            visit_date: this.trackedShops[i].visit_date,
-            address: this.trackedShops[i].address,
-            remarks_id: this.trackedShops[i].remarks_id,
-            Interception_type:this.trackedShops[i].Interception_type,
-           // iconUrl:this.trackedShops[i].remarks_id==1 ? this.colorType + 'yellow' + '.png': this.colorType + 'red' + '.png',
-            isVisible: true,
-          };
-          this.trackedShops.splice(i, 1, obj);
+        // if (data.index == i && this.trackedShops[i].Type == "Visit") {
+          if (data.index == i) {
+          // const obj = {
+          //   longitude: this.trackedShops[i].longitude,
+          //   latitude: this.trackedShops[i].latitude,
+          //   time: this.trackedShops[i].time,
+          //   visit_datetime: this.trackedShops[i].visit_datetime,
+          //   Type: this.trackedShops[i].Type,
+          //   shop_code: this.trackedShops[i].shop_code,
+          //   shop_title: this.trackedShops[i].shop_title,
+          //   survey_id: this.trackedShops[i].survey_id,
+          //   end_time: this.trackedShops[i].end_time,
+          //   shop_id: this.trackedShops[i].shop_id,
+          //   surveyor_id: this.trackedShops[i].surveyor_id,
+          //   visit_date: this.trackedShops[i].visit_date,
+          //   address: this.trackedShops[i].address,
+          //   remarks_id: this.trackedShops[i].remarks_id,
+          //   Interception_type:this.trackedShops[i].Interception_type,
+          //  // iconUrl:this.trackedShops[i].remarks_id==1 ? this.colorType + 'yellow' + '.png': this.colorType + 'red' + '.png',
+          //   isVisible: true,
+          // };
+          // this.trackedShops.splice(i, 1, obj);
         }
       }
     });
@@ -448,5 +472,118 @@ export class PtcRouteTrackerComponent implements OnInit {
         this.visitedtrackedShops[i].time
       );
     }
+  }
+
+  mockDirections6() {
+    console.log("this.convertedLocationData: ", this.convertedLocationData);
+   // const slicedArray: number[] = this.convertedLocationData.slice(0, 122);
+    const batchSize = 25;
+    const batches = [];
+
+    // Divide waypoints into batches
+    for (let i = 0; i < this.convertedLocationData.length; i += batchSize) {
+      batches.push(this.convertedLocationData.slice(i, i + batchSize));
+    }
+
+    // Perform directions requests for each batch
+    const requests = batches.map((batch, index) => {
+      const waypoints = batch.slice(1, -1).map((location) => ({
+        location: new google.maps.LatLng(location.latitude, location.longitude),
+        stopover: true,
+      }));
+
+      const start = new google.maps.LatLng(
+        batch[0].latitude,
+        batch[0].longitude
+      );
+      const end = new google.maps.LatLng(
+        batch[batch.length - 1].latitude,
+        batch[batch.length - 1].longitude
+      );
+
+      const directionsService = new google.maps.DirectionsService();
+
+      const request = {
+        origin: start,
+        destination: end,
+        waypoints: waypoints,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING,
+      };
+
+      return new Promise((resolve, reject) => {
+        directionsService.route(request, (response, status) => {
+          if (status === "OK") {
+            resolve(response.routes[0].overview_path);
+          } else {
+            reject(`Directions request failed for batch ${index}: ${status}`);
+          }
+        });
+      });
+    });
+
+    // Combine routes from all batches
+    Promise.all(requests)
+      .then((routes) => {
+        // Merge routes
+        const combinedRoute = [].concat(...routes);
+        this.drawRoute(combinedRoute);
+        this.initRoute4(combinedRoute); // Call initRoute4 to initialize the marker and add locations
+      })
+      .catch((error) => {
+        console.error("Batch directions requests failed:", error);
+      });
+  }
+
+  drawRoute(route: google.maps.LatLng[]) {
+    this.line = new google.maps.Polyline({
+      path: route,
+      geodesic: true,
+      strokeColor: "#1f456E",
+      strokeOpacity: 0.7,
+      strokeWeight: 3,
+      map: this.map,
+    });
+
+    const startMarker = new google.maps.Marker({
+      position: route[0],
+      map: this.map,
+      label: "A",
+    });
+    const endMarker = new google.maps.Marker({
+      position: route[route.length - 1],
+      map: this.map,
+      label: "B",
+    });
+
+    // this.initRoute4(route);
+  }
+
+  initRoute4(route: google.maps.LatLng[]) {
+    const options: TravelMarkerOptions = {
+      map: this.map,
+      speed: 50,
+      interval: 10,
+      speedMultiplier: this.speedMultiplier,
+
+      // below line will show car icon which overides your given icon url
+      // markerType: "overlay",
+
+      cameraOnMarker: true,  // default false, move camera with marker
+      markerType: 'overlay',  // default: 'default'
+      overlayOptions: {
+        offsetX: 0, // default: 0, x-offset for overlay
+        offsetY: 0, // default: 0, y-offset for overlay
+        offsetAngle: 0, // default: 0, rotation-offset for overlay
+        imageUrl: './assets/images/lDrin.png', // image used for overlay
+        imageWidth: 36, // image width of overlay
+        imageHeight: 58, // image height of overlay
+      }
+    };
+    this.marker = new TravelMarker(options);
+    this.marker.addLocation(route);
+    // Subscribe to marker events after it's initialized
+    this.initEvents();
+    setTimeout(() => this.play(), 2000);
   }
 }

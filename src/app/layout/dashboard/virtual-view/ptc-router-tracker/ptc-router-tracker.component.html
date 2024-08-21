@@ -2,7 +2,7 @@
 <mat-card class="mb-20">
     <mat-card-content>
       <mat-card-title>
-        {{ labels.surveyorLabel }} Tracker
+        {{ m_code }} TRCKER
         <i [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
         <i
           style="cursor: pointer; color: black"
@@ -68,12 +68,6 @@
             <table class="table table-bordered table-hover">
               <thead style="background: lightgray">
                 <tr>
-                  <!-- <th (click)="sortIt('captured')"
-                    style="cursor: pointer">captured
-                   <i class="material-icons arrow material-icons-arrow">
-                      {{ getArrowType("captured") }}
-                    </i>
-                  </th> -->
                   <th>Total Interceptions</th>
                   <th>Productive Interceptions</th>
                   <th>Purchase Trial</th>
@@ -84,199 +78,100 @@
                   <th>Distance Covered</th>
                 </tr>
               </thead>
-  
+    
               <tbody *ngIf="trackedShops.length > 0" class="trS14">
                 <tr *ngFor="let shop of dataShops">
-                  <td>
-                    {{ shop.total_interception }}
-                  </td>
-
-                  <td>
-                    {{ shop.productive_interceptions }}
-                  </td>
-  
-                  <td>
-                    {{ shop.Purchase_trial }}
-                  </td>
-  
-                  <td>
-                    {{ shop.Info_pass }}
-                  </td>
-  
-                  <td>
-                    {{ shop.first_interception_time }}
-                  </td>
-  
-                  <td>
-                    {{ shop.last_interception_time }}
-                  </td>
-                  <td>
-                    {{ shop.time_on_route }}
-                  </td>
+                  <td>{{ shop.total_interception }}</td>
+                  <td>{{ shop.productive_interceptions }}</td>
+                  <td>{{ shop.Purchase_trial }}</td>
+                  <td>{{ shop.Info_pass }}</td>
+                  <td>{{ shop.first_interception_time }}</td>
+                  <td>{{ shop.last_interception_time }}</td>
+                  <td>{{ shop.time_on_route }}</td>
                   <td>{{ totalDistanceCovered }} Km</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-  
+    
         <div class="col-md-6">
-          <div
-            class="tableFixHead col-md-12"
-            style="overflow: auto; height: 400px; max-width: 100%"
-          >
+          <div class="tableFixHead col-md-12" style="overflow: auto; height: 400px; max-width: 100%">
             <table class="table table-bordered table-hover">
               <thead style="background: lightgray">
                 <tr>
-                  <!-- <th (click)="sortIt('captured')"
-                  style="cursor: pointer">captured
-                 <i class="material-icons arrow material-icons-arrow">
-                    {{ getArrowType("captured") }}
-                  </i>
-                </th> -->
-  
-                 <!-- <th>Shop Code</th> -->
-                 <th>Visit Date</th>
+                  <th>Visit Date</th>
+                  <th>Shop Name</th>
                   <th>Visit Time</th>
                   <th>Info Pass</th>
                   <th>Purchase Trial</th>
-                  <!-- <th>End Time</th>
-                  <th>Time Difference</th> -->
                 </tr>
               </thead>
-  
-              <tbody
-                *ngFor="let shop of visitedtrackedShops; let i = index"
-                class="trS14"
-              >
+    
+              <tbody *ngFor="let shop of visitedtrackedShops; let i = index" class="trS14">
                 <tr *ngIf="shop.Type == 'Visit'">
-                  <td>
-                    {{ shop.visit_date }}
-                  </td>
-                  <td>
-                    {{ shop.time }}
-                  </td>
-  
-                  <td>
-                    {{ shop.Info_Pass }}
-                  </td>
-                  <td>
-                    {{ shop.Purchase_Trial}}
-                  </td>
-                  <!-- <td>
-                    {{ shop.time }}
-                  </td>
-                  <td>
-                    {{ shop.end_time }}
-                  </td>
-                  <td>
-                    {{ shop.time_difference }}
-                  </td> -->
+                  <td>{{ shop.visit_date }}</td>
+                  <td>{{ shop.shop_title }}</td>
+                  <td>{{ shop.time }}</td>
+                  <td>{{ shop.Info_Pass }}</td>
+                  <td>{{ shop.Purchase_Trial}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-  
-        <div class="col-md-6">
-          <section class="example-section">
-            <agm-map
-              [latitude]="lat"
-              [longitude]="lng"
-              [fitBounds]="trackedShops.length > 0"
-              [zoom]="16"
-              style="height: 600px"
-              (mapReady)="onMapReady($event)"
-            >
-  
-              <ng-container *ngFor="let shop of trackedShops">
-                <!-- <div *ngIf="shop.remarks_id==1"> -->
-                  <agm-marker
-                  [agmFitBounds]="true"
-                  latitude="{{ shop.latitude }}"
-                  longitude="{{ shop.longitude }}"
-                  iconUrl="{{ colorType + 'yellow' + '.png' }}"
-                  [visible]="shop.isVisible && shop.remarks_id==1" 
-                 
-                >
-                  <agm-snazzy-info-window
-                    [maxWidth]="400"
-                    [isOpen]="shop.isVisible"
-                    [closeWhenOthersOpen]="true"
-                  >
-                    <ng-template>
-                      <strong>Start Time:</strong> {{ shop.time }}
-                      <br />
-                      <strong>End Time:</strong> {{ shop.end_time }}
-                      <br />
-                      <strong>Shop Code:</strong> {{ shop.shop_code }}
-                      <br />
-                      <strong>Shop Name:</strong> {{ shop.shop_title }}
-                      <br />
-                      <a (click)="goToEvaluation(shop)">
-                        <button backgroundcolor="#2196F3">
-                          Go To Details
-                        </button></a
-                      >
-                    </ng-template>
-                  </agm-snazzy-info-window>
-                </agm-marker>
-                <!-- </div> -->
-                
-                <!-- <div *ngIf="shop.remarks_id!=1"> -->
+    
+        <div [class.col-md-6]="!expanded" [class.col-md-12]="expanded" class="content">
+          <agm-map
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="16"
+            style="height: 600px"
+            (mapReady)="onMapReady($event)"
+            [styles]="mapStyles"
+          >
+            <ng-container *ngFor="let shop of trackedShops2; let i = index">
+              <div *ngIf="shop.Type === 'Visit'">
                 <agm-marker
                   [agmFitBounds]="true"
-                  latitude="{{ shop.latitude }}"
-                  longitude="{{ shop.longitude }}"
-                  iconUrl="{{ colorType + 'red' + '.png' }}"
-                  [visible]="shop.isVisible && shop.remarks_id!=1"
-                  
+                  [latitude]="shop.latitude"
+                  [longitude]="shop.longitude"
+                  [iconUrl]="colorType + 'yellow' + '.png'"
+                  [visible]="true"
+                  [zIndex]="i"
                 >
                   <agm-snazzy-info-window
-                    [maxWidth]="400"
+                    [maxWidth]="250"
                     [isOpen]="shop.isVisible"
                     [closeWhenOthersOpen]="true"
                   >
                     <ng-template>
-                      <strong>Start Time:</strong> {{ shop.time }}
-                      <br />
-                      <strong>End Time:</strong> {{ shop.end_time }}
-                      <br />
-                      <strong>Shop Code:</strong> {{ shop.shop_code }}
-                      <br />
-                      <strong>Shop Name:</strong> {{ shop.shop_title }}
-                      <br />
-                      <a (click)="goToEvaluation(shop)">
-                        <button backgroundcolor="#2196F3">
-                          Go To Details
-                        </button></a
-                      >
+                      <div class="custom-info-222">
+                        <strong>Index:</strong> {{i}}
+                        <br />
+                        <strong>Shop:</strong> Visited
+                        <br />
+                        <strong>Time:</strong> {{ shop.time }}
+                        <br />
+                        <strong>Shop Code:</strong> {{ shop.shop_code }}
+                        <br />
+                        <strong>Shop Name:</strong> {{ shop.shop_title }}
+                        <br />
+                        <strong>Survey Id:</strong> {{shop.survey_id}}
+                      </div>
                     </ng-template>
                   </agm-snazzy-info-window>
                 </agm-marker>
-                <!-- </div> -->
-              </ng-container>
-            </agm-map>
-          </section>
+              </div>
+            </ng-container>
+          </agm-map>
+        
+          <button class="expand-button" (click)="showAddEmployeeModal()"> 
+            <i class="fa fa-expand"></i>
+          </button>
         </div>
+        
       </div>
     </mat-card>
+    
   </mat-card>
-  <div
-    *ngIf="loading"
-    class="text-center"
-    flFlex
-    flexLayout="row "
-    flexLayout.lt-md="column "
-  >
-    <div fxFlex class="img-center">
-      <img
-        src="assets/images/loading.gif"
-        alt=" "
-        srcset=""
-        height="300"
-        width="300"
-      />
-    </div>
-  </div>
-  
