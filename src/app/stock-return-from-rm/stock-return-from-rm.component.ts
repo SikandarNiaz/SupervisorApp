@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef ,TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, TemplateRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
 import * as moment from 'moment';
@@ -6,13 +6,12 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { MatSelectChange } from '@angular/material/select';
 
-
 @Component({
-  selector: 'app-rm-stock-return',
-  templateUrl: './rm-stock-return.component.html',
-  styleUrls: ['./rm-stock-return.component.css']
+  selector: 'app-stock-return-from-rm',
+  templateUrl: './stock-return-from-rm.component.html',
+  styleUrls: ['./stock-return-from-rm.component.css']
 })
-export class RmStockReturnComponent implements OnInit {
+export class StockReturnFromRmComponent implements OnInit {
   @ViewChild('AddStockModal') AddStockModal: ModalDirective;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
@@ -20,51 +19,72 @@ export class RmStockReturnComponent implements OnInit {
   maxDate = new Date(2100, 0, 1);
   startDate = new Date();
   endDate = new Date();
-  title = " Supervisor Return";
-  quantity: number;
-  Regions: any[] = [];
+  formType: string = 'DISTRIBUTION_RETURN';
+  specificDetails: any = null;
+  itemId: string;
   Zones: any[] = [];
   selectedZone: any;
-  price:number;
-  formType: string = 'RETURN';
   amount: number;
-  lost: number;
-  selectedRegion: any;
+  voucherImage: File | null = null;
+  title = "Rm Return";
   Products: any[] = [];
   Supervisors: any[] = [];
   StockDetail: any[] = [];
+  StockDetail1: any[] = [];
   filteredItems: any[] = [];
   loadingData: boolean;
   selectedSupervisor: any;
+  Regions: any[] = [];
   rm_id: string;
-  visitDate: string;
   showForms: boolean = false;
+  id: string;
+  visitDate: string;
+  detail: any;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
-  voucherImage: File | null = null;
+
 
   constructor(
     private dashboardService: DashboardService, 
     private toastr: ToastrService,
     private route: ActivatedRoute
-  ) {
-    
-   }
+  ) { }
 
   ngOnInit(): void {
     this.rm_id = localStorage.getItem("user_id");
     this.gettingProducts();
-    this.gettingSupervisors();
-    this.getZone();
-    
+    this.gettingRmList();
+    // this.gettingRmStockDetail();  
+
     this.route.queryParams.subscribe(params => {
       const id = params['id'];
       const visitDate = params['visitDate'];
       if (id && visitDate) {
         this.fetchSpecificDetails(id, visitDate,this.formType);
       } else {
-        // this.gettingStockDetail1();  // Fetch stock details when there's no specific ID
+        // this.gettingRmStockDetail();  // Fetch stock details when there's no specific ID
       }
     });
+  }
+  
+
+  openAssignStockModal() {
+    this.AddStockModal.show();  // Make sure to include the parentheses
+  }
+
+  hideStockModal() {
+    this.AddStockModal.hide();  // Make sure to include the parentheses
+  }
+  gettingRmList() {
+    this.dashboardService.gettingRmList().subscribe(
+      (response: any[]) => {
+        this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
+        this.Supervisors.unshift({ id: -1, name: 'All' });
+        console.log('RmList:', this.Supervisors);
+      },
+      (error) => {
+        console.error('Error fetching Rm:', error);
+      }
+    );
   }
   getZone() {
     this.dashboardService.getZone().subscribe(
@@ -111,50 +131,27 @@ export class RmStockReturnComponent implements OnInit {
     // this.checkAndFetchSummary();
   }
 
-  openAssignStockModal() {
-    this.AddStockModal.show();  // Make sure to include the parentheses
-  }
 
-  hideStockModal() {
-    this.AddStockModal.hide();  // Make sure to include the parentheses
-  }
-
-  gettingSupervisors() {
-    this.dashboardService.gettingSupervisors().subscribe(
-      (response: any[]) => {
-        this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
-        // Add "All" option here
-        this.Supervisors.unshift({ id: -1, name: 'All' });
-        console.log('Supervisors:', this.Supervisors);
-      },
-      (error) => {
-        console.error('Error fetching supervisors:', error);
-      }
-    );
-  }
-  
-
-  gettingStockDetail1() {
+  gettingRmStockDetail() {
     const obj = {
       startDate: moment(this.startDate).format('YYYY-MM-DD'),
       endDate: moment(this.endDate).format('YYYY-MM-DD'),
       supervisorId: this.selectedSupervisor ? this.selectedSupervisor : -1,
-      zoneId: this.selectedZone ? this.selectedZone : -1,
-      regionId: this.selectedRegion ? this.selectedRegion : -1
+      // zoneId: this.selectedZone ? this.selectedZone : -1,
+      // regionId: this.selectedRegion ? this.selectedRegion : -1
     };
-  
-    this.dashboardService.gettingStockDetail1(obj).subscribe(
+    this.dashboardService.gettingRmReturnStockDetail(obj).subscribe(
       (response: any[]) => {
-        this.StockDetail = response.map((item) => ({
-          id: item.id,
+        this.StockDetail1 = response.map((item) => ({
+          id: item.stockLoadingId,
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
-          date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
-          isEditing: false 
+          date: moment(item.startTime).format('DD-MM-YYYY h:mm A'),
+          isEditing: false // Initialize editing state
         }));
-        this.filteredItems = [...this.StockDetail];
-        this.showForms = true;
+        this.filteredItems = [...this.StockDetail1];
+        this.showForms = true; 
         console.log('Formatted Stock Detail:', this.StockDetail);
       },
       (error) => {
@@ -163,14 +160,43 @@ export class RmStockReturnComponent implements OnInit {
       }
     );
   }
-
+  fetchSpecificDetails(id: number, visitDate: string,formType: string): void {
+    console.log("formTyep",formType)
+    this.dashboardService.getRmSpecificDetail(id,visitDate,formType).subscribe(
+      (response: any[] | null) => {
+        if (response) {
+          this.StockDetail = response.map((item) => ({
+            id: item.stockLoadingId,
+            title: item.title,
+            quantity: item.quantity,
+            userName: item.userName,
+            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+            isEditing: false // Initialize editing state
+          }));
+          this.filteredItems = [...this.StockDetail];
+          this.showForms = true; // Update filteredItems
+          console.log("Fetched Data:", this.StockDetail);
+        } else {
+          console.error('No data returned from fetchSpecificDetails');
+          this.StockDetail = [];
+          this.filteredItems = [];
+          this.showForms = false;
+        }
+      },
+      (error) => {
+        console.error('Error fetching specific details:', error);
+        this.StockDetail = [];
+        this.filteredItems = [];
+      }
+    );
+  }
   gettingProducts() {
     this.dashboardService.gettingProducts().subscribe(
       (response: any[]) => {
         this.Products = response.map((item) => ({
           id: item.id,
           brandId: item.brandId,
-          quantity: item.quantity,
+          quantity: item.quantity || 0,
           title: item.title
         }));
         console.log('Products:', this.Products);
@@ -182,20 +208,22 @@ export class RmStockReturnComponent implements OnInit {
   }
 
   returnStock() {
-    if (!this.selectedSupervisor) {
-      this.toastr.error('Please select a supervisor.', 'Error', {
-        timeOut: 3000,
-        positionClass: 'toast-top-center'
-      });
-      return;
-    }
+    // if (!this.selectedSupervisor) {
+    //   this.toastr.error('Please select a supervisor.', 'Error', {
+    //     timeOut: 3000,
+    //     positionClass: 'toast-top-center'
+    //   });
+    //   return;
+    // }
     const formData = new FormData();
     formData.append('startDate', moment(this.startDate).format('YYYY-MM-DD HH:mm:ss'));
     formData.append('endDate', moment(this.endDate).format('YYYY-MM-DD HH:mm:ss'));
-    formData.append('supervisorId', this.selectedSupervisor || ''); 
-    formData.append('form_type', 'RETURN');
+    formData.append('supervisorId', this.selectedSupervisor || '-1');
+    formData.append('form_type', 'DISTRIBUTION_RETURN');
     formData.append('user_id', this.rm_id || ''); 
     formData.append('file_type', 'IMAGE');
+    // formData.append('entry_type', 'WEB');
+    // formData.append('user_type', 'DISTRIBUTION');
     
     // Ensure amount has a default value of 0 if not defined
     formData.append('amount', (this.amount || 0).toString());
@@ -215,31 +243,29 @@ export class RmStockReturnComponent implements OnInit {
         }
     });
     console.log('FormData:', formData);
-    this.dashboardService.returnStock(formData).subscribe(
+    this.dashboardService.returnRmStock(formData).subscribe(
       (response) => {
         console.log('Stock returned successfully', response);
         this.toastr.success('Stock returned successfully');
         this.resetForm();
         this.hideStockModal();
-        this.gettingStockDetail1(); 
+        this.gettingRmStockDetail(); 
       },
       (error) => {
         console.error('Error assigning stock', error);
       }
     );
   }
-  
+
+  startEditing(item: any): void {
+    item.isEditing = true;
+  }
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files.length > 0) {
       this.voucherImage = input.files[0];
     }
   }
-
-  startEditing(item: any): void {
-    item.isEditing = true;
-  }
-
   updateItem(item: any): void {
     item.isEditing = false;
     const obj = {
@@ -261,7 +287,7 @@ export class RmStockReturnComponent implements OnInit {
   cancelEdit(item: any): void {
     item.isEditing = false;
     // Optionally revert changes if needed
-    this.gettingStockDetail1(); // Refresh stock details to revert changes
+    this.gettingRmStockDetail(); // Refresh stock details to revert changes
   }
 
   resetForm() {
@@ -278,34 +304,5 @@ export class RmStockReturnComponent implements OnInit {
       this.fileInput.nativeElement.value = '';
     }
   }
-  fetchSpecificDetails(id: number, visitDate: string,formType: string): void {
-    console.log("formTyep",formType)
-    this.dashboardService.getSpecificDetail(id,visitDate,formType).subscribe(
-      (response: any[] | null) => {
-        if (response) {
-          this.StockDetail = response.map((item) => ({
-            id: item.id,
-            title: item.title,
-            quantity: item.quantity,
-            userName: item.userName,
-            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
-            isEditing: false // Initialize editing state
-          }));
-          this.filteredItems = [...this.StockDetail]; 
-          this.showForms = true;// Update filteredItems
-          console.log("Fetched Data:", this.StockDetail);
-        } else {
-          console.error('No data returned from fetchSpecificDetails');
-          this.StockDetail = [];
-          this.filteredItems = [];
-          this.showForms = true;
-        }
-      },
-      (error) => {
-        console.error('Error fetching specific details:', error);
-        this.StockDetail = [];
-        this.filteredItems = [];
-      }
-    );
-  }
+  
 }

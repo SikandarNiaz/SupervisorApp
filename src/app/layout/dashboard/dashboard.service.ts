@@ -156,7 +156,6 @@ export class DashboardService {
 
   getRegion(zoneId) {
     this.user_id = localStorage.getItem("user_id");
-
     const filter = JSON.stringify({
       act: 1,
       zoneId: zoneId,
@@ -865,6 +864,11 @@ gettingSupervisors() {
   const filter = JSON.stringify({ act: 49 });
   return this.http.post(url, filter);
 }
+gettingRmList() {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({ act: 56 });
+  return this.http.post(url, filter);
+}
 gettingSkuType() {
   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
   const filter = JSON.stringify({ act: 41 });
@@ -1105,6 +1109,10 @@ deActivateFieldValue(obj){
     const url = this.ip + "return-stock"
     return this.http.post(url, formData);
   }
+  returnRmStock(formData: FormData){
+    const url = this.ip + "rm-return-stock"
+    return this.http.post(url, formData);
+  }
   insertEvaluationData(data) {
     const url = this.ip + "/supervisor-evaluation-data"; 
     const body = this.UrlEncodeMaker(data);
@@ -1116,16 +1124,30 @@ deActivateFieldValue(obj){
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body, this.httpOptions);
   }
-  gettingStockDetail() {
-    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
-    const filter = JSON.stringify({ act: 48 });
-    return this.http.post(url, filter);
+  gettingStockDetail(obj) {
+    const url = this.ip + "assign-stock-summary";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
   }
-  gettingRmStockDetail() {
-    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
-    const filter = JSON.stringify({ act: 52 });
-    return this.http.post(url, filter);
+  gettingRmStockDetail(obj) {
+    const url = this.ip + "assign-stock-rm-detail";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
   }
+
+  gettingRmReturnStockDetail(obj) {
+    const url = this.ip + "return-stock-rm-detail";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
+  }
+
+
+
+  // gettingRmReturnStockDetail() {
+  //   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  //   const filter = JSON.stringify({ act: 55 });
+  //   return this.http.post(url, filter);
+  // }
   // gettingSupervisorEvaluationDetail(obj) {
   //   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
   //   const filter = JSON.stringify({ act: 55 });
@@ -1137,24 +1159,44 @@ deActivateFieldValue(obj){
     return this.http.post(url, body,this.httpOptions);
   }
   getSpecificDetail(id: number, visitDate: string,formType: string) {
-    const url = this.ip + "loadFilters"; // URL of the backend endpoint
+    const url = this.ip + "loadFilters"; 
     const filter = JSON.stringify({ 
         act: 51, 
         id: id,
         visitDate: visitDate ,
-        formType: formType // Include stockLoadingId in the request body
+        formType: formType 
     });
     return this.http.post(url, filter);
 }
+getRmSpecificDetail(id: number, visitDate: string,formType: string) {
+  const url = this.ip + "loadFilters"; 
+  const filter = JSON.stringify({ 
+      act: 52, 
+      id: id,
+      visitDate: visitDate ,
+      formType: formType 
+  });
+  return this.http.post(url, filter);
+}
+gettingStockDetail1(obj) {
+  const url = this.ip + "return-stock-summary";
+  const body = this.UrlEncodeMaker(obj);
+  return this.http.post(url, body,this.httpOptions);
+}
 
-  gettingStockDetail1() {
-    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
-    const filter = JSON.stringify({ act: 50 });
-    return this.http.post(url, filter);
-  }
+  // gettingStockDetail1() {
+  //   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  //   const filter = JSON.stringify({ act: 50 });
+  //   return this.http.post(url, filter);
+  // }
 
   getSummery(obj) {
     const url = this.ip + "stock-management-summery";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
+  }
+  getRmSummery(obj) {
+    const url = this.ip + "rm-distributor-management-summary";
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body,this.httpOptions);
   }

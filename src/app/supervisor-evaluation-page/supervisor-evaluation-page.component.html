@@ -93,7 +93,8 @@
                   <th scope="col">Deployment</th>
                   <th scope="col">Cnic</th>
                   <th scope="col">Conversion_Date</th>
-                  <!-- <th scope="col">Update</th> -->
+                  <th scope="col">Evaluated</th>
+                  <th scope="col">Update</th>
                 </tr>
                 <!-- Search Bar in Table Header -->
                 <tr>
@@ -122,6 +123,7 @@
                   <td>{{ item.deployment }}</td>
                   <td>{{ item.cnic }}</td>
                   <td>{{ item.conversionDate }}</td>
+                  <td>{{ item.evaluated }}</td>
                   <td>
                     <button mat-raised-button color="primary" (click)="openUploadModal(item)">
                       Update
@@ -175,6 +177,12 @@
                 {{ remark.title }}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="example-full-width">
+            <mat-label>SMS Reference</mat-label>
+            <input matInput [(ngModel)]="smsReference" placeholder="Enter SMS Reference">
           </mat-form-field>
         </div>
       </div>

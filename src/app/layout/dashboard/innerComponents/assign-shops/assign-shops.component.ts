@@ -150,6 +150,7 @@ successfulInterception: number = -1;
     this.shopLong = 74.335109;
     {
       this.zones = JSON.parse(localStorage.getItem("zoneList"));
+      this.zones.unshift({ id: -1, title: 'All' });
       this.type = 4;
       this.type1 = 3;
     }

@@ -1,104 +1,174 @@
-<div *ngIf="showForms" class="container-fluid">
-  <h1 id="dialog-child-name">Stock Details</h1>
-  <mat-card>
-    <div class="row mb-3">
-      <div class="col">
-        <button mat-raised-button color="primary" (click)="openAssignStockModal()">
-          Return Stock
-        </button>
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+
+      <section class="header-section">
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepicker]="picker0"
+                [(ngModel)]="startDate"
+                placeholder="From"
+                readonly
+                (ngModelChange)="onDateChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <input
+                matInput
+                [min]="minDate"
+                [max]="maxDate"
+                [matDatepicker]="picker1"
+                [(ngModel)]="endDate"
+                placeholder="To"
+                readonly
+                (ngModelChange)="onDateChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Zone</mat-label>
+              <mat-select [(value)]="selectedZone" (selectionChange)="onZoneChange($event)">
+                <mat-option *ngFor="let zone of Zones" [value]="zone.id">
+                  {{ zone.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Region</mat-label>
+              <mat-select [(value)]="selectedRegion" (selectionChange)="onSelectChange()">
+                <mat-option *ngFor="let region of Regions" [value]="region.id">
+                  {{ region.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Supervisor</mat-label>
+              <mat-select [(value)]="selectedSupervisor" (selectionChange)="onSelectChange()">
+                <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
+                  {{ supervisor.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- Remove mat-form-field from around the button -->
+          <div class="col d-flex align-items-center" style="margin-top: 10px;">
+            <button mat-raised-button color="primary" (click)="gettingStockDetail1()">
+              Get Detail
+            </button>
+            <button mat-raised-button color="primary" (click)="openAssignStockModal()" style="margin-left: 10px;">
+              Return Stock
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Show table only when showForms is true -->
+      <div *ngIf="showForms" class="container-fluid">
+        <mat-card>
+          <table class="table table-hover mb-0 custom-table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <!-- <th scope="col">StockId</th> -->
+                <th scope="col">Title</th>
+                <th scope="col">Supervisor</th>
+                <th scope="col">Date</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of filteredItems; let x = index">
+                <th scope="row">{{ x + 1 }}</th>
+                <!-- <td>{{ item.id }}</td> -->
+                <td>{{ item.title }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.date }}</td>
+                <td>
+                  <ng-container *ngIf="!item.isEditing">
+                    {{ item.quantity }}
+                  </ng-container>
+                  <ng-container *ngIf="item.isEditing">
+                    <mat-form-field class="example-full-width product-input">
+                      <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+                    </mat-form-field>
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="!item.isEditing">
+                    <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+                      <mat-icon class="large-icon" color="warn">edit</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="item.isEditing">
+                    <button mat-button color="primary" (click)="updateItem(item)">
+                      Update
+                    </button>
+                    <button mat-button color="warn" (click)="cancelEdit(item)">
+                      Cancel
+                    </button>
+                  </ng-container>
+                </td>
+              </tr>
+              <tr *ngFor="let item of specificDetails; let x = index">
+                <th scope="row">{{ x + 1 }}</th>
+                <td>{{ item.id }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+                <td>
+                  <ng-container *ngIf="!item.isEditing">
+                    {{ item.quantity }}
+                  </ng-container>
+                  <ng-container *ngIf="item.isEditing">
+                    <mat-form-field class="example-full-width product-input">
+                      <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
+                    </mat-form-field>
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="!item.isEditing">
+                    <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
+                      <mat-icon class="large-icon" color="warn">edit</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="item.isEditing">
+                    <button mat-button color="primary" (click)="updateItem(item)">
+                      Update
+                    </button>
+                    <button mat-button color="warn" (click)="cancelEdit(item)">
+                      Cancel
+                    </button>
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
       </div>
-    </div>
-    <table class="table table-hover mb-0 custom-table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">StockId</th>
-          <th scope="col">Title</th>
-          <th scope="col">Supervisor</th>
-          <th scope="col">Date</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Edit</th>
-           <!-- New column for edit icon -->
-          
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container >
-          <tr *ngFor="let item of filteredItems; let x = index">
-            <th scope="row">{{ x + 1 }}</th>
-            <td>{{ item.id }}</td>
-            <td>{{ item.title }}</td>
-            <td>{{ item.userName }}</td>
-            <td>{{ item.date }}</td>
-            <td>
-              <ng-container *ngIf="!item.isEditing">
-                {{ item.quantity }}
-              </ng-container>
-              <ng-container *ngIf="item.isEditing">
-                <mat-form-field class="example-full-width product-input">
-                  <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
-                </mat-form-field>
-              </ng-container>
-            </td>
-            <td>
-              <ng-container *ngIf="!item.isEditing">
-                <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
-                  <mat-icon class="large-icon" color="warn">edit</mat-icon>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="item.isEditing">
-                <button mat-button color="primary" (click)="updateItem(item)">
-                  Update
-                </button>
-                <button mat-button color="warn" (click)="cancelEdit(item)">
-                  Cancel
-                </button>
-              </ng-container>
-            </td>
-          </tr>
-        </ng-container>
-    
-        <!-- Show specificDetails if available -->
-        <ng-container >
-          <tr *ngFor="let item of specificDetails; let x = index">
-            <th scope="row">{{ x + 1 }}</th>
-            <td>{{ item.id }}</td>
-            <td>{{ item.title }}</td>
-            <td>{{ item.userName }}</td>
-            <td>{{ item.date | date: 'YYYY-MM-dd' }}</td>
-            <td>
-              <ng-container *ngIf="!item.isEditing">
-                {{ item.quantity }}
-              </ng-container>
-              <ng-container *ngIf="item.isEditing">
-                <mat-form-field class="example-full-width product-input">
-                  <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
-                </mat-form-field>
-              </ng-container>
-            </td>
-            <td>
-              <ng-container *ngIf="!item.isEditing">
-                <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
-                  <mat-icon class="large-icon" color="warn">edit</mat-icon>
-                </button>
-              </ng-container>
-              <ng-container *ngIf="item.isEditing">
-                <button mat-button color="primary" (click)="updateItem(item)">
-                  Update
-                </button>
-                <button mat-button color="warn" (click)="cancelEdit(item)">
-                  Cancel
-                </button>
-              </ng-container>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-    
+    </mat-card-content>
   </mat-card>
 </div>
-
 <div
   bsModal
   #AddStockModal="bs-modal"

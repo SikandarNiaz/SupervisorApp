@@ -7,8 +7,8 @@
       </mat-card-title>
 
       <section class="header-section">
-        <!-- First Row: Form Fields -->
         <div class="row">
+          <!-- Date pickers for From and To dates -->
           <div class="col">
             <mat-form-field class="example-full-width">
               <input
@@ -63,7 +63,7 @@
           </div>
           <div class="col">
             <mat-form-field class="example-full-width">
-              <mat-label>Select Supervisor</mat-label>
+              <mat-label>Select Rm</mat-label>
               <mat-select [(value)]="selectedSupervisor" (selectionChange)="onSelectChange()">
                 <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
                   {{ supervisor.name }}
@@ -73,51 +73,44 @@
           </div>
         </div>
 
-        <!-- Second Row: Buttons -->
         <div class="col">
           <div class="button-container">
             <button mat-raised-button color="primary" class="summary-button" (click)="getSummeryDetail()">Get Summary</button>
-            <button mat-raised-button color="primary" class="summary-button" (click)="openInNewTab('/app-rm-stock-assign')">Add Stock</button>
-            <button mat-raised-button color="primary" class="summary-button" (click)="openInNewTab('/app-rm-stock-return')">Return Stock</button>
+            <button mat-raised-button color="primary" class="summary-button" (click)="openInNewTab('/app-stock-issue-to-rm')">Add Stock</button>
+            <button mat-raised-button color="primary" class="summary-button" (click)="openInNewTab('/app-stock-return-from-rm')">Return Stock</button>
           </div>
         </div>
-
       </section>
     </mat-card-content>
   </mat-card>
 </div>
-
-          
-          <!-- <div class="col summary-button-container" style="margin-right: 500px; margin-top: 10px;">
-            <button mat-raised-button color="primary" class="summary-button" (click)="getSummeryDetail()">Get Summary</button>
-          </div> -->
-    
-
-<div *ngIf="filteredItems.length > 0">
-  <table class="table table-hover mb-0 custom-table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Supervisor</th>
-        <th scope="col">Date</th>
-        <th scope="col">Issuance</th>
-        <th scope="col">Return</th>
-        <th scope="col">Lost</th>
-        <th scope="col">Cash Collected</th>
-        <th scope="col">Balance</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of filteredItems; let x = index">
-        <th scope="row">{{ x + 1 }}</th>
-        <td>{{ item.user_name }}</td>
-        <td>{{ formatDate(item.visit_date) }}</td>
-        <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
-        <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
-        <td>{{ item.lost }}</td>
-        <td>{{ item.cash_collected }}</td>
-        <td>{{ item.balance }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  
+  <div *ngIf="filteredItems.length > 0">
+    <table class="table table-hover mb-0 custom-table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Supervisor</th>
+          <th scope="col">Date</th>
+          <th scope="col">Issuance</th>
+          <th scope="col">Return</th>
+          <th scope="col">Lost</th>
+          <th scope="col">Cash Collected</th>
+          <th scope="col">Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems; let x = index">
+          <th scope="row">{{ x + 1 }}</th>
+          <td>{{ item.username }}</td>
+          <td>{{ item.visit_date }}</td>
+          <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
+          <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
+          <td>{{ item.lost }}</td>
+          <td>{{ item.cash_collected }}</td>
+          <td>{{ item.balance }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

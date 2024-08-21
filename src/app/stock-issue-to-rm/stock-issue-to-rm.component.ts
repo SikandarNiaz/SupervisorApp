@@ -4,6 +4,7 @@ import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -20,17 +21,21 @@ export class StockIssueToRmComponent implements OnInit {
   endDate = new Date();
   formType: string = 'DISTRIBUTION';
   specificDetails: any = null;
+  selectedRegion: any;
   itemId: string;
-  title = "Assign Stock";
+  title = "RM Received";
   Products: any[] = [];
+  Regions: any[] = [];
+  Zones: any[] = [];
   Supervisors: any[] = [];
   StockDetail: any[] = [];
   StockDetail1: any[] = [];
   filteredItems: any[] = [];
+  selectedZone: any;
   loadingData: boolean;
   selectedSupervisor: any;
   rm_id: string;
-  showForms: boolean = true;
+  showForms: boolean = false;
   id: string;
   visitDate: string;
   detail: any;
@@ -46,8 +51,19 @@ export class StockIssueToRmComponent implements OnInit {
   ngOnInit(): void {
     this.rm_id = localStorage.getItem("user_id");
     this.gettingProducts();
-    
-        this.gettingRmStockDetail();  // Fetch stock details when there's no specific ID
+    this.getZone();
+    this.gettingRmList();
+        // this.gettingRmStockDetail();
+        this.route.queryParams.subscribe(params => {
+          const id = params['id'];
+          const visitDate = params['visitDate'];
+         
+          if (id && visitDate) {
+            this.fetchSpecificDetails(id, visitDate,this.formType);
+          } else {
+            // this.gettingRmStockDetail();  // Fetch stock details when there's no specific ID
+          }
+        });
   }
   
 
@@ -58,9 +74,72 @@ export class StockIssueToRmComponent implements OnInit {
   hideStockModal() {
     this.AddStockModal.hide();  // Make sure to include the parentheses
   }
+  gettingRmList() {
+    this.dashboardService.gettingRmList().subscribe(
+      (response: any[]) => {
+        this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
+        this.Supervisors.unshift({ id: -1, name: 'All' });
+        console.log('RmList:', this.Supervisors);
+      },
+      (error) => {
+        console.error('Error fetching Rm:', error);
+      }
+    );
+  }
+  getZone() {
+    this.dashboardService.getZone().subscribe(
+      (response: any) => {
+        console.log('Response from getZone:', response);
+        if (response && Array.isArray(response.zoneList)) {
+          this.Zones = response.zoneList.map((item) => ({ id: item.id, name: item.title }));
+        } else {
+          console.error('Expected response.zoneList to be an array but got:', response);
+        }
+      },
+      (error) => {
+        console.error('Error fetching zones:', error);
+      }
+    );
+  }
+
+  onZoneChange(event: MatSelectChange): void {
+    console.log('Zone changed:', event.value);
+    this.selectedZone = event.value;
+    this.getRegion(this.selectedZone);
+  }
+
+  getRegion(zoneId: string) {
+    this.dashboardService.getRegion(zoneId).subscribe(
+      (response: any) => {
+        console.log('Response from getRegion:', response);
+        if (response && Array.isArray(response)) {
+          this.Regions = response.map((item) => ({ id: item.id, name: item.title }));
+        } else {
+          console.error('Expected response to be an array but got:', response);
+        }
+      },
+      (error) => {
+        console.error('Error fetching regions:', error);
+      }
+    );
+  }
+  onSelectChange(): void {
+    // this.checkAndFetchSummary();
+  }
+
+  onDateChange(): void {
+    // this.checkAndFetchSummary();
+  }
 
   gettingRmStockDetail() {
-    this.dashboardService.gettingRmStockDetail().subscribe(
+    const obj = {
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD'),
+      supervisorId: this.selectedSupervisor ? this.selectedSupervisor : -1,
+      // zoneId: this.selectedZone ? this.selectedZone : -1,
+      // regionId: this.selectedRegion ? this.selectedRegion : -1
+    };
+    this.dashboardService.gettingRmStockDetail(obj).subscribe(
       (response: any[]) => {
         this.StockDetail1 = response.map((item) => ({
           id: item.stockLoadingId,
@@ -71,10 +150,12 @@ export class StockIssueToRmComponent implements OnInit {
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];
+        this.showForms = true; 
         console.log('Formatted Stock Detail:', this.StockDetail);
       },
       (error) => {
         console.error('Error fetching stock details:', error);
+        this.showForms = false; 
       }
     );
   }
@@ -92,6 +173,36 @@ export class StockIssueToRmComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching products:', error);
+      }
+    );
+  }
+  fetchSpecificDetails(id: number, visitDate: string,formType: string): void {
+    console.log("formType:", formType);
+    this.dashboardService.getRmSpecificDetail(id,visitDate,formType).subscribe(
+      (response: any[] | null) => {
+        if (response) {
+          this.StockDetail = response.map((item) => ({
+            id: item.stockLoadingId,
+            title: item.title,
+            quantity: item.quantity,
+            userName: item.userName,
+            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+            isEditing: false // Initialize editing state
+          }));
+          this.filteredItems = [...this.StockDetail]; 
+          this.showForms = true; // Update filteredItems
+          console.log("Fetched Data:", this.StockDetail);
+        } else {
+          console.error('No data returned from fetchSpecificDetails');
+          this.StockDetail = [];
+          this.filteredItems = [];
+          this.showForms = false; 
+        }
+      },
+      (error) => {
+        console.error('Error fetching specific details:', error);
+        this.StockDetail = [];
+        this.filteredItems = [];
       }
     );
   }

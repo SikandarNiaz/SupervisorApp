@@ -8,6 +8,7 @@
 
       <section class="header-section">
         <div class="row">
+          <!-- Date pickers for From and To dates -->
           <div class="col">
             <mat-form-field class="example-full-width">
               <input
@@ -40,29 +41,10 @@
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </div>
+          <!-- Dropdown for selecting Rm (removed Zone and Region fields) -->
           <div class="col">
             <mat-form-field class="example-full-width">
-              <mat-label>Select Zone</mat-label>
-              <mat-select [(value)]="selectedZone" (selectionChange)="onZoneChange($event)">
-                <mat-option *ngFor="let zone of Zones" [value]="zone.id">
-                  {{ zone.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="example-full-width">
-              <mat-label>Select Region</mat-label>
-              <mat-select [(value)]="selectedRegion" (selectionChange)="onSelectChange()">
-                <mat-option *ngFor="let region of Regions" [value]="region.id">
-                  {{ region.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="example-full-width">
-              <mat-label>Select Supervisor</mat-label>
+              <mat-label>Select Rm</mat-label>
               <mat-select [(value)]="selectedSupervisor" (selectionChange)="onSelectChange()">
                 <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
                   {{ supervisor.name }}
@@ -70,9 +52,12 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <!-- Remove mat-form-field from around the button -->
+        </div>
+
+        <!-- Buttons in the second row -->
+        <div class="row">
           <div class="col d-flex align-items-center" style="margin-top: 10px;">
-            <button mat-raised-button color="primary" (click)="gettingStockDetail()">
+            <button mat-raised-button color="primary" (click)="gettingRmStockDetail()">
               Get Detail
             </button>
             <button mat-raised-button color="primary" (click)="openAssignStockModal()" style="margin-left: 10px;">
@@ -82,7 +67,7 @@
         </div>
       </section>
 
-      <!-- Show table only when showForms is true -->
+      <!-- Conditionally show the table if showForms is true -->
       <div *ngIf="showForms" class="container-fluid">
         <mat-card>
           <table class="table table-hover mb-0 custom-table">
@@ -91,13 +76,14 @@
                 <th scope="col">#</th>
                 <!-- <th scope="col">StockId</th> -->
                 <th scope="col">Title</th>
-                <th scope="col">Supervisor</th>
+                <th scope="col">Rm</th>
                 <th scope="col">Date</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Edit</th>
               </tr>
             </thead>
             <tbody>
+              <!-- Table rows for filteredItems -->
               <tr *ngFor="let item of filteredItems; let x = index">
                 <th scope="row">{{ x + 1 }}</th>
                 <!-- <td>{{ item.id }}</td> -->
@@ -130,6 +116,8 @@
                   </ng-container>
                 </td>
               </tr>
+
+              <!-- Table rows for specificDetails -->
               <tr *ngFor="let item of specificDetails; let x = index">
                 <th scope="row">{{ x + 1 }}</th>
                 <td>{{ item.id }}</td>
@@ -169,13 +157,29 @@
     </mat-card-content>
   </mat-card>
 </div>
-<!-- Assign Stock Modal -->
-<div bsModal #AddStockModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }" aria-labelledby="two-button-modal">
+  
+  
+  
+  <!-- Assign Stock Modal -->
+  <div
+  bsModal
+  #AddStockModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  aria-labelledby="two-button-modal"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Assign Stock</h5>
-        <button type="button" class="close" aria-label="Close" (click)="hideStockModal()">
+        <h5 class="modal-title">Return Stock</h5>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="hideStockModal()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -183,46 +187,91 @@
         <section class="header-section">
           <div class="row">
             <div class="col">
-              <mat-form-field class="example-full-width date-picker">
-                <input matInput
-                       [min]="minDate"
-                       [max]="maxDate"
-                       [matDatepicker]="picker0"
-                       [(ngModel)]="startDate"
-                       placeholder="Choose Date"
-                       readonly />
-                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+              <mat-form-field class="example-full-width">
+                <input
+                  matInput
+                  [min]="minDate"
+                  [max]="maxDate"
+                  [matDatepicker]="picker0"
+                  [(ngModel)]="startDate"
+                  placeholder="Choose Date"
+                  readonly
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker0"
+                ></mat-datepicker-toggle>
                 <mat-datepicker #picker0></mat-datepicker>
               </mat-form-field>
             </div>
-            <div class="col">
-              <mat-form-field class="example-full-width">
-                <mat-label>Select Supervisor</mat-label>
-                <mat-select [(value)]="selectedSupervisor">
-                  <mat-option *ngFor="let supervisor of Supervisors" [value]="supervisor.id">
-                    {{ supervisor.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+          </div>
+
+          <div class="product-list">
+            <div
+              *ngFor="let product of Products"
+              class="product-item row align-items-center"
+            >
+              <div class="col-3">
+                <span class="product-name">{{ product.title }}</span>
+              </div>
+              <div class="col-4">
+                <mat-form-field class="example-full-width product-input">
+                  <mat-label>Return</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="product.quantity"
+                    placeholder="Enter Return"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Lost</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="product.lost"
+                    placeholder="Enter Lost"
+                    (ngModelChange)="product.lost = product.lost || 0"
+                  />
+                </mat-form-field>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- Brands with Quantity -->
-        <section class="product-section mt-20">
-          <div class="product-list">
-            <div *ngFor="let product of Products" class="product-item">
-              <span class="product-name">{{ product.title }}</span>
-              <mat-form-field class="example-full-width product-input">
-                <input matInput [(ngModel)]="product.quantity" min="0"/>
-              </mat-form-field>
-            </div>
+        <!-- Added amount field -->
+        <section class="amount-input mt-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Cash Collected</mat-label>
+            <input
+              matInput
+              [(ngModel)]="amount"
+              placeholder="Enter Cash"
+              (ngModelChange)="amount = amount || 0"
+            />
+          </mat-form-field>
+        </section>
+
+        <section class="voucher-upload mt-20">
+          <div class="form-group">
+            <label for="voucherImage"></label>
+            <input
+              type="file"
+              id="voucherImage"
+              (change)="onFileChange($event)"
+              class="form-control-file"
+            />
           </div>
         </section>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="assignStock()">Assign Stock</button>
+        <button type="button" class="btn btn-primary" (click)="returnStock()">
+          Return Stock
+        </button>
       </div>
     </div>
   </div>
 </div>
+  
+  
+  

@@ -4,6 +4,7 @@ import { DashboardService } from 'src/app/layout/dashboard/dashboard.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -21,16 +22,20 @@ export class RmStockAssignComponent implements OnInit {
   formType: string = 'STOCK';
   specificDetails: any = null;
   itemId: string;
-  title = "Assign Stock";
+  title = "Supervisor Received";
+  selectedRegion: any;
+  Regions: any[] = [];
+  Zones: any[] = [];
   Products: any[] = [];
   Supervisors: any[] = [];
   StockDetail: any[] = [];
   StockDetail1: any[] = [];
   filteredItems: any[] = [];
   loadingData: boolean;
+  selectedZone: any;
   selectedSupervisor: any;
   rm_id: string;
-  showForms: boolean = true;
+  showForms: boolean = false;
   id: string;
   visitDate: string;
   detail: any;
@@ -47,6 +52,7 @@ export class RmStockAssignComponent implements OnInit {
     this.rm_id = localStorage.getItem("user_id");
     this.gettingProducts();
     this.gettingSupervisors();
+    this.getZone();
     
     this.route.queryParams.subscribe(params => {
       const id = params['id'];
@@ -55,7 +61,7 @@ export class RmStockAssignComponent implements OnInit {
       if (id && visitDate) {
         this.fetchSpecificDetails(id, visitDate,this.formType);
       } else {
-        this.gettingStockDetail();  // Fetch stock details when there's no specific ID
+        // this.gettingStockDetail();  // Fetch stock details when there's no specific ID
       }
     });
   }
@@ -68,29 +74,22 @@ export class RmStockAssignComponent implements OnInit {
   hideStockModal() {
     this.AddStockModal.hide();  // Make sure to include the parentheses
   }
-
- // Component TypeScript file
-gettingSupervisors() {
-  this.dashboardService.gettingSupervisors().subscribe(
-    (response: any[]) => {
-      this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
-      this.Supervisors.unshift({ id: -1, name: 'All' });
-      
-      
-      console.log('Supervisors:', this.Supervisors);
-    },
-    (error) => {
-      console.error('Error fetching supervisors:', error);
-    }
-  );
-}
-
-
   gettingStockDetail() {
-    this.dashboardService.gettingStockDetail().subscribe(
+    // Define the filter object based on the current state
+    const obj = {
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD'),
+      supervisorId: this.selectedSupervisor ? this.selectedSupervisor : -1,
+      zoneId: this.selectedZone ? this.selectedZone : -1,
+      regionId: this.selectedRegion ? this.selectedRegion : -1
+    };
+  
+    // Pass the filterCriteria object to the service method
+    this.dashboardService.gettingStockDetail(obj).subscribe(
       (response: any[]) => {
+        // Map and format the response data
         this.StockDetail1 = response.map((item) => ({
-          id: item.stockLoadingId,
+          id: item.id,
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
@@ -98,13 +97,17 @@ gettingSupervisors() {
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];
-        console.log('Formatted Stock Detail:', this.StockDetail);
+        this.showForms = true; // Show the details section
+        console.log('Formatted Stock Detail:', this.StockDetail1);
       },
       (error) => {
         console.error('Error fetching stock details:', error);
+        this.showForms = false; // Optionally hide the details section on error
       }
     );
   }
+  
+  
 
   gettingProducts() {
     this.dashboardService.gettingProducts().subscribe(
@@ -157,6 +160,63 @@ gettingSupervisors() {
       }
     );
   }
+  gettingSupervisors() {
+    this.dashboardService.gettingSupervisors().subscribe(
+      (response: any[]) => {
+        this.Supervisors = response.map((item) => ({ id: item.id, name: item.fullName }));
+        this.Supervisors.unshift({ id: -1, name: 'All' });
+        console.log('Supervisors:', this.Supervisors);
+      },
+      (error) => {
+        console.error('Error fetching supervisors:', error);
+      }
+    );
+  }
+
+  getZone() {
+    this.dashboardService.getZone().subscribe(
+      (response: any) => {
+        console.log('Response from getZone:', response);
+        if (response && Array.isArray(response.zoneList)) {
+          this.Zones = response.zoneList.map((item) => ({ id: item.id, name: item.title }));
+        } else {
+          console.error('Expected response.zoneList to be an array but got:', response);
+        }
+      },
+      (error) => {
+        console.error('Error fetching zones:', error);
+      }
+    );
+  }
+
+  onZoneChange(event: MatSelectChange): void {
+    console.log('Zone changed:', event.value);
+    this.selectedZone = event.value;
+    this.getRegion(this.selectedZone);
+  }
+
+  getRegion(zoneId: string) {
+    this.dashboardService.getRegion(zoneId).subscribe(
+      (response: any) => {
+        console.log('Response from getRegion:', response);
+        if (response && Array.isArray(response)) {
+          this.Regions = response.map((item) => ({ id: item.id, name: item.title }));
+        } else {
+          console.error('Expected response to be an array but got:', response);
+        }
+      },
+      (error) => {
+        console.error('Error fetching regions:', error);
+      }
+    );
+  }
+  onSelectChange(): void {
+    // this.checkAndFetchSummary();
+  }
+
+  onDateChange(): void {
+    // this.checkAndFetchSummary();
+  }
 
   startEditing(item: any): void {
     item.isEditing = true;
@@ -192,13 +252,13 @@ gettingSupervisors() {
     this.selectedSupervisor = null;
     this.Products.forEach(product => product.quantity = 0);
   }
-  fetchSpecificDetails(id: number, visitDate: string,formType: string): void {
+  fetchSpecificDetails(id: number, visitDate: string, formType: string): void {
     console.log("formType:", formType);
-    this.dashboardService.getSpecificDetail(id,visitDate,formType).subscribe(
+    this.dashboardService.getSpecificDetail(id, visitDate, formType).subscribe(
       (response: any[] | null) => {
         if (response) {
           this.StockDetail = response.map((item) => ({
-            id: item.stockLoadingId,
+            id: item.id,
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
@@ -206,19 +266,22 @@ gettingSupervisors() {
             isEditing: false // Initialize editing state
           }));
           this.filteredItems = [...this.StockDetail]; // Update filteredItems
+          this.showForms = true; // Show the details section
           console.log("Fetched Data:", this.StockDetail);
         } else {
           console.error('No data returned from fetchSpecificDetails');
           this.StockDetail = [];
           this.filteredItems = [];
+          this.showForms = false; // Optionally hide the details section if no data
         }
       },
       (error) => {
         console.error('Error fetching specific details:', error);
         this.StockDetail = [];
         this.filteredItems = [];
+        this.showForms = false; // Optionally hide the details section on error
       }
     );
-  }
+  }  
   
 }
