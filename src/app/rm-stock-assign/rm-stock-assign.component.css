@@ -67,4 +67,11 @@
 }
 
   
-  
+.header-section .col.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.header-section .col button {
+  margin-right: 10px; /* Space between buttons */
+}

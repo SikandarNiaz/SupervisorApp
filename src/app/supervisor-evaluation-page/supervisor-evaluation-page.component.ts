@@ -33,7 +33,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   selectedZone: any;
   selectedRegion: any;
   loadingData: boolean = false;
-  title = "Supervisor Evaluation";
+  title = "Hubspot Evaluation";
   smsRemarks: string = '';
   smsStatus: string = '';
   callRemarks: string = '';
@@ -103,7 +103,9 @@ export class SupervisorEvaluationPageComponent implements OnInit {
           deployment: item.deploymentMarket,
           name: item.firstName,
           cnic: item.cnicNumber,
-          conversionDate: item.conversionDate
+          conversionDate: moment(item.conversionDate).format('YYYY-MM-DD h:mm A'),
+          // conversionDate: item.conversionDate,
+          evaluated : item.evaluated
         }));
   
         this.filteredEvaluationDetail = this.EvaluationDetail;
@@ -269,7 +271,8 @@ export class SupervisorEvaluationPageComponent implements OnInit {
       callRemarks: this.callRemarks,
       callStatus: this.getCallStatus(this.callRemarks),
       baCode: baCode,
-      conversionDate: formattedConversionDate
+      conversionDate: formattedConversionDate,
+      smsReference: this.smsReference 
     };
     
     this.dashboardService.insertEvaluationData(data).subscribe(
@@ -309,18 +312,40 @@ export class SupervisorEvaluationPageComponent implements OnInit {
     this.smsStatus = '';
     this.callRemarks = '';
     this.callStatus = ''; 
+    this.smsReference = '';
   }
   // Utility function to format date
+// formatDate(dateStr: string): string {
+//   const date = new Date(dateStr);
+//   const year = date.getFullYear();
+//   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+//   const day = String(date.getDate()).padStart(2, '0');
+//   const hours = String(date.getHours()).padStart(2, '0');
+//   const minutes = String(date.getMinutes()).padStart(2, '0');
+//   const seconds = String(date.getSeconds()).padStart(2, '0');
+
+//   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+// }
+// Utility function to format date
 formatDate(dateStr: string): string {
   const date = new Date(dateStr);
+
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
   const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  // Determine AM or PM
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  const hoursStr = String(hours).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hoursStr}:${minutes} ${ampm}`;
 }
 
 }

@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-title>
-      Manage Compliance
+     Hubspot Evaluation
       <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
     <mat-card-content>
@@ -11,7 +11,8 @@
         [disabled]="loadingData "
           (click)="getData()"
           mat-raised-button
-          color="warn"
+          color="primary"
+          style="margin-left: 10px;"
         >
           Display
         </button>
@@ -24,14 +25,14 @@
           type="file"
           name="file"
         />
-           <label for="input-file-btn" class="input-file-text">Choose Compliance </label>
+           <label for="input-file-btn" class="input-file-text" >Choose Evaluation </label>
            <div style="display: inline-block;">
         <button 
         style="margin-right: 20px;"
             type="button"
             mat-raised-button
             [disabled]="isSelected"
-            color="warn"
+            color="primary"
             (click)="uploadComplianceData()">
             Upload
           </button> 
@@ -39,7 +40,7 @@
           [disabled]="data?.length<=0"
           type="button"
           mat-raised-button
-          color="warn"
+          color="primary"
           (click)="downloadAsExcelFile()">
           Download
         </button> 

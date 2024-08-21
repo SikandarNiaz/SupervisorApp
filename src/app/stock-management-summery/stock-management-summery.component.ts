@@ -166,7 +166,19 @@ export class StockManagementSummeryComponent implements OnInit {
     const day = ('0' + date.getDate()).slice(-2); // Add leading zero
     return `${year}-${month}-${day}`;
   }
+  openInNewTab(route: string) {
+    // Use the hash-based URL format
+    const url = `${environment.hash}dashboard${route}`;
+    window.open(url, '_blank');
+  }
   
+  // navigateToStockAssign() {
+  //   this.router.navigate(['/app-rm-stock-assign']);
+  // }
+
+  // navigateToStockReturn() {
+  //   this.router.navigate(['/app-rm-stock-return']);
+  // }
   
   }
   

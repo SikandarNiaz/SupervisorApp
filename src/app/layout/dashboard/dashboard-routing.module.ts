@@ -75,6 +75,8 @@ import { StockManagementSummeryComponent } from "src/app/stock-management-summer
 import { StockIssueToRmComponent } from "src/app/stock-issue-to-rm/stock-issue-to-rm.component";
 import { ManagePtcFileComponent } from "src/app/manage-ptc-file/manage-ptc-file.component";
 import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation-page/supervisor-evaluation-page.component";
+import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-return-from-rm.component";
+import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
 
 
 const routes: Routes = [
@@ -92,6 +94,12 @@ const routes: Routes = [
       { path: "productivity-dashboard", component: DashboardTableauComponent },
       { path: "section_detail", component: SectionTenViewComponent },
       { path: "section_detail_1", component: SectionElevenViewComponent },
+      { path: 'app-rm-stock-assign', component: RmStockAssignComponent },
+      { path: 'app-rm-stock-return', component: RmStockReturnComponent },
+      { path: "app-stock-issue-to-rm", component: StockIssueToRmComponent},
+      { path: "app-stock-return-from-rm", component: StockReturnFromRmComponent},
+      
+      
       
       {
         path: "performance-dashboard",
@@ -265,21 +273,30 @@ const routes: Routes = [
     path: "app-upload-training",
     component:  UploadTrainingComponent,
   },
-  {
-    path: "app-rm-stock-assign",
-    component:  RmStockAssignComponent,
-  },
-  {
-    path: "app-rm-stock-return",
-    component:  RmStockReturnComponent,
-  },
+  // {
+  //   path: "app-rm-stock-assign",
+  //   component:  RmStockAssignComponent,
+  // },
+  // {
+  //   path: "app-rm-stock-return",
+  //   component:  RmStockReturnComponent,
+  // },
   {
     path: "app-stock-management-summery",
     component: StockManagementSummeryComponent,
   },
   {
+    path: "app-rm-distributor-summary",
+    component: RmDistributorSummaryComponent,
+  },
+  
+  {
     path: "app-stock-issue-to-rm",
     component: StockIssueToRmComponent,
+  },
+  {
+    path: "app-stock-return-from-rm",
+    component: StockReturnFromRmComponent,
   },
   {
     path: "app-manage-ptc-file",

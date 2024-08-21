@@ -121,6 +121,8 @@ import { StockManagementSummeryComponent } from "src/app/stock-management-summer
 import { StockIssueToRmComponent } from "src/app/stock-issue-to-rm/stock-issue-to-rm.component";
 import { ManagePtcFileComponent } from "src/app/manage-ptc-file/manage-ptc-file.component";
 import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation-page/supervisor-evaluation-page.component";
+import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-return-from-rm.component";
+import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
 
 
 
@@ -245,7 +247,9 @@ import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation
   StockManagementSummeryComponent,
   StockIssueToRmComponent,
   ManagePtcFileComponent,
-  SupervisorEvaluationPageComponent
+  SupervisorEvaluationPageComponent,
+  StockReturnFromRmComponent,
+  RmDistributorSummaryComponent
 
   
 ],
