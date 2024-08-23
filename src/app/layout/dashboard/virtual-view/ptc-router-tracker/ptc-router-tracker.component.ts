@@ -191,7 +191,9 @@ export class PtcRouteTrackerComponent implements OnInit {
         this.toastr.error("No Tracked Shops");
         this.loading = false;
       } else {
+        debugger;
         this.trackedShops = res.liveTrackingDataMap;
+        console.log("map shops ",this.trackedShops);
         
         // Create a map to store occurrences of each lat/lng pair
         const latLngMap = new Map<string, number>();
