@@ -35,6 +35,8 @@
     Regions: any[] = [];
     Zones: any[] = [];
     filteredItems: any[] = [];
+    sortBy: string = 'index'; // Default sort field
+    sortOrder: string = 'asc'; // Default sort order
   
     constructor(
       private dashboardService: DashboardService,
@@ -173,6 +175,32 @@
       // Use the hash-based URL format
       const url = `${environment.hash}dashboard${route}`;
       window.open(url, '_blank');
+    }
+    sortByField(field: string): void {
+      if (this.sortBy === field) {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+      } else {
+        this.sortBy = field;
+        this.sortOrder = 'asc'; // Default to ascending order
+      }
+      this.sortItems(); // Sort items after changing sort parameters
+    }
+  
+    sortItems(): void {
+      this.filteredItems.sort((a, b) => {
+        const aValue = a[this.sortBy];
+        const bValue = b[this.sortBy];
+  
+        let comparison = 0;
+  
+        if (aValue > bValue) {
+          comparison = 1;
+        } else if (aValue < bValue) {
+          comparison = -1;
+        }
+  
+        return this.sortOrder === 'asc' ? comparison : -comparison;
+      });
     }
     
     }

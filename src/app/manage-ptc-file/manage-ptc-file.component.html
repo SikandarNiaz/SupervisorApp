@@ -12,7 +12,7 @@
           (click)="getData()"
           mat-raised-button
           color="primary"
-          style="margin-left: 10px;"
+          style="margin-left: 16px;"
         >
           Display
         </button>
@@ -25,7 +25,7 @@
           type="file"
           name="file"
         />
-           <label for="input-file-btn" class="input-file-text" >Choose Evaluation </label>
+           <label for="input-file-btn" class="input-file-text" >Choose File</label>
            <div style="display: inline-block;">
         <button 
         style="margin-right: 20px;"
@@ -64,33 +64,22 @@
                 <table class="table">
                   <thead class="text-primary">
                     <tr>
-                      <!-- <ng-container *ngFor="let column of showInTableHeaders">
-                        <th>{{ column?.heading }}</th>
-                      </ng-container>
-                      
-                      <th >Action</th> -->
-                        <th *ngFor="let column of columns">{{ column  }}</th>
-                   
+                      <th *ngFor="let column of columns" (click)="sortByField(column)">
+                        {{ column }}
+                        <i *ngIf="sortBy === column" class="material-icons arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                          {{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                        </i>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of data; let i = index">
-                      <!-- <td>{{ i + 1 }}</td> -->
+                    <tr *ngFor="let row of sortedData">
                       <td *ngFor="let column of columns">{{ row[column] }}</td>
-                  
-                      <!-- <td>
-                        <button
-                          class="example-margin mr-10-IMP"
-                         
-                          title="Update"
-                          (click)="showUpdateModal(row)"
-                        >
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                      </td> -->
                     </tr>
                   </tbody>
                 </table>
+                
+                
               </div>
             </div>
           </div>

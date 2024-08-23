@@ -40,6 +40,8 @@ export class StockReturnFromRmComponent implements OnInit {
   id: string;
   visitDate: string;
   detail: any;
+  sortBy: string = 'id';  // Default sort column
+  sortOrder: boolean = true;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
 
 
@@ -65,8 +67,21 @@ export class StockReturnFromRmComponent implements OnInit {
       }
     });
   }
-  
+  sortByField(field: string): void {
+    this.sortBy = field;
+    this.sortOrder = !this.sortOrder; // Toggle between ascending and descending
 
+    const compare = (a: any, b: any) => {
+      const isAsc = this.sortOrder;
+      if (a[field] < b[field]) return isAsc ? -1 : 1;
+      if (a[field] > b[field]) return isAsc ? 1 : -1;
+      return 0;
+    };
+
+    // Apply sorting to both filteredItems and specificDetails
+    this.filteredItems.sort(compare);
+    this.specificDetails.sort(compare);
+  }
   openAssignStockModal() {
     this.AddStockModal.show();  // Make sure to include the parentheses
   }

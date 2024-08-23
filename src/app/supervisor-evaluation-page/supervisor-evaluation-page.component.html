@@ -68,7 +68,7 @@
               <mat-label>Select Status</mat-label>
               <mat-select [(value)]="selectedStatus" (selectionChange)="filterEvaluationDetail()">
                 <!-- <mat-option [value]="''">All</mat-option> -->
-                <mat-option value="Approved">Approved</mat-option>
+                <mat-option value="Approved">Evaluated</mat-option>
                 <mat-option value="Pending">Pending</mat-option>
               </mat-select>
             </mat-form-field>
@@ -87,13 +87,48 @@
             <table class="table table-hover mb-0 custom-table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Ba_Code</th>
-                  <th scope="col">Ba_Name</th>
-                  <th scope="col">Deployment</th>
-                  <th scope="col">Cnic</th>
-                  <th scope="col">Conversion_Date</th>
-                  <th scope="col">Evaluated</th>
+                  <th scope="col" (click)="sortByField('index')">
+                    #
+                    <i *ngIf="sortBy === 'index'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('baCode')">
+                    Ba_Code
+                    <i *ngIf="sortBy === 'baCode'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('name')">
+                    Ba_Name
+                    <i *ngIf="sortBy === 'name'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('deployment')">
+                    Deployment
+                    <i *ngIf="sortBy === 'deployment'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('cnic')">
+                    Cnic
+                    <i *ngIf="sortBy === 'cnic'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('conversionDate')">
+                    Conversion_Date
+                    <i *ngIf="sortBy === 'conversionDate'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('evaluated')">
+                    Evaluated
+                    <i *ngIf="sortBy === 'evaluated'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
                   <th scope="col">Update</th>
                 </tr>
                 <!-- Search Bar in Table Header -->
@@ -132,6 +167,7 @@
                 </tr>
               </tbody>
             </table>
+            
           </mat-card>
         </div>
       </section>
@@ -140,13 +176,14 @@
 </div>
 
 
-  <div
-  bsModal
-  #AddStockModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  [config]="{ backdrop: 'static', keyboard: false }"
+  <!-- Modal HTML -->
+<div
+bsModal
+#AddStockModal="bs-modal"
+class="modal fade"
+tabindex="-1"
+role="dialog"
+[config]="{ backdrop: 'static', keyboard: false }"
 >
 <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -199,4 +236,5 @@
   </div>
 </div>
 </div>
+
 

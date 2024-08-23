@@ -85,32 +85,74 @@
   </mat-card>
 </div>
   
-  <div *ngIf="filteredItems.length > 0">
-    <table class="table table-hover mb-0 custom-table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Supervisor</th>
-          <th scope="col">Date</th>
-          <th scope="col">Issuance</th>
-          <th scope="col">Return</th>
-          <th scope="col">Lost</th>
-          <th scope="col">Cash Collected</th>
-          <th scope="col">Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of filteredItems; let x = index">
-          <th scope="row">{{ x + 1 }}</th>
-          <td>{{ item.username }}</td>
-          <td>{{ item.visit_date }}</td>
-          <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
-          <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
-          <td>{{ item.lost }}</td>
-          <td>{{ item.cash_collected }}</td>
-          <td>{{ item.balance }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div *ngIf="filteredItems.length > 0">
+  <table class="table table-hover mb-0 custom-table">
+    <thead>
+      <tr>
+        <th scope="col">
+          #
+          <!-- <i *ngIf="sortBy === 'index'" class="material-icons arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i> -->
+        </th>
+        <th scope="col" (click)="sortByField('username')">
+          Supervisor
+          <i *ngIf="sortBy === 'username'"class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+        <th scope="col" (click)="sortByField('visit_date')">
+          Date
+          <i *ngIf="sortBy === 'visit_date'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+        <th scope="col" (click)="sortByField('issuance')">
+          Issuance
+          <i *ngIf="sortBy === 'issuance'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+        <th scope="col" (click)="sortByField('return_value')">
+          Return
+          <i *ngIf="sortBy === 'return_value'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+        <th scope="col" (click)="sortByField('lost')">
+          Lost
+          <i *ngIf="sortBy === 'lost'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+        <th scope="col" (click)="sortByField('cash_collected')">
+          Cash Collected
+          <i *ngIf="sortBy === 'cash_collected'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+        <th scope="col" (click)="sortByField('balance')">
+          Balance
+          <i *ngIf="sortBy === 'balance'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+            arrow_upward
+          </i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems; let x = index">
+        <th scope="row">{{ x + 1 }}</th>
+        <td>{{ item.username }}</td>
+        <td>{{ item.visit_date }}</td>
+        <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
+        <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
+        <td>{{ item.lost }}</td>
+        <td>{{ item.cash_collected }}</td>
+        <td>{{ item.balance }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
   

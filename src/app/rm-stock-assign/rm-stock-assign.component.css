@@ -75,3 +75,30 @@
 .header-section .col button {
   margin-right: 10px; /* Space between buttons */
 }
+/* .mat-icon.asc::before {
+  content: '▲'; 
+}
+
+.mat-icon.desc::before {
+  content: '▼'; 
+} */
+tr > th {
+  cursor: pointer;
+}
+.material-icons-arrow {
+  font-size: 18px; /* Adjust size if necessary */
+  vertical-align: middle;
+  display: none; /* Hidden by default */
+}
+
+/* Display sorting arrow when a column is sorted */
+.material-icons-arrow.asc {
+  display: inline-block;
+  transform: rotate(180deg); /* Arrow pointing upwards */
+}
+
+.material-icons-arrow.desc {
+  display: inline-block;
+  transform: rotate(0deg); /* Arrow pointing downwards */
+}
+

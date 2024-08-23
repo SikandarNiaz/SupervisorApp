@@ -41,6 +41,9 @@ export class RmStockReturnComponent implements OnInit {
   showForms: boolean = false;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
   voucherImage: File | null = null;
+  sortBy: string = 'id'; // default sorting column
+  sortOrder: boolean = true;
+
 
   constructor(
     private dashboardService: DashboardService, 
@@ -65,6 +68,21 @@ export class RmStockReturnComponent implements OnInit {
         // this.gettingStockDetail1();  // Fetch stock details when there's no specific ID
       }
     });
+  }
+  sortIt(key: string) {
+    this.sortBy = key;
+    this.sortOrder = !this.sortOrder;
+
+    const compare = (a: any, b: any) => {
+      const isAsc = this.sortOrder;
+      if (a[key] < b[key]) return isAsc ? -1 : 1;
+      if (a[key] > b[key]) return isAsc ? 1 : -1;
+      return 0;
+    };
+
+    this.filteredItems.sort(compare);
+    // Optional: Sort StockDetail if needed
+    this.StockDetail.sort(compare);
   }
   getZone() {
     this.dashboardService.getZone().subscribe(

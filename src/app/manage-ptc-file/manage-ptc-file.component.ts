@@ -64,6 +64,10 @@ export class ManagePtcFileComponent implements OnInit {
   selectedStatus : any = {};
 
   labels: any;
+  data: any[] = [];
+  sortedData: any[] = []; // To store sorted data
+  sortBy: string = ''; // Field to sort by
+  sortOrder: 'asc' | 'desc' = 'asc'; // Sorting order
   @ViewChild("childModal", { static: true }) childModal: ModalDirective;
 
   form: FormGroup;
@@ -80,7 +84,7 @@ export class ManagePtcFileComponent implements OnInit {
   excelFile: any;
   isSelected: boolean=true;
   channelName: this;
-  data: any;
+  // data: any;
 
   constructor(
     private httpService: DashboardService,
@@ -150,8 +154,33 @@ export class ManagePtcFileComponent implements OnInit {
       this.loadingModalButton = false;
     });
   }
+  sortByField(field: string): void {
+    if (this.sortBy === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+    } else {
+      this.sortBy = field;
+      this.sortOrder = 'asc'; // Default to ascending order
+    }
+    this.sortItems(); // Sort items after changing sort parameters
+  }
 
+  // Method to apply sorting
+  sortItems(): void {
+    if (!this.sortBy) return; // No sorting if no field is selected
 
+    this.sortedData = [...this.data].sort((a, b) => {
+      const aValue = a[this.sortBy];
+      const bValue = b[this.sortBy];
+
+      let comparison = 0;
+      if (aValue > bValue) {
+        comparison = 1;
+      } else if (aValue < bValue) {
+        comparison = -1;
+      }
+      return this.sortOrder === 'asc' ? comparison : -comparison;
+    });
+  }
 
   getData(){
     debugger

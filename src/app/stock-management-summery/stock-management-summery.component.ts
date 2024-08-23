@@ -33,6 +33,8 @@ export class StockManagementSummeryComponent implements OnInit {
   Regions: any[] = [];
   Zones: any[] = [];
   filteredItems: any[] = [];
+  sortBy: string = 'id'; // default sorting column
+  sortOrder: boolean = true;
 
   constructor(
     private dashboardService: DashboardService,
@@ -45,6 +47,21 @@ export class StockManagementSummeryComponent implements OnInit {
   ngOnInit(): void {
     this.gettingSupervisors();
     this.getZone();
+  }
+
+
+  sortIt(key: string) {
+    this.sortBy = key;
+    this.sortOrder = !this.sortOrder;
+
+    const compare = (a: any, b: any) => {
+      const isAsc = this.sortOrder;
+      if (a[key] < b[key]) return isAsc ? -1 : 1;
+      if (a[key] > b[key]) return isAsc ? 1 : -1;
+      return 0;
+    };
+
+    this.filteredItems.sort(compare);
   }
 
   gettingSupervisors() {

@@ -61,7 +61,7 @@
               Get Detail
             </button>
             <button mat-raised-button color="primary" (click)="openAssignStockModal()" style="margin-left: 10px;">
-              Add Stock
+              Return Stock
             </button>
           </div>
         </div>
@@ -73,12 +73,36 @@
           <table class="table table-hover mb-0 custom-table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <!-- <th scope="col">StockId</th> -->
-                <th scope="col">Title</th>
-                <th scope="col">Rm</th>
-                <th scope="col">Date</th>
-                <th scope="col">Quantity</th>
+                <th scope="col" (click)="sortByField('index')">
+                  #
+                  <i *ngIf="sortBy === 'index'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder, 'desc': !sortOrder}">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" (click)="sortByField('title')">
+                  Title
+                  <i *ngIf="sortBy === 'title'" class="material-icons arrow material-icons-arrow"[ngClass]="{'asc': sortOrder, 'desc': !sortOrder}">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" (click)="sortByField('userName')">
+                  RM
+                  <i *ngIf="sortBy === 'userName'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder, 'desc': !sortOrder}">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" (click)="sortByField('date')">
+                  Date
+                  <i *ngIf="sortBy === 'date'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder, 'desc': !sortOrder}">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" (click)="sortByField('quantity')">
+                  Quantity
+                  <i *ngIf="sortBy === 'quantity'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder, 'desc': !sortOrder}">
+                    arrow_upward
+                  </i>
+                </th>
                 <th scope="col">Edit</th>
               </tr>
             </thead>
@@ -86,7 +110,6 @@
               <!-- Table rows for filteredItems -->
               <tr *ngFor="let item of filteredItems; let x = index">
                 <th scope="row">{{ x + 1 }}</th>
-                <!-- <td>{{ item.id }}</td> -->
                 <td>{{ item.title }}</td>
                 <td>{{ item.userName }}</td>
                 <td>{{ item.date }}</td>
@@ -116,7 +139,6 @@
                   </ng-container>
                 </td>
               </tr>
-
               <!-- Table rows for specificDetails -->
               <tr *ngFor="let item of specificDetails; let x = index">
                 <th scope="row">{{ x + 1 }}</th>
@@ -152,6 +174,8 @@
               </tr>
             </tbody>
           </table>
+          
+          
         </mat-card>
       </div>
     </mat-card-content>

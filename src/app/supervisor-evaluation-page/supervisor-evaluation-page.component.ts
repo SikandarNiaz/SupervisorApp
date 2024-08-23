@@ -37,6 +37,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   smsRemarks: string = '';
   smsStatus: string = '';
   callRemarks: string = '';
+  conversionDate: string = ''; 
   callStatus: string = '';
   smsReference: string = '';
   Regions: any[] = [];
@@ -55,6 +56,8 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   selectedItem: any; 
   searchQuery: string = '';
   selectedStatus: string = '';
+  sortBy: string = ''; // Field to sort by
+  sortOrder: 'asc' | 'desc' = 'asc'; // Sorting order
 
   constructor(
     private dashboardService: DashboardService,
@@ -103,9 +106,13 @@ export class SupervisorEvaluationPageComponent implements OnInit {
           deployment: item.deploymentMarket,
           name: item.firstName,
           cnic: item.cnicNumber,
-          conversionDate: moment(item.conversionDate).format('YYYY-MM-DD h:mm A'),
+          conversionDate: moment(item.conversionDate).format('YYYY-MM-DD HH:mm:ss'),
           // conversionDate: item.conversionDate,
-          evaluated : item.evaluated
+          evaluated : item.evaluated,
+          smsRemarks:item.smsRemarks,
+          callRemarks:item.callRemarks,
+          smsReference:item.smsReference
+
         }));
   
         this.filteredEvaluationDetail = this.EvaluationDetail;
@@ -149,7 +156,33 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   onDateChange(): void {
     // this.checkAndFetchSummary();
   }
+  sortByField(field: string): void {
+    if (this.sortBy === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+    } else {
+      this.sortBy = field;
+      this.sortOrder = 'asc'; // Default to ascending order
+    }
+    this.sortItems(); // Sort items after changing sort parameters
+  }
 
+  // Method to apply sorting
+  sortItems(): void {
+    this.filteredEvaluationDetail.sort((a, b) => {
+      const aValue = a[this.sortBy];
+      const bValue = b[this.sortBy];
+
+      let comparison = 0;
+
+      if (aValue > bValue) {
+        comparison = 1;
+      } else if (aValue < bValue) {
+        comparison = -1;
+      }
+
+      return this.sortOrder === 'asc' ? comparison : -comparison;
+    });
+  }
   gettingSmsRemarksList() {
     this.dashboardService.gettingSmsRemarks().subscribe(
       (response: any) => {
@@ -292,12 +325,63 @@ export class SupervisorEvaluationPageComponent implements OnInit {
       }
     );
   }
-  
   openUploadModal(item: any): void {
-    this.selectedItem = item; // Set the selected item
-    this.showUploadModal = true;
-    this.AddStockModal.show(); // Show the modal
+    // Debugging
+    console.log('Opening modal with item:', item);
+  
+    this.selectedItem = item;
+  
+    if (this.selectedItem) {
+      // Debugging
+      console.log('Selected item:', this.selectedItem);
+  
+      // Set values from selectedItem or defaults
+      this.smsRemarks = this.selectedItem.smsRemarks || '';
+      this.callRemarks = this.selectedItem.callRemarks || '';
+      this.smsReference = this.selectedItem.smsReference || '';
+  
+      // Ensure conversionDate is not used or cleared
+      this.conversionDate = ''; // Ensure conversionDate is cleared
+  
+      // Show the modal
+      this.showUploadModal = true;
+  
+      // Debugging
+      console.log('Modal visibility:', this.showUploadModal);
+  
+      // Check if AddStockModal is initialized and show it
+      if (this.AddStockModal) {
+        // Ensure AddStockModal is the correct instance
+        this.AddStockModal.show();
+        console.log('Modal is shown');
+      } else {
+        console.error('AddStockModal is not initialized');
+      }
+    } else {
+      console.error('Selected item is null or undefined');
+    }
   }
+  
+  
+  // openUploadModal(item: any): void {
+  //   this.selectedItem = item;
+  //   this.smsRemarks = this.selectedItem.smsRemarks || '';
+  //   this.callRemarks = this.selectedItem.callRemarks || '';
+  //   this.smsReference = this.selectedItem.smsReference || '';
+  
+  //   // Use the updated formatDate method
+  //   this.conversionDate = this.formatDate(this.selectedItem.conversionDate || '');
+  
+  //   this.showUploadModal = true;
+  //   this.AddStockModal.show();
+  // }
+  
+  
+  // openUploadModal(item: any): void {
+  //   this.selectedItem = item; 
+  //   this.showUploadModal = true;
+  //   this.AddStockModal.show(); 
+  // }
 
   // Close the modal
   closeUploadModal(): void {
@@ -326,26 +410,19 @@ export class SupervisorEvaluationPageComponent implements OnInit {
 
 //   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 // }
-// Utility function to format date
+
 formatDate(dateStr: string): string {
   const date = new Date(dateStr);
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
   const day = String(date.getDate()).padStart(2, '0');
-
-  let hours = date.getHours();
+  const hours = String(date.getHours()).padStart(2, '0'); // Use 24-hour format
   const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
 
-  // Determine AM or PM
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-
-  // Convert hours to 12-hour format
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  const hoursStr = String(hours).padStart(2, '0');
-
-  return `${year}-${month}-${day} ${hoursStr}:${minutes} ${ampm}`;
+  // Return the date in YYYY-MM-DD HH:mm:ss format
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 }

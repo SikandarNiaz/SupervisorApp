@@ -88,19 +88,42 @@
           <table class="table table-hover mb-0 custom-table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <!-- <th scope="col">StockId</th> -->
-                <th scope="col">Title</th>
-                <th scope="col">Supervisor</th>
-                <th scope="col">Date</th>
-                <th scope="col">Quantity</th>
+                <th scope="col" >
+                  # 
+                  <!-- <i *ngIf="sortBy === 'id'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
+                    arrow_upward
+                  </i> -->
+                </th>
+                <th scope="col" style="cursor: pointer;" (click)="sortIt('title')">
+                  Title
+                  <i *ngIf="sortBy === 'title'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" style="cursor: pointer;" (click)="sortIt('userName')">
+                  Supervisor
+                  <i *ngIf="sortBy === 'userName'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" style="cursor: pointer;" (click)="sortIt('date')">
+                  Date
+                  <i *ngIf="sortBy === 'date'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
+                    arrow_upward
+                  </i>
+                </th>
+                <th scope="col" style="cursor: pointer;" (click)="sortIt('quantity')">
+                  Quantity
+                  <i *ngIf="sortBy === 'quantity'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
+                    arrow_upward
+                  </i>
+                </th>
                 <th scope="col">Edit</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of filteredItems; let x = index">
                 <th scope="row">{{ x + 1 }}</th>
-                <!-- <td>{{ item.id }}</td> -->
                 <td>{{ item.title }}</td>
                 <td>{{ item.userName }}</td>
                 <td>{{ item.date }}</td>
@@ -130,40 +153,10 @@
                   </ng-container>
                 </td>
               </tr>
-              <tr *ngFor="let item of specificDetails; let x = index">
-                <th scope="row">{{ x + 1 }}</th>
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.userName }}</td>
-                <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
-                <td>
-                  <ng-container *ngIf="!item.isEditing">
-                    {{ item.quantity }}
-                  </ng-container>
-                  <ng-container *ngIf="item.isEditing">
-                    <mat-form-field class="example-full-width product-input">
-                      <input matInput type="number" [(ngModel)]="item.quantity" min="0" />
-                    </mat-form-field>
-                  </ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="!item.isEditing">
-                    <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
-                      <mat-icon class="large-icon" color="warn">edit</mat-icon>
-                    </button>
-                  </ng-container>
-                  <ng-container *ngIf="item.isEditing">
-                    <button mat-button color="primary" (click)="updateItem(item)">
-                      Update
-                    </button>
-                    <button mat-button color="warn" (click)="cancelEdit(item)">
-                      Cancel
-                    </button>
-                  </ng-container>
-                </td>
-              </tr>
             </tbody>
           </table>
+          
+          
         </mat-card>
       </div>
     </mat-card-content>

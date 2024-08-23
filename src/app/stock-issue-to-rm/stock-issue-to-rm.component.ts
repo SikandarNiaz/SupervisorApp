@@ -40,6 +40,8 @@ export class StockIssueToRmComponent implements OnInit {
   visitDate: string;
   detail: any;
   displayedColumns: string[] = ['id', 'title', 'quantity', 'date'];
+  sortBy: string = 'id'; // Default sort column
+  sortOrder: boolean = true;
 
 
   constructor(
@@ -66,7 +68,20 @@ export class StockIssueToRmComponent implements OnInit {
         });
   }
   
+  sortIt(key: string) {
+    this.sortBy = key;
+    this.sortOrder = !this.sortOrder;
 
+    const compare = (a: any, b: any) => {
+      const isAsc = this.sortOrder;
+      if (a[key] < b[key]) return isAsc ? -1 : 1;
+      if (a[key] > b[key]) return isAsc ? 1 : -1;
+      return 0;
+    };
+
+    this.filteredItems.sort(compare);
+    this.specificDetails.sort(compare);
+  }
   openAssignStockModal() {
     this.AddStockModal.show();  // Make sure to include the parentheses
   }
