@@ -131,7 +131,8 @@
             [styles]="mapStyles"
           >
             <ng-container *ngFor="let shop of trackedShops2; let i = index">
-              <div *ngIf="shop.Type === 'Visit'">
+
+              <div *ngIf="shop.Type === 'Visit' && shop.Info_Pass=='No' && shop.Purchase_Trial=='No'">
                 <agm-marker
                   [agmFitBounds]="true"
                   [latitude]="shop.latitude"
@@ -147,7 +148,7 @@
                   >
                     <ng-template>
                       <div class="custom-info-222">
-                        <strong>Index:</strong> {{i}}
+                        <strong>Status:</strong> Interception
                         <br />
                         <strong>Shop:</strong> Visited
                         <br />
@@ -158,6 +159,105 @@
                         <strong>Shop Name:</strong> {{ shop.shop_title }}
                         <br />
                         <strong>Survey Id:</strong> {{shop.survey_id}}
+                      </div>
+                    </ng-template>
+                  </agm-snazzy-info-window>
+                </agm-marker>
+              </div>
+
+              <div *ngIf="shop.Type === 'Visit' && shop.Info_Pass=='Yes' && shop.Purchase_Trial=='No'">
+                <agm-marker
+                  [agmFitBounds]="true"
+                  [latitude]="shop.latitude"
+                  [longitude]="shop.longitude"
+                  [iconUrl]="colorType + 'blue' + '.png'"
+                  [visible]="true"
+                  [zIndex]="i"
+                >
+                  <agm-snazzy-info-window
+                    [maxWidth]="250"
+                    [isOpen]="shop.isVisible"
+                    [closeWhenOthersOpen]="true"
+                  >
+                    <ng-template>
+                      <div class="custom-info-222">
+                        <strong>Status:</strong> Info Pass
+                        <br />
+                        <strong>Shop:</strong> Visited
+                        <br />
+                        <strong>Time:</strong> {{ shop.time }}
+                        <br />
+                        <strong>Shop Code:</strong> {{ shop.shop_code }}
+                        <br />
+                        <strong>Shop Name:</strong> {{ shop.shop_title }}
+                        <br />
+                        <!-- <strong>Survey Id:</strong> {{shop.survey_id}} -->
+                      </div>
+                    </ng-template>
+                  </agm-snazzy-info-window>
+                </agm-marker>
+              </div>
+
+              <div *ngIf="shop.Type === 'Visit' && shop.Purchase_Trial=='Yes' && shop.Info_Pass=='No'">
+                <agm-marker
+                  [agmFitBounds]="true"
+                  [latitude]="shop.latitude"
+                  [longitude]="shop.longitude"
+                  [iconUrl]="colorType + 'green' + '.png'"
+                  [visible]="true"
+                  [zIndex]="i"
+                >
+                  <agm-snazzy-info-window
+                    [maxWidth]="250"
+                    [isOpen]="shop.isVisible"
+                    [closeWhenOthersOpen]="true"
+                  >
+                    <ng-template>
+                      <div class="custom-info-222">
+                        <strong>Status:</strong> Purchase Trial
+                        <br />
+                        <strong>Shop:</strong> Visited
+                        <br />
+                        <strong>Time:</strong> {{ shop.time }}
+                        <br />
+                        <strong>Shop Code:</strong> {{ shop.shop_code }}
+                        <br />
+                        <strong>Shop Name:</strong> {{ shop.shop_title }}
+                        <br />
+                        <!-- <strong>Survey Id:</strong> {{shop.survey_id}} -->
+                      </div>
+                    </ng-template>
+                  </agm-snazzy-info-window>
+                </agm-marker>
+              </div>
+
+              <div *ngIf="shop.Type === 'Visit' && shop.Purchase_Trial=='Yes' && shop.Info_Pass=='Yes'">
+                <agm-marker
+                  [agmFitBounds]="true"
+                  [latitude]="shop.latitude"
+                  [longitude]="shop.longitude"
+                  [iconUrl]="colorType + 'green' + '.png'"
+                  [visible]="true"
+                  [zIndex]="i"
+                >
+                  <agm-snazzy-info-window
+                    [maxWidth]="250"
+                    [isOpen]="shop.isVisible"
+                    [closeWhenOthersOpen]="true"
+                  >
+                    <ng-template>
+                      <div class="custom-info-222">
+                        <strong>Status:</strong> Info Pas Or Purchase Trial
+                        <br />
+                        <strong>Shop:</strong> Visited
+                        <br />
+                        <strong>Time:</strong> {{ shop.time }}
+                        <br />
+                        <strong>Shop Code:</strong> {{ shop.shop_code }}
+                        <br />
+                        <strong>Shop Name:</strong> {{ shop.shop_title }}
+                        <br />
+                        <!-- <strong>Survey Id:</strong> {{shop.survey_id}} -->
                       </div>
                     </ng-template>
                   </agm-snazzy-info-window>
