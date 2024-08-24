@@ -247,6 +247,7 @@ export class ManagePtcFileComponent implements OnInit,AfterViewInit  {
 
     this.httpService.getPtcFileData(obj).subscribe(
       (data: any) => {
+        console.log(data);
         this.dataSource.data = []; // Clear existing data
         this.columns = [];
 
