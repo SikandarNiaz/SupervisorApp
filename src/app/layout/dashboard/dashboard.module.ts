@@ -17,6 +17,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepicker } from "@angular/material/datepicker";
+import { MatSortModule } from '@angular/material/sort';
 
 
 
@@ -134,6 +135,7 @@ import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm
     FormsModule,
     HttpClientModule,
     CommonModule,
+    MatSortModule,
     DashboardRoutingModule,
     MatGridListModule,
     MatDatepickerModule,

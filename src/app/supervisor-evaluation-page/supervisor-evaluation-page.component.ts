@@ -33,7 +33,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   selectedZone: any;
   selectedRegion: any;
   loadingData: boolean = false;
-  title = "Hubspot Evaluation";
+  title = "Hubspot Data";
   smsRemarks: string = '';
   smsStatus: string = '';
   callRemarks: string = '';

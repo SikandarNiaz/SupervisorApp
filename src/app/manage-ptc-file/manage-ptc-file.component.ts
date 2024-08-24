@@ -12,6 +12,9 @@ import { DashboardService } from "../layout/dashboard/dashboard.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
+import { MatSort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {
   FormGroup,
   FormControl,
@@ -26,10 +29,11 @@ import * as moment from "moment";
   templateUrl: './manage-ptc-file.component.html',
   styleUrls: ['./manage-ptc-file.component.css']
 })
-export class ManagePtcFileComponent implements OnInit {
+export class ManagePtcFileComponent implements OnInit,AfterViewInit  {
+  @ViewChild(MatSort, { static: true }) sort!: MatSort; 
   dynamicForm: FormGroup;
   minDate = new Date(2000, 0, 1);
-  maxDate = new Date();
+  maxDate = new Date(2100, 0, 1);
   startDate = new Date();
   endDate = new Date();
   isDownloadDisable=true
@@ -67,12 +71,13 @@ export class ManagePtcFileComponent implements OnInit {
   data: any[] = [];
   sortedData: any[] = []; // To store sorted data
   sortBy: string = ''; // Field to sort by
-  sortOrder: 'asc' | 'desc' = 'asc'; // Sorting order
+ 
   @ViewChild("childModal", { static: true }) childModal: ModalDirective;
 
   form: FormGroup;
   filteredList: any;
   areas: any = [];
+  title = "Hubspot Data";
   loading: boolean = true;
   tableData: any = [];
   columns: string[] = [];
@@ -84,6 +89,9 @@ export class ManagePtcFileComponent implements OnInit {
   excelFile: any;
   isSelected: boolean=true;
   channelName: this;
+  sortOrder: 'asc' | 'desc' = 'asc';
+  dataSource = new MatTableDataSource<any>([]);
+ 
   // data: any;
 
   constructor(
@@ -118,16 +126,24 @@ export class ManagePtcFileComponent implements OnInit {
   }
 
   ngOnInit() {
+   
   
   }
-
+ 
+  
   // ngAfterViewInit() {
   //   const message = "all done loading :)";
   //   this.cdr.detectChanges();
   // }
 
   
+  onSelectChange(): void {
+    // this.checkAndFetchSummary();
+  }
 
+  onDateChange(): void {
+    // this.checkAndFetchSummary();
+  }
   changeStatus(checkedEvent, email) {
     console.log("id: ", email?.id, "checkedEvent", checkedEvent.target.checked);
     console.log("email in changestatus: ", email);
@@ -154,64 +170,106 @@ export class ManagePtcFileComponent implements OnInit {
       this.loadingModalButton = false;
     });
   }
-  sortByField(field: string): void {
-    if (this.sortBy === field) {
-      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle sort order
+  // sortByField(field: string): void {
+  //   if (this.sortBy === field) {
+  //     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; 
+  //   } else {
+  //     this.sortBy = field;
+  //     this.sortOrder = 'asc'; 
+  //   }
+  //   this.sortItems(); 
+  // }
+
+
+
+  // sortItems(): void {
+  //   if (!this.sortBy) return; 
+
+  //   this.sortedData = [...this.data].sort((a, b) => {
+  //     const aValue = a[this.sortBy];
+  //     const bValue = b[this.sortBy];
+
+  //     let comparison = 0;
+  //     if (aValue > bValue) {
+  //       comparison = 1;
+  //     } else if (aValue < bValue) {
+  //       comparison = -1;
+  //     }
+  //     return this.sortOrder === 'asc' ? comparison : -comparison;
+  //   });
+  // }
+  ngAfterViewInit() {
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
     } else {
-      this.sortBy = field;
-      this.sortOrder = 'asc'; // Default to ascending order
+      console.error('MatSort is not defined!');
     }
-    this.sortItems(); // Sort items after changing sort parameters
   }
 
-  // Method to apply sorting
-  sortItems(): void {
-    if (!this.sortBy) return; // No sorting if no field is selected
+  sortIt(key: string) {
+    if (!this.sort) {
+      console.error('MatSort is not initialized!');
+      return;
+    }
 
-    this.sortedData = [...this.data].sort((a, b) => {
-      const aValue = a[this.sortBy];
-      const bValue = b[this.sortBy];
-
-      let comparison = 0;
-      if (aValue > bValue) {
-        comparison = 1;
-      } else if (aValue < bValue) {
-        comparison = -1;
-      }
-      return this.sortOrder === 'asc' ? comparison : -comparison;
-    });
+    if (this.sort.active === key) {
+      this.sort.direction = this.sort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sort.active = key;
+      this.sort.direction = 'asc';
+    }
+    this.sortBy = key;
+    this.sortOrder = this.sort.direction;
+    this.dataSource.sort = this.sort;
   }
 
-  getData(){
-    debugger
+  getArrowType(key: string): string {
+    return key === this.sortBy ? (this.sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward') : '';
+  }
+
+  onGetDataClick() {
+    // Ensure startDate and endDate are set before calling getData
+    if (this.startDate && this.endDate) {
+      this.getData();
+    } else {
+      this.toastr.warning('Please select both start and end dates.', 'Warning');
+    }
+  }
+
+  getData() {
     this.loadingData = true;
+
     const obj = {
-      clusterId : -1
-    }
+      clusterId: -1,
+      startDate: moment(this.startDate).format('YYYY-MM-DD'),
+      endDate: moment(this.endDate).format('YYYY-MM-DD')
+    };
+
     this.httpService.getPtcFileData(obj).subscribe(
       (data: any) => {
-        const res: any = data;
-      
-        if (res) {
-          this.data= res;
-          if (this.data?.length > 0) {
-            this.columns = Object.keys(this.data[0]);
-          }
-          this.isDownloadDisable=false
-          // this.columns = this.getColumns(res);
+        this.dataSource.data = []; // Clear existing data
+        this.columns = [];
+
+        if (Array.isArray(data) && data.length > 0) {
+          this.dataSource.data = data;
+          this.columns = Object.keys(data[0]);
+          this.isDownloadDisable = false;
+        } else {
+          this.isDownloadDisable = true;
         }
-        console.log("data", this.data);
+
         this.loadingData = false;
       },
       (error) => {
-        error.status === 0
-          ? this.toastr.error("Please check Internet Connection", "Error")
-          : this.toastr.error(error.description, "Error");
+        this.toastr.error(error.status === 0 ? 'Please check Internet Connection' : error.description, 'Error');
         this.loadingData = false;
       }
     );
-
   }
+
+  
+  
+  
 
   getZoneByCluster() {
     this.loadingData = true;
