@@ -70,7 +70,7 @@
                 <th>Shop Name</th>
                 <td>{{ item?.shop_title }}</td>
               </tr>
-              <tr>
+              <tr *ngIf="projectType !== 'PTC'">
                 <th>Shop Code</th>
                 <td>{{ item?.survey_id }}</td>
             </tr>
@@ -78,15 +78,15 @@
                 <th>Address</th>
                 <td>{{ item?.address }}</td>
               </tr>
-              <tr>
+              <tr *ngIf="projectType !== 'PTC'">
                 <th>Channel</th>
                 <td>{{ item?.channel_type }}</td>
               </tr>
-              <tr>
+              <tr *ngIf="projectType !== 'PTC'">
                 <th>Remarks</th>
                 <td>{{ item?.description }}</td>
               </tr>
-              <tr>
+              <tr *ngIf="projectType !== 'PTC'">
                 <th>Evaluation Status</th>
                 <td>{{ item?.evaluation_status }}</td>
               </tr>

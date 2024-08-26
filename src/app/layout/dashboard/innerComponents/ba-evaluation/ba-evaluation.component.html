@@ -1,0 +1,264 @@
+<div class="animated slideInLeft">
+    <mat-card class="mb-20" style="padding-top: 1px; padding-bottom: 1px">
+      <mat-card-content>
+        <mat-card-title>
+          {{ title | uppercase }}
+          <i
+            color="warn"
+            [ngClass]="{ 'fa fa-cog fa-spin': loadingData || cardLoading }"
+          ></i>
+          <i
+            *ngIf="!loadingData && !cardLoading"
+            class="material-icons refresh-btn"
+            matTooltip="Refresh Stats"
+            (click)="getMerchandiserList()"
+          >
+            cached
+          </i>
+          <small
+            style="color: lightseagreen !important"
+            class="mtb-5-IMP"
+            *ngIf="loadingReportMessage"
+            >Your file is being prepared for download</small
+          >
+        </mat-card-title>
+  
+        <section class="example-section">
+          <ng-container *ngIf="projectType=='PMI_CENSUS'">
+          <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="{{ labels.zoneLabel }}"
+              name="zone"
+              [(ngModel)]="selectedZone"
+              (ngModelChange)="getMerchandiserList();zoneChange()"
+            >
+              <mat-option [value]="zone" *ngFor="let zone of zones">{{
+                zone.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <mat-form-field
+            *ngIf="regions.length > 0"
+            class="example-margin mr-10-IMP"
+          >
+            <mat-select
+              placeholder="{{ labels.regionLabel }}"
+              name="region"
+              [(ngModel)]="selectedRegion"
+              (ngModelChange)="getMerchandiserList()"
+            >
+              <mat-option [value]="region" *ngFor="let region of regions">{{
+                region.title
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'||projectType=='PG_DALDA'||projectType=='PG_UAE'||projectType=='PGWS_IRAQ'||projectType=='DALDA_NSM'">
+          <mat-form-field
+          *ngIf="supervisorList.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Supervisors List"
+            name="list"
+            [(ngModel)]="selectedSupervisor"
+            (ngModelChange)="getMerchandiserList()"
+          >
+            <ng-container *ngFor="let list of supervisorList">
+              <mat-option [value]="list">{{ list.fullName }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+  
+      <ng-container *ngIf="projectType=='RECKITT_CENSUS'">
+          <mat-form-field
+          *ngIf="supervisorList.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="ASM List"
+            name="list"
+            [(ngModel)]="selectedSupervisor"
+            (ngModelChange)="getMerchandiserList()"
+          >
+            <ng-container *ngFor="let list of supervisorList">
+              <mat-option [value]="list">{{ list.fullName }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+  
+  
+          <mat-form-field class="example-full-width mr-10-IMP">
+            <input
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker0"
+              [(ngModel)]="startDate"
+              placeholder="Choose a start date"
+              (ngModelChange)="getMerchandiserList()"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker0"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker0></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="example-full-width mr-10-IMP">
+            <input
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker1"
+              [(ngModel)]="endDate"
+              placeholder="Choose a end date"
+              (ngModelChange)="getMerchandiserList()"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+  
+        </section>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <ng-container *ngIf="merchandiserList.length > 0">
+    <div class="animated slideInLeft">
+      <mat-card class="mb-20" style="border-top: 1px solid #afafaf">
+        <mat-card-content>
+          <section class="example-section">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th (click)="sortIt('m_code')" style="cursor: pointer">
+                    Code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("m_code") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('full_name')" style="cursor: pointer">
+                    Name
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("full_name") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('user_code')" style="cursor: pointer">
+                    Supervisor code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("user_code") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('user_name')" style="cursor: pointer">
+                    Supervisor Name
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("user_name") }}
+                    </i>
+                  </th>
+                  <!-- <th (click)="sortIt('totalTarget')" style="cursor: pointer">
+                    Target
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("totalTarget") }}
+                    </i>
+                  </th> -->
+                  <th (click)="sortIt('captured_shops')" style="cursor: pointer">
+                    Captured
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("captured_shops") }}
+                    </i>
+                  </th>
+                  <!-- <th (click)="sortIt('Achievement')" style="cursor: pointer">
+                    Achievement%
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("Achievement") }}
+                    </i>
+                  </th> -->
+                  <th (click)="sortIt('evaluated_shops')" style="cursor: pointer">
+                    Evaluated
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("evaluated_shops") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('approved_shops')" style="cursor: pointer">
+                    Approved
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("approved_shops") }}
+                    </i>
+                  </th>
+                  <th
+                    (click)="sortIt('disapproved_shops')"
+                    style="cursor: pointer"
+                  >
+                    Dis-Approved
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("disapproved_shops") }}
+                    </i>
+                  </th>
+                  <!-- <th></th> -->
+                </tr>
+              </thead>
+  
+              <tbody *ngIf="merchandiserList.length > 0">
+                <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
+                <tr
+                  *ngFor="
+                    let item of merchandiserList | orderBy: sortBy:sortOrder
+                  "
+                >
+                  <td>{{ item?.m_code }}</td>
+                  <td>{{ item?.full_name }}</td>
+                  <td>{{ item?.user_code }}</td>
+                  <td>{{ item?.user_name }}</td>
+                  <!-- <td>{{ item?.totalTarget }}</td> -->
+                  <!-- <td style="color:blue;cursor:pointer" [routerLink]="['/dashboard/evaluation/list']" [queryParams]="{ surveyorId: item.id,startDate: modifyDate(startDate),endDate: modifyDate(startDate)}">
+                                      {{item?.captured_shops}}</td> -->
+                  <td
+                    style="color: blue; cursor: pointer"
+                    (click)="gotoNewPage(item)"
+                  >
+                    {{ item?.captured_shops }}
+                  </td>
+                  <!-- <td>{{ item?.Achievement }}</td> -->
+                  <td>{{ item?.evaluated_shops }}</td>
+                  <td>{{ item?.approved_shops }}</td>
+                  <td>
+                    {{ item?.disapproved_shops }}
+                  </td>
+                  <!-- <td *ngIf="item?.captured_shops==item?.evaluated_shops">
+                                      <img src="./assets/images/Checked-Checkbox-icon.png" alt="">
+                                  </td>
+                                  <td *ngIf="item?.captured_shops!=item?.evaluated_shops">
+                                      <img src="./assets/images/Unchecked-Checkbox-icon.png" alt="">
+                                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <div class="row" *ngIf="loading">
+    <div class="col-md-12 text-center">
+      <div class="img-center">
+        <img src="assets/images/basicloader.gif" alt="" srcset="" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="!loading && merchandiserList.length == 0">
+    <div class="col-md-12 text-center">
+      <div class="alert alert-info">
+        <p>No Data Found</p>
+      </div>
+    </div>
+  </div>
+  
