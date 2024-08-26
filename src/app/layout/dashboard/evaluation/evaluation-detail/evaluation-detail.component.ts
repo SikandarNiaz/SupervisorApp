@@ -71,9 +71,16 @@ export class EvaluationDetailComponent implements OnInit {
     this.activeRoute.queryParams.subscribe((p) => {
       console.log("active params", p);
       this.params = p;
+      if (this.projectType == "PTC") {
+        if (p.supervisorId && p.startDate && p.endDate && p.userType) {
+          this.getSurveyShopDetails(p);
+        }
+      }
+      else{
       if (p.surveyorId && p.startDate && p.endDate && p.userType) {
         this.getSurveyShopDetails(p);
       }
+     }
     });
   }
 
@@ -108,6 +115,7 @@ export class EvaluationDetailComponent implements OnInit {
 
   getSurveyShopDetails(params) {
     const obj = {
+      supervisorId: params.supervisorId || -1,
       surveyorId: params.surveyorId,
       startDate: params.startDate,
       endDate: params.endDate,

@@ -77,6 +77,7 @@ import { ManagePtcFileComponent } from "src/app/manage-ptc-file/manage-ptc-file.
 import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation-page/supervisor-evaluation-page.component";
 import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-return-from-rm.component";
 import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
+import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
 
 
 const routes: Routes = [
@@ -153,6 +154,7 @@ const routes: Routes = [
         component: AssignTargetComponent,
       },
       { path: "merchandiser_List", component: MerchandiserListComponent },
+      { path: "evaluation_List", component: BaEvaluationomponent },
       {
         path: "update-supervisor-attendence",
         component: UpdateSupervisorAttendenceComponent,
