@@ -9,6 +9,11 @@
     width: 30px;
     height: 20px;
   }
+  .mat-raised-button {
+
+    min-width: 98px;
+    padding: 5 16px;
+  }
 
    /* select[readonly] {
      background-color: #f2f2f2;
@@ -121,4 +126,52 @@
     display: inline-block;
     transform: rotate(0deg); /* Arrow pointing downwards */
   }
+  
+
+
+
+  /* Ensure the table takes the full width of its container */
+.mat-table {
+  width: 100%;
+  border-collapse: collapse; /* Avoid double borders */
+}
+
+/* Styling for header cells */
+.mat-header-cell {
+  font-weight: bold; /* Ensure text is bold */
+  background-color: #f1f1f1; /* Light gray background for visibility */
+  padding: 12px; /* Space inside header cells */
+  border-bottom: 2px solid #ddd; /* Light border for separation */
+}
+
+/* Ensure regular cells have similar padding */
+.mat-cell {
+  padding: 12px; /* Space inside table cells */
+  border-bottom: 1px solid #ddd; /* Light border for separation */
+}
+
+/* Arrow icons for sorting */
+.mat-header-cell .arrow {
+  font-size: 20px; /* Size of the sorting arrow */
+  vertical-align: middle; /* Align arrow with text */
+  margin-left: 8px; /* Space between text and arrow */
+}
+
+/* Rotate the arrow for ascending order */
+.arrow.asc {
+  transform: rotate(180deg); /* Arrow pointing up */
+}
+
+.arrow.desc {
+  transform: rotate(0deg); /* Arrow pointing down */
+}
+
+.mat-row {
+  border-bottom: 1px solid #ddd;
+}
+
+.mat-row:hover {
+  background-color: #f9f9f9;
+}
+
   

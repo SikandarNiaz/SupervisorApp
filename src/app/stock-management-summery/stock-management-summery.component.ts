@@ -28,7 +28,7 @@ export class StockManagementSummeryComponent implements OnInit {
   selectedSupervisor: any;
   selectedZone: any;
   selectedRegion: any;
-  title = "Stock Management Summary";
+  title = "Supervisor Stock Summary";
   Supervisors: any[] = [];
   Regions: any[] = [];
   Zones: any[] = [];

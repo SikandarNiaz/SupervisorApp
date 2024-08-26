@@ -125,12 +125,12 @@
             arrow_upward
           </i>
         </th>
-        <th scope="col" (click)="sortByField('cash_collected')">
+        <!-- <th scope="col" (click)="sortByField('cash_collected')">
           Cash Collected
           <i *ngIf="sortBy === 'cash_collected'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
             arrow_upward
           </i>
-        </th>
+        </th> -->
         <th scope="col" (click)="sortByField('balance')">
           Balance
           <i *ngIf="sortBy === 'balance'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
@@ -147,7 +147,7 @@
         <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
         <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
         <td>{{ item.lost }}</td>
-        <td>{{ item.cash_collected }}</td>
+        <!-- <td>{{ item.cash_collected }}</td> -->
         <td>{{ item.balance }}</td>
       </tr>
     </tbody>

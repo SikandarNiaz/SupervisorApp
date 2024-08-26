@@ -30,7 +30,7 @@
     selectedSupervisor: any;
     selectedZone: any;
     selectedRegion: any;
-    title = "RM SUMMARY";
+    title = "RM Stock Summary";
     Supervisors: any[] = [];
     Regions: any[] = [];
     Zones: any[] = [];

@@ -168,7 +168,7 @@ export class RmStockReturnComponent implements OnInit {
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
-          date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+          date: moment(item.visit_date).format('YYYY-MM-DD h:mm A'),
           isEditing: false 
         }));
         this.filteredItems = [...this.StockDetail];
