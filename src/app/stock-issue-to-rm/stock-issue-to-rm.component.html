@@ -7,9 +7,9 @@
       </mat-card-title>
 
       <section class="header-section">
-        <div class="row">
+        <div class="row" style="margin: 0;">
           <!-- Date pickers for From and To dates -->
-          <div class="col">
+          <div class="col" style="padding: 0 5px;">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -42,7 +42,7 @@
             </mat-form-field>
           </div>
           <!-- Dropdown for selecting Rm (removed Zone and Region fields) -->
-          <div class="col">
+          <!-- <div class="col">
             <mat-form-field class="example-full-width">
               <mat-label>Select Rm</mat-label>
               <mat-select [(value)]="selectedSupervisor" (selectionChange)="onSelectChange()">
@@ -51,7 +51,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
         </div>
 
         <!-- Buttons in the second row -->

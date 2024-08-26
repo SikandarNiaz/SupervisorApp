@@ -1,0 +1,163 @@
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      Upload Routes
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+    </mat-card-title>
+    <section class="example-section">
+      <form
+        (ngSubmit)="uploadData()"
+        [formGroup]="form"
+        enctype="multipart/form-data"
+      >
+        <input
+          #fileInput
+          (change)="onFileChange($event)"
+          id="avatar"
+          type="file"
+          formControlName="file"
+        />
+        <section style="margin-top: 10px;" class="example-section">
+          <button type="submit" mat-raised-button color="warn">Upload</button>
+        </section>
+      </form>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+
+
+
+
+
+
+
+
+
+<!-- <mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        Upload Routes
+        <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+      <section class="example-section">
+        <form
+          (ngSubmit)="uploadData(form.value)"
+          [formGroup]="form"
+          enctype="multipart/form-data"
+        > -->
+          <!-- <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="Territory"
+              name="cityId"
+              [formControl]="selectedRegionUp"
+              [(ngModel)]="regionId"
+              (ngModelChange)="showCount('show')"
+            >
+              <ng-container *ngFor="let region of regions">
+                <mat-option [value]="region.id">{{ region.title }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field> -->
+  
+          <!-- <input
+            #fileInput
+            (change)="onFileChange($event)"
+            id="avatar"
+            type="file"
+          />
+          <section style="margin-top: 10px;" class="example-section">
+            <button type="submit" mat-raised-button color="warn">Upload</button>
+          </section>
+        </form>
+      </section>
+    </mat-card-content>
+  </mat-card> -->
+  <!-- <div
+    class="example-section mb-20"
+    style="text-align: end"
+    *ngIf="shopWiseCount.length > 0"
+  >
+    <button
+      class="btn btn-danger mr-10-IMP"
+      title="Click to delete selected routes"
+      [disabled]="selectedSurveyors.length == 0 || loadingData"
+      (click)="deleteRoutes('delete')"
+    >
+      Delete ({{ selectedSurveyors?.length }})
+    </button>
+  </div> -->
+  <!-- <mat-card *ngIf="shopWiseCount.length > 0">
+    <mat-card-content>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <mat-checkbox
+                color="primary"
+                (change)="checkUncheckAll($event)"
+                #isAllChecked
+              >
+              </mat-checkbox>
+            </th>
+            <th scope="col">#</th>
+            <th scope="col">BA Code</th>
+            <th scope="col">BA Name</th>
+            <th scope="col">Shops on Route</th>
+       
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let count of shopWiseCount; let i = index">
+            <td>
+              <mat-checkbox
+                color="primary"
+                name="{{ count?.full_name }}"
+                id="{{ count?.surveyor_id }}"
+                (change)="checkUncheckSingle(checked, count, i)"
+                #checked
+              >
+              </mat-checkbox>
+            </td>
+            <th scope="col">{{ i + 1 }}</th>
+            <td>{{ count?.m_code }}</td>
+            <td>{{ count?.full_name }}</td>
+            <td style="cursor: pointer">
+              {{ count?.shops_on_route }}
+            </td>
+           
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card> -->
+  
+  <!-- <div
+    bsModal
+    #errorModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="dialog-child-name"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="dialog-child-name" class="modal-title pull-left">Status</h4>
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="hideErrorModal()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body">
+          <label>{{ response }}</label>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
