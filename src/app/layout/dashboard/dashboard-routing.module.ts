@@ -78,6 +78,7 @@ import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation
 import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-return-from-rm.component";
 import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
 import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
+import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/upload-surveyor-routes.component";
 
 
 const routes: Routes = [
@@ -307,6 +308,10 @@ const routes: Routes = [
   {
     path: "app-supervisor-evaluation-page",
     component: SupervisorEvaluationPageComponent,
+  },
+  {
+    path: "app-upload-surveyor-routes",
+    component: UploadSurveyorRoutesComponent,
   },
   
 

@@ -1228,6 +1228,10 @@ gettingStockDetail1(obj) {
     const filter = JSON.stringify({ act: 54 });
     return this.http.post(url, filter);
   }
+  uploadSurveyorRoutes(obj: FormData) {
+    const url = this.ip + "uploadSurveyorRoutes"; 
+    return this.http.post(url, obj);
+  }  
  
 downloadFile(obj, url) {
     let path;
