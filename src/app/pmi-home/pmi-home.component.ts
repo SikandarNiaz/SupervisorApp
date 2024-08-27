@@ -18,7 +18,7 @@ export class PmiHomeComponent implements OnInit {
   loadingdata: Boolean = false;
   searchQuery: string = '';
   minDate = new Date(2000, 0, 1);
-  maxDate = new Date();
+  maxDate = new Date(2100, 0, 1);
   startDate = new Date();
   endDate = new Date();
   params: any = {};
