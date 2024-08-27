@@ -14,6 +14,7 @@ import { DecryptionService } from "../decryption.service";
 export class LoginComponent implements OnInit {
   background_color = Config.login_theme_color;
   login_logo = Config.login_logo;
+  login_logo1 = Config.main_logo_velo;
   supPlaceHolder: any;
   loginForm: any = {
     userName: "",

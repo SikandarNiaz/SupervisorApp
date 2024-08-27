@@ -1085,7 +1085,7 @@ deActivateFieldValue(obj){
   }
   getProjectName() {
     const url = this.ip + "loadFilters"; // -----------> JsonFilterController
-    const filter = JSON.stringify({ act: 21 });
+    const filter = JSON.stringify({ act: 55 });
     return this.http.post(url, filter);
   }
   gettingSurveyors() {
