@@ -20,7 +20,7 @@ export class UploadSurveyorRoutesComponent implements OnInit {
   @ViewChildren("checked") private myCheckbox: any;
   loadingData: boolean;
   selectedRegionUp: any = new FormControl({}, [Validators.required]);
-  selectedFile = new FormControl(null, [Validators.required]);
+  // selectedFile = new FormControl(null, [Validators.required]);
   selectedOption = new FormControl("", [Validators.required]);
   form: FormGroup;
   shopWiseCount: any = [];
@@ -31,6 +31,7 @@ export class UploadSurveyorRoutesComponent implements OnInit {
   response: any = "";
   projectType: any;
   labels: any;
+  selectedFile: File | null = null;
   isRegionRequired = false;
   constructor(
     private toastr: ToastrService,
@@ -40,7 +41,8 @@ export class UploadSurveyorRoutesComponent implements OnInit {
     this.form = formBuilder.group({
       selectedRegionUp: this.selectedRegionUp,
       selectedOption: this.selectedOption,
-      avatar: null,
+      file: new FormControl(null, [Validators.required]),
+      // avatar: null,
     });
     this.projectType = localStorage.getItem("projectType");
     this.labels = JSON.parse(localStorage.getItem("labelProperties"));
@@ -126,15 +128,18 @@ export class UploadSurveyorRoutesComponent implements OnInit {
 
   onFileChange(event) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.form.get("avatar").setValue(file);
+      this.selectedFile = event.target.files[0]; // Store the selected file
     }
   }
 
   uploadData() {
+    if (!this.selectedFile) {
+      this.toastr.error('Please select a file to upload.');
+      return;
+    }
 
     const formData = new FormData();
-    formData.append('file', this.form.get('file')?.value);
+    formData.append('file', this.selectedFile); // Append file to form data
 
     this.loadingData = true;
     this.httpService.uploadSurveyorRoutes(formData).subscribe(

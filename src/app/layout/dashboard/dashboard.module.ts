@@ -124,8 +124,9 @@ import { ManagePtcFileComponent } from "src/app/manage-ptc-file/manage-ptc-file.
 import { SupervisorEvaluationPageComponent } from "src/app/supervisor-evaluation-page/supervisor-evaluation-page.component";
 import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-return-from-rm.component";
 import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
-import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
 import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/upload-surveyor-routes.component";
+import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
+
 
 
 
