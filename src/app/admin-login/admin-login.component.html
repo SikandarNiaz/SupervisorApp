@@ -3,9 +3,14 @@
         <div class="login-page">
             <div class="content">
                 <form #f="ngForm" class="login-form" fxFlex>
-                    <div class="text-center">
+                    <div class="text-center" *ngIf="projectType !='PTC'">
                         <h2 class="app-name">
                             <img [src]="login_logo" height="100" alt="">
+                        </h2>
+                    </div>
+                    <div class="text-center" *ngIf="projectType ==='PTC'">
+                        <h2 class="app-name">
+                            <img [src]="login_logo1" height="100" alt="">
                         </h2>
                     </div>
                     <div fxFlex fxLayout="row" fxLayout.lt-md="column">

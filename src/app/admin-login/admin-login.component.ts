@@ -13,6 +13,7 @@ import { Config } from "src/assets/config";
 export class AdminLoginComponent implements OnInit {
   background_color = Config.login_theme_color;
   login_logo = Config.login_logo;
+  login_logo1 = Config.main_logo_velo;
   supPlaceHolder: any;
   loginForm: any = {
     userName: "",
@@ -117,6 +118,7 @@ export class AdminLoginComponent implements OnInit {
         const res: any = data;
         localStorage.setItem("projectType", res.projectType);
         var storedProjectType = localStorage.getItem("projectType");
+        this.projectType=storedProjectType;
          console.log("Project Name",storedProjectType);
         if (res) {
           this.projectName = res;
