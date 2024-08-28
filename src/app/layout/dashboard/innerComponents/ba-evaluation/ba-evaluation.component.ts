@@ -53,7 +53,7 @@ export class BaEvaluationomponent implements OnInit {
     if (localStorage.getItem("projectType") == "PMI_CENSUS") {
       this.title = "BDE List";
     } else {
-      this.title = "Surveyor List";
+      this.title = "Supervisors List";
     }
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
     this.projectType = localStorage.getItem("projectType");

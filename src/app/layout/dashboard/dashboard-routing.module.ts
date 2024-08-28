@@ -155,7 +155,7 @@ const routes: Routes = [
         component: AssignTargetComponent,
       },
       { path: "merchandiser_List", component: MerchandiserListComponent },
-      { path: "evaluation_List", component: BaEvaluationomponent },
+      { path: "supervisor-data", component: BaEvaluationomponent },
       {
         path: "update-supervisor-attendence",
         component: UpdateSupervisorAttendenceComponent,
