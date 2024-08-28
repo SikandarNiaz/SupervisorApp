@@ -174,7 +174,7 @@ pmida:boolean=false;
 
         localStorage.setItem("projectType", res.projectType);
         var storedProjectType = localStorage.getItem("projectType");
-       // this.projectType=storedProjectType;
+        this.projectType=storedProjectType;
         if(storedProjectType === 'PMI_AUDIT'){
           this.pmida=true;
           // this.injectScript();
