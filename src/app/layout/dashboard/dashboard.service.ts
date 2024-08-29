@@ -869,6 +869,16 @@ gettingRmList() {
   const filter = JSON.stringify({ act: 56 });
   return this.http.post(url, filter);
 }
+
+gettingBaList( zoneId, regionId) {
+  const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+  const filter = JSON.stringify({
+    act: 25,
+    zoneId: zoneId,
+    regionId: regionId
+  });
+  return this.http.post(url, filter);
+}
 gettingSkuType() {
   const url = this.ip + "loadFilters"; // -----------> JsonFilterController
   const filter = JSON.stringify({ act: 41 });

@@ -7,9 +7,10 @@
       </mat-card-title>
 
       <section class="header-section">
-        <div class="row" style="margin: 0;">
-          <!-- Date pickers for From and To dates -->
-          <div class="col" style="padding: 0 5px;">
+        <!-- Row for Date pickers -->
+        <div class="row">
+          <!-- From Date picker -->
+          <div class="col-md-3" style="padding: 0 2px;">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -25,7 +26,8 @@
               <mat-datepicker #picker0></mat-datepicker>
             </mat-form-field>
           </div>
-          <div class="col">
+          <!-- To Date picker -->
+          <div class="col-md-3" style="padding: 0 2px;">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -41,7 +43,23 @@
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </div>
-          <!-- Dropdown for selecting Rm (removed Zone and Region fields) -->
+        </div>
+      
+        <!-- Row for buttons -->
+        <div class="row">
+          <div class="col-md-6 d-flex align-items-center" style="margin-top: 10px;">
+            <button mat-raised-button color="primary" (click)="gettingRmStockDetail()">
+              Get Detail
+            </button>
+            <button mat-raised-button color="primary" (click)="openAssignStockModal()" style="margin-left: 10px;">
+              Add Stock
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      
+       <!-- Dropdown for selecting Rm (removed Zone and Region fields) -->
           <!-- <div class="col">
             <mat-form-field class="example-full-width">
               <mat-label>Select Rm</mat-label>
@@ -52,20 +70,6 @@
               </mat-select>
             </mat-form-field>
           </div> -->
-        </div>
-
-        <!-- Buttons in the second row -->
-        <div class="row">
-          <div class="col d-flex align-items-center" style="margin-top: 10px;">
-            <button mat-raised-button color="primary" (click)="gettingRmStockDetail()">
-              Get Detail
-            </button>
-            <button mat-raised-button color="primary" (click)="openAssignStockModal()" style="margin-left: 10px;">
-              Add Stock
-            </button>
-          </div>
-        </div>
-      </section>
 
       <!-- Conditionally show the table if showForms is true -->
       <div *ngIf="showForms" class="container-fluid">
@@ -112,7 +116,7 @@
                 <th scope="row">{{ x + 1 }}</th>
                 <td>{{ item.title }}</td>
                 <td>{{ item.userName }}</td>
-                <td>{{ item.date }}</td>
+                <td>{{ item.visitDate }}</td>
                 <td>
                   <ng-container *ngIf="!item.isEditing">
                     {{ item.quantity }}
