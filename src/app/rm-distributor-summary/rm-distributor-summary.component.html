@@ -143,11 +143,11 @@
       <tr *ngFor="let item of filteredItems; let x = index">
         <th scope="row">{{ x + 1 }}</th>
         <td>{{ item.username }}</td>
-        <td>{{ item.visit_date }}</td>
+        <td>{{ formatDate(item.visit_date) }}</td>
         <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
         <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
         <td>{{ item.lost }}</td>
-        <!-- <td>{{ item.cash_collected }}</td> -->
+        <td>{{ item.cash_collected }}</td>
         <td>{{ item.balance }}</td>
       </tr>
     </tbody>

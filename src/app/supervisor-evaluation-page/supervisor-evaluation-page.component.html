@@ -10,7 +10,7 @@
       <section class="header-section">
         <div class="row">
           <!-- Existing Filters -->
-          <div class="col">
+          <div class="col-md-2">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -26,7 +26,7 @@
               <mat-datepicker #picker0></mat-datepicker>
             </mat-form-field>
           </div>
-          <div class="col">
+          <div class="col-md-2">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -42,7 +42,7 @@
               <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
           </div>
-          <div class="col">
+          <div class="col-md-2">
             <mat-form-field class="example-full-width">
               <mat-label>Select Zone</mat-label>
               <mat-select [(value)]="selectedZone" (selectionChange)="onZoneChange($event)">
@@ -52,7 +52,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col">
+          <div class="col-md-2">
             <mat-form-field class="example-full-width">
               <mat-label>Select Region</mat-label>
               <mat-select [(value)]="selectedRegion" (selectionChange)="onSelectChange()">
@@ -62,24 +62,47 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select BA</mat-label>
+              <mat-select [(value)]="selectedBa">
+                <mat-option *ngFor="let ba of baList" [value]="ba.mCode">
+                  {{ ba.mCode }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <mat-label>Select Classification</mat-label>
+              <mat-select [(value)]="selectedClassification">
+                <mat-option *ngFor="let classification of classifications" [value]="classification">
+                  {{ classification }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <!-- New Status Filter -->
-          <div class="col-md-3"> <!-- Adjust column size as needed -->
+          <div class="col-md-2">
             <mat-form-field class="example-full-width">
               <mat-label>Select Status</mat-label>
               <mat-select [(value)]="selectedStatus" (selectionChange)="filterEvaluationDetail()">
-                <!-- <mat-option [value]="''">All</mat-option> -->
                 <mat-option value="Approved">Evaluated</mat-option>
                 <mat-option value="Pending">Pending</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col summary-button-container">
-            <button mat-raised-button color="primary" class="summary-button" style="margin-top: 10px;" (click)="gettingEvaluationDetail()">Get Summary</button>
+          <!-- Buttons -->
+          <div class="col-md-2">
+            <button mat-raised-button color="primary" class="summary-button w-100" style="margin-top: 10px;" (click)="gettingEvaluationDetail()">Get Summary</button>
           </div>
-          
+          <div class="col-md-2">
+            <button mat-raised-button color="primary" class="summary-button w-100" style="margin-top: 10px;" [disabled]="isButtonDisabled" (click)="downloadAsExcelFile()">Download</button>
+          </div>
         </div>
       </section>
-
+      
+      
       <!-- Table -->
       <section class="table-section">
         <div *ngIf="showForms" class="container-fluid">
@@ -87,9 +110,15 @@
             <table class="table table-hover mb-0 custom-table">
               <thead>
                 <tr>
-                  <th scope="col" (click)="sortByField('index')">
-                    #
-                    <i *ngIf="sortBy === 'index'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                  <th scope="col" (click)="sortByField('id')">
+                    MKTD ID
+                    <i *ngIf="sortBy === 'id'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                  <th scope="col" (click)="sortByField('contactId')">
+                    Contact ID
+                    <i *ngIf="sortBy === 'contactId'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
                       arrow_upward
                     </i>
                   </th>
@@ -99,30 +128,45 @@
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" (click)="sortByField('name')">
-                    Ba_Name
-                    <i *ngIf="sortBy === 'name'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                  <th scope="col" (click)="sortByField('conversionDate')">
+                    Date
+                   <i *ngIf="sortBy === 'conversionDate'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                     arrow_upward
+                   </i>
+                 </th>
+                 <th scope="col" (click)="sortByField('deployment')">
+                  Region
+                  <i *ngIf="sortBy === 'deployment'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                    arrow_upward
+                  </i>
+                </th>
+                  <th scope="col" (click)="sortByField('contactClassification')">
+                    Classification
+                    <i *ngIf="sortBy === 'contactClassification'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" (click)="sortByField('deployment')">
-                    Deployment
-                    <i *ngIf="sortBy === 'deployment'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                  
+                  <th scope="col" (click)="sortByField('smsStatus')">
+                    SMS Status
+                    <i *ngIf="sortBy === 'smsStatus'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" (click)="sortByField('cnic')">
+                  <th scope="col" (click)="sortByField('callStatus')">
+                    Call Status
+                    <i *ngIf="sortBy === 'callStatus'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                      arrow_upward
+                    </i>
+                  </th>
+                 
+                  <!-- <th scope="col" (click)="sortByField('cnic')">
                     Cnic
                     <i *ngIf="sortBy === 'cnic'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
                       arrow_upward
                     </i>
-                  </th>
-                  <th scope="col" (click)="sortByField('conversionDate')">
-                    Conversion_Date
-                    <i *ngIf="sortBy === 'conversionDate'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
-                      arrow_upward
-                    </i>
-                  </th>
+                  </th> -->
+              
                   <th scope="col" (click)="sortByField('evaluated')">
                     Evaluated
                     <i *ngIf="sortBy === 'evaluated'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
@@ -133,7 +177,7 @@
                 </tr>
                 <!-- Search Bar in Table Header -->
                 <tr>
-                  <th colspan="7">
+                  <th colspan="11">
                     <div class="search-bar-container">
                       <input
                         type="search"
@@ -152,21 +196,28 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of filteredEvaluationDetail; let x = index">
-                  <th scope="row">{{ x + 1 }}</th>
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.contactId }}</td>
                   <td>{{ item.baCode }}</td>
-                  <td>{{ item.name }}</td>
-                  <td>{{ item.deployment }}</td>
-                  <td>{{ item.cnic }}</td>
                   <td>{{ item.conversionDate }}</td>
+                  <td>{{ item.deployment }}</td>
+                  <td>{{ item.contactClassification }}</td>
+                  <td>{{ item.smsStatus }}</td>
+                  <td>{{ item.callStatus }}</td>
+                   <!-- <td>{{ item.cnic }}</td> -->
                   <td>{{ item.evaluated }}</td>
                   <td>
-                    <button mat-raised-button color="primary" (click)="openUploadModal(item)">
-                      Update
+                    <button mat-raised-button color="primary" (click)="openUploadModal(item, 'view')">
+                      Sms
+                    </button>
+                    <button mat-raised-button color="primary" style="margin-top: 10px;" (click)="openUploadModal(item, 'call')">
+                      Call
                     </button>
                   </td>
                 </tr>
               </tbody>
             </table>
+            
             
           </mat-card>
         </div>
@@ -177,64 +228,120 @@
 
 
   <!-- Modal HTML -->
-<div
-bsModal
-#AddStockModal="bs-modal"
-class="modal fade"
-tabindex="-1"
-role="dialog"
-[config]="{ backdrop: 'static', keyboard: false }"
->
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Update Details</h5>
-      <button type="button" class="close" aria-label="Close" (click)="closeUploadModal()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="example-full-width">
-            <mat-label>SMS Remarks</mat-label>
-            <mat-select [(ngModel)]="smsRemarks">
-              <mat-option *ngFor="let remark of smsRemarksList" [value]="remark.title">
-                {{ remark.title }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col">
-          <mat-form-field class="example-full-width">
-            <mat-label>Call Remarks</mat-label>
-            <mat-select [(ngModel)]="callRemarks">
-              <mat-option *ngFor="let remark of callRemarksList" [value]="remark.title">
-                {{ remark.title }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="example-full-width">
-            <mat-label>SMS Reference</mat-label>
-            <input matInput [(ngModel)]="smsReference" placeholder="Enter SMS Reference">
-          </mat-form-field>
-        </div>
+ <!-- Modal HTML -->
+<!-- Modal HTML -->
+<!-- Modal HTML -->
+<!-- Fields for general information (First Name, Last Name, Phone Number, SKU Type, etc.) -->
+<!-- Modal HTML -->
+<!-- Modal HTML -->
+<!-- Modal HTML -->
+<div bsModal #AddStockModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{ backdrop: 'static', keyboard: false }">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Details</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeUploadModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input matInput [(ngModel)]="firstName" placeholder="Enter First Name" [disabled]="isSmsMode || isCallMode" />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput [(ngModel)]="lastName" placeholder="Enter Last Name" [disabled]="isSmsMode || isCallMode" />
+            </mat-form-field>
+          </div>
+        </div>
 
-      <!-- Button to insert data -->
-      <div class="row mt-3">
-        <div class="col">
-          <button mat-raised-button color="primary" (click)="assignStock()">
-            Update Data
-          </button>
+        <div class="row mt-3">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Phone Number</mat-label>
+              <input matInput [(ngModel)]="phoneNumber" placeholder="Enter Phone Number" [disabled]="isSmsMode || isCallMode" />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>SKU Type</mat-label>
+              <input matInput [(ngModel)]="skuType" placeholder="Enter SKU Type" [disabled]="isSmsMode || isCallMode" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Contact Classification</mat-label>
+              <input matInput [(ngModel)]="contactClassification" placeholder="Enter Contact Classification" [disabled]="isSmsMode || isCallMode" />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field>
+              <mat-label>CNIC</mat-label>
+              <input matInput [(ngModel)]="cnic" placeholder="Enter CNIC" [disabled]="isSmsMode || isCallMode" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- SMS Section (Editable in SMS mode) -->
+        <div class="row mt-3" *ngIf="isSmsMode">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>SMS Remarks</mat-label>
+              <mat-select [(ngModel)]="smsRemarks">
+                <mat-option *ngFor="let remark of smsRemarksList" [value]="remark.title">
+                  {{ remark.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- SMS Reference field on a new line -->
+          <div class="col-12 mt-3">
+            <mat-form-field class="full-width">
+              <mat-label>SMS Reference</mat-label>
+              <textarea matInput [(ngModel)]="smsReference" placeholder="Enter SMS Reference" rows="4" class="no-scroll-textarea"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Call Section (Editable in Call mode) -->
+        <div class="row mt-3" *ngIf="isCallMode">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Call Remarks</mat-label>
+              <mat-select [(ngModel)]="callRemarks">
+                <mat-option *ngFor="let remark of callRemarksList" [value]="remark.title">
+                  {{ remark.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col">
+            <button mat-raised-button color="primary" (click)="assignStock()">
+              Update
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div>
+
+
+
+  
+  
+  
 
 

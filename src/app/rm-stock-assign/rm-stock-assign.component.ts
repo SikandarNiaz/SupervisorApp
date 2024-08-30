@@ -108,6 +108,7 @@ export class RmStockAssignComponent implements OnInit {
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
+          visitDate: moment(item.date).format('YYYY-MM-DD'),
           date: moment(item.visit_date).format('YYYY-MM-DD h:mm A'),
           isEditing: false // Initialize editing state
         }));
@@ -277,6 +278,7 @@ export class RmStockAssignComponent implements OnInit {
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
+            visitDate: moment(item.date).format('YYYY-MM-DD'),
             date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
             isEditing: false // Initialize editing state
           }));

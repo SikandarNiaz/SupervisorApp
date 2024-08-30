@@ -160,13 +160,14 @@ export class StockIssueToRmComponent implements OnInit {
           id: item.stockLoadingId,
           title: item.title,
           quantity: item.quantity,
+          visitDate: moment(item.date).format('DD-MM-YYYY'),
           userName: item.userName,
           date: moment(item.visit_date).format('DD-MM-YYYY h:mm A'),
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];
         this.showForms = true; 
-        console.log('Formatted Stock Detail:', this.StockDetail);
+        console.log('Formatted Stock Detail:', this.StockDetail1);
       },
       (error) => {
         console.error('Error fetching stock details:', error);
@@ -201,6 +202,7 @@ export class StockIssueToRmComponent implements OnInit {
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
+            visitDate: moment(item.date).format('DD-MM-YYYY'),
             date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
             isEditing: false // Initialize editing state
           }));

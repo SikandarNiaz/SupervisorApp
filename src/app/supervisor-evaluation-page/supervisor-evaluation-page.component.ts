@@ -4,6 +4,8 @@ import { DashboardService } from '../layout/dashboard/dashboard.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSelectChange } from '@angular/material/select';
 import * as moment from 'moment'; 
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 interface FormData {
 
@@ -30,23 +32,39 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   maxDate = new Date(2100, 0, 1);
   startDate: Date;
   endDate: Date;
+  data: any[] = [];
   selectedZone: any;
+  baList: any[] = [];
+  selectedBa:any;
   selectedRegion: any;
   loadingData: boolean = false;
-  title = "Hubspot Data";
+  isButtonDisabled: boolean = true;
+  title = "Evaluation Data";
   smsRemarks: string = '';
   smsStatus: string = '';
   callRemarks: string = '';
+  lastName: string = '';
+  firstName: string = '';
+  phoneNumber: string = '';
+  skuType: string = '';
+  name: string = '';
+  cnic: string = '';
+  isCallMode: boolean = false;
+  contactClassification: string = '';
   conversionDate: string = ''; 
   callStatus: string = '';
   smsReference: string = '';
   Regions: any[] = [];
+  ba: any[] = [];
   Zones: any[] = [];
   filteredEvaluationDetail: any[] = []; 
   callRemarksList: any[] = [];
   smsRemarksList: any[] = [];
   showUploadModal: boolean = false;
   EvaluationDetail: any[] = [];
+  isEditable: boolean = false;
+  isSmsMode: boolean = false; // Indicates if the mode is SMS
+
   Supervisors = [
     { id: '1', name: 'John Doe' },
     { id: '2', name: 'Jane Smith' },
@@ -56,6 +74,8 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   selectedItem: any; 
   searchQuery: string = '';
   selectedStatus: string = '';
+  selectedClassification: string;
+  classifications: string[] = ['Purchase Trial', 'Info Pass'];
   sortBy: string = ''; // Field to sort by
   sortOrder: 'asc' | 'desc' = 'asc'; // Sorting order
 
@@ -70,6 +90,22 @@ export class SupervisorEvaluationPageComponent implements OnInit {
     // this.gettingEvaluationDetail();
     this.getZone();
   }
+
+
+  gettingBaList(zoneId: number, regionId: number): void {
+    this.dashboardService.gettingBaList(zoneId, regionId).subscribe(
+      (response: any[]) => {
+        console.log('BA List:', response);
+
+        this.baList = response.map((item) => ({ id: item.id, name: item.fullName,mCode:item.mCode }));
+        console.log('BA List:', this.baList);
+      },
+      (error) => {
+        console.error('Error fetching BA list:', error);
+      }
+    );
+  }
+
   getZone() {
     this.dashboardService.getZone().subscribe(
       (response: any) => {
@@ -95,13 +131,19 @@ export class SupervisorEvaluationPageComponent implements OnInit {
       endDate: moment(this.endDate).format('YYYY-MM-DD'),
       zoneId: this.selectedZone,
       regionId: this.selectedRegion,
-      status: this.selectedStatus
+      status: this.selectedStatus,
+      classification: this.selectedClassification, // Add classification
+      baId: this.selectedBa
     };
+    console.log('obj:', obj);
   
     this.dashboardService.gettingSupervisorEvaluationDetail(obj).subscribe(
       (response: any[]) => {
+        console.log('Response:',response );
         // Process and set the evaluation details
         this.EvaluationDetail = response.map(item => ({
+        
+          id :item.id,
           baCode: item.baCode,
           deployment: item.deploymentMarket,
           name: item.firstName,
@@ -111,9 +153,16 @@ export class SupervisorEvaluationPageComponent implements OnInit {
           evaluated : item.evaluated,
           smsRemarks:item.smsRemarks,
           callRemarks:item.callRemarks,
-          smsReference:item.smsReference
+          smsReference:item.smsReference,
+          contactClassification:item.contactClassification,
+          contactId:item.contactId,
+          callStatus:item.callStatus,smsStatus:item.smsStatus,
+          lastName:item.lastName,
+          phoneNumber:item.phoneNumber,
+          skuType:item.skuType
 
         }));
+        this.isButtonDisabled = this.EvaluationDetail.length <= 0;
   
         this.filteredEvaluationDetail = this.EvaluationDetail;
         this.showForms = true;
@@ -123,6 +172,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
       (error) => {
         this.loadingData = false; // Set loading state to false
         console.error('Error fetching evaluation details:', error);
+        this.isButtonDisabled = true; 
         this.toastr.error('Failed to fetch evaluation details');
       }
     );
@@ -132,6 +182,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
     console.log('Zone changed:', event.value);
     this.selectedZone = event.value;
     this.getRegion(this.selectedZone);
+    this.gettingBaList(this.selectedZone, this.selectedRegion);
   }
 
   getRegion(zoneId: string) {
@@ -150,8 +201,8 @@ export class SupervisorEvaluationPageComponent implements OnInit {
     );
   }
   onSelectChange(): void {
-    // this.checkAndFetchSummary();
-  }
+    this.selectedRegion = this.selectedRegion;
+    this.gettingBaList(this.selectedZone, this.selectedRegion);}
 
   onDateChange(): void {
     // this.checkAndFetchSummary();
@@ -325,35 +376,28 @@ export class SupervisorEvaluationPageComponent implements OnInit {
       }
     );
   }
-  openUploadModal(item: any): void {
-    // Debugging
-    console.log('Opening modal with item:', item);
-  
+  openUploadModal(item: any, mode: 'view' | 'call'): void {
     this.selectedItem = item;
+    console.log('Selected Item:', this.selectedItem);
   
     if (this.selectedItem) {
-      // Debugging
-      console.log('Selected item:', this.selectedItem);
-  
-      // Set values from selectedItem or defaults
+      this.isSmsMode = (mode === 'view');
+      this.isCallMode = (mode === 'call');
+      this.firstName = this.selectedItem.name || '';
+      this.cnic = this.selectedItem.cnic || '';
       this.smsRemarks = this.selectedItem.smsRemarks || '';
       this.callRemarks = this.selectedItem.callRemarks || '';
       this.smsReference = this.selectedItem.smsReference || '';
-  
-      // Ensure conversionDate is not used or cleared
-      this.conversionDate = ''; // Ensure conversionDate is cleared
+      this.lastName = this.selectedItem.lastName || '';
+      this.phoneNumber = this.selectedItem.phoneNumber || '';
+      this.skuType = this.selectedItem.skuType || '';
+      this.contactClassification = this.selectedItem.contactClassification || '';
   
       // Show the modal
       this.showUploadModal = true;
   
-      // Debugging
-      console.log('Modal visibility:', this.showUploadModal);
-  
-      // Check if AddStockModal is initialized and show it
       if (this.AddStockModal) {
-        // Ensure AddStockModal is the correct instance
         this.AddStockModal.show();
-        console.log('Modal is shown');
       } else {
         console.error('AddStockModal is not initialized');
       }
@@ -362,6 +406,9 @@ export class SupervisorEvaluationPageComponent implements OnInit {
     }
   }
   
+  
+
+
   
   // openUploadModal(item: any): void {
   //   this.selectedItem = item;
@@ -424,5 +471,25 @@ formatDate(dateStr: string): string {
   // Return the date in YYYY-MM-DD HH:mm:ss format
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+downloadAsExcelFile(): void {
+       
+  const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.EvaluationDetail);
+  worksheet['!cols'] = [{ wch: 15 }, { wch: 15 },{ wch: 15 },{ wch: 15 },{ wch: 15 },{ wch: 15 }
+    ,{ wch: 15 },{ wch: 15 }, { wch: 15 },{ wch: 15 },{ wch: 20 },{ wch: 15 },
+  ];
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  this.saveAsExcelFile(excelBuffer, "ptc"+"_"+"file_data");
 
 }
+
+private saveAsExcelFile(buffer: any, fileName: string): void {
+const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+saveAs(data, `${fileName}${new Date().getTime()}.xlsx`);
+}
+
+}
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+
+

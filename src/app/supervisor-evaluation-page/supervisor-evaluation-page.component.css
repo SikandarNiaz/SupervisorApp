@@ -58,5 +58,37 @@
     display: inline-block;
     transform: rotate(0deg); /* Arrow pointing downwards */
   }
+  .full-width-input {
+    width: 100%;
+  }
+  .mat-form-field input {
+    width: 100%;
+  }
+  
+  /* Make sure the column for SMS Reference takes full width */
+  .col-12 {
+    width: 100%;
+  }
+  .example-full-width{
+
+    width: 580px;
+  }
+  /* .no-scroll-textarea {
+    height: auto; 
+    overflow-y: hidden; 
+  } */
+  .full-width {
+    width: 100%;
+  }
+  
+  .no-scroll-textarea {
+    overflow-y: hidden;
+    resize: none;
+    /* line-height: 1.5; */
+  }
+  
+  .example-full-width textarea {
+    height: 56px; /* Adjust the height as necessary to fit 2 lines comfortably */
+  }
   
   

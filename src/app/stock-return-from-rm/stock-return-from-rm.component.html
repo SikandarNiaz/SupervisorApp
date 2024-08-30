@@ -8,7 +8,7 @@
 
       <section class="header-section">
         <div class="row" style="margin: 0;">
-          <div class="col" style="padding: 0 5px;">
+          <div class="col-md-3" style="padding: 0 5px;">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -24,7 +24,7 @@
               <mat-datepicker #picker0></mat-datepicker>
             </mat-form-field>
           </div>
-          <div class="col" style="padding: 0 5px;">
+          <div class="col-md-3" style="padding: 0 5px;">
             <mat-form-field class="example-full-width">
               <input
                 matInput
@@ -41,10 +41,23 @@
             </mat-form-field>
           </div>
         </div>
-        
+      
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-auto d-flex align-items-center">
+            <button mat-raised-button color="primary" (click)="gettingRmStockDetail()">
+              Get Detail
+            </button>
+          </div>
+          <div class="col-md-auto d-flex align-items-center" style="margin-left: 10px;">
+            <button mat-raised-button color="primary" (click)="openAssignStockModal()">
+              Return Stock
+            </button>
+          </div>
+        </div>
+      </section>
+      
 
-
- <!-- Dropdown for selecting Rm (removed Zone and Region fields) -->
+       <!-- Dropdown for selecting Rm (removed Zone and Region fields) -->
           <!-- <div class="col">
             <mat-form-field class="example-full-width">
               <mat-label>Select Rm</mat-label>
@@ -55,19 +68,6 @@
               </mat-select>
             </mat-form-field>
           </div> -->
-
-        <!-- Buttons in the second row -->
-        <div class="row">
-          <div class="col d-flex align-items-center" style="margin-top: 10px;">
-            <button mat-raised-button color="primary" (click)="gettingRmStockDetail()">
-              Get Detail
-            </button>
-            <button mat-raised-button color="primary" (click)="openAssignStockModal()" style="margin-left: 10px;">
-              Return Stock
-            </button>
-          </div>
-        </div>
-      </section>
 
       <!-- Conditionally show the table if showForms is true -->
       <div *ngIf="showForms" class="container-fluid">
@@ -147,7 +147,7 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.userName }}</td>
-                <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ item.visitDate | date: 'yyyy-MM-dd' }}</td>
                 <td>
                   <ng-container *ngIf="!item.isEditing">
                     {{ item.quantity }}
@@ -266,7 +266,7 @@
         </section>
 
         <!-- Added amount field -->
-        <!-- <section class="amount-input mt-3">
+         <section class="amount-input mt-3">
           <mat-form-field class="example-full-width">
             <mat-label>Cash Collected</mat-label>
             <input
@@ -276,8 +276,8 @@
               (ngModelChange)="amount = amount || 0"
             />
           </mat-form-field>
-        </section> -->
-<!-- 
+        </section> 
+ 
         <section class="voucher-upload mt-20">
           <div class="form-group">
             <label for="voucherImage"></label>
@@ -288,7 +288,7 @@
               class="form-control-file"
             />
           </div>
-        </section> -->
+        </section> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="returnStock()">

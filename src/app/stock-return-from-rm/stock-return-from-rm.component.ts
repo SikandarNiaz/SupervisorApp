@@ -162,6 +162,7 @@ export class StockReturnFromRmComponent implements OnInit {
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
+          visitDate: moment(item.date).format('DD-MM-YYYY'),
           date: moment(item.visit_date).format('DD-MM-YYYY h:mm A'),
           isEditing: false // Initialize editing state
         }));
@@ -185,6 +186,7 @@ export class StockReturnFromRmComponent implements OnInit {
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
+            visitDate: moment(item.date).format('DD-MM-YYYY'),
             date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
             isEditing: false // Initialize editing state
           }));
