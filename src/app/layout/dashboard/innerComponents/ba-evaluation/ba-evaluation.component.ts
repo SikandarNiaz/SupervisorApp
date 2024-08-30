@@ -173,7 +173,7 @@ export class BaEvaluationomponent implements OnInit {
     window.open(
       `${environment.hash}dashboard/evaluation/list/home?supervisorId=${
         item.user_id
-      }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
+      }&surveyorId=${item.surveyor_id}&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
         this.endDate
       )} &userType=${this.userTypeId}`,
       "_blank"

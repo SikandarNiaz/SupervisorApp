@@ -61,11 +61,23 @@
 
           <mat-card-content (click)="goToEvaluationPage(item)">
             <table class="table" style="cursor: pointer">
+              <tr *ngIf="projectType == 'PTC'">
+                <th>Supervisor Code</th>
+                <td>{{ item?.user_code }}</td>
+            </tr>
+            <tr *ngIf="projectType == 'PTC'">
+              <th>Supervisor Name</th>
+              <td>{{ item?.supervisorName }}</td>
+          </tr>
               <tr>
                 <!-- test -->
                 <th>Code</th>
                 <td>{{ item?.m_code }}</td>
               </tr>
+          <tr *ngIf="projectType == 'PTC'">
+            <th>Visit Date</th>
+            <td>{{ item?.visit_date }}</td>
+        </tr>
               <tr>
                 <th>Shop Name</th>
                 <td>{{ item?.shop_title }}</td>

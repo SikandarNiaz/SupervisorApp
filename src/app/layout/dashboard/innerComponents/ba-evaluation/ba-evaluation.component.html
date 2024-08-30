@@ -139,18 +139,6 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th (click)="sortIt('m_code')" style="cursor: pointer">
-                    Code
-                    <i class="material-icons arrow material-icons-arrow">
-                      {{ getArrowType("m_code") }}
-                    </i>
-                  </th>
-                  <th (click)="sortIt('full_name')" style="cursor: pointer">
-                    Name
-                    <i class="material-icons arrow material-icons-arrow">
-                      {{ getArrowType("full_name") }}
-                    </i>
-                  </th>
                   <th (click)="sortIt('user_code')" style="cursor: pointer">
                     Supervisor code
                     <i class="material-icons arrow material-icons-arrow">
@@ -163,12 +151,30 @@
                       {{ getArrowType("user_name") }}
                     </i>
                   </th>
+                  <th (click)="sortIt('m_code')" style="cursor: pointer">
+                    Code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("m_code") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('full_name')" style="cursor: pointer">
+                    Name
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("full_name") }}
+                    </i>
+                  </th>
                   <!-- <th (click)="sortIt('totalTarget')" style="cursor: pointer">
                     Target
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("totalTarget") }}
                     </i>
                   </th> -->
+                  <th (click)="sortIt('visit_date')" style="cursor: pointer">
+                    Captured
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("visit_date") }}
+                    </i>
+                  </th>
                   <th (click)="sortIt('captured_shops')" style="cursor: pointer">
                     Captured
                     <i class="material-icons arrow material-icons-arrow">
@@ -213,10 +219,11 @@
                     let item of merchandiserList | orderBy: sortBy:sortOrder
                   "
                 >
-                  <td>{{ item?.m_code }}</td>
-                  <td>{{ item?.full_name }}</td>
                   <td>{{ item?.user_code }}</td>
                   <td>{{ item?.user_name }}</td>
+                  <td>{{ item?.m_code }}</td>
+                  <td>{{ item?.full_name }}</td>
+                  <td>{{ item?.visit_date }}</td>
                   <!-- <td>{{ item?.totalTarget }}</td> -->
                   <!-- <td style="color:blue;cursor:pointer" [routerLink]="['/dashboard/evaluation/list']" [queryParams]="{ surveyorId: item.id,startDate: modifyDate(startDate),endDate: modifyDate(startDate)}">
                                       {{item?.captured_shops}}</td> -->
