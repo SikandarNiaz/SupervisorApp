@@ -71,6 +71,12 @@ export class VoLiveTrackingComponent implements OnInit {
     { id: 2, value: "(<=120 Min)" },
     { id: 3, value: "(>120 Min)" },
   ];
+  lastUpdateBeforeList1: any = [
+    { id: -1, value: "All" },
+    { id: 1, value: "(<=30 Min)" },
+    { id: 2, value: "(<=60 Min)" },
+    { id: 3, value: "(>60 Min)" },
+  ];
   selectedUpdate: any;
 
   constructor(

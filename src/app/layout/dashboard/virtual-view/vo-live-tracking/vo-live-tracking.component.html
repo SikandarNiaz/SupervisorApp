@@ -157,7 +157,7 @@
                 [(ngModel)]="selectedUpdate"
                 (ngModelChange)="selectedUpdateChange()"
               >
-                <ng-container *ngFor="let item of lastUpdateBeforeList">
+                <ng-container *ngFor="let item of lastUpdateBeforeList1">
                   <mat-option [value]="item">{{ item.value }}</mat-option>
                 </ng-container>
               </mat-select>
