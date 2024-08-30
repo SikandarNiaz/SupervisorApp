@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+
 import { DashboardService } from '../layout/dashboard/dashboard.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSelectChange } from '@angular/material/select';
 import * as moment from 'moment'; 
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 interface FormData {
 
@@ -48,6 +50,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   phoneNumber: string = '';
   skuType: string = '';
   name: string = '';
+  dateOfBirth: Date | null = null; 
   cnic: string = '';
   isCallMode: boolean = false;
   contactClassification: string = '';
@@ -80,6 +83,7 @@ export class SupervisorEvaluationPageComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'asc'; // Sorting order
 
   constructor(
+    private clipboard: Clipboard,
     private dashboardService: DashboardService,
     private toastr: ToastrService
   ) { }
@@ -148,6 +152,8 @@ export class SupervisorEvaluationPageComponent implements OnInit {
           deployment: item.deploymentMarket,
           name: item.firstName,
           cnic: item.cnicNumber,
+          dateOfBirth: moment(item.dateOfBirth, 'MMM DD, YYYY').toDate(),
+            //  conversionDate: moment(item.conversionDate).format('YYYY-MM-DD'),
           conversionDate: moment(item.conversionDate).format('YYYY-MM-DD HH:mm:ss'),
           // conversionDate: item.conversionDate,
           evaluated : item.evaluated,
@@ -206,6 +212,23 @@ export class SupervisorEvaluationPageComponent implements OnInit {
 
   onDateChange(): void {
     // this.checkAndFetchSummary();
+  }
+  copyPhoneNumber() {
+    navigator.clipboard.writeText(this.phoneNumber).then(() => {
+      this.toastr.success('Phone Number Copied!');
+      console.log('Phone Number copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy Phone Number: ', err);
+    });
+  }
+  
+  copyCNIC() {
+    navigator.clipboard.writeText(this.cnic).then(() => {
+      this.toastr.success('CNIC Copied!');
+      console.log('CNIC copied to clipboard');
+    }).catch(err => {
+      console.error('Failed to copy CNIC: ', err);
+    });
   }
   sortByField(field: string): void {
     if (this.sortBy === field) {
@@ -391,10 +414,13 @@ export class SupervisorEvaluationPageComponent implements OnInit {
       this.lastName = this.selectedItem.lastName || '';
       this.phoneNumber = this.selectedItem.phoneNumber || '';
       this.skuType = this.selectedItem.skuType || '';
+      this.dateOfBirth = this.selectedItem.dateOfBirth || null;
       this.contactClassification = this.selectedItem.contactClassification || '';
+     
   
       // Show the modal
       this.showUploadModal = true;
+      document.body.classList.add('modal-open'); 
   
       if (this.AddStockModal) {
         this.AddStockModal.show();

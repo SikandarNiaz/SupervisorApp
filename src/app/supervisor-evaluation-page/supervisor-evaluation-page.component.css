@@ -1,94 +1,180 @@
 .custom-button-size {
-    font-size: 14px; /* Smaller text size */
-    padding: 6px 12px; /* Adjust padding to make the button smaller */
-  }
-  .header-section .mat-form-field {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .search-bar-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-bar-container .form-control {
-    flex: 1;
-    /* margin-right: 10px; */
-    height: 40px;
-    padding: 8px 12px;
-  }
-  
-  .search-bar-container .btn {
-    height: 40px;
-    padding: 0 16px;
-  }
-  
-  .search-bar-container .btn i {
-    margin-right: 0;
-  }
-  
-  .table-section {
-    margin-top: 20px;
-  }
-  
-  .table {
-    width: 100%;
-  }
-  .custom-width {
-    width: 50px; 
-  }
-  tr > th {
-    cursor: pointer;
-  }
-  .material-icons-arrow {
-    font-size: 18px; /* Adjust size if necessary */
-    vertical-align: middle;
-    display: none; /* Hidden by default */
-  }
-  
-  /* Display sorting arrow when a column is sorted */
-  .material-icons-arrow.asc {
-    display: inline-block;
-    transform: rotate(180deg); /* Arrow pointing upwards */
-  }
-  
-  .material-icons-arrow.desc {
-    display: inline-block;
-    transform: rotate(0deg); /* Arrow pointing downwards */
-  }
-  .full-width-input {
-    width: 100%;
-  }
-  .mat-form-field input {
-    width: 100%;
-  }
-  
-  /* Make sure the column for SMS Reference takes full width */
-  .col-12 {
-    width: 100%;
-  }
-  .example-full-width{
+  font-size: 14px; /* Smaller text size */
+  padding: 6px 12px; /* Adjust padding to make the button smaller */
+}
 
-    width: 580px;
-  }
-  /* .no-scroll-textarea {
-    height: auto; 
-    overflow-y: hidden; 
-  } */
-  .full-width {
-    width: 100%;
-  }
-  
-  .no-scroll-textarea {
-    overflow-y: hidden;
-    resize: none;
-    /* line-height: 1.5; */
-  }
-  
-  .example-full-width textarea {
-    height: 56px; /* Adjust the height as necessary to fit 2 lines comfortably */
-  }
-  
-  
+.header-section .mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar-container .form-control {
+  flex: 1;
+  height: 40px;
+  padding: 8px 12px;
+}
+
+.search-bar-container .btn {
+  height: 40px;
+  padding: 0 16px;
+}
+
+.search-bar-container .btn i {
+  margin-right: 0;
+}
+
+.table-section {
+  margin-top: 20px;
+}
+
+.table {
+  width: 100%;
+}
+
+.custom-width {
+  width: 50px;
+}
+
+tr > th {
+  cursor: pointer;
+}
+
+.material-icons-arrow {
+  font-size: 18px; /* Adjust size if necessary */
+  vertical-align: middle;
+  display: none; /* Hidden by default */
+}
+
+/* Display sorting arrow when a column is sorted */
+.material-icons-arrow.asc {
+  display: inline-block;
+  transform: rotate(180deg); /* Arrow pointing upwards */
+}
+
+.material-icons-arrow.desc {
+  display: inline-block;
+  transform: rotate(0deg); /* Arrow pointing downwards */
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+.mat-form-field input {
+  width: 100%;
+}
+
+/* Make sure the column for SMS Reference takes full width */
+.col-12 {
+  width: 100%;
+}
+
+.example-full-width {
+  width: 580px;
+}
+
+/* .no-scroll-textarea {
+  height: auto;
+  overflow-y: hidden;
+} */
+
+/* .full-width {
+  width: 100%;
+}
+
+.no-scroll-textarea {
+  overflow-y: hidden;
+  resize: none;
+  line-height: 1.5;
+} */
+
+.example-full-width textarea {
+  height: 56px; /* Adjust the height as necessary to fit 2 lines comfortably */
+}
+
+/* .mat-raised-button {
+  min-width: 35px;
+  min-height: 26px;
+} */
+
+.button-group {
+  display: flex;
+  gap: 4px; /* Adjust gap as needed */
+}
+
+.button-group button {
+  flex: 1; /* Makes buttons take equal width */
+  min-width: 0; /* Ensures buttons can shrink */
+  min-height: 36px; /* Adjust as needed for a proper height */
+  font-size: 12px; /* Adjust text size if needed */
+  padding: 4px; /* Adjust padding as needed */
+}
+
+.full-width {
+  width: 100%;
+}
+
+.no-scroll-textarea {
+  overflow: hidden;
+}
+
+.modal-body .mat-form-field {
+  background-color: #fff; /* or the desired color */
+  padding: 0; /* Adjust padding if necessary */
+}
+
+/* Ensure that the input group and button are aligned correctly */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper mat-form-field {
+  flex: 1;
+  margin-right: 8px; /* Space between input and button */
+}
+
+/* Ensures the icon button has no border or outline */
+.input-wrapper .copy-button {
+  margin: 0; /* Ensure no extra margin on the button */
+  font-size: 18px; /* Adjust icon size if necessary */
+  border: none; /* Remove border */
+  box-shadow: none; /* Remove shadow */
+  outline: none; /* Remove outline */
+  padding: 0; /* Adjust padding if necessary */
+}
+
+/* Ensures the icon itself is properly sized */
+.copy-button .mat-icon {
+  font-size: 20px; /* Adjust icon size if necessary */
+}
+
+/* Specific styles for the icon to ensure visibility */
+.mat-icon {
+  font-size: 18px; /* Ensure the icon is visible */
+  color:#6c757d;/* Set icon color */
+}
+
+/* Ensures the button with icon only has a small width to fit the content */
+.mat-icon-button {
+  width: auto; /* Adjust width as needed */
+}
+
+/* Styling for the button to add text next to the icon */
+.input-wrapper .copy-button span {
+  margin-left: 8px; /* Space between icon and text */
+  font-size: 14px; 
+  color: #6c757d;
+  /* color: #000;  */
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
