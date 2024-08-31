@@ -75,7 +75,14 @@ export class UploadSurveyorRoutesComponent implements OnInit {
       );
     }
   }
-
+  downloadSampleFormat() {
+    const sampleFileUrl = 'assets/sample-format.xlsx'; // Adjust the path if necessary
+    const link = document.createElement('a');
+    link.href = sampleFileUrl;
+    link.download = 'sample-format.xlsx';
+    link.click();
+  }
+  
   deleteRoutes(action) {
     this.loadingData = true;
     const obj = {
