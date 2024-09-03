@@ -1,0 +1,35 @@
+<mat-card class="mb-20">
+    <mat-card-content>
+      <mat-card-title>
+        Upload Shops
+        <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      </mat-card-title>
+      <section class="example-section">
+        <form
+          (ngSubmit)="uploadData()"
+          [formGroup]="form"
+          enctype="multipart/form-data"
+        >
+          <input
+            #fileInput
+            (change)="onFileChange($event)"
+            id="file"
+            type="file"
+            formControlName="file"
+          />
+          <section style="margin-top: 10px;" class="example-section">
+            <button type="submit" mat-raised-button color="warn">Upload</button>
+            <button
+              type="button"
+              mat-raised-button
+              color="warn"
+              (click)="downloadSampleFormat()"
+              style="margin-left: 10px;"
+            >
+              Sample Format
+            </button>
+          </section>
+        </form>
+      </section>
+    </mat-card-content>
+  </mat-card>

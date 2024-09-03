@@ -11,11 +11,11 @@ import { DashboardService } from "../layout/dashboard/dashboard.service";
 import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 @Component({
-  selector: 'app-upload-surveyor-routesapp-upload-surveyor-routes',
-  templateUrl: './upload-surveyor-routes.component.html',
-  styleUrls: ['./upload-surveyor-routes.component.css']
+  selector: 'app-upload-shops',
+  templateUrl: './upload-shops.component.html',
+  styleUrls: ['./upload-shops.component.css']
 })
-export class UploadSurveyorRoutesComponent implements OnInit {
+export class UploadShopsComponent implements OnInit {
   @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
   @ViewChildren("checked") private myCheckbox: any;
   loadingData: boolean;
@@ -76,10 +76,10 @@ export class UploadSurveyorRoutesComponent implements OnInit {
     }
   }
   downloadSampleFormat() {
-    const sampleFileUrl = 'assets/sample-format.xlsx'; 
+    const sampleFileUrl = 'assets/Testing-Shops.xlsx'; 
     const link = document.createElement('a');
     link.href = sampleFileUrl;
-    link.download = 'sample-format.xlsx';
+    link.download = 'Testing-Shops.xlsx';
     link.click();
   }
   
@@ -149,7 +149,7 @@ export class UploadSurveyorRoutesComponent implements OnInit {
     formData.append('file', this.selectedFile); // Append file to form data
 
     this.loadingData = true;
-    this.httpService.uploadSurveyorRoutes(formData).subscribe(
+    this.httpService.uploadShops(formData).subscribe(
       (response) => {
         this.loadingData = false;
         this.toastr.success('File uploaded successfully!');

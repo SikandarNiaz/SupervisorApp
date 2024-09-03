@@ -97,49 +97,44 @@
             <table class="table table-hover mb-0 custom-table">
               <thead>
                 <tr>
-                  <th scope="col" >
-                    #
-                    <!-- <i *ngIf="sortBy === 'id'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
-                      arrow_upward
-                    </i> -->
-                  </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('user_name')">
+                  <th scope="col" class="text-center">#</th>
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('user_name')">
                     Supervisor
                     <i *ngIf="sortBy === 'user_name'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('visit_date')">
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('visit_date')">
                     Date
                     <i *ngIf="sortBy === 'visit_date'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('issuance')">
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('issuance')">
                     Issuance
                     <i *ngIf="sortBy === 'issuance'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('return_value')">
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('return_value')">
                     Return
                     <i *ngIf="sortBy === 'return_value'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('lost')">
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('lost')">
                     Lost
                     <i *ngIf="sortBy === 'lost'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('cash_collected')">
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('cash_collected')">
                     Cash Collected
                     <i *ngIf="sortBy === 'cash_collected'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" style="cursor: pointer;" (click)="sortIt('balance')">
+                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('balance')">
                     Balance
                     <i *ngIf="sortBy === 'balance'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
@@ -149,16 +144,18 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of filteredItems; let x = index">
-                  <th scope="row">{{ x + 1 }}</th>
-                  <td>{{ item.user_name }}</td>
-                  <td>{{ formatDate(item.visit_date) }}</td>
-                  <td class="clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
-                  <td class="clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
-                  <td>{{ item.lost }}</td>
-                  <td>{{ item.cash_collected }}</td>
-                  <td>{{ item.balance }}</td>
+                  <th scope="row" class="text-center">{{ x + 1 }}</th>
+                  <td class="text-center">{{ item.user_name }}</td>
+                  <td class="text-center">{{ formatDate(item.visit_date) }}</td>
+                  <td class="text-center clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
+                  <td class="text-center clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
+                  <td class="text-center">{{ item.lost }}</td>
+                  <td class="text-center">{{ item.cash_collected }}</td>
+                  <td class="text-center">{{ item.balance }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
+          
+          
           

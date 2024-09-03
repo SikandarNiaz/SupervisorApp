@@ -1123,6 +1123,10 @@ deActivateFieldValue(obj){
     const url = this.ip + "rm-return-stock"
     return this.http.post(url, formData);
   }
+  returnStockAudit(formData: FormData){
+    const url = this.ip + "return-stock-audit"
+    return this.http.post(url, formData);
+  }
   insertEvaluationData(data) {
     const url = this.ip + "/supervisor-evaluation-data"; 
     const body = this.UrlEncodeMaker(data);
@@ -1147,6 +1151,11 @@ deActivateFieldValue(obj){
 
   gettingRmReturnStockDetail(obj) {
     const url = this.ip + "return-stock-rm-detail";
+    const body = this.UrlEncodeMaker(obj);
+    return this.http.post(url, body,this.httpOptions);
+  }
+  gettingReturnStockAuditDetail(obj) {
+    const url = this.ip + "stock-audit-summary";
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(url, body,this.httpOptions);
   }
@@ -1242,7 +1251,10 @@ gettingStockDetail1(obj) {
     const url = this.ip + "uploadSurveyorRoutes"; 
     return this.http.post(url, obj);
   }  
- 
+  uploadShops(obj: FormData) {
+    const url = this.ip + "uploadShops"; 
+    return this.http.post(url, obj);
+  }  
 downloadFile(obj, url) {
     let path;
 

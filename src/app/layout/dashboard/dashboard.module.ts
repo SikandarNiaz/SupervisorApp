@@ -21,6 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
 
 
 
+
 import {
   MatDatepickerModule,
   MatDatepickerToggle,
@@ -126,6 +127,8 @@ import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-r
 import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
 import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/upload-surveyor-routes.component";
 import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
+import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.component";
+import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
 
 
 
@@ -256,7 +259,9 @@ import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluat
   SupervisorEvaluationPageComponent,
   StockReturnFromRmComponent,
   RmDistributorSummaryComponent,
-  UploadSurveyorRoutesComponent
+  UploadSurveyorRoutesComponent,
+  UploadShopsComponent,
+  StockAuditLayerComponent
 
   
 ],

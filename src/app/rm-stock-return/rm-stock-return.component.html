@@ -88,46 +88,46 @@
           <table class="table table-hover mb-0 custom-table">
             <thead>
               <tr>
-                <th scope="col" >
-                  # 
+                <th scope="col" class="text-center">
+                  #
                   <!-- <i *ngIf="sortBy === 'id'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                     arrow_upward
                   </i> -->
                 </th>
-                <th scope="col" style="cursor: pointer;" (click)="sortIt('title')">
+                <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('title')">
                   Title
                   <i *ngIf="sortBy === 'title'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                     arrow_upward
                   </i>
                 </th>
-                <th scope="col" style="cursor: pointer;" (click)="sortIt('userName')">
+                <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('userName')">
                   Supervisor
                   <i *ngIf="sortBy === 'userName'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                     arrow_upward
                   </i>
                 </th>
-                <th scope="col" style="cursor: pointer;" (click)="sortIt('date')">
+                <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('date')">
                   Date
                   <i *ngIf="sortBy === 'date'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                     arrow_upward
                   </i>
                 </th>
-                <th scope="col" style="cursor: pointer;" (click)="sortIt('quantity')">
+                <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('quantity')">
                   Quantity
                   <i *ngIf="sortBy === 'quantity'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                     arrow_upward
                   </i>
                 </th>
-                <th scope="col">Edit</th>
+                <th scope="col" class="text-center">Edit</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of filteredItems; let x = index">
-                <th scope="row">{{ x + 1 }}</th>
-                <td>{{ item.title }}</td>
-                <td>{{ item.userName }}</td>
-                <td>{{ item.visitDate }}</td>
-                <td>
+                <th scope="row" class="text-center">{{ x + 1 }}</th>
+                <td class="text-center">{{ item.title }}</td>
+                <td class="text-center">{{ item.userName }}</td>
+                <td class="text-center">{{ item.visitDate }}</td>
+                <td class="text-center">
                   <ng-container *ngIf="!item.isEditing">
                     {{ item.quantity }}
                   </ng-container>
@@ -137,7 +137,7 @@
                     </mat-form-field>
                   </ng-container>
                 </td>
-                <td>
+                <td class="text-center">
                   <ng-container *ngIf="!item.isEditing">
                     <button mat-icon-button class="edit-icon-button" (click)="startEditing(item)">
                       <mat-icon class="large-icon" color="warn">edit</mat-icon>
@@ -155,12 +155,14 @@
               </tr>
             </tbody>
           </table>
-          
         </mat-card>
       </div>
-    </mat-card-content>
+ </mat-card-content>
   </mat-card>
 </div>
+
+
+
 <div
   bsModal
   #AddStockModal="bs-modal"

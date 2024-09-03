@@ -79,6 +79,8 @@ import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-r
 import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
 import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
 import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/upload-surveyor-routes.component";
+import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.component";
+import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
 
 
 const routes: Routes = [
@@ -312,6 +314,14 @@ const routes: Routes = [
   {
     path: "app-upload-surveyor-routes",
     component: UploadSurveyorRoutesComponent,
+  },
+  {
+    path: "app-upload-shops",
+    component: UploadShopsComponent,
+  },
+  {
+    path: "app-stock-audit-layer",
+    component: StockAuditLayerComponent,
   },
   
 

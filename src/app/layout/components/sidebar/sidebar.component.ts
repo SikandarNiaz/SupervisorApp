@@ -17,6 +17,11 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
         this.showMenu = '';
         this.menuList=JSON.parse(localStorage.getItem('menu'))
+        this.menuList.sort((a, b) => {
+            if (a.header === 'Main') return -1; // "Main" should be first
+            if (b.header === 'Main') return 1;
+            return a.header.localeCompare(b.header);
+        });
         console.log(this.menuList,'menu List')
     }
 

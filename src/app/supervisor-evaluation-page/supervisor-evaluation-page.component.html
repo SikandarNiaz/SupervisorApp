@@ -112,55 +112,80 @@
                 <thead>
                   <tr>
                     <!-- Table Headers with Clickable Sorting -->
-                    <th scope="col" (click)="sortByField('id')">MKTG ID
-                      <i *ngIf="sortBy === 'id'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('id')">
+                      MKTG ID
+                      <i *ngIf="sortBy === 'id'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('contactId')">HS Contact ID
-                      <i *ngIf="sortBy === 'contactId'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('contactId')">
+                      HS Contact ID
+                      <i *ngIf="sortBy === 'contactId'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('baCode')">Ba_Code
-                      <i *ngIf="sortBy === 'baCode'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('baCode')">
+                      Ba_Code
+                      <i *ngIf="sortBy === 'baCode'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('conversionDate')">Date
-                      <i *ngIf="sortBy === 'conversionDate'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('conversionDate')">
+                      Date
+                      <i *ngIf="sortBy === 'conversionDate'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('deployment')">Region
-                      <i *ngIf="sortBy === 'deployment'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('deployment')">
+                      Region
+                      <i *ngIf="sortBy === 'deployment'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('contactClassification')">Classification
-                      <i *ngIf="sortBy === 'contactClassification'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('contactClassification')">
+                      Classification
+                      <i *ngIf="sortBy === 'contactClassification'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('smsStatus')">SMS Status
-                      <i *ngIf="sortBy === 'smsStatus'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('smsStatus')">
+                      SMS Status
+                      <i *ngIf="sortBy === 'smsStatus'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('callStatus')">Call Status
-                      <i *ngIf="sortBy === 'callStatus'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('callStatus')">
+                      Call Status
+                      <i *ngIf="sortBy === 'callStatus'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col" (click)="sortByField('evaluated')">Evaluated
-                      <i *ngIf="sortBy === 'evaluated'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">arrow_upward</i>
+                    <th scope="col" class="text-center" (click)="sortByField('evaluated')">
+                      Evaluated
+                      <i *ngIf="sortBy === 'evaluated'" class="material-icons arrow material-icons-arrow" [ngClass]="{'asc': sortOrder === 'asc', 'desc': sortOrder === 'desc'}">
+                        arrow_upward
+                      </i>
                     </th>
-                    <th scope="col">Update</th>
+                    <th scope="col" class="text-center">Update</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of filteredEvaluationDetail; let x = index">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.contactId }}</td>
-                    <td>{{ item.baCode }}</td>
-                    <td>{{ item.conversionDate | date:'yyyy-MM-dd' }}</td>
-                    <td>{{ item.deployment }}</td>
-                    <td>{{ item.contactClassification }}</td>
-                    <td>{{ item.smsStatus }}</td>
-                    <td>{{ item.callStatus }}</td>
-                    <td>{{ item.evaluated }}</td>
-                    <td>
+                    <td class="text-center">{{ item.id }}</td>
+                    <td class="text-center">{{ item.contactId }}</td>
+                    <td class="text-center">{{ item.baCode }}</td>
+                    <td class="text-center">{{ item.conversionDate | date:'yyyy-MM-dd' }}</td>
+                    <td class="text-center">{{ item.deployment }}</td>
+                    <td class="text-center">{{ item.contactClassification }}</td>
+                    <td class="text-center">{{ item.smsStatus }}</td>
+                    <td class="text-center">{{ item.callStatus }}</td>
+                    <td class="text-center">{{ item.evaluated }}</td>
+                    <td class="text-center">
                       <div class="button-group">
                         <button mat-raised-button color="primary" (click)="openUploadModal(item, 'view')">SMS</button>
                         <button mat-raised-button color="primary" (click)="openUploadModal(item, 'call')">Call</button>
                       </div>
-                      
                     </td>
-                    
                   </tr>
                 </tbody>
               </table>
@@ -168,7 +193,7 @@
           </mat-card>
         </div>
       </section>
-      
+          
     </mat-card-content>
   </mat-card>
 </div>

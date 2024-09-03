@@ -1,0 +1,108 @@
+.product-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between items */
+    max-width: 500px; /* Limit the width of each brand item */
+  }
+  
+  .product-name {
+    width: 150px; /* Fixed width for brand names */
+    margin-right: 10px; /* Space between brand name and input field */
+  }
+  
+  .product-input {
+    flex: 1; /* Take up remaining space */
+    max-width: 200px; /* Limit the width of input fields */
+  }
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  /* Ensures the modal content does not have a scrollbar */
+  .modal-content {
+  overflow: hidden;
+  }
+  
+  /* Ensures the modal body can scroll if the content overflows */
+  .modal-body {
+  max-height: 70vh; /* Adjust based on your design requirements */
+  overflow-y: auto;
+  }
+  
+  /* Optional: Hide scrollbar from modal backdrop */
+  .modal-backdrop {
+  overflow: hidden;
+  }
+  
+  /* Optional: Adjust position of the close button */
+  .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  }
+  .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+  }
+  .mat-select-panel {
+  max-height: 200px; /* Adjust based on your needs */
+  overflow-y: auto;
+  }
+  .edit-icon-button {
+  margin-left: 20px; /* Adjust the margin as needed */
+  }
+  .large-icon {
+  font-size: 24px; /* Adjust this size as needed */
+  }
+  /* .product-item {
+    margin-bottom: 10px;
+  }
+  
+  .product-item .mat-form-field {
+    width: 100%;
+  } */
+  .product-item {
+    margin-bottom: 15px; 
+  }
+  
+  .product-item .col-4 {
+    padding-right: 15px; 
+  }
+  
+  .product-item .mat-form-field {
+    width: 100%;
+  }
+  tr > th {
+    cursor: pointer;
+  }
+  .material-icons-arrow {
+    font-size: 18px; /* Adjust size if necessary */
+    vertical-align: middle;
+    display: none; /* Hidden by default */
+  }
+  
+  /* Display sorting arrow when a column is sorted */
+  .material-icons-arrow.asc {
+    display: inline-block;
+    transform: rotate(180deg); /* Arrow pointing upwards */
+  }
+  
+  .material-icons-arrow.desc {
+    display: inline-block;
+    transform: rotate(0deg); /* Arrow pointing downwards */
+  }
+  .text-center {
+    text-align: center;
+  }
+  
