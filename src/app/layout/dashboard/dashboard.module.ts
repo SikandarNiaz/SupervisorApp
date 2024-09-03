@@ -128,6 +128,11 @@ import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm
 import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/upload-surveyor-routes.component";
 import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
 
+import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.component";
+import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
+import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.component";
+
+
 
 
 
@@ -257,7 +262,11 @@ import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluat
   SupervisorEvaluationPageComponent,
   StockReturnFromRmComponent,
   RmDistributorSummaryComponent,
-  UploadSurveyorRoutesComponent
+  UploadSurveyorRoutesComponent,
+  UploadShopsComponent,
+  StockAuditLayerComponent,
+  AlertsViewComponent
+
 
   
 ],
