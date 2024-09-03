@@ -79,6 +79,7 @@ import { StockReturnFromRmComponent } from "src/app/stock-return-from-rm/stock-r
 import { RmDistributorSummaryComponent } from "src/app/rm-distributor-summary/rm-distributor-summary.component";
 import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluation.component";
 import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/upload-surveyor-routes.component";
+import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.component";
 
 
 const routes: Routes = [
@@ -209,6 +210,7 @@ const routes: Routes = [
       { path: "payroll-process", component: PayrollProcessComponent },
       { path: "payroll-unprocess", component: PayrollUnprocessComponent },
       // {path: 'app-admin-login-pmi', component:  AdminLoginPmiComponent},
+      { path: "alert-view", component: AlertsViewComponent },
       
     ],
   },

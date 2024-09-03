@@ -1262,5 +1262,11 @@ downloadFile(obj, url) {
 
     document.body.removeChild(form);
   }
+
+  getAlertsView(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "alertsView";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
   
 }

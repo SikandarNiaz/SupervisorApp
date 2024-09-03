@@ -40,9 +40,9 @@ pmida:boolean=false;
   ) {}
 
   ngOnInit() {
+    this.getProjectNameData();
     this.hideCookieBanner();
     localStorage.clear();
-      this.getProjectNameData();
     const hostName = window.location.hostname;
     console.log("Host Name ",hostName)
     this.pmida = hostName?.indexOf("pmida") >= 0 || hostName?.indexOf("localhost") >= 0;
