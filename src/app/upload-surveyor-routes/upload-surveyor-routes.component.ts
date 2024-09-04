@@ -11,7 +11,7 @@ import { DashboardService } from "../layout/dashboard/dashboard.service";
 import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap/modal";
 @Component({
-  selector: 'app-upload-surveyor-routesapp-upload-surveyor-routes',
+  selector: 'app-upload-surveyor-routes',
   templateUrl: './upload-surveyor-routes.component.html',
   styleUrls: ['./upload-surveyor-routes.component.css']
 })
@@ -76,10 +76,10 @@ export class UploadSurveyorRoutesComponent implements OnInit {
     }
   }
   downloadSampleFormat() {
-    const sampleFileUrl = 'assets/sample-format.xlsx'; 
+    const sampleFileUrl = 'assets/Routes-format.xlsx'; 
     const link = document.createElement('a');
     link.href = sampleFileUrl;
-    link.download = 'sample-format.xlsx';
+    link.download = 'Routes-format.xlsx';
     link.click();
   }
   

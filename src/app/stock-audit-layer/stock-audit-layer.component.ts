@@ -26,7 +26,7 @@ export class StockAuditLayerComponent implements OnInit {
   selectedZone: any;
   amount: number;
   voucherImage: File | null = null;
-  title = "STOCK_VARIANCE";
+  title = "STOCK VARIANCE";
   Products: any[] = [];
   Supervisors: any[] = [];
   StockDetail: any[] = [];
