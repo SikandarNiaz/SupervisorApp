@@ -129,24 +129,24 @@
                       {{ getArrowType("m_code") }}
                     </i>
                   </th>
-                  <th (click)="sortIt('full_name')" style="cursor: pointer">
+                  <!-- <th (click)="sortIt('full_name')" style="cursor: pointer">
                     BA Name
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("full_name") }}
                     </i>
-                  </th>
+                  </th> -->
                   <th (click)="sortIt('user_code')" style="cursor: pointer">
                     Supervisor code
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("user_code") }}
                     </i>
                   </th>
-                  <th (click)="sortIt('user_name')" style="cursor: pointer">
+                  <!-- <th (click)="sortIt('user_name')" style="cursor: pointer">
                     Supervisor Name
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("user_name") }}
                     </i>
-                  </th>
+                  </th> -->
                   <th (click)="sortIt('alert_type')" style="cursor: pointer">
                     Alert Type
                     <i class="material-icons arrow material-icons-arrow">
@@ -165,6 +165,12 @@
                       {{ getArrowType("alert_date") }}
                     </i>
                   </th>
+                  <th (click)="sortIt('created_datetime')" style="cursor: pointer">
+                    Alert Time
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("created_datetime") }}
+                    </i>
+                  </th>
                   <!-- <th></th> -->
                 </tr>
               </thead>
@@ -177,9 +183,9 @@
                   "
                 >
                   <td>{{ item?.m_code }}</td>
-                  <td>{{ item?.full_name }}</td>
+                  <!-- <td>{{ item?.full_name }}</td> -->
                   <td>{{ item?.user_code }}</td>
-                  <td>{{ item?.user_name }}</td>
+                  <!-- <td>{{ item?.user_name }}</td> -->
                   <td>{{ item?.alert_type }}</td>
                   <!-- <td style="color:blue;cursor:pointer" [routerLink]="['/dashboard/evaluation/list']" [queryParams]="{ surveyorId: item.id,startDate: modifyDate(startDate),endDate: modifyDate(startDate)}">
                                       {{item?.captured_shops}}</td> -->
@@ -191,6 +197,7 @@
                   </td> -->
                   <td>{{ item?.alert_message }}</td>
                   <td>{{ item?.alert_date }}</td>
+                  <td>{{ item?.created_datetime }}</td>
                   
                   <!-- <td *ngIf="item?.captured_shops==item?.evaluated_shops">
                                       <img src="./assets/images/Checked-Checkbox-icon.png" alt="">
