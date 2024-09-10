@@ -163,7 +163,8 @@ export class StockReturnFromRmComponent implements OnInit {
           quantity: item.quantity,
           userName: item.userName,
           visitDate: moment(item.date).format('DD-MM-YYYY'),
-          date: moment(item.visit_date).format('DD-MM-YYYY h:mm A'),
+         
+          date: moment(item.visit_date).format('DD-MM-YYYY'),
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];
@@ -181,18 +182,18 @@ export class StockReturnFromRmComponent implements OnInit {
     this.dashboardService.getRmSpecificDetail(id,visitDate,formType).subscribe(
       (response: any[] | null) => {
         if (response) {
-          this.StockDetail = response.map((item) => ({
+          this.specificDetails = response.map((item) => ({
             id: item.stockLoadingId,
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
-            visitDate: moment(item.date).format('DD-MM-YYYY'),
-            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+            visitDate: moment(item.date).format('YYYY-MM-DD'),
+            date: moment(item.startTime).format('YYYY-MM-DD'),
             isEditing: false // Initialize editing state
           }));
-          this.filteredItems = [...this.StockDetail];
+          this.specificDetails = [...this.specificDetails];
           this.showForms = true; // Update filteredItems
-          console.log("Fetched Data:", this.StockDetail);
+          console.log("Fetched Data:", this.specificDetails);
         } else {
           console.error('No data returned from fetchSpecificDetails');
           this.StockDetail = [];

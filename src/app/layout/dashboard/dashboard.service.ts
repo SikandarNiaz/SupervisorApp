@@ -1255,6 +1255,11 @@ gettingStockDetail1(obj) {
     const url = this.ip + "uploadShops"; 
     return this.http.post(url, obj);
   }  
+  gettingAlertsType() {
+    const url = this.ip + "loadFilters"; // -----------> JsonFilterController
+    const filter = JSON.stringify({ act: 57 });
+    return this.http.post(url, filter);
+  }
 downloadFile(obj, url) {
     let path;
 

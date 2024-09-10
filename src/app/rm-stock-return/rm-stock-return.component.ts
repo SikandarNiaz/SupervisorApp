@@ -169,7 +169,7 @@ export class RmStockReturnComponent implements OnInit {
           quantity: item.quantity,
           userName: item.userName,
           visitDate: moment(item.date).format('YYYY-MM-DD'),
-          date: moment(item.visit_date).format('YYYY-MM-DD h:mm A'),
+          date: moment(item.visit_date).format('YYYY-MM-DD'),
           isEditing: false 
         }));
         this.filteredItems = [...this.StockDetail];
@@ -215,6 +215,7 @@ export class RmStockReturnComponent implements OnInit {
     formData.append('form_type', 'RETURN');
     formData.append('user_id', this.rm_id || ''); 
     formData.append('file_type', 'IMAGE');
+    // formData.append('entry_type', 'WEB');
     
     // Ensure amount has a default value of 0 if not defined
     formData.append('amount', (this.amount || 0).toString());
@@ -303,12 +304,14 @@ export class RmStockReturnComponent implements OnInit {
       (response: any[] | null) => {
         if (response) {
           this.StockDetail = response.map((item) => ({
-            id: item.id,
+            id: item.stockLoadingId,
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
             visitDate: moment(item.date).format('YYYY-MM-DD'),
-            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+            // date: moment(item.visit_date).format('YYYY-MM-DD'),
+
+            date: moment(item.startTime).format('YYYY-MM-DD'),
             isEditing: false // Initialize editing state
           }));
           this.filteredItems = [...this.StockDetail]; 

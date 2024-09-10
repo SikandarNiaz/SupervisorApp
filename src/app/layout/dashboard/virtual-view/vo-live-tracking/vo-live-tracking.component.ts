@@ -18,7 +18,7 @@ import { reduce } from "rxjs/operators";
 })
 export class VoLiveTrackingComponent implements OnInit {
   @ViewChild("childModal") childModal: ModalDirective;
-  title = "VO-Live-Tracking";
+  title = "BA-Live-Tracking";
 
   supervisor: any = [];
   surveyor: any = [];

@@ -1,135 +1,119 @@
 <div class="animated slideInLeft">
-    <mat-card class="mb-20" style="padding-top: 1px; padding-bottom: 1px">
-      <mat-card-content>
-        <mat-card-title>
-          {{ title | uppercase }}
-          <i
-            color="warn"
-            [ngClass]="{ 'fa fa-cog fa-spin': loadingData || cardLoading }"
-          ></i>
-          <i
-            *ngIf="!loadingData && !cardLoading"
-            class="material-icons refresh-btn"
-            matTooltip="Refresh Stats"
-            (click)="getMerchandiserList()"
-          >
-            cached
-          </i>
-          <small
-            style="color: lightseagreen !important"
-            class="mtb-5-IMP"
-            *ngIf="loadingReportMessage"
-            >Your file is being prepared for download</small
-          >
-        </mat-card-title>
-  
-        <section class="example-section">
-          <ng-container>
-          <mat-form-field class="example-margin mr-10-IMP">
-            <mat-select
-              placeholder="{{ labels.zoneLabel }}"
-              name="zone"
-              [(ngModel)]="selectedZone"
-              (ngModelChange)="getMerchandiserList();zoneChange()"
-            >
-              <mat-option [value]="zone" *ngFor="let zone of zones">{{
-                zone.title
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-    
-          <mat-form-field
-            *ngIf="regions.length > 0"
-            class="example-margin mr-10-IMP"
-          >
-            <mat-select
-              placeholder="{{ labels.regionLabel }}"
-              name="region"
-              [(ngModel)]="selectedRegion"
-              (ngModelChange)="getMerchandiserList()"
-            >
-              <mat-option [value]="region" *ngFor="let region of regions">{{
-                region.title
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          </ng-container>
-          <ng-container>
-          <mat-form-field
-          *ngIf="supervisorList.length > 0"
-          class="example-margin mr-10-IMP"
+  <mat-card class="mb-20" style="padding-top: 1px; padding-bottom: 1px">
+    <mat-card-content>
+      <mat-card-title>
+        {{ title | uppercase }}
+        <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData || cardLoading }"></i>
+        <i
+          *ngIf="!loadingData && !cardLoading"
+          class="material-icons refresh-btn"
+          matTooltip="Refresh Stats"
+          (click)="getMerchandiserList()"
         >
+          cached
+        </i>
+        <small style="color: lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">
+          Your file is being prepared for download
+        </small>
+      </mat-card-title>
+
+      <section class="example-section">
+        <!-- Zone Select -->
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ labels.zoneLabel }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="getMerchandiserList();zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{ zone.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Region Select -->
+        <mat-form-field *ngIf="regions.length > 0" class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ labels.regionLabel }}"
+            name="region"
+            [(ngModel)]="selectedRegion"
+            (ngModelChange)="getMerchandiserList()"
+          >
+            <mat-option [value]="region" *ngFor="let region of regions">{{ region.title }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Supervisor Select -->
+        <mat-form-field *ngIf="supervisorList.length > 0" class="example-margin mr-10-IMP">
           <mat-select
             placeholder="Supervisors List"
             name="list"
             [(ngModel)]="selectedSupervisor"
             (ngModelChange)="getMerchandiserList()"
           >
-            <ng-container *ngFor="let list of supervisorList">
-              <mat-option [value]="list">{{ list.fullName }}</mat-option>
-            </ng-container>
+            <mat-option [value]="list" *ngFor="let list of supervisorList">{{ list.fullName }}</mat-option>
           </mat-select>
         </mat-form-field>
-      </ng-container>
 
-      <ng-container>
-        <mat-form-field
-        *ngIf="surveyorList.length > 0"
-        class="example-margin mr-10-IMP"
-      >
-        <mat-select
-          placeholder="BA List"
-          name="list"
-          [(ngModel)]="selectedSurveyor"
-          (ngModelChange)="getMerchandiserList()"
-        >
-          <ng-container *ngFor="let list of surveyorList">
-            <mat-option [value]="list">{{ list.fullName }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-    </ng-container>
-  
-  
-          <mat-form-field class="example-full-width mr-10-IMP">
-            <input
-              matInput
-              [min]="minDate"
-              [max]="maxDate"
-              [matDatepicker]="picker0"
-              [(ngModel)]="startDate"
-              placeholder="Choose a start date"
-              (ngModelChange)="getMerchandiserList()"
-              readonly
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker0"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker0></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field class="example-full-width mr-10-IMP">
-            <input
-              matInput
-              [min]="minDate"
-              [max]="maxDate"
-              [matDatepicker]="picker1"
-              [(ngModel)]="endDate"
-              placeholder="Choose a end date"
-              (ngModelChange)="getMerchandiserList()"
-              readonly
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker1"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
-  
-        </section>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        <!-- Surveyor Select -->
+        <mat-form-field *ngIf="surveyorList.length > 0" class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="BA List"
+            name="list"
+            [(ngModel)]="selectedSurveyor"
+            (ngModelChange)="getMerchandiserList()"
+          >
+            <mat-option [value]="list" *ngFor="let list of surveyorList">{{ list.fullName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Alert Type Select (Moved above date pickers) -->
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Alert Type"
+            name="alertType"
+            [(ngModel)]="selectedAlertType"
+            (ngModelChange)="getMerchandiserList()"
+          >
+            <mat-option [value]="alertType" *ngFor="let alertType of alertTypes">{{ alertType }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Start Date Picker -->
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker0"
+            [(ngModel)]="startDate"
+            placeholder="Choose a start date"
+            (ngModelChange)="getMerchandiserList()"
+            readonly
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+          <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+
+        <!-- End Date Picker -->
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker1"
+            [(ngModel)]="endDate"
+            placeholder="Choose an end date"
+            (ngModelChange)="getMerchandiserList()"
+            readonly
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>
+
   
   <ng-container *ngIf="merchandiserList.length > 0">
     <div class="animated slideInLeft">

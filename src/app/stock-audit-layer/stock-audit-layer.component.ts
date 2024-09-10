@@ -213,7 +213,7 @@ export class StockAuditLayerComponent implements OnInit {
         this.Products = response.map((item) => ({
           id: item.id,
           brandId: item.brandId,
-          quantity: item.quantity || 0,
+          quantity: item.quantity,
           title: item.title
         }));
         console.log('Products:', this.Products);
@@ -239,8 +239,8 @@ export class StockAuditLayerComponent implements OnInit {
     formData.append('form_type', 'STOCK_VARIANCE');
     formData.append('user_id', this.rm_id || ''); 
     formData.append('file_type', 'IMAGE');
-    // formData.append('entry_type', 'WEB');
-    // formData.append('user_type', 'DISTRIBUTION');
+    formData.append('entry_type', 'WEB');
+    formData.append('user_type', 'VARIANCE');
     
     // Ensure amount has a default value of 0 if not defined
     formData.append('amount', (this.amount || 0).toString());
@@ -252,7 +252,7 @@ export class StockAuditLayerComponent implements OnInit {
     this.Products.forEach(product => {
         if (product.id && product.brandId !== undefined && product.quantity !== undefined) {
             formData.append(`products[${product.id}].brandId`, product.brandId.toString());
-            formData.append(`products[${product.id}].quantity`, product.quantity.toString());
+            formData.append(`products[${product.id}].quantity`, (product.quantity || 0).toString());
             // Ensure lost has a default value of 0 if not defined
             formData.append(`products[${product.id}].lost`, (product.lost || 0).toString());
         } else {
@@ -313,8 +313,8 @@ export class StockAuditLayerComponent implements OnInit {
     this.endDate = new Date();
     this.selectedSupervisor = null;
     this.Products.forEach(product => {
-      product.quantity = 0;
-      product.lost = 0; 
+      product.quantity = '';
+      product.lost = ''; 
     });
     this.voucherImage = null; 
     this.amount = 0;

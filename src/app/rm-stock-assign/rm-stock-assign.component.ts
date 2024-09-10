@@ -109,7 +109,7 @@ export class RmStockAssignComponent implements OnInit {
           quantity: item.quantity,
           userName: item.userName,
           visitDate: moment(item.date).format('YYYY-MM-DD'),
-          date: moment(item.visit_date).format('YYYY-MM-DD h:mm A'),
+          date: moment(item.visit_date).format('YYYY-MM-DD'),
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];
@@ -274,12 +274,13 @@ export class RmStockAssignComponent implements OnInit {
       (response: any[] | null) => {
         if (response) {
           this.StockDetail = response.map((item) => ({
-            id: item.id,
+            id: item.stockLoadingId,
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
             visitDate: moment(item.date).format('YYYY-MM-DD'),
-            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+            // date: moment(item.visit_date).format('YYYY-MM-DD'),
+            date: moment(item.startTime).format('YYYY-MM-DD'),
             isEditing: false // Initialize editing state
           }));
           this.filteredItems = [...this.StockDetail]; // Update filteredItems
