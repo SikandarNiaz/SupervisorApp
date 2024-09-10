@@ -76,10 +76,10 @@ export class UploadShopsComponent implements OnInit {
     }
   }
   downloadSampleFormat() {
-    const sampleFileUrl = 'assets/Testing-Shops.xlsx'; 
+    const sampleFileUrl = 'assets/Shops-format.xlsx'; 
     const link = document.createElement('a');
     link.href = sampleFileUrl;
-    link.download = 'Testing-Shops.xlsx';
+    link.download = 'Shops-format.xlsx';
     link.click();
   }
   

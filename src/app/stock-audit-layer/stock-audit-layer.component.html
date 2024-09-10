@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-auto d-flex align-items-center" style="margin-left: 10px;">
               <button mat-raised-button color="primary" (click)="openAssignStockModal()">
-                Return Stock
+                Add Variance
               </button>
             </div>
           </div>
@@ -144,7 +144,7 @@
                 <!-- Table rows for specificDetails -->
                 <tr *ngFor="let item of specificDetails; let x = index">
                   <th scope="row" class="text-center">{{ x + 1 }}</th>
-                  <td class="text-center">{{ item.id }}</td>
+                  <!-- <td class="text-center">{{ item.id }}</td> -->
                   <td class="text-center">{{ item.title }}</td>
                   <td class="text-center">{{ item.userName }}</td>
                   <td class="text-center">{{ item.visitDate | date: 'yyyy-MM-dd' }}</td>
@@ -197,7 +197,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Return Stock</h5>
+          <h5 class="modal-title">Variance</h5>
           <button
             type="button"
             class="close"
@@ -240,11 +240,11 @@
                 </div>
                 <div class="col-4">
                   <mat-form-field class="example-full-width product-input">
-                    <mat-label>Return</mat-label>
+                    <!-- <mat-label>Return</mat-label> -->
                     <input
                       matInput
                       [(ngModel)]="product.quantity"
-                      placeholder="Enter Return"
+                      placeholder="Enter Variance"
                     />
                   </mat-form-field>
                 </div>
@@ -290,7 +290,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" (click)="returnStock()">
-            Return Stock
+            Add Variance
           </button>
         </div>
       </div>

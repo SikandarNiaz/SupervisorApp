@@ -23,6 +23,7 @@ export class StockIssueToRmComponent implements OnInit {
   specificDetails: any = null;
   selectedRegion: any;
   itemId: string;
+  voucherImage: File | null = null;
   title = "RM Received";
   Products: any[] = [];
   Regions: any[] = [];
@@ -160,10 +161,10 @@ export class StockIssueToRmComponent implements OnInit {
           id: item.stockLoadingId,
           title: item.title,
           quantity: item.quantity,
-          visitDate: moment(item.date).format('DD-MM-YYYY'),
+          visitDate: moment(item.date).format('YYYY-MM-DD'),
+          date: moment(item.visit_date).format('YYYY-MM-DD'),
           userName: item.userName,
-          date: moment(item.visit_date).format('DD-MM-YYYY h:mm A'),
-          isEditing: false // Initialize editing state
+          isEditing: false 
         }));
         this.filteredItems = [...this.StockDetail1];
         this.showForms = true; 
@@ -197,13 +198,13 @@ export class StockIssueToRmComponent implements OnInit {
     this.dashboardService.getRmSpecificDetail(id,visitDate,formType).subscribe(
       (response: any[] | null) => {
         if (response) {
-          this.StockDetail = response.map((item) => ({
+          this.specificDetails = response.map((item) => ({
             id: item.stockLoadingId,
             title: item.title,
             quantity: item.quantity,
             userName: item.userName,
-            visitDate: moment(item.date).format('DD-MM-YYYY'),
-            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+            visitDate: moment(item.date).format('YYYY-MM-DD'),
+            date: moment(item.startTime).format('YYYY-MM-DD'),
             isEditing: false // Initialize editing state
           }));
           this.filteredItems = [...this.StockDetail]; 
@@ -211,7 +212,7 @@ export class StockIssueToRmComponent implements OnInit {
           console.log("Fetched Data:", this.StockDetail);
         } else {
           console.error('No data returned from fetchSpecificDetails');
-          this.StockDetail = [];
+          this.specificDetails = [];
           this.filteredItems = [];
           this.showForms = false; 
         }
@@ -234,6 +235,9 @@ export class StockIssueToRmComponent implements OnInit {
     formData.append('user_id', this.rm_id);
     formData.append('entry_type', 'WEB');
     formData.append('user_type', 'DISTRIBUTION');
+    if (this.voucherImage) {
+      formData.append('voucherImage', this.voucherImage); 
+  }
     
 
     this.Products.forEach(product => {
@@ -259,6 +263,12 @@ export class StockIssueToRmComponent implements OnInit {
         console.error('Error assigning stock', error);
       }
     );
+  }
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files.length > 0) {
+      this.voucherImage = input.files[0];
+    }
   }
 
   startEditing(item: any): void {

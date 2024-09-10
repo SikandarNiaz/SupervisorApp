@@ -33,12 +33,14 @@ export class AlertsViewComponent implements OnInit {
   supervisorList: any = [];
   selectedSupervisor: any = [];
   selectedSurveyor: any = [];
+  selectedAlertType: string;
   p = 1;
   sortOrder = true;
   sortBy: "m_code";
   projectType: any;
   labels: any;
     surveyorList: any = [];
+    alertTypes: string[] = [];
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService
@@ -66,8 +68,23 @@ export class AlertsViewComponent implements OnInit {
     this.getSupervisor();
     this.getSupervisorList();
     this.sortIt("m_code");
+    this.gettingAlertsType();
     this.userId = localStorage.getItem("user_id");
   }
+
+
+  gettingAlertsType() {
+    this.httpService.gettingAlertsType().subscribe(
+      (response: any[]) => {
+        this.alertTypes = response;// Use appropriate key if it's not `alertType`
+        console.log('Alert Types:', this.alertTypes);
+      },
+      (error) => {
+        console.error('Error fetching Alert Types:', error);
+      }
+    );
+  }
+  
 
   getZoneList() {
     this.loading = true;
@@ -149,6 +166,7 @@ export class AlertsViewComponent implements OnInit {
       selectedSurveyor: this.selectedSurveyor.id || -1,
       selectedEvaluator: this.selectedEvaluator.id || -1,
       userTypeId: this.userTypeId,
+      alertType: this.selectedAlertType || -1,
       startDate: moment(this.startDate).format("YYYY-MM-DD"),
       endDate: moment(this.endDate).format("YYYY-MM-DD"),
     };
