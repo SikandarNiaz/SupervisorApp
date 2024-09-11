@@ -72,12 +72,14 @@
             placeholder="Alert Type"
             name="alertType"
             [(ngModel)]="selectedAlertType"
-            (ngModelChange)="getMerchandiserList()"
+            (ngModelChange)="onAlertTypeChange($event)"
           >
-            <mat-option [value]="alertType" *ngFor="let alertType of alertTypes">{{ alertType }}</mat-option>
+            <mat-option *ngFor="let alertType of alertTypes" [value]="alertType">
+              {{ alertType }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
-
+        
         <!-- Start Date Picker -->
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
