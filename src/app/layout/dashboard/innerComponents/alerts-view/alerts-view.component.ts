@@ -33,7 +33,6 @@ export class AlertsViewComponent implements OnInit {
   supervisorList: any = [];
   selectedSupervisor: any = [];
   selectedSurveyor: any = [];
-  selectedAlertType: string;
   p = 1;
   sortOrder = true;
   sortBy: "m_code";
@@ -41,6 +40,7 @@ export class AlertsViewComponent implements OnInit {
   labels: any;
     surveyorList: any = [];
     alertTypes: string[] = [];
+    selectedAlertType: string | number = -1; 
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService
@@ -76,7 +76,8 @@ export class AlertsViewComponent implements OnInit {
   gettingAlertsType() {
     this.httpService.gettingAlertsType().subscribe(
       (response: any[]) => {
-        this.alertTypes = response;// Use appropriate key if it's not `alertType`
+        // Add "All" option to the alertTypes array
+        this.alertTypes = ['All', ...response];
         console.log('Alert Types:', this.alertTypes);
       },
       (error) => {
@@ -84,6 +85,12 @@ export class AlertsViewComponent implements OnInit {
       }
     );
   }
+  onAlertTypeChange(selectedValue: string | number) {
+    // Update selectedAlertType based on the selection
+    this.selectedAlertType = selectedValue === 'All' ? -1 : selectedValue;
+    this.getMerchandiserList(); // Call method to fetch data based on the new alertType
+  }
+
   
 
   getZoneList() {
@@ -119,7 +126,7 @@ export class AlertsViewComponent implements OnInit {
       (data) => {
         const res: any = data;
         if (res) {
-          this.surveyorList = res;
+          this.surveyorList = [{ id: -1, fullName: 'All' }, ...res];
           this.loadingData = false;
         } else {
           this.loadingData = false;
@@ -262,7 +269,7 @@ export class AlertsViewComponent implements OnInit {
       (data) => {
         const res: any = data;
         if (res) {
-          this.supervisorList = res;
+          this.supervisorList = [{ id: -1, fullName: 'All' }, ...res];
           console.log("supervisors",this.supervisorList)
         } else {
           this.loading = false;
