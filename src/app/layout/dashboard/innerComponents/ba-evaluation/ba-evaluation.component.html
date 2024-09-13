@@ -187,6 +187,12 @@
                       {{ getArrowType("captured_shops") }}
                     </i>
                   </th>
+                  <th (click)="sortIt('value')" style="cursor: pointer">
+                    Overall Feedback
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("value") }}
+                    </i>
+                  </th>
                   <!-- <th (click)="sortIt('Achievement')" style="cursor: pointer">
                     Achievement%
                     <i class="material-icons arrow material-icons-arrow">
@@ -240,6 +246,7 @@
                   >
                     {{ item?.captured_shops }}
                   </td>
+                  <td>{{ item?.value }}</td>
                   <!-- <td>{{ item?.Achievement }}</td> -->
                   <!-- <td>{{ item?.evaluated_shops }}</td>
                   <td>{{ item?.approved_shops }}</td>
