@@ -139,10 +139,10 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th (click)="sortIt('user_code')" style="cursor: pointer">
-                    Code
+                  <th (click)="sortIt('surveyor_code')" style="cursor: pointer">
+                    Surveyor Code
                     <i class="material-icons arrow material-icons-arrow">
-                      {{ getArrowType("user_code") }}
+                      {{ getArrowType("surveyor_code") }}
                     </i>
                   </th>
                   <!-- <th (click)="sortIt('user_name')" style="cursor: pointer">
@@ -157,12 +157,18 @@
                       {{ getArrowType("m_code") }}
                     </i>
                   </th>
-                  <th (click)="sortIt('full_name')" style="cursor: pointer">
+                  <th (click)="sortIt('user_code')" style="cursor: pointer">
+                    Supervisor Code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("user_code") }}
+                    </i>
+                  </th>
+                  <!-- <th (click)="sortIt('full_name')" style="cursor: pointer">
                     BA Name
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("full_name") }}
                     </i>
-                  </th>
+                  </th> -->
                   <th (click)="sortIt('shop_title')" style="cursor: pointer">
                     Shop Name
                     <i class="material-icons arrow material-icons-arrow">
@@ -231,10 +237,11 @@
                     let item of merchandiserList | orderBy: sortBy:sortOrder
                   "
                 >
-                  <td>{{ item?.user_code }}</td>
+                  <td>{{ item?.surveyor_code }}</td>
                   <!-- <td>{{ item?.user_name }}</td> -->
                   <td>{{ item?.m_code }}</td>
-                  <td>{{ item?.full_name }}</td>
+                  <!-- <td>{{ item?.full_name }}</td> -->
+                  <td>{{ item?.user_code }}</td>
                   <td>{{ item?.shop_title }}</td>
                   <td>{{ item?.visit_date }}</td>
                   <!-- <td>{{ item?.totalTarget }}</td> -->
