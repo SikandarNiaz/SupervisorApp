@@ -12,7 +12,7 @@
         >
           cached
         </i>
-        <small style="color: lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">
+        <small style="color: lightseagreen; margin-top: 5px; margin-bottom: 5px;" *ngIf="loadingReportMessage">
           Your file is being prepared for download
         </small>
       </mat-card-title>
@@ -24,7 +24,7 @@
             placeholder="{{ labels.zoneLabel }}"
             name="zone"
             [(ngModel)]="selectedZone"
-            (ngModelChange)="getMerchandiserList();zoneChange()"
+            (ngModelChange)="getMerchandiserList(); zoneChange()"
           >
             <mat-option [value]="zone" *ngFor="let zone of zones">{{ zone.title }}</mat-option>
           </mat-select>
@@ -46,7 +46,7 @@
         <mat-form-field *ngIf="supervisorList.length > 0" class="example-margin mr-10-IMP">
           <mat-select
             placeholder="Supervisors List"
-            name="list"
+            name="supervisor"
             [(ngModel)]="selectedSupervisor"
             (ngModelChange)="getMerchandiserList()"
           >
@@ -58,7 +58,7 @@
         <mat-form-field *ngIf="surveyorList.length > 0" class="example-margin mr-10-IMP">
           <mat-select
             placeholder="BA List"
-            name="list"
+            name="surveyor"
             [(ngModel)]="selectedSurveyor"
             (ngModelChange)="getMerchandiserList()"
           >
@@ -66,7 +66,7 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- Alert Type Select (Moved above date pickers) -->
+        <!-- Alert Type Select -->
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
             placeholder="Alert Type"
@@ -79,7 +79,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        
+
         <!-- Start Date Picker -->
         <mat-form-field class="example-full-width mr-10-IMP">
           <input
@@ -97,24 +97,41 @@
         </mat-form-field>
 
         <!-- End Date Picker -->
-        <mat-form-field class="example-full-width mr-10-IMP">
-          <input
-            matInput
-            [min]="minDate"
-            [max]="maxDate"
-            [matDatepicker]="picker1"
-            [(ngModel)]="endDate"
-            placeholder="Choose an end date"
-            (ngModelChange)="getMerchandiserList()"
-            readonly
-          />
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
+       <!-- End Date Picker and Download Button in the same row -->
+<div class="flex-container">
+  <!-- End Date Picker -->
+  <mat-form-field class="mr-10-IMP" style="width: auto;">
+    <input
+      matInput
+      [min]="minDate"
+      [max]="maxDate"
+      [matDatepicker]="picker1"
+      [(ngModel)]="endDate"
+      placeholder="Choose an end date"
+      (ngModelChange)="getMerchandiserList()"
+      readonly
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
+  <!-- Download Button -->
+  <button mat-button [matMenuTriggerFor]="menu" class="download-icon">
+    <i style="font-size: 30px;" class="fa fa-cloud-download" aria-hidden="true"></i>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="downloadAsExcelFile(merchandiserData)">Excel</button>
+    <button mat-menu-item (click)="downloadAsPDF(merchandiserData)">PDF</button>
+    <button mat-menu-item (click)="downloadAsCSV(merchandiserData)">CSV</button>
+  </mat-menu>
+</div>
+
       </section>
     </mat-card-content>
   </mat-card>
 </div>
+
+
 
   
   <ng-container *ngIf="merchandiserList.length > 0">
@@ -125,6 +142,18 @@
             <table class="table table-hover">
               <thead>
                 <tr>
+                  <th (click)="sortIt('created_datetime')" style="cursor: pointer">
+                    Alert Date & Time
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("created_datetime") }}
+                    </i>
+                  </th>
+                  <th (click)="sortIt('user_code')" style="cursor: pointer">
+                    Supervisor code
+                    <i class="material-icons arrow material-icons-arrow">
+                      {{ getArrowType("user_code") }}
+                    </i>
+                  </th>
                   <th (click)="sortIt('m_code')" style="cursor: pointer">
                     BA Code
                     <i class="material-icons arrow material-icons-arrow">
@@ -137,12 +166,7 @@
                       {{ getArrowType("full_name") }}
                     </i>
                   </th> -->
-                  <th (click)="sortIt('user_code')" style="cursor: pointer">
-                    Supervisor code
-                    <i class="material-icons arrow material-icons-arrow">
-                      {{ getArrowType("user_code") }}
-                    </i>
-                  </th>
+                  
                   <!-- <th (click)="sortIt('user_name')" style="cursor: pointer">
                     Supervisor Name
                     <i class="material-icons arrow material-icons-arrow">
@@ -161,18 +185,13 @@
                       {{ getArrowType("alert_message") }}
                     </i>
                   </th>
-                  <th (click)="sortIt('alert_date')" style="cursor: pointer">
+                  <!-- <th (click)="sortIt('alert_date')" style="cursor: pointer">
                     Alert Date
                     <i class="material-icons arrow material-icons-arrow">
                       {{ getArrowType("alert_date") }}
                     </i>
-                  </th>
-                  <th (click)="sortIt('created_datetime')" style="cursor: pointer">
-                    Alert Time
-                    <i class="material-icons arrow material-icons-arrow">
-                      {{ getArrowType("created_datetime") }}
-                    </i>
-                  </th>
+                  </th> -->
+                 
                   <!-- <th></th> -->
                 </tr>
               </thead>
@@ -184,9 +203,11 @@
                     let item of merchandiserList | orderBy: sortBy:sortOrder
                   "
                 >
+                <td>{{ item?.created_datetime }}</td>
+                <td>{{ item?.user_code }}</td>
                   <td>{{ item?.m_code }}</td>
                   <!-- <td>{{ item?.full_name }}</td> -->
-                  <td>{{ item?.user_code }}</td>
+                 
                   <!-- <td>{{ item?.user_name }}</td> -->
                   <td>{{ item?.alert_type }}</td>
                   <!-- <td style="color:blue;cursor:pointer" [routerLink]="['/dashboard/evaluation/list']" [queryParams]="{ surveyorId: item.id,startDate: modifyDate(startDate),endDate: modifyDate(startDate)}">
@@ -198,8 +219,8 @@
                     {{ item?.captured_shops }}
                   </td> -->
                   <td>{{ item?.alert_message }}</td>
-                  <td>{{ item?.alert_date }}</td>
-                  <td>{{ item?.created_datetime }}</td>
+                  <!-- <td>{{ item?.alert_date }}</td> -->
+                 
                   
                   <!-- <td *ngIf="item?.captured_shops==item?.evaluated_shops">
                                       <img src="./assets/images/Checked-Checkbox-icon.png" alt="">
