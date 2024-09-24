@@ -136,7 +136,7 @@
             <div class="col" *ngIf="projectType !== 'SAMSUNG' || projectType !== 'DALDA_NSM'">
               <img src="{{ ip }}{{ selectedItem.day_start_image_url }}" alt="" />
             </div>
-            <div class="col" *ngIf="projectType === 'SAMSUNG'">
+            <div class="col" *ngIf="projectType === 'SAMSUNG' || projectType !== 'PTC'">
               <img src="{{ selectedItem.cnic_img }}" alt="" />
             </div>
             <div class="col" *ngIf="projectType === 'DALDA_NSM'">
