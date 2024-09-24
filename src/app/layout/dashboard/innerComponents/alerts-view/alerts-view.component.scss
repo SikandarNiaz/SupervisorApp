@@ -1,0 +1,14 @@
+.flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Ensure the elements are aligned to the left */
+  }
+  
+  .mat-form-field {
+    width: auto; /* Allow the form field to take its natural width */
+  }
+  
+  .download-icon {
+    margin-left: 10px; /* Add space between the end date and download icon */
+  }
+  
