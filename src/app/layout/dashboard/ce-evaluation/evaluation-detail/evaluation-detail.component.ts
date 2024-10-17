@@ -199,12 +199,21 @@ export class EvaluationDetailComponent implements OnInit {
 
   loadSupervisors() {
     this.loading = true;
-
+  
     this.httpService.getSupervisors().subscribe(
       (data) => {
         const res: any = data;
         if (res) {
-          this.supervisorList = res;
+          // Iterate through the response and add a label for the supervisor with id -1
+          this.supervisorList = res.map((supervisor: any) => {
+            if (supervisor.id === -1) {
+              return {
+                ...supervisor,
+                fullName: 'All'
+              };
+            }
+            return supervisor;
+          });
         } else {
           this.loading = false;
           this.toastr.info(
@@ -212,7 +221,7 @@ export class EvaluationDetailComponent implements OnInit {
             "Connectivity Message"
           );
         }
-
+  
         setTimeout(() => {
           this.loading = false;
         }, 500);

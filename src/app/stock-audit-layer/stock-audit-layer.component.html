@@ -114,7 +114,7 @@
                   <th scope="row" class="text-center">{{ x + 1 }}</th>
                   <td class="text-center">{{ item.title }}</td>
                   <td class="text-center">{{ item.userName }}</td>
-                  <td class="text-center">{{ item.visitDate | date: 'yyyy-MM-dd' }}</td>
+                  <td class="text-center">{{ item.date  }}</td>
                   <td class="text-center">
                     <ng-container *ngIf="!item.isEditing">
                       {{ item.quantity }}
@@ -142,12 +142,12 @@
                   </td>
                 </tr>
                 <!-- Table rows for specificDetails -->
-                <tr *ngFor="let item of specificDetails; let x = index">
+                <tr *ngFor="let item of StockDetail1; let x = index">
                   <th scope="row" class="text-center">{{ x + 1 }}</th>
                   <!-- <td class="text-center">{{ item.id }}</td> -->
                   <td class="text-center">{{ item.title }}</td>
                   <td class="text-center">{{ item.userName }}</td>
-                  <td class="text-center">{{ item.visitDate | date: 'yyyy-MM-dd' }}</td>
+                  <td class="text-center">{{ item.date}}</td>
                   <td class="text-center">
                     <ng-container *ngIf="!item.isEditing">
                       {{ item.quantity }}

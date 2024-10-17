@@ -57,15 +57,15 @@ export class StockAuditLayerComponent implements OnInit {
     this.gettingRmList();
     // this.gettingRmStockDetail();  
 
-    this.route.queryParams.subscribe(params => {
-      const id = params['id'];
-      const visitDate = params['visitDate'];
-      if (id && visitDate) {
-        this.fetchSpecificDetails(id, visitDate,this.formType);
-      } else {
-        // this.gettingRmStockDetail();  // Fetch stock details when there's no specific ID
-      }
-    });
+    // this.route.queryParams.subscribe(params => {
+    //   const id = params['id'];
+    //   const visitDate = params['visitDate'];
+    //   if (id && visitDate) {
+    //     this.fetchSpecificDetails(id, visitDate,this.formType);
+    //   } else {
+        
+    //   }
+    // });
   }
   sortByField(field: string): void {
     this.sortBy = field;
@@ -162,8 +162,8 @@ export class StockAuditLayerComponent implements OnInit {
           title: item.title,
           quantity: item.quantity,
           userName: item.userName,
-          visitDate: moment(item.date).format('DD-MM-YYYY'),
-          date: moment(item.visit_date).format('DD-MM-YYYY h:mm A'),
+          visitDate: moment(item.date).format('YYYY-MM-DD'),
+          date: moment(item.visit_date).format('YYYY-MM-DD'),
           isEditing: false // Initialize editing state
         }));
         this.filteredItems = [...this.StockDetail1];
@@ -176,37 +176,37 @@ export class StockAuditLayerComponent implements OnInit {
       }
     );
   }
-  fetchSpecificDetails(id: number, visitDate: string,formType: string): void {
-    console.log("formTyep",formType)
-    this.dashboardService.getRmSpecificDetail(id,visitDate,formType).subscribe(
-      (response: any[] | null) => {
-        if (response) {
-          this.StockDetail = response.map((item) => ({
-            id: item.stockLoadingId,
-            title: item.title,
-            quantity: item.quantity,
-            userName: item.userName,
-            visitDate: moment(item.date).format('DD-MM-YYYY'),
-            date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
-            isEditing: false // Initialize editing state
-          }));
-          this.filteredItems = [...this.StockDetail];
-          this.showForms = true; // Update filteredItems
-          console.log("Fetched Data:", this.StockDetail);
-        } else {
-          console.error('No data returned from fetchSpecificDetails');
-          this.StockDetail = [];
-          this.filteredItems = [];
-          this.showForms = false;
-        }
-      },
-      (error) => {
-        console.error('Error fetching specific details:', error);
-        this.StockDetail = [];
-        this.filteredItems = [];
-      }
-    );
-  }
+  // fetchSpecificDetails(id: number, visitDate: string,formType: string): void {
+  //   console.log("formTyep",formType)
+  //   this.dashboardService.getRmSpecificDetail(id,visitDate,formType).subscribe(
+  //     (response: any[] | null) => {
+  //       if (response) {
+  //         this.StockDetail = response.map((item) => ({
+  //           id: item.stockLoadingId,
+  //           title: item.title,
+  //           quantity: item.quantity,
+  //           userName: item.userName,
+  //           visitDate: moment(item.date).format('YYYY-MM-DD'),
+  //           date: moment(item.startTime).format('YYYY-MM-DD h:mm A'),
+  //           isEditing: false // Initialize editing state
+  //         }));
+  //         this.filteredItems = [...this.StockDetail];
+  //         this.showForms = true; // Update filteredItems
+  //         console.log("Fetched Data:", this.StockDetail);
+  //       } else {
+  //         console.error('No data returned from fetchSpecificDetails');
+  //         this.StockDetail = [];
+  //         this.filteredItems = [];
+  //         this.showForms = false;
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching specific details:', error);
+  //       this.StockDetail = [];
+  //       this.filteredItems = [];
+  //     }
+  //   );
+  // }
   gettingProducts() {
     this.dashboardService.gettingProducts().subscribe(
       (response: any[]) => {
