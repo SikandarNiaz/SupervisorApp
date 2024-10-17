@@ -21,8 +21,15 @@
         <label class="title" for="title">{{ selectedImage?.title }}</label>
         <div style="position: relative">
           <img
-            *ngIf="!selectedImage?.isExternalUrl"
+            *ngIf="!selectedImage?.isExternalUrl && projectType !== 'IFFCO'"
             src="{{ ip }}{{ selectedImage?.url }}"
+            class="img-thumbnail"
+            style="height: 450px; width: 100%"
+            (click)="showChildModal(selectedImage)"
+          />
+          <img
+            *ngIf="!selectedImage?.isExternalUrl && projectType == 'IFFCO'"
+            src="{{ selectedImage?.url }}"
             class="img-thumbnail"
             style="height: 450px; width: 100%"
             (click)="showChildModal(selectedImage)"

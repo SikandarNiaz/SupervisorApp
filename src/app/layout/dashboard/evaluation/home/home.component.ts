@@ -169,9 +169,11 @@ export class HomeComponent implements OnInit {
       (data) => {
         if (data) {
           this.data = data;
+          console.log("Data ",data)
           this.surveyDetails = this.data.shopDetails.surveyDetails;
           document.title = this.data.section[0].sectionTitle;
           // tslint:disable-next-line:triple-equals
+          debugger
           if (this.projectType == "PG_UAE" && this.userType == 7) {
             this.isEditable = true;
           } else if (

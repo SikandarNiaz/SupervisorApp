@@ -102,6 +102,10 @@
                 <th>Evaluation Status</th>
                 <td>{{ item?.evaluation_status }}</td>
               </tr>
+              <tr *ngIf="projectType == 'IFFCO'">
+                <th>Interception Status</th>
+                <td>{{ item?.status }}</td>
+              </tr>
             </table>
           </mat-card-content>
         </mat-card>

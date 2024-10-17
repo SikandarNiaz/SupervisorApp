@@ -19,12 +19,14 @@ import { environment } from "src/environments/environment";
 export class InterceptionSummaryComponent implements OnInit {
   dashboardStatsObj: any={};
   filteredList: any;
+  userTypeId: any;
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
     public router: Router
   ) {
     this.labels = JSON.parse(localStorage.getItem("labelProperties"));
+    this.userTypeId = localStorage.getItem("user_type");
     console.log(this.zones);
   }
   labels: any;
@@ -251,17 +253,39 @@ export class InterceptionSummaryComponent implements OnInit {
     return moment(date).format("YYYY-MM-DD");
   }
 
+  // goToNewPage(item) {
+  //   window.open(
+  //     `${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${
+  //       item.id
+  //     }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
+  //       this.endDate
+  //     )}`,
+  //     "_blank"
+  //   );
+  // }
+
   goToNewPage(item) {
+    if(this.projectType == "IFFCO"){
     window.open(
-      `${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${
+      `${environment.hash}dashboard/evaluation/list/home?surveyorId=${
         item.id
       }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
         this.endDate
-      )}`,
+      )}&userType=${this.userTypeId}`,
       "_blank"
     );
+  } else{
+    window.open(
+          `${environment.hash}dashboard/merchandiserAttendanceDetail?surveyorId=${
+            item.id
+          }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
+            this.endDate
+          )}`,
+          "_blank"
+        );
   }
-
+  }
+  
   getStores() {
     this.loading = true;
     this.httpService
