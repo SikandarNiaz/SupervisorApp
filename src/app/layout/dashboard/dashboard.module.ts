@@ -131,6 +131,7 @@ import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluat
 import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.component";
 import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
 import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.component";
+import { SupervisorAttendenceDetailComponent } from "src/app/supervisor-attendence-detail/supervisor-attendence-detail.component";
 
 
 
@@ -265,7 +266,8 @@ import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.c
   UploadSurveyorRoutesComponent,
   UploadShopsComponent,
   StockAuditLayerComponent,
-  AlertsViewComponent
+  AlertsViewComponent,
+  SupervisorAttendenceDetailComponent
 
 
   

@@ -265,7 +265,7 @@ export class InterceptionSummaryComponent implements OnInit {
   // }
 
   goToNewPage(item) {
-    if(this.projectType == "IFFCO"){
+    if(this.projectType == "IFFCO" || this.projectType == "DAYFRESH"){
     window.open(
       `${environment.hash}dashboard/evaluation/list/home?surveyorId=${
         item.id

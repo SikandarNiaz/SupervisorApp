@@ -82,7 +82,7 @@ import { UploadSurveyorRoutesComponent } from "src/app/upload-surveyor-routes/up
 
 import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.component";
 import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
-
+import { SupervisorAttendenceDetailComponent } from "src/app/supervisor-attendence-detail/supervisor-attendence-detail.component";
 import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.component";
 
 
@@ -327,6 +327,10 @@ const routes: Routes = [
   {
     path: "app-stock-audit-layer",
     component: StockAuditLayerComponent,
+  },
+  {
+    path: "supervisorAttendanceDetail",
+    component: SupervisorAttendenceDetailComponent,
   },
   
 
