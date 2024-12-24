@@ -10,6 +10,8 @@ import { RouteTrackerComponent } from './route-tracker/route-tracker.component';
 import { NdnVoLiveTrackingComponent } from './ndn-vo-live-tracking/ndn-vo-live-tracking-component';
 import { NdnRouterTrackerComponent } from './ndn-router-tracker/ndn-router-tracker.component';
 import { PtcRouteTrackerComponent } from './ptc-router-tracker/ptc-router-tracker.component';
+import { TransmedVoLiveTrackingComponent } from './transmed-tracking/transmed-vo-live-tracking.component';
+import { TransmedRouteTrackerComponent } from './transmed-router-tracker/transmed-router-tracker.component';
 const routes: Routes = [
   { path: '',redirectTo:'list' ,pathMatch:'full' },
   { path: 'list', component:MainComponent,
@@ -32,7 +34,9 @@ children:[
   {
     path:"ptc-routerTracking",
     component:PtcRouteTrackerComponent
-  },                
+  },
+  { path: 'transmed-tracking',component:TransmedVoLiveTrackingComponent },
+  { path: 'transmed-routerTracking',component:TransmedRouteTrackerComponent },              
 
   // { path: 'vo-live-tracking/:surveyorId', component: VoLiveTrackingComponent }
   

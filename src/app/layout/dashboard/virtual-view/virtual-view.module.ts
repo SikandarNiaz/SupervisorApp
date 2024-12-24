@@ -45,9 +45,13 @@ import { Ng2OrderModule } from "ng2-order-pipe";
 import { NdnVoLiveTrackingComponent } from "./ndn-vo-live-tracking/ndn-vo-live-tracking-component";
 import { NdnRouterTrackerComponent } from "./ndn-router-tracker/ndn-router-tracker.component";
 import { PtcRouteTrackerComponent } from "./ptc-router-tracker/ptc-router-tracker.component";
+import { TransmedVoLiveTrackingComponent } from "./transmed-tracking/transmed-vo-live-tracking.component";
+import { TransmedRouteTrackerComponent } from "./transmed-router-tracker/transmed-router-tracker.component";
 
 @NgModule({
-  declarations: [VoTrackingComponent,DataTrackingComponent,UnvisistedMapComponent,RouteTrackerComponent, CapturedShopsComponent,VoLiveTrackingComponent,MainComponent,NdnVoLiveTrackingComponent,NdnRouterTrackerComponent,PtcRouteTrackerComponent],
+  declarations: [VoTrackingComponent,DataTrackingComponent,UnvisistedMapComponent,RouteTrackerComponent, CapturedShopsComponent,VoLiveTrackingComponent,MainComponent,NdnVoLiveTrackingComponent,NdnRouterTrackerComponent,PtcRouteTrackerComponent,
+    TransmedVoLiveTrackingComponent,TransmedRouteTrackerComponent
+  ],
   imports: [
     CommonModule,
     VirtualViewRoutingModule,
