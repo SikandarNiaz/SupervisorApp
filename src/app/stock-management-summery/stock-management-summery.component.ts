@@ -19,7 +19,7 @@ const routes: Routes = [
   styleUrls: ['./stock-management-summery.component.css']
 })
 export class StockManagementSummeryComponent implements OnInit {
-
+projectType : any;
   loadingData: boolean = false;
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2100, 0, 1);
@@ -47,6 +47,7 @@ export class StockManagementSummeryComponent implements OnInit {
   ngOnInit(): void {
     this.gettingSupervisors();
     this.getZone();
+    this.projectType = localStorage.getItem('projectType');
   }
 
 

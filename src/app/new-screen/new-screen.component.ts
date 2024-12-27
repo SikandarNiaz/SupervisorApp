@@ -400,9 +400,9 @@ export class NewScreenComponent  implements OnInit {
       console.log("Rating value to send:", this.ratingValueToSend);
     }
     let dataType;
-    if (this.newfeildtype === 'single_selection' || this.newfeildtype === 'multi_selection'|| this.newfeildtype === 'form'|| this.newfeildtype === 'image'||this.newfeildtype === 'date'||this.newfeildtype === 'rating'||this.newfeildtype === 'multi_text'||this.newfeildtype === 'exist_question') {
+    if (this.newfeildtype === 'single_selection' || this.newfeildtype === 'multi_selection'|| this.newfeildtype === 'form'|| this.newfeildtype === 'image'||this.newfeildtype === 'date'||this.newfeildtype === 'rating'||this.newfeildtype === 'multi_text'||this.newfeildtype === 'exist_question' || this.newfeildtype === 'form_value') {
         dataType = 1;
-    } else if (this.newfeildtype === 'text_field') {
+    } else if (this.newfeildtype === 'text_field' || this.newfeildtype === 'bar_code' || this.newfeildtype === 'switch_type') {
       // Check the value of textFieldType to set dataType
       if (this.textFieldType === 'numeric') {
         dataType = 2;
@@ -1106,6 +1106,35 @@ onNestedRadioChange(data: any, optionIndex: number) {
       // Handle the case where optionIndex is out of bounds
   }
 }
+onNestedRadioChange1(data: any, optionIndex: number) {
+  debugger;
+
+  // Extracting form_field_id and formvalue_ids from the data object
+  const formFieldId = data.formfeild_id;
+  const formValueIdsString = data.formvalue_ids;
+
+  // Ensure formValueIdsString is defined and is a string before splitting
+  if (typeof formValueIdsString === 'string') {
+    // Splitting the formvalue_ids string by comma to get individual IDs
+    const formValueIdsArray = formValueIdsString.split(',');
+
+    // Ensure that optionIndex is within bounds
+    if (optionIndex >= 0 && optionIndex < formValueIdsArray.length) {
+      // Retrieve the selected form value ID using optionIndex
+      const selectedFormValueId = formValueIdsArray[optionIndex];
+
+      // Call childVisibility1 with the selectedFormValueId and formFieldId
+      this.childVisibility1(selectedFormValueId, data.formfeild_id);
+    } else {
+      console.error('Invalid optionIndex:', optionIndex);
+      // Handle the case where optionIndex is out of bounds
+    }
+  } else {
+    console.error('formValueIdsString is not a valid string:', formValueIdsString);
+    // Handle the case where formValueIdsString is not a string
+  }
+}
+
 
 
 

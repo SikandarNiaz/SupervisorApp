@@ -122,18 +122,25 @@
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('lost')">
+                  <th *ngIf="projectType !== 'NFL'" scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('lost')">
                     Lost
                     <i *ngIf="sortBy === 'lost'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
-                  <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('cash_collected')">
+                  <th *ngIf="projectType !== 'NFL'" scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('cash_collected')">
                     Cash Collected
                     <i *ngIf="sortBy === 'cash_collected'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
                       arrow_upward
                     </i>
                   </th>
+                  <th *ngIf="projectType !== 'PTC'" scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('assign_to_ba')">
+                    Assign to BA
+                    <i *ngIf="sortBy === 'assign_to_ba'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
+                      arrow_upward
+                    </i>
+                  </th>
+                  
                   <th scope="col" class="text-center" style="cursor: pointer;" (click)="sortIt('balance')">
                     Balance
                     <i *ngIf="sortBy === 'balance'" class="material-icons arrow material-icons-arrow" [ngClass]="{ 'asc': sortOrder, 'desc': !sortOrder }">
@@ -149,8 +156,9 @@
                   <td class="text-center">{{ formatDate(item.visit_date) }}</td>
                   <td class="text-center clickable" (click)="goToEvaluation(item.id, item.visit_date)">{{ item.issuance }}</td>
                   <td class="text-center clickable" (click)="goToEvaluation1(item.id, item.visit_date)">{{ item.return_value }}</td>
-                  <td class="text-center">{{ item.lost }}</td>
-                  <td class="text-center">{{ item.cash_collected }}</td>
+                  <td *ngIf="projectType !== 'NFL'" class="text-center">{{ item.lost }}</td>
+                   <td *ngIf="projectType !== 'NFL'" class="text-center">{{ item.cash_collected }}</td>
+                   <td *ngIf="projectType !== 'PTC'" class="text-center">{{ item.assign_to_ba }}</td>
                   <td class="text-center">{{ item.balance }}</td>
                 </tr>
               </tbody>
