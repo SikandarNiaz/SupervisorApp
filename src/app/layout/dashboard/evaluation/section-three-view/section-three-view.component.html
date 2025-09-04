@@ -11,6 +11,8 @@
         ><i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
       </h4>
     </div>
+
+    <!-- Images Section -->
     <ng-container *ngIf="data?.imageList.length > 0">
       <div
         [ngClass]="{
@@ -22,7 +24,7 @@
         <div style="position: relative">
           <img
             *ngIf="!selectedImage?.isExternalUrl && projectType !== 'IFFCO'"
-            src="{{ ip }}{{ selectedImage?.url }}"
+            [src]="selectedImage?.url?.includes('https') ? selectedImage.url : ip + selectedImage.url"
             class="img-thumbnail"
             style="height: 450px; width: 100%"
             (click)="showChildModal(selectedImage)"
@@ -47,6 +49,7 @@
             </p>
           </div>
         </div>
+
         <div class="col-12 ml-3 mt-2">
           <div class="row">
             <ng-container *ngFor="let img of data?.imageList; let i = index">
@@ -58,7 +61,7 @@
               >
                 <img
                   *ngIf="!img?.isExternalUrl"
-                  src="{{ ip }}{{ img?.url }} "
+                  [src]="img?.url?.includes('https') ? img.url : ip + img.url"
                   width="100"
                   class="img-thumbnail side-image"
                   style="height: 80px !important; width: 120px !important"
@@ -77,6 +80,7 @@
       </div>
     </ng-container>
 
+    <!-- Form Table Section -->
     <ng-container *ngIf="(formData | json) != null && formData?.length > 0">
       <div
         class="tableFixHead"
@@ -88,14 +92,20 @@
         <table class="table table-bordered table-hover w-100">
           <thead style="background: lightgray">
             <tr>
-              <!-- <th>Brand Title</th> -->
               <th>Question</th>
               <th>Answer</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let data of formData">
+            <tr
+              *ngFor="let data of formData"
+              [hidden]="
+                // Hide child questions if parent Q304 != YES
+                (childQuestions.some(c => c.id === data.value.id) &&
+                getAnswer(304) !== 'YES')
+              "
+            >
               <td style="width: 600px !important; word-wrap: break-word">
                 {{ data.value.question }}
               </td>
@@ -105,13 +115,15 @@
                   {{ data.value.answer }}
                 </td>
               </ng-container>
+
               <ng-container *ngIf="isEditable == true">
-                <!-- field is editable or not -->
-                <ng-container
-                  *ngIf="data.value.isEditable == 'Y'; else notEditable"
-                >
+                <ng-container *ngIf="data.value.isEditable == 'Y'; else notEditable">
                   <ng-container
-                    *ngIf="data.value.fieldType == 'text_field' || data.value.fieldType == 'text_field_pre_filled'; else options"
+                    *ngIf="
+                      data.value.fieldType == 'text_field' ||
+                      data.value.fieldType == 'text_field_pre_filled';
+                      else options
+                    "
                   >
                     <td style="width: 300px">
                       <input
@@ -120,27 +132,24 @@
                       />
                     </td>
                   </ng-container>
+
                   <ng-template #options>
                     <td>
                       <select
                         #newValue
-                        (change)="
-                          updateMultiOptionData(newValue.value, data.value)
-                        "
+                        (change)="updateMultiOptionData(newValue.value, data.value)"
                       >
-                        <ng-container
-                          *ngFor="let options of data.value.optionList"
-                        >
+                        <ng-container *ngFor="let options of data.value.optionList">
                           <option
                             *ngIf="data.value.answer == options.title"
-                            [value]="options.id"
+                            [value]="options.title"
                             selected="selected"
                           >
                             {{ options?.title }}
                           </option>
                           <option
                             *ngIf="data.value.answer != options.title"
-                            [value]="options.id"
+                            [value]="options.title"
                           >
                             {{ options?.title }}
                           </option>
@@ -149,6 +158,7 @@
                     </td>
                   </ng-template>
                 </ng-container>
+
                 <ng-template #notEditable>
                   <td style="width: 300px !important">
                     {{ data.value.answer }}
