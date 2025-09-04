@@ -52,12 +52,31 @@ export class TableauHelperComponent implements OnInit {
       type: this.type || "",
       userType: localStorage.getItem("user_type"),
     };
+  
+    // Get zone, region, and area from localStorage
+    const zoneId = localStorage.getItem("zoneId") || -1;
+    const regionId = localStorage.getItem("regionId") || -1;
+    const areaId = localStorage.getItem("area_id");
+    const area_id = areaId ? areaId.split(',').map(Number) : [];
+  console.log ("region_id",localStorage.getItem("regionId"));
+    // Prepare zoneRegionParams
+    const areaParam =
+      area_id.length > 0 && area_id.some((id) => id > 0)
+        ? `&area_id=${area_id.join(',')}`
+        : "";
+  
+    const zoneRegionParams = `zoneId=${zoneId}&regionId=${regionId}${areaParam}`;
+  
     this.httpService.getKey(obj).subscribe((data: any) => {
+      const baseUrl = `${data.TableauData.tableau_url}/${data.ticket}/${this.params.link}`;
+      const commonParams = `:iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
+  
       if (this.params.link.indexOf("?") >= 0) {
-        this.ticketUrl = `${data.TableauData.tableau_url}/${data.ticket}/${this.params.link}&:iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
+        this.ticketUrl = `${baseUrl}&${zoneRegionParams}&${commonParams}`;
       } else {
-        this.ticketUrl = `${data.TableauData.tableau_url}/${data.ticket}/${this.params.link}?iframeSizedToWindow=${data.TableauData.iframe}&:embed=${data.TableauData.embed}&:showAppBanner=${data.TableauData.showAppBanner}&:display_count=${data.TableauData.display_count}&:showVizHome=${data.TableauData.showVizHome}`;
+        this.ticketUrl = `${baseUrl}?${zoneRegionParams}&${commonParams}`;
       }
+  
       console.log("url:", this.ticketUrl);
       this.initViz();
     });
