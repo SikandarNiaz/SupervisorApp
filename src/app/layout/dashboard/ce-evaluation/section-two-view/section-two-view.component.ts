@@ -1,32 +1,83 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  AfterViewInit,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
+
 declare const google: any;
+
 @Component({
   selector: 'section-two-view',
   templateUrl: './section-two-view.component.html',
   styleUrls: ['./section-two-view.component.scss']
 })
-export class SectionTwoViewComponent implements OnInit {
+export class SectionTwoViewComponent implements OnInit, AfterViewInit {
+  @Input('data') data: any;
 
-  @Input('data') data;
-  locations: any = [];
-  centerPoint: any = [];
-  lat: any;
-  long: any;
-  locationMap: any;
-  mapSrc: SafeResourceUrl;
-  url: any;
+  @ViewChild('mapContainer', { static: false }) gmap: ElementRef;
 
-  constructor(public sanitizer: DomSanitizer) { }
+  lat: number;
+  long: number;
+  systemLat: number;
+  systemLong: number;
+  mapReady: boolean = false;
 
-  ngOnInit() { }
+  constructor() {}
+
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.data = changes.data.currentValue;
-    this.locationMap= this.data.sectionMap;
-    this.lat=this.locationMap.latitude;
-    this.long=this.locationMap.longitude;
-    this.url = 'https://maps.google.com/maps?q=' + this.lat + '%2C' + this.long + '&t=&z=13&ie=UTF8&iwloc=&output=embed';
-    this.mapSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+    if (changes.data && changes.data.currentValue) {
+      this.data = changes.data.currentValue;
+
+      const mapData = this.data.sectionMap;
+      this.lat = parseFloat(mapData.latitude);
+      this.long = parseFloat(mapData.longitude);
+      this.systemLat = parseFloat(mapData.systemLatitude);
+      this.systemLong = parseFloat(mapData.systemLongitude);
+
+      this.mapReady = true;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Wait for DOM to fully render
+    setTimeout(() => {
+      if (this.mapReady) {
+        this.loadMap();
+      }
+    }, 100); // short delay ensures map div exists
+  }
+
+  loadMap(): void {
+    const mapOptions = {
+      center: new google.maps.LatLng(this.lat, this.long),
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    const map = new google.maps.Map(this.gmap.nativeElement, mapOptions);
+
+    // Main marker
+    new google.maps.Marker({
+      position: new google.maps.LatLng(this.lat, this.long),
+      map,
+      title: 'Main Location',
+      icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+    });
+
+    // System marker
+    if (this.systemLat && this.systemLong) {
+      new google.maps.Marker({
+        position: new google.maps.LatLng(this.systemLat, this.systemLong),
+        map,
+        title: 'System Location',
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      });
+    }
   }
 }

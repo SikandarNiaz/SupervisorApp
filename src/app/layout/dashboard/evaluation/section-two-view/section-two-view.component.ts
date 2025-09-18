@@ -1,9 +1,22 @@
 import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
-import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
 import { Config } from "src/assets/config";
-import mapboxgl from "mapbox-gl";
-declare const google: any;
-declare var ol: any;
+
+import Map from 'ol/Map.js';
+import View from 'ol/View.js';
+import TileLayer from 'ol/layer/Tile.js';
+import OSM from 'ol/source/OSM.js';
+import Feature from 'ol/Feature.js';
+import Point from 'ol/geom/Point.js';
+import VectorLayer from 'ol/layer/Vector.js';
+import VectorSource from 'ol/source/Vector.js';
+import Icon from 'ol/style/Icon.js';
+import Style from 'ol/style/Style.js';
+import { fromLonLat } from 'ol/proj.js';
+import { Circle as CircleGeom } from 'ol/geom.js';
+import Fill from 'ol/style/Fill.js';
+import Stroke from 'ol/style/Stroke.js';
+import { extend } from 'ol/extent.js';
+
 @Component({
   selector: "section-two-view",
   templateUrl: "./section-two-view.component.html",
@@ -12,158 +25,141 @@ declare var ol: any;
 export class SectionTwoViewComponent implements OnInit {
   @Input("data") data;
   locationMap: any;
-  mapSrc: SafeResourceUrl;
-  map: any;
-  ip: any = Config.BASE_URI;
+  map: Map;
+  ip: string = Config.BASE_URI;
   projectType: any;
-
-  constructor(public sanitizer: DomSanitizer) {
-    // mapboxgl.accessToken =
-    //   "pk.eyJ1Ijoic2lrYW5kYXJuaWF6IiwiYSI6ImNrd3FiYWkwZzBrd3UycHBtOGNnYWY1Nm4ifQ.NSL0s456ejrd4QFu4cvZ6w";
-    // mapboxgl.accessToken = "pk.eyJ1IjoibWFya3NtYW5jdWxpbmFyeSIsImEiOiJjbGcxdXI3ZXYwYXRiM29sMmQ5Z2R2czZmIn0.4ufF0qk-0hh0aC0gGes0WQ";
-    // mapboxgl.accessToken = "pk.eyJ1IjoicGVwc2ljb25jYXZldGVjaGNvbSIsImEiOiJjbGlrMXRqbXAwZHJlM2Zraml6bHp4c24wIn0.IZz-CZN9m2MMbz-i29C1WA";
-    mapboxgl.accessToken = "pk.eyJ1IjoibWFya3NtYW5jb25kaW1lbnRzIiwiYSI6ImNsZzF2NnJwdDF6amkzZHF1dmtiZXA4dGkifQ.lxdRQPwK9rxcw4csSPwSIA";
-  }
+  colorType1 = "../../../../../assets/map-marker-icons/";
+  colorType = Config.BASE_URI + "/images/map-marker-icons/";
 
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.data = changes.data.currentValue;
-    this.locationMap = this.data.sectionMap;
-    this.projectType = localStorage.getItem("projectType");
-    if (this.projectType == "PMI_CENSUS") {
-      this.initialize_map();
-    } else {
-      this.initialize_map_pg();
+    if (changes.data && changes.data.currentValue) {
+      this.data = changes.data.currentValue;
+      this.locationMap = this.data.sectionMap;
+      this.projectType = localStorage.getItem("projectType");
+
+      console.log("Received data:", this.data);
+      console.log("Location Map:", this.locationMap);
+
+      this.initializeMap();
     }
   }
 
-  initialize_map() {
-    this.map = new ol.Map({
+  initializeMap() {
+    const center = fromLonLat([parseFloat(this.locationMap.routeLongitude), parseFloat(this.locationMap.routeLatitude)]);
+
+    this.map = new Map({
       target: "map",
       layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM({
-            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          }),
+        new TileLayer({
+          source: new OSM(),
         }),
       ],
-      view: new ol.View({
-        center: ol.proj.transform(
-          [
-            parseFloat(this.locationMap.routeLongitude),
-            parseFloat(this.locationMap.routeLatitude),
-          ],
-          "EPSG:4326",
-          "EPSG:3857"
-        ),
-        zoom: 18,
+      view: new View({
+        center: center,
+        zoom: 14,
       }),
     });
-    this.add_map_point(
-      this.locationMap.latitude,
-      this.locationMap.longitude,
-      1,
-      "Start Location"
-    );
-    this.add_map_point(
-      this.locationMap.endLatitude,
-      this.locationMap.endLongitude,
-      2,
-      "End Location"
-    );
-    this.add_map_point(
-      this.locationMap.routeLatitude,
-      this.locationMap.routeLongitude,
-      3,
-      "Route Location"
-    );
-  }
 
-  initialize_map_pg() {
-    this.map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [this.locationMap.longitude, this.locationMap.latitude],
-      zoom: 14,
-    });
-    const marker1 = new mapboxgl.Marker()
-      .setLngLat([this.locationMap.longitude, this.locationMap.latitude])
-      .addTo(this.map);
-    this.map.addControl(new mapboxgl.NavigationControl());
-    setTimeout(() => this.map.resize(), 0);
-  }
+    const features: Feature[] = [];
+    const extent = [Infinity, Infinity, -Infinity, -Infinity];
 
-  add_map_point(lat, lng, index, title) {
-    const vectorLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [
-          new ol.Feature({
-            geometry: new ol.geom.Point(
-              ol.proj.transform(
-                [parseFloat(lng), parseFloat(lat)],
-                "EPSG:4326",
-                "EPSG:3857"
-              )
-            ),
-          }),
-        ],
-      }),
-      style: new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.6, 0.6],
-          anchorXUnits: "fraction",
-          anchorYUnits: "fraction",
-          src: this.ip + "images/" + index + ".png",
-        }),
-        fill: new ol.style.Fill({
-          color: "rgba(255,255,255,0.4)",
-        }),
-        stroke: new ol.style.Stroke({
-          color: "#3399CC",
-          width: 1.25,
-        }),
-        text: new ol.style.Text({
-          font: "12px Calibri,sans-serif",
-          fill: new ol.style.Fill({ color: "#000" }),
-          stroke: new ol.style.Stroke({
-            color: "#fff",
-            width: 2,
-          }),
-          text: title,
-        }),
-      }),
-    });
+    // Add all the markers (pins)
+    features.push(...this.createPointFeature(this.locationMap.latitude, this.locationMap.longitude, "redish.png", "Start Location", extent));  // Start
+    features.push(...this.createPointFeature(this.locationMap.endLatitude, this.locationMap.endLongitude, "yellow.png", "End Location", extent));  // End
+    features.push(...this.createPointFeature(this.locationMap.routeLatitude, this.locationMap.routeLongitude, "yellow.png", "Route Location", extent));  // Route
+    features.push(...this.createPointFeature(this.locationMap.systemLatitude, this.locationMap.systemLongitude, "yellow.png", "System Location", extent));  // System
+
+    const vectorSource = new VectorSource({ features: features });
+    const vectorLayer = new VectorLayer({ source: vectorSource });
     this.map.addLayer(vectorLayer);
-  }
+
+    // Add circle for system location if valid
+    let lat: number;
+let lng: number;
+
+if (this.isValidCoordinate(this.locationMap.systemLatitude) && this.isValidCoordinate(this.locationMap.systemLongitude)) {
+  lat = parseFloat(this.locationMap.systemLatitude);
+  lng = parseFloat(this.locationMap.systemLongitude);
+} else if (this.isValidCoordinate(this.locationMap.latitude) && this.isValidCoordinate(this.locationMap.longitude)) {
+  lat = parseFloat(this.locationMap.latitude);
+  lng = parseFloat(this.locationMap.longitude);
+} else {
+  console.warn("No valid coordinates found to draw circle.");
+  return; // Stop here if no valid pair found
 }
 
-// initialize_map_pg() {
-//   this.map = new ol.Map({
-//     target: "map",
-//     layers: [
-//       new ol.layer.Tile({
-//         source: new ol.source.OSM({
-//           url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-//         }),
-//       }),
-//     ],
-//     view: new ol.View({
-//       center: ol.proj.transform(
-//         [
-//           parseFloat(this.locationMap.longitude),
-//           parseFloat(this.locationMap.latitude),
-//         ],
-//         "EPSG:4326",
-//         "EPSG:3857"
-//       ),
-//       zoom: 18,
-//     }),
-//   });
-//   this.add_map_point(
-//     this.locationMap.latitude,
-//     this.locationMap.longitude,
-//     1,
-//     "Start Location"
-//   );
-// }
+const sysCoord = fromLonLat([lng, lat]);
+
+const circleFeature = new Feature({
+  geometry: new CircleGeom(sysCoord, 100), // 100 meters radius
+});
+
+circleFeature.setStyle(
+  new Style({
+    stroke: new Stroke({
+      color: "red",
+      width: 2,
+    }),
+    fill: new Fill({
+      color: "rgba(255, 0, 21, 0.2)",
+    }),
+  })
+);
+
+const circleLayer = new VectorLayer({
+  source: new VectorSource({
+    features: [circleFeature],
+  }),
+});
+
+this.map.addLayer(circleLayer);
+
+// Expand extent to include the circle area
+extend(extent, circleFeature.getGeometry().getExtent());
+
+
+    if (!isFinite(extent[0])) {
+      console.warn("No valid points to display or fit on map.");
+    } else {
+      this.map.getView().fit(extent, { padding: [50, 50, 50, 50], maxZoom: 16 });
+    }
+  }
+
+  createPointFeature(lat, lng, iconFile, label, extent): Feature[] {
+    const features: Feature[] = [];
+
+    if (this.isValidCoordinate(lat) && this.isValidCoordinate(lng)) {
+      console.log(`Placing ${label} at lat: ${lat}, lng: ${lng}`);
+      const coord = fromLonLat([parseFloat(lng), parseFloat(lat)]);
+      extend(extent, [coord[0], coord[1], coord[0], coord[1]]);
+
+      const feature = new Feature({
+        geometry: new Point(coord),
+        name: label,
+      });
+
+      feature.setStyle(
+        new Style({
+          image: new Icon({
+            anchor: [0.5, 1],
+            src: `${this.colorType}${iconFile}`, // local assets path
+            scale: 0.5, // increased scale
+          }),
+        })
+      );
+
+      features.push(feature);
+    } else {
+      console.warn(`Invalid or missing coordinates for ${label}:`, lat, lng);
+    }
+
+    return features;
+  }
+
+  isValidCoordinate(value): boolean {
+    const num = parseFloat(value);
+    return !isNaN(num) && isFinite(num);
+  }
+}

@@ -9,11 +9,20 @@
     
     <div class="row">
     
-        <div class="col-md-6 mb-3">
-            <!--  -->
+        <!-- <div class="col-md-6 mb-3">
+              -->
             <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
     
-            <img src="{{ip}}{{selectedImage?.url}}" width="300 " height="300" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item">
+        <!--    <img src="{{ip}}{{selectedImage?.url}}" width="300 " height="300" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item">
+        </div> -->
+
+        <div class="col-md-6 mb-3">
+            <img 
+                [src]="selectedImage?.url?.includes('https') ? selectedImage?.url : ip + selectedImage?.url" 
+                width="300" 
+                height="300" 
+                (click)="showChildModal(selectedImage)" 
+                class="img-thumbnail img-item">
         </div>
     
         <div class="col-md-6">
@@ -21,7 +30,7 @@
     
                 <ng-container *ngFor="let img of data?.imageList ;let i=index ">
                     <div class="col-md-4 mb-1 card  ml-4" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer">
-                        <img src="{{ip}}{{img.url}} " width="50 " height="50 " class="img-thumbnail side-image">
+                        <img [src]="img?.url?.includes('https') ? img.url : ip + img.url" width="50 " height="50 " class="img-thumbnail side-image">
                         <div class="row justify-content-center" style="word-break: break-word !important">
                             <div for="date"><strong>Date:</strong>{{img?.visitDateTime}}</div>
                             <br>

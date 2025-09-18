@@ -54,7 +54,7 @@
           </mat-select>
         </mat-form-field>
         </ng-container>
-        <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'||projectType=='PG_DALDA'||projectType=='PG_UAE'||projectType=='PGWS_IRAQ'||projectType=='DALDA_NSM'">
+        <ng-container *ngIf="projectType=='PGWS_LHR'||projectType=='PG_RDT'||projectType=='PG_DALDA'||projectType=='PG_UAE'||projectType=='PGWS_IRAQ'||projectType=='DALDA_NSM'||projectType=='PMI_CENSUS'">
         <mat-form-field
         *ngIf="supervisorList.length > 0"
         class="example-margin mr-10-IMP"
@@ -320,14 +320,17 @@
                                     {{item?.captured_shops}}</td> -->
                 <td
                   style="color: blue; cursor: pointer"
-                  (click)="gotoNewPage(item)"
+                  (click)="gotoNewPage(item, 'captured')"
                 >
                   {{ item?.captured_shops }}
                 </td>
                 <td>{{ item?.Achievement }}</td>
                 <td>{{ item?.evaluated_shops }}</td>
                 <td>{{ item?.approved_shops }}</td>
-                <td>
+                <td
+                style="color: blue; cursor: pointer"
+                  (click)="gotoNewPage(item, 'disapproved')"
+                >
                   {{ item?.disapproved_shops }}
                 </td>
                 <!-- <td *ngIf="item?.captured_shops==item?.evaluated_shops">

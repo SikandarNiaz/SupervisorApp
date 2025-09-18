@@ -1,5 +1,5 @@
 <div class="login-page">
-    <div *ngIf="!pmida">
+    <div *ngIf="!pmida && !pmitraining">
         <div class="login-page">
             <div class="content">
                 <form #f="ngForm" class="login-form" fxFlex>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="pmida" class="login-page">
+    <div *ngIf="pmida || pmitraining" class="login-page">
         <div class="content">
           <form #f="ngForm" class="login-form" fxFlex>
             <div class="text-center">

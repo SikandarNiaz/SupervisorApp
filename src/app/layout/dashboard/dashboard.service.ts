@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from "@angular/core";
+ import { Injectable, Output, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Subject, of, BehaviorSubject } from "rxjs";
@@ -1284,6 +1284,16 @@ downloadFile(obj, url) {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "alertsView";
     return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getKeyForProductivityReport1(body: string, url: string) {
+    const url1 = this.ip + url;
+    return this.http.post(url1, body, {
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    });
   }
   
 }

@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { EvaluationService } from "../evaluation.service";
-import { Location } from "@angular/common";
-import { ActivatedRoute, Router } from "@angular/router";
-import { environment } from "src/environments/environment";
-import { ModalDirective } from "ngx-bootstrap/modal";
-import { ToastrService } from "ngx-toastr";
-import { ResizeEvent } from "angular-resizable-element";
-import { Config } from "src/assets/config";
-import { FormsModule } from "@angular/forms";
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { EvaluationService } from '../evaluation.service';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { ResizeEvent } from 'angular-resizable-element';
+import { Config } from 'src/assets/config';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   data: any = [];
@@ -22,10 +22,10 @@ export class HomeComponent implements OnInit {
   loading = false;
   selectedShop: any = {};
 
-  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
-  @ViewChild("remarksModal", { static: true }) remarksModal: ModalDirective;
-  @ViewChild("sosModal", { static: true }) sosModal: ModalDirective;
-  @ViewChild("evaluationRemarksModal", { static: true }) evaluationRemarksModal: ModalDirective;
+  @ViewChild('childModal', { static: true }) childModal: ModalDirective;
+  @ViewChild('remarksModal', { static: true }) remarksModal: ModalDirective;
+  @ViewChild('sosModal', { static: true }) sosModal: ModalDirective;
+  @ViewChild('evaluationRemarksModal', { static: true }) evaluationRemarksModal: ModalDirective;
 
   score: any = 0;
   isChecked = 0;
@@ -75,6 +75,7 @@ export class HomeComponent implements OnInit {
   surveyDetails: any;
   showCriteria: boolean = false;
   id: any;
+  type:any;
   asmevaluatorRole: string;
 
   constructor(
@@ -85,6 +86,7 @@ export class HomeComponent implements OnInit {
     private evaluationService: EvaluationService,
     private readonly location: Location
   ) {
+    const type = this.activatedRoutes.snapshot.paramMap.get('type');
     this.surveyId;
 
     this.activatedRoutes.queryParams.subscribe((q) => {
@@ -93,27 +95,55 @@ export class HomeComponent implements OnInit {
       }
       if (q.flagId) {
         this.flagId = q.flagId;
-        console.log(this.flagId);
+        //  console.log(this.flagId);
       }
+
     });
 
     this.activatedRoutes.params.subscribe((params) => {
       this.p = params;
       this.surveyId = params.id;
 
-      const obj = {
-        surveyId: this.surveyId,
-        userTypeId: localStorage.getItem("user_type") || 3,
-        // userId:localStorage.getItem('user_id')
-      };
+      if (params.type==='distributionAudit') {
+        console.log(type)
+        const obj = {
+          surveyId: this.surveyId,
+          userTypeId: localStorage.getItem('user_type') || 3,
+          surveyType:3
 
-      this.getData(obj);
+
+        };
+        this.getData(obj);
+      }
+
+      else if(params.type==='dsrAudit'){
+
+        const obj = {
+          surveyId: this.surveyId,
+          userTypeId: localStorage.getItem('user_type') || 3,
+          surveyType:6
+
+
+        };
+        this.getData(obj);
+      }else {
+        console.log(type)
+        const obj = {
+          surveyId: this.surveyId,
+          userTypeId: localStorage.getItem('user_type') || 3
+
+
+        };
+        this.getData(obj);
+      }
+
+
     });
   }
   value = 5;
   options: any = {
     showTicksValues: true,
-    stepsArray: [{ value: 1 }],
+    stepsArray: [{ value: 1 }]
   };
 
   createTickForSlider(maxTicks) {
@@ -126,14 +156,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+    ;
     this.availabilityCount = 0;
     // this.location.replaceState("/details");
-    this.userType = localStorage.getItem("user_type");
-    this.evaluatorRole = localStorage.getItem("Evaluator");
-    this.asmevaluatorRole = localStorage.getItem("AsmEvaluator");
-    this.amRole = localStorage.getItem("amRole");
-    this.projectType = localStorage.getItem("projectType");
+    this.userType = localStorage.getItem('user_type');
+    this.evaluatorRole = localStorage.getItem('Evaluator');
+    this.asmevaluatorRole = localStorage.getItem('AsmEvaluator');
+    this.amRole = localStorage.getItem('amRole');
+    this.reevaluatorRole = localStorage.getItem('ReEvaluator');
+    this.projectType = localStorage.getItem('projectType');
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -152,7 +183,7 @@ export class HomeComponent implements OnInit {
   }
 
   onResizeEnd(event: ResizeEvent): void {
-    // console.log('Element was resized', event);
+    // //  console.log('Element was resized', event);
     this.isDragging = !this.isDragging;
   }
 
@@ -169,18 +200,24 @@ export class HomeComponent implements OnInit {
       (data) => {
         if (data) {
           this.data = data;
-          console.log("Data ",data)
           this.surveyDetails = this.data.shopDetails.surveyDetails;
           document.title = this.data.section[0].sectionTitle;
           // tslint:disable-next-line:triple-equals
-          debugger
-          if (this.projectType == "PG_UAE" && this.userType == 7) {
+          console.log("re-evaluator-id ",this.reevaluatorRole)
+          console.log("UserTRype ",this.userType)
+          if (this.projectType == 'PG_UAE' && this.userType == 7) {
             this.isEditable = true;
-          } else if (
-            (this.userType == this.evaluatorRole ||
-              this.userType == this.amRole) &&
-            this.surveyDetails.status == "Pending"
+          }
+        //   else if((this.projectType == 'PMI_CENSUS' && this.userType == this.reevaluatorRole )&&
+        //   this.surveyDetails.status == 'Pending'
+        // ) {
+        //     this.isEditable = true;
+        //   }
+           else if (
+            (this.userType == this.evaluatorRole || this.userType == this.amRole || this.userType == this.reevaluatorRole) &&
+            this.surveyDetails.status == 'Pending'
           ) {
+            debugger
             this.isEditable = true;
             this.showCriteria = true;
             this.evaluationArray = this.data.criteria;
@@ -201,22 +238,22 @@ export class HomeComponent implements OnInit {
       id: criteria.id,
       type: criteria.type,
       title: criteria.title,
-      score: criteria.score,
+      score: criteria.score
     };
     this.cloneArray.forEach((element) => {
       const i = this.cloneArray.findIndex((e) => e.id === criteria.id);
       this.cloneArray.splice(i, 1, obj);
     });
-    console.log("evaluation array clone", this.cloneArray);
+    //  console.log('evaluation array clone', this.cloneArray);
     // this.updateAchieveScore(criteria.id);
     this.hideRemarksModal();
-    this.selectedRemarks = "";
+    this.selectedRemarks = '';
     this.selectedRemarksList = [];
     this.criteriaDesireScore = 0;
   }
 
   checkboxChange(event, id) {
-    console.log("checkbox event", !event.checked, id);
+    //  console.log('checkbox event', !event.checked, id);
 
     if (!event.checked) {
       this.selectedRemarksList.push(id);
@@ -229,7 +266,7 @@ export class HomeComponent implements OnInit {
     }
     // this.selectedRemarksList.pop(id)
 
-    console.log("remarks list", this.selectedRemarksList);
+    //  console.log('remarks list', this.selectedRemarksList);
   }
 
   updateAchieveScore(id) {
@@ -238,8 +275,7 @@ export class HomeComponent implements OnInit {
       const aScore = element.achievedScore;
 
       if (element.id === id) {
-        this.cloneArray[index].achievedScore =
-          this.criteriaDesireScore > 0 ? this.criteriaDesireScore : aScore;
+        this.cloneArray[index].achievedScore = this.criteriaDesireScore > 0 ? this.criteriaDesireScore : aScore;
       }
     }
     this.totalAchieveScore = this.getTotalAchieveScore();
@@ -265,8 +301,7 @@ export class HomeComponent implements OnInit {
   subtractScore(criteria) {
     this.totalAchieveScore =
       this.criteriaDesireScore > 0
-        ? this.totalAchieveScore -
-          Math.abs(criteria.score - this.criteriaDesireScore)
+        ? this.totalAchieveScore - Math.abs(criteria.score - this.criteriaDesireScore)
         : this.totalAchieveScore - Math.abs(criteria.achievedScore);
   }
 
@@ -284,7 +319,7 @@ export class HomeComponent implements OnInit {
   counter(event, criteria, index) {
     this.selectedIndex = index;
     this.j = index;
-    // console.dir(event.checked)
+    // //  console.dir(event.checked)
     if (event.checked) {
       this.indexList.push(index);
 
@@ -298,7 +333,7 @@ export class HomeComponent implements OnInit {
   }
 
   cancelCriteriaSelection() {
-    const inputs: any = document.querySelectorAll(".checkbox");
+    const inputs: any = document.querySelectorAll('.checkbox');
     for (let j = 0; j < inputs.length; j++) {
       if (this.selectedCriteria.id === inputs[j].id) {
         inputs[j].checked = false;
@@ -315,14 +350,11 @@ export class HomeComponent implements OnInit {
         id: criteria.id,
         title: criteria.title,
         score: criteria.score,
-        type: criteria.type,
+        type: criteria.type
       };
       const e = this.evaluationArray.findIndex((i) => i.id === criteria.id);
       this.cloneArray.splice(e, 1, obj);
-      console.log(
-        "unchecked evaluation array,using cancel button",
-        this.cloneArray
-      );
+      //  console.log('unchecked evaluation array,using cancel button', this.cloneArray);
     }
     this.selectedRemarkArray = [];
     this.j = -1;
@@ -350,7 +382,7 @@ export class HomeComponent implements OnInit {
     });
     // this.score=this.score-(this.msl);
 
-    console.log("total score is", this.score);
+    //  console.log('total score is', this.score);
   }
 
   // makeScoreZero(){
@@ -362,15 +394,15 @@ export class HomeComponent implements OnInit {
   //   });
   // }
   evaluateShop() {
-    const user_id = localStorage.getItem("user_id");
-    const userType = localStorage.getItem("user_type");
-    const id = localStorage.getItem("id");
+    const user_id = localStorage.getItem('user_id');
+    const userType = localStorage.getItem('user_type');
+    const id = localStorage.getItem('id');
     this.loading = true;
     const req = true;
 
     if (req) {
       // tslint:disable-next-line:triple-equals
-      debugger;
+      ;
       const obj = {
         id: this.id,
         criteria: this.selectedRemarkArray,
@@ -378,16 +410,16 @@ export class HomeComponent implements OnInit {
         evaluatorId: user_id,
         status: this.evaluationStatus,
         userType: userType,
-        flagId: this.flagId,
+        flagId: this.flagId
       };
 
       this.evaluationService.evaluateShop(obj).subscribe(
         (data: any) => {
-          // console.log('evaluated shop data',data);
+          // //  console.log('evaluated shop data',data);
           this.loading = false;
           // tslint:disable-next-line:triple-equals
-          if (data.success == "true") {
-            this.toastr.success("shop evaluated successfully ");
+          if (data.success == 'true') {
+            this.toastr.success('shop evaluated successfully ');
             this.evaluationArray = [];
             this.cloneArray = [];
             this.indexList = [];
@@ -395,14 +427,14 @@ export class HomeComponent implements OnInit {
               window.close();
             }, 2000);
           } else {
-            this.toastr.error(data.errorMessage, "Error");
+            this.toastr.error(data.errorMessage, 'Error');
           }
         },
         (error) => {
-          // console.log('evaluated shop error',error)
+          // //  console.log('evaluated shop error',error)
           // window.close()
           this.loading = false;
-          this.toastr.error(error.message, "Error");
+          this.toastr.error(error.message, 'Error');
         }
       );
     }
@@ -418,23 +450,23 @@ export class HomeComponent implements OnInit {
   }
   updateSoS() {
     if (this.selectedSoS.total_com_height <= 0) {
-      this.toastr.warning("Height must be greater than zero.");
+      this.toastr.warning('Height must be greater than zero.');
     } else {
       this.hideSoSModal();
     }
 
     const obj = {
-      userId: parseInt(localStorage.getItem("user_id")),
+      userId: parseInt(localStorage.getItem('user_id')),
       width: parseInt(this.selectedSoS.total_width),
       com_width: parseInt(this.selectedSoS.total_com_width),
-      merchandiserId: parseInt(this.selectedSoS.merchandiser_survey_id),
+      merchandiserId: parseInt(this.selectedSoS.merchandiser_survey_id)
     };
 
-    console.log("final SoS object", obj);
+    //  console.log('final SoS object', obj);
     this.httpService.updateSOS(obj).subscribe(
       (data: any) => {
         if (data.success) {
-          this.toastr.info("SOS width is updated");
+          this.toastr.info('SOS width is updated');
         }
         // alert(data)
       },
@@ -455,7 +487,7 @@ export class HomeComponent implements OnInit {
   }
 
   showSoSModal(item): void {
-    console.log("output item", item);
+    //  console.log('output item', item);
     this.selectedSoS = item;
     this.sosModal.show();
   }
@@ -507,26 +539,26 @@ export class HomeComponent implements OnInit {
     this.loadingTags = true;
     const obj = {
       shopId: this.surveyId,
-      userId: localStorage.getItem("user_id"),
+      userId: localStorage.getItem('user_id'),
       newValue: value,
       logType: logType,
-      type: 1,
+      type: 1
     };
 
     this.httpService.updateShopData(obj).subscribe((data: any) => {
       if (data.success) {
         this.loadingTags = false;
-        this.toastr.success("Data Updated Successfully");
+        this.toastr.success('Data Updated Successfully');
       } else {
         this.loadingTags = false;
-        this.toastr.success("There was an error while updating data");
+        this.toastr.success('There was an error while updating data');
       }
     });
   }
   loadAllChannels() {
     this.httpService.getAllChannels().subscribe(
       (data) => {
-        console.log(data);
+        //  console.log(data);
         const res: any = data;
         if (res) {
           this.channelList = res;

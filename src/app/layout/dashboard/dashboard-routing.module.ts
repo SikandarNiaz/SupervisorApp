@@ -84,6 +84,11 @@ import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.componen
 import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
 
 import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.component";
+import { MerchandiserListPmidaComponent } from "./innerComponents/merchandiser-list/merchandiser-list-pmida/merchandiser-list-pmida.component";
+import { DistributionAssetReportComponent } from "./distribution-asset-report/distribution-asset-report.component";
+import { DistributionAuditListPmidaComponent } from "./innerComponents/merchandiser-list/marketaudit-list-pmida/distributionaudit-list-pmida.component";
+import { DsrAuditListPmidaComponent } from "./innerComponents/merchandiser-list/dsraudit-list-pmida/dsraudit-list-pmida.component";
+import { AppComponent } from "src/app/app.component";
 
 
 
@@ -93,7 +98,8 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [DashboardGuard],
     children: [
-      { path: "", redirectTo: "home", pathMatch: "full" },
+    //  { path: "", redirectTo: "home", pathMatch: "full" },
+      { path: "", component: AppComponent },
       { path: "home", component: HomeComponent },
       { path: "update_password", component: UpdatePasswordComponent },
       { path: "raw_data", component: RawDataComponent },
@@ -328,6 +334,13 @@ const routes: Routes = [
     path: "app-stock-audit-layer",
     component: StockAuditLayerComponent,
   },
+  { path: 'merchandiser-list-pmida', component: MerchandiserListPmidaComponent },
+  {
+    path: "distribution-asset-report",
+    component: DistributionAssetReportComponent,},
+    { path: 'distribution-audit-list-pmida', component: DistributionAuditListPmidaComponent},
+    { path: 'dsr-audit-list-pmida', component: DsrAuditListPmidaComponent},
+
   
 
 

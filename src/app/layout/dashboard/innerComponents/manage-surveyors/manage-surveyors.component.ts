@@ -366,6 +366,7 @@ export class ManageSurveyorsComponent implements OnInit, AfterContentChecked {
     // }
     // console.log("sup id: ", data.supervisorId);
     // console.log("update data: ", data);
+    console.log("Submitted Data: ", data);
     formData.append("formData", JSON.stringify(data));
     this.httpService.updateSurveyorData(formData).subscribe((data: any) => {
       if (data.success == "true") {

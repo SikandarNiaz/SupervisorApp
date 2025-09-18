@@ -1,4 +1,27 @@
+.section-container {
+  width: 100%;
+}
+
+.section-map {
+  width: 100%;
+}
+
+mat-card {
+  width: 100%;
+  margin: 16px auto;
+}
+
+mat-card-content {
+  padding: 0;
+}
+
+.map-container {
+  width: 100%;
+  height: 500px; /* ← Make sure to set the height */
+  position: relative;
+}
+
 #map {
   width: 100%;
-  height: 500px;
+  height: 100%;  /* Ensure the map takes up the entire space */
 }

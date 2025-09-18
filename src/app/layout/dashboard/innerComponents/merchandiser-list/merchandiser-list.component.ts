@@ -37,14 +37,17 @@ export class MerchandiserListComponent implements OnInit {
   sortBy: "m_code";
   projectType: any;
   labels: any;
+  reEvaluatorRole: string;
   constructor(
     private httpService: DashboardService,
     private toastr: ToastrService
   ) {
     this.evaluatorRole = localStorage.getItem("Evaluator");
     this.userTypeId = localStorage.getItem("user_type");
-    if (localStorage.getItem("projectType") != "RECKITT_CENSUS"){
-    if (this.userTypeId == this.evaluatorRole) {
+    this.reEvaluatorRole = localStorage.getItem("ReEvaluator");
+    console.log("re-evaluator-id ",this.reEvaluatorRole)
+    if (!["RECKITT_CENSUS", "PMI_CENSUS"].includes(localStorage.getItem("projectType"))){
+    if (this.userTypeId == this.evaluatorRole || this.userTypeId == this.reEvaluatorRole) {
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.startDate.setDate(this.startDate.getDate() - 1);
       this.endDate.setDate(this.endDate.getDate() - 1);
@@ -169,16 +172,14 @@ export class MerchandiserListComponent implements OnInit {
     return moment(date).format("YYYY-MM-DD");
   }
 
-  gotoNewPage(item) {
-    window.open(
-      `${environment.hash}dashboard/evaluation/list/home?surveyorId=${
-        item.id
-      }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
-        this.endDate
-      )} &userType=${this.userTypeId}`,
-      "_blank"
-    );
-  }
+  gotoNewPage(item: any, status: string) {
+  const url = `${environment.hash}dashboard/evaluation/list/home?surveyorId=${
+    item.id
+  }&startDate=${this.modifyDate(this.startDate)}&endDate=${this.modifyDate(
+    this.endDate
+  )}&userType=${this.userTypeId}&status=${status}`;
+  window.open(url, "_blank");
+}
 
   loadEvaluationSummary() {
     this.cardLoading = true;

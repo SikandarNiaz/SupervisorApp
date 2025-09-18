@@ -17,6 +17,7 @@ const routes: Routes = [
       { path: "flagged-shops", component: FlaggedShopsListComponent }, // ---------> View For AM Shops
       { path: "details/:id", component: HomeComponent },
       { path: "details/:id/:notEditable", component: HomeComponent },
+      { path: 'details/:id/:notEditable/:type', component: HomeComponent },
       { path: "details-asm/:id", component: ASMHomeComponent },
     ],
   },

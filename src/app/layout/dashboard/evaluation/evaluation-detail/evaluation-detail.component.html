@@ -1,6 +1,12 @@
 <mat-card class="mb-20">
   <mat-card-content>
-    <mat-card-title>
+    <mat-card-title *ngIf="type==='DistributionAudit'">
+      {{ 'Distribution Audit View' | uppercase }}
+      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      <p *ngIf="!loading && tableData == 0">No data available</p>
+      <!-- <button type="button" class="btn btn-primary" >Open child modal</button> -->
+    </mat-card-title>
+    <mat-card-title *ngIf="type!=='DistributionAudit'">
       {{ tableTitle | uppercase }} {{ title | uppercase }}
       <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
       <p *ngIf="!loading && tableData == 0">No data available</p>
@@ -8,38 +14,31 @@
     </mat-card-title>
   </mat-card-content>
   <section>
-    <mat-form-field
-    *ngIf="flagRemarkList.length > 0"
-    class="example-margin mr-10-IMP"
-  >
-    <mat-select
-      placeholder="Flag Remark"
-      name="remark"
-      [(ngModel)]="selectedFlagRemark"
-      (ngModelChange)="getSurveyShopDetails(params)"
-    >
-      <ng-container *ngFor="let remark of flagRemarkList">
-        <mat-option [value]="remark">{{ remark.title }}</mat-option>
-      </ng-container>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field *ngIf="flagRemarkList.length > 0" class="example-margin mr-10-IMP">
+      <mat-select
+        placeholder="Flag Remark"
+        name="remark"
+        [(ngModel)]="selectedFlagRemark"
+        (ngModelChange)="getSurveyShopDetails(params)"
+      >
+        <ng-container *ngFor="let remark of flagRemarkList">
+          <mat-option [value]="remark">{{ remark.title }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field
-    *ngIf="shopRemarkList.length > 0"
-    class="example-margin mr-10-IMP"
-  >
-    <mat-select
-      placeholder="Shop Remark"
-      name="remark"
-      [(ngModel)]="selectedShopRemark"
-      (ngModelChange)="getSurveyShopDetails(params)"
-    >
-      <ng-container *ngFor="let remark of shopRemarkList">
-        <mat-option [value]="remark">{{ remark.title }}</mat-option>
-      </ng-container>
-    </mat-select>
-  </mat-form-field>
-
+    <mat-form-field *ngIf="shopRemarkList.length > 0" class="example-margin mr-10-IMP">
+      <mat-select
+        placeholder="Shop Remark"
+        name="remark"
+        [(ngModel)]="selectedShopRemark"
+        (ngModelChange)="getSurveyShopDetails(params)"
+      >
+        <ng-container *ngFor="let remark of shopRemarkList">
+          <mat-option [value]="remark">{{ remark.title }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
   </section>
 </mat-card>
 <div class="container-fluid animated slideInLeft">
@@ -48,36 +47,46 @@
       <ng-container *ngFor="let item of tableData; let i = index">
         <mat-card class="col-md-3 example-card card2 ml-3 mt-3">
           <div class="ribbon">
-            <img
+            <img *ngIf="type !=='DistributionAudit' && type !== 'DsrAudit' "
               mat-card-image
               class="small"
-              src="{{ ip }}{{ item.shop_image_url }}"
+              [src]="item?.shop_image_url?.includes('https') ? item.shop_image_url : ip + item.shop_image_url"
               width="250"
               height="300"
               alt=""
               (click)="setSelectedItem(item); showChildModal()"
             />
+            <img *ngIf="type === 'DistributionAudit' || type === 'DsrAudit' "
+              mat-card-image
+              class="small"
+              src="{{ ip }}{{ '/images/ss.jpg' }}"
+              width="250"
+              height="300"
+              alt=""
+              (click)="setSelectedItem(item); showChildModal()"
+            />
+
           </div>
 
-          <mat-card-content (click)="goToEvaluationPage(item)">
+          <mat-card-content (click)="goToEvaluationPage(item)" *ngIf="type!=='DistributionAudit' && type !== 'DsrAudit'">
             <table class="table" style="cursor: pointer">
               <tr *ngIf="projectType == 'PTC'">
                 <th>Supervisor Code</th>
                 <td>{{ item?.user_code }}</td>
-            </tr>
-            <tr *ngIf="projectType == 'PTC'">
-              <th>Supervisor Name</th>
-              <td>{{ item?.supervisorName }}</td>
-          </tr>
+              </tr>
+              <tr *ngIf="projectType == 'PTC'">
+                <th>Supervisor Name</th>
+                <td>{{ item?.supervisorName }}</td>
+              </tr>
               <tr>
                 <!-- test -->
                 <th>Code</th>
                 <td>{{ item?.m_code }}</td>
               </tr>
-          <tr *ngIf="projectType == 'PTC'">
-            <th>Visit Date</th>
-            <td>{{ item?.visit_date }}</td>
-        </tr>
+              <tr *ngIf="projectType == 'PTC'">
+                <th>Visit Date</th>
+                <td>{{ item?.visit_date | date: 'yyyy-MM-d' }}</td>
+              </tr>
               <tr>
                 <th>Shop Name</th>
                 <td>{{ item?.shop_title }}</td>
@@ -85,12 +94,12 @@
               <tr *ngIf="projectType !== 'PTC'">
                 <th>Shop Code</th>
                 <td>{{ item?.survey_id }}</td>
-            </tr>
-              <tr>
+              </tr>
+              <tr *ngIf="type!=='marketAudit' ">
                 <th>Address</th>
                 <td>{{ item?.address }}</td>
               </tr>
-              <tr *ngIf="projectType !== 'PTC'">
+              <tr *ngIf="type!=='marketAudit' ">
                 <th>Channel</th>
                 <td>{{ item?.channel_type }}</td>
               </tr>
@@ -102,12 +111,119 @@
                 <th>Evaluation Status</th>
                 <td>{{ item?.evaluation_status }}</td>
               </tr>
-              <tr *ngIf="projectType == 'IFFCO'">
-                <th>Interception Status</th>
-                <td>{{ item?.status }}</td>
-              </tr>
             </table>
           </mat-card-content>
+          <mat-card-content (click)="goToEvaluationPage(item)" *ngIf="type==='DistributionAudit'">
+            <table class="table" style="cursor: pointer">
+              <!-- Check for DistributionAudit -->
+              
+              <tr >
+                <th>Zone</th>
+                <td>{{ item?.zone }}</td>
+              </tr>
+              <tr >
+                <th>Region</th>
+                <td>{{ item?.region }}</td>
+              </tr>
+              <tr >
+                <th>Area</th>
+                <td>{{ item?.area }}</td>
+              </tr>
+              <tr >
+                <th>City</th>
+                <td>{{ item?.city_name }}</td>
+              </tr>
+              <tr >
+                <th>Distribution</th>
+                <td>{{ item?.distribution }}</td>
+              </tr>
+              <tr >
+                <th>Depot</th>
+                <td>{{ item?.depot }}</td>
+              </tr>
+              <tr >
+                <th>Code</th>
+                <td>{{ item?.m_code }}</td>
+              </tr>
+              <tr >
+                <th>Full Name</th>
+                <td>{{ item?.full_name }}</td>
+              </tr>
+              <tr >
+                <th>Start Time</th>
+                <td>{{ item?.start_time }}</td>
+              </tr>
+              <tr >
+                <th>End Time</th>
+                <td>{{ item?.end_time }}</td>
+              </tr>
+              <tr >
+                <th>Title</th>
+                <td>{{ item?.title }}</td>
+              </tr>
+              <tr >
+                <th>Date</th>
+                <td>{{ item?.date | date: 'yyyy-MM-d'}}</td>
+              </tr>
+              
+            </table>
+          </mat-card-content>
+          <mat-card-content
+  (click)="goToEvaluationPage(item)"
+  *ngIf="type === 'DsrAudit'">
+  <table class="table" style="cursor: pointer">
+    <!-- <tr>
+      <th>Survey ID</th>
+      <td>{{ item?.survey_id }}</td>
+    </tr> -->
+    <tr>
+      <th>M Code</th>
+      <td>{{ item?.m_code }}</td>
+    </tr>
+    <tr>
+      <th>Full Name</th>
+      <td>{{ item?.full_name }}</td>
+    </tr>
+    <tr>
+      <th>BDE Name</th>
+      <td>{{ item?.bde_name }}</td>
+    </tr>
+    <tr>
+      <th>DSR Name</th>
+      <td>{{ item?.dsr_name }}</td>
+    </tr>
+    <tr>
+      <th>Region</th>
+      <td>{{ item?.region }}</td>
+    </tr>
+    <tr>
+      <th>Area</th>
+      <td>{{ item?.area }}</td>
+    </tr>
+    <tr>
+      <th>City</th>
+      <td>{{ item?.city }}</td>
+    </tr>
+    <tr>
+      <th>Depot</th>
+      <td>{{ item?.depot }}</td>
+    </tr>
+    
+    
+    <tr>
+      <th>Sku</th>
+      <td>{{ item?.Question }}</td>
+    </tr>
+    <tr>
+      <th>Quantity  </th>
+      <td>{{ item?.Answer }}</td>
+    </tr>
+    <tr>
+      <th>Visit Date</th>
+      <td>{{ item?.visit_date | date: 'yyyy-MM-d'}}</td>
+    </tr>
+  </table>
+</mat-card-content>
         </mat-card>
       </ng-container>
       <!-- <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator> -->
@@ -115,37 +231,20 @@
   </div>
 </div>
 
-<div
-  bsModal
-  #childModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="dialog-child-name"
->
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-child-name" class="modal-title pull-left">
           {{ selectedItem.shop_title }}
         </h4>
-        <button
-          type="button"
-          class="close pull-right"
-          aria-label="Close"
-          (click)="hideChildModal()"
-        >
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body text-center">
-        <img
-          class="img-responsive"
-          src="{{ ip }}{{ selectedItem.shop_image_url }}"
-          alt=""
-          style="max-height: 500px"
-        />
+        <img class="img-responsive" src="{{ ip }}{{ selectedItem.shop_image_url }}" alt="" style="max-height: 500px" />
       </div>
     </div>
   </div>

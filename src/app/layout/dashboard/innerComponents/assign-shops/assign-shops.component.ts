@@ -162,6 +162,7 @@ successfulInterception: number = -1;
       // code: new FormControl("", [Validators.required]),
       title: new FormControl("", [Validators.required]),
       address: new FormControl(""),
+      code: new FormControl(""),
       shopImageUrl: new FormControl("", [Validators.required]),
       program: this.fb.group({
         id: new FormControl("", [Validators.required]),
@@ -361,10 +362,13 @@ successfulInterception: number = -1;
     this.shopInfoModal.show();
   }
 
-  showSurveyorTimeUpdateModal(surveyorId): void {
+  showSurveyorTimeUpdateModal(surveyorId, shopId): void {
     // this.loadPrograms();
+    console.log("Opening modal with surveyorId:", surveyorId, "shopId:", shopId);
     debugger;
     this.selectedSurveyor = surveyorId;
+    this.shopId = shopId;
+    console.log("SurveyorID:", surveyorId, "ShopID:", shopId);
     this.updateTimeModal.show();
   }
 
@@ -808,6 +812,7 @@ this.totalSaleInput.nativeElement.value = null;
 
       const obj = {
         surveyorId: this.selectedSurveyor,
+        shopId: this.shopId,
         startTime: selectedDay.startTime || null,
         endTime: selectedDay.endTime || null,
         weekDay: selectedDay.value || null,

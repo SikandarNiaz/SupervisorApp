@@ -131,6 +131,10 @@ import { BaEvaluationomponent } from "./innerComponents/ba-evaluation/ba-evaluat
 import { UploadShopsComponent } from "src/app/upload-shops/upload-shops.component";
 import { StockAuditLayerComponent } from "src/app/stock-audit-layer/stock-audit-layer.component";
 import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.component";
+import { MerchandiserListPmidaComponent } from "./innerComponents/merchandiser-list/merchandiser-list-pmida/merchandiser-list-pmida.component";
+import { DistributionAssetReportComponent } from "./distribution-asset-report/distribution-asset-report.component";
+import { DsrAuditListPmidaComponent } from "./innerComponents/merchandiser-list/dsraudit-list-pmida/dsraudit-list-pmida.component";
+import { DistributionAuditListPmidaComponent } from "./innerComponents/merchandiser-list/marketaudit-list-pmida/distributionaudit-list-pmida.component";
 
 
 
@@ -265,7 +269,11 @@ import { AlertsViewComponent } from "./innerComponents/alerts-view/alerts-view.c
   UploadSurveyorRoutesComponent,
   UploadShopsComponent,
   StockAuditLayerComponent,
-  AlertsViewComponent
+  AlertsViewComponent,
+  MerchandiserListPmidaComponent,
+  DistributionAssetReportComponent,
+  DsrAuditListPmidaComponent,
+  DistributionAuditListPmidaComponent
 
 
   

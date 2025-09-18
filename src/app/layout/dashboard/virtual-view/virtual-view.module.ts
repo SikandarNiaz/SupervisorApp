@@ -47,10 +47,11 @@ import { NdnRouterTrackerComponent } from "./ndn-router-tracker/ndn-router-track
 import { PtcRouteTrackerComponent } from "./ptc-router-tracker/ptc-router-tracker.component";
 import { TransmedVoLiveTrackingComponent } from "./transmed-tracking/transmed-vo-live-tracking.component";
 import { TransmedRouteTrackerComponent } from "./transmed-router-tracker/transmed-router-tracker.component";
+import { CensusRouteTrackerComponent } from "./census-router-tracker/census-router-tracker-component";
 
 @NgModule({
   declarations: [VoTrackingComponent,DataTrackingComponent,UnvisistedMapComponent,RouteTrackerComponent, CapturedShopsComponent,VoLiveTrackingComponent,MainComponent,NdnVoLiveTrackingComponent,NdnRouterTrackerComponent,PtcRouteTrackerComponent,
-    TransmedVoLiveTrackingComponent,TransmedRouteTrackerComponent
+    TransmedVoLiveTrackingComponent,TransmedRouteTrackerComponent,CensusRouteTrackerComponent
   ],
   imports: [
     CommonModule,

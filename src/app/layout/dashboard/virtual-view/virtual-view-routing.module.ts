@@ -12,6 +12,7 @@ import { NdnRouterTrackerComponent } from './ndn-router-tracker/ndn-router-track
 import { PtcRouteTrackerComponent } from './ptc-router-tracker/ptc-router-tracker.component';
 import { TransmedVoLiveTrackingComponent } from './transmed-tracking/transmed-vo-live-tracking.component';
 import { TransmedRouteTrackerComponent } from './transmed-router-tracker/transmed-router-tracker.component';
+import { CensusRouteTrackerComponent } from './census-router-tracker/census-router-tracker-component';
 const routes: Routes = [
   { path: '',redirectTo:'list' ,pathMatch:'full' },
   { path: 'list', component:MainComponent,
@@ -36,7 +37,8 @@ children:[
     component:PtcRouteTrackerComponent
   },
   { path: 'transmed-tracking',component:TransmedVoLiveTrackingComponent },
-  { path: 'transmed-routerTracking',component:TransmedRouteTrackerComponent },              
+  { path: 'transmed-routerTracking',component:TransmedRouteTrackerComponent },
+  { path: 'census-routerTracking',component:CensusRouteTrackerComponent },              
 
   // { path: 'vo-live-tracking/:surveyorId', component: VoLiveTrackingComponent }
   

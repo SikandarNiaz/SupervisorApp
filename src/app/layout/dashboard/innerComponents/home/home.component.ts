@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
       this.projectType == "DALDA"||
       this.projectType == "SAMSUNG"||
       this.projectType == "PILOT_BA" ||
-      this.projectType == "DIPITT" || this.projectType == "IFFCO"
+      this.projectType == "DIPITT" || this.projectType == "IFFCO" || this.projectType == "DAYFRESH"
     ) {
       this.isBaModule = true;
     }
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     {
       this.isBaModule1 = true;
     }
-    else if (this.projectType =='PMI_AUDIT') {
+    else if (this.projectType =='PMI_AUDIT' || this.projectType =='PMI_QUIZ') {
       debugger;
       this.checkCookiePolicy = true;
       // this.injectScript();

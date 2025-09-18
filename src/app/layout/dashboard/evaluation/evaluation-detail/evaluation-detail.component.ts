@@ -1,24 +1,24 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import * as moment from "moment";
-import { EvaluationService } from "../evaluation.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { NgModel } from "@angular/forms";
-import { environment } from "src/environments/environment";
-import { Alert } from "selenium-webdriver";
-import { Config } from "src/assets/config";
-import { ModalDirective } from "ngx-bootstrap/modal";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import * as moment from 'moment';
+import { EvaluationService } from '../evaluation.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { NgModel } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { Alert } from 'selenium-webdriver';
+import { Config } from 'src/assets/config';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: "app-evaluation-detail",
-  templateUrl: "./evaluation-detail.component.html",
-  styleUrls: ["./evaluation-detail.component.scss"],
+  selector: 'app-evaluation-detail',
+  templateUrl: './evaluation-detail.component.html',
+  styleUrls: ['./evaluation-detail.component.scss']
 })
 export class EvaluationDetailComponent implements OnInit {
   // ip = environment.ip;
-  @ViewChild("childModal", { static: true }) childModal: ModalDirective;
-  tableTitle = "";
-  title = "Shop list";
+  @ViewChild('childModal', { static: true }) childModal: ModalDirective;
+  tableTitle = '';
+  title = 'Shop list';
   ip: any = Config.BASE_URI;
   tableData: any = [];
   loading: boolean;
@@ -35,21 +35,22 @@ export class EvaluationDetailComponent implements OnInit {
   selectedRegion: any = {};
   selectedItem: any = {};
   userType: any;
+  status: any;
   evaluatorRole: any;
   selectedEvaluationStatus: any = {};
   evaluationStatusArray: any = [
     {
       id: -1,
-      title: "Pending",
+      title: 'Pending'
     },
     {
       id: 1,
-      title: "Approved",
+      title: 'Approved'
     },
     {
       id: 2,
-      title: "Disapproved",
-    },
+      title: 'Disapproved'
+    }
   ];
   p = 0;
   params: any = {};
@@ -58,7 +59,7 @@ export class EvaluationDetailComponent implements OnInit {
   shopRemarkList: any = [];
   selectedFlagRemark: any = {};
   flagRemarkList: any = [];
-
+type:any;
   projectType: any;
   id: any;
 
@@ -69,34 +70,38 @@ export class EvaluationDetailComponent implements OnInit {
     private activeRoute: ActivatedRoute
   ) {
     this.activeRoute.queryParams.subscribe((p) => {
-      console.log("active params", p);
+      //  //console.log('active params', p);
       this.params = p;
-      if (this.projectType == "PTC") {
+      if (this.projectType == 'PTC') {
         if (p.supervisorId && p.startDate && p.endDate && p.userType) {
           this.getSurveyShopDetails(p);
         }
+      } else {
+        if (p.surveyorId && p.startDate && p.endDate && p.userType || p.type && p.status) {
+
+          this.type=p.type
+          console.log(this.type)
+          this.getSurveyShopDetails(p);
+        }
+
       }
-      else{
-      if (p.surveyorId && p.startDate && p.endDate && p.userType) {
-        this.getSurveyShopDetails(p);
-      }
-     }
     });
   }
 
   ngOnInit() {
+    debugger
     const that = this;
     const flag = false;
-    this.userType = localStorage.getItem("user_type");
-    this.projectType = localStorage.getItem("projectType");
-    this.id = localStorage.getItem("id");
-    document.addEventListener("visibilitychange", function (e) {
-      console.log(document.hidden);
+    this.userType = localStorage.getItem('user_type');
+    this.projectType = localStorage.getItem('projectType');
+    this.id = localStorage.getItem('id');
+    document.addEventListener('visibilitychange', function (e) {
+      //  //console.log(document.hidden);
       if (!document.hidden) {
         that.getSurveyShopDetails(that.params);
       }
     });
-    if (this.projectType == "PMI_CENSUS") {
+    if (this.projectType == 'PMI_CENSUS') {
       this.loadFlagRemarks();
       this.loadShopRemarks();
     }
@@ -114,6 +119,7 @@ export class EvaluationDetailComponent implements OnInit {
   }
 
   getSurveyShopDetails(params) {
+
     const obj = {
       supervisorId: params.supervisorId || -1,
       surveyorId: params.surveyorId,
@@ -122,21 +128,25 @@ export class EvaluationDetailComponent implements OnInit {
       userType: params.userType,
       shopRemarkId: this.selectedShopRemark.id || -1,
       flagRemarkId: this.selectedFlagRemark.id || -1,
+      kind:params.type,
+      surveyId:params.surveyId,
+      status:params.status
     };
     this.loading = true;
     this.httpService.getBADataForEvaluation(obj).subscribe(
       (data) => {
-        // console.log(data);
+        // //  //console.log(data);
         this.tableData = data;
+
         if (this.tableData.length === 0) {
           this.loading = false;
           this.loadingData = false;
-          this.toastr.info("No record found.");
+          this.toastr.info('No record found.');
         }
         this.loading = false;
       },
       (error) => {
-        this.toastr.info("There was some error extracting the Data.");
+        this.toastr.info('There was some error extracting the Data.');
         this.loading = false;
       }
     );
@@ -144,30 +154,18 @@ export class EvaluationDetailComponent implements OnInit {
 
   goToEvaluationPage(item) {
     // Sending notEditable Param if shop is already Evaluated (Shop cant be evaluated Twice)
-    if (item.evaluation_status == "N" || item.evaluation_status == "Pending") {
-      if (this.projectType == "RECKITT_CENSUS") {
-      window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.id}`,
-        "_blank"
-      );
+    if (item.evaluation_status == 'N' || item.evaluation_status == 'Pending') {
+      if (this.projectType == 'RECKITT_CENSUS') {
+        window.open(`${environment.hash}dashboard/evaluation/list/details/${item.id}`, '_blank');
+      } else {
+        window.open(`${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`, '_blank');
+      }
     } else {
-      window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}`,
-        "_blank"
-      );
-    }
-  } else {
-    if(this.projectType == "RECKITT_CENSUS"){
-      window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.id}`,
-        "_blank"
-      );
-    }else{
-      window.open(
-        `${environment.hash}dashboard/evaluation/list/details/${item.survey_id}/${item.m_code}`,
-        "_blank"
-      );
-    }
+      if (this.projectType == 'RECKITT_CENSUS') {
+        window.open(`${environment.hash}dashboard/evaluation/list/details/${item.id}`, '_blank');
+      } else {
+        window.open(`${environment.hash}dashboard/evaluation/list/details/${item.survey_id}/${item.m_code}`, '_blank');
+      }
     }
   }
 
@@ -184,10 +182,7 @@ export class EvaluationDetailComponent implements OnInit {
         } else {
           this.loadingData = false;
 
-          this.toastr.info(
-            "Something went wrong,Please retry",
-            "Connectivity Message"
-          );
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
         }
       },
       (error) => {
@@ -209,10 +204,7 @@ export class EvaluationDetailComponent implements OnInit {
         } else {
           this.loadingData = false;
 
-          this.toastr.info(
-            "Something went wrong,Please retry",
-            "Connectivity Message"
-          );
+          this.toastr.info('Something went wrong,Please retry', 'Connectivity Message');
         }
       },
       (error) => {

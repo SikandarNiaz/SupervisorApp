@@ -172,7 +172,18 @@ export class VoLiveTrackingComponent implements OnInit {
         )}&userType=${localStorage.getItem("user_id")}`,
         "_blank"
       );
-    }else{
+    }else if (this.projectType == "PMI_CENSUS" || this.projectType == "SIS_CENSUS"){
+      window.open(
+        `${
+          environment.hash
+        }dashboard/virtual_view/list/census-routerTracking?surveyorId=${
+          shop.surveyorId
+        }&startDate=${this.modifyDate(
+          shop.visit_date
+        )}&userType=${localStorage.getItem("user_id")}`,
+        "_blank"
+      );
+    } else{
     window.open(
       `${
         environment.hash

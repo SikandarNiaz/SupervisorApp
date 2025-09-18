@@ -449,6 +449,37 @@
               </mat-error>
             </div>
           </div>
+
+          <div class="form-group" *ngIf="brandList.length > 0">
+            <label for="Brand">Brand</label>
+            <select
+              formControlName="brand_id"
+              class="form-control"
+              placeholder="Select Brand"
+              name="brand_id"
+              required
+            >
+              <!-- <option [value]="-1" selected>ALL</option> -->
+              <ng-container *ngFor="let b of brandList">
+                <option [value]="b.id">{{ b.title }}</option>
+              </ng-container>
+            </select>
+          
+            <div
+              *ngIf="
+                form.controls.brand_id.errors &&
+                (form.controls.brand_id.touched || form.controls.brand_id.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'brand_id')"
+                class="invalid-feedback"
+              >
+                {{ labels.brandLabel || 'Brand' }} Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+          
         </div>
         <div class="modal-footer">
           <button

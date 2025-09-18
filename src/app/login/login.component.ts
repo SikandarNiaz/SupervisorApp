@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   loadingData: boolean;
 pmida:boolean=false;
+pmitraining:boolean=false;
   projectName: any;
   pmirm: boolean = true;
   email: any;
@@ -45,7 +46,8 @@ pmida:boolean=false;
     localStorage.clear();
     const hostName = window.location.hostname;
     console.log("Host Name ",hostName)
-    this.pmida = hostName?.indexOf("pmida") >= 0 || hostName?.indexOf("localhost") >= 0;
+    this.pmida = hostName?.indexOf("pmida") >= 0 ||hostName?.indexOf("localhost") >= 0;
+    this.pmitraining = hostName?.indexOf("pmitraining") >= 0 ||hostName?.indexOf("localhost") >= 0;
     // debugger;
     // localStorage.clear();
     this.route.queryParams.subscribe(params => {
@@ -122,9 +124,10 @@ pmida:boolean=false;
         localStorage.setItem("projectType", res.projectType);
         var storedProjectType = localStorage.getItem("projectType");
         debugger;
-        if (storedProjectType === 'RECKITT_CENSUS') {
+        if (storedProjectType === 'RECKITT_CENSUS' || storedProjectType === 'PMI_CENSUS') {
           debugger;
           localStorage.setItem("zoneId", res.user.zone_id);
+          localStorage.setItem("regionId", res.user.regionId);
         }else{
           localStorage.setItem("zoneId", res.user.zoneIds);
         }
@@ -137,6 +140,7 @@ pmida:boolean=false;
         localStorage.setItem("AsmEvaluator", res.AsmEvaluator);
         localStorage.setItem("projectType", res.projectType);
         localStorage.setItem("amRole", res.amRole);
+        localStorage.setItem("ReEvaluator", res.ReEvaluator);
         localStorage.setItem(
           "labelProperties",
           JSON.stringify(res.labelProperties)
@@ -177,6 +181,10 @@ pmida:boolean=false;
         this.projectType=storedProjectType;
         if(storedProjectType === 'PMI_AUDIT'){
           this.pmida=true;
+          // this.injectScript();
+        }
+        if(storedProjectType === 'PMI_QUIZ'){
+          this.pmitraining=true;
           // this.injectScript();
         }
          console.log("Project Name",storedProjectType,this.pmida);

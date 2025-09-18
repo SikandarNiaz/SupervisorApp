@@ -66,6 +66,7 @@ export class AdminLoginComponent implements OnInit {
 
     this.httpService.login(loginForm).subscribe(
       (data: Response) => {
+        console.log ("Login Data ",data)
         const res: any = data;
         localStorage.setItem("isLoggedin", "true");
         localStorage.setItem("today", moment(new Date()).format("YYYY-MM-DD"));
@@ -76,9 +77,10 @@ export class AdminLoginComponent implements OnInit {
         localStorage.setItem("projectType", res.projectType);
         var storedProjectType = localStorage.getItem("projectType");
         debugger;
-        if (storedProjectType === 'RECKITT_CENSUS') {
+        if (storedProjectType === 'RECKITT_CENSUS'|| storedProjectType === 'PMI_CENSUS') {
           debugger;
           localStorage.setItem("zoneId", res.user.zone_id);
+          localStorage.setItem("regionId", res.user.regionId);
         }else{
           localStorage.setItem("zoneId", res.user.zoneIds);
         }
@@ -89,6 +91,7 @@ export class AdminLoginComponent implements OnInit {
         localStorage.setItem("menu", JSON.stringify(res.list));
         localStorage.setItem("Evaluator", res.Evaluator);
         localStorage.setItem("AsmEvaluator", res.AsmEvaluator);
+        localStorage.setItem("ReEvaluator", res.ReEvaluator);
         localStorage.setItem("projectType", res.projectType);
         localStorage.setItem("amRole", res.amRole);
         localStorage.setItem(
@@ -186,19 +189,19 @@ export class AdminLoginComponent implements OnInit {
         }
     );
 }
-agreeToTerms = false;
-onCheckboxChange(event: any): void {
-  console.log("event: ",event);
-  console.log("event.checked: ",event?.checked);
-  this.agreeToTerms = event.checked;
-  if (this.agreeToTerms) {
-      window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
-  }
-}
+// agreeToTerms = false;
+// onCheckboxChange(event: any): void {
+//   console.log("event: ",event);
+//   console.log("event.checked: ",event?.checked);
+//   this.agreeToTerms = event.checked;
+//   if (this.agreeToTerms) {
+//       window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
+//   }
+// }
 
-onCheckboxChangeNew(){
-// window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
-window.open('https://pmirm.rtdtradetracker.com/images/PMI%20Employee%20Privacy%20Statement.pdf', '_blank');
-}
+// onCheckboxChangeNew(){
+// // window.open('https://www.pmiprivacy.com/global/en/consumer/', '_blank');
+// window.open('https://pmirm.rtdtradetracker.com/images/PMI%20Employee%20Privacy%20Statement.pdf', '_blank');
+// }
 
 }
