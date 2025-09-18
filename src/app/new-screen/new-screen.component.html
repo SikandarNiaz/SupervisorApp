@@ -199,6 +199,7 @@
                 item.field_type === 'rating' ||
                 item.field_type === 'exist_question' ||
                 item.field_type === 'form' ||
+                item.field_type === 'bar_code' ||
                 item.field_type === 'image'
               "
               (click)="
@@ -207,6 +208,7 @@
                   item.field_type !== 'rating' &&
                   item.field_type !== 'exist_question' &&
                   item.field_type !== 'form' &&
+                  item.field_type !== 'bar_code' &&
                   item.field_type !== 'image' &&
                   gettingFieldValue(item)
               "
@@ -675,7 +677,7 @@
         </div>
         <!-- Continue with other conditional fields -->
         <!-- Input type for text_field -->
-        <div *ngIf="newfeildtype === 'text_field'" class="form-group">
+        <div *ngIf="newfeildtype === 'text_field' || newfeildtype == 'bar_code' || newfeildtype == 'switch_type'" class="form-group">
           <label for="textFieldType">Data Type:</label>
           <select [(ngModel)]="textFieldType" class="form-control" id="textFieldType">
             <option value="numeric">Numeric</option>
@@ -693,12 +695,15 @@
           *ngIf="
             newfeildtype !== 'form' &&
             newfeildtype !== 'text_field' &&
+            newfeildtype !== 'bar_code' &&
+            newfeildtype !== 'switch_type' &&
             newfeildtype !== 'image' &&
             newfeildtype !== 'Select Data Type' &&
             newfeildtype !== 'rating' &&
             newfeildtype !== 'date'  &&
             newfeildtype !== 'multi_text'  &&
             newfeildtype !== 'exist_question'  &&
+            newfeildtype !== 'form_value'  &&
             newfeildtype
           "
         >
@@ -821,7 +826,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <mat-card>
+      <mat-card style="padding: 0px;">
         <!-- <i [ngClass]="{ 'fa fa-cog': !loadingData, 'fa fa-cog fa-spin': loadingData }"></i> -->
         <ng-container *ngIf="ff && ff.length > 0">
           <button class="btn btn-primary" (click)="sc(ff, 'add')">Add</button>
@@ -841,7 +846,8 @@
               <tr *ngFor="let item of ff; let x = index">
                 <th scope="row">{{ x + 1 }}</th>
                 <td>
-                  <div *ngIf="ffDataType !== 'multi_selection'">
+                  <!-- <div *ngIf="ffDataType !== 'multi_selection'"> -->
+                    <div>
                     <a
                       role="button"
                       (click)="logicFieldList(item)"
@@ -849,9 +855,9 @@
                       >{{ item.title }}</a
                     >
                   </div>
-                  <div *ngIf="ffDataType === 'multi_selection'">
+                  <!-- <div *ngIf="ffDataType === 'multi_selection'">
                     {{ item.title }}
-                  </div>
+                  </div> -->
                 </td>
                 <td>{{ item.order_id }}</td>
                 
@@ -918,6 +924,7 @@
     </div>
   </div>
 </div>
+
 <!-- ////////////////Add Values////// -->
 
 <div
@@ -975,21 +982,21 @@
         {{ item.feildtitle }}
       </div>
 
-      <!-- For single_selection (radio buttons) -->
-      <div *ngIf="item.datatype === 'single_selection' && item.fieldtype === 'NORMAL'" class="answers">
+      <!-- Multi-selection (checkboxes) with child questions -->
+      <div *ngIf="item.datatype === 'multi_selection' && item.fieldtype === 'NORMAL'" class="answers">
         <div *ngFor="let itemId of item.formvalue_titles; let j = index">
-          <label for="{{ item.itemId }}_radio{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
+          <label for="{{ item.itemId }}_checkbox{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
           <input 
-            type="radio" 
-            id="{{ item.itemId }}_radio{{ j + 1 }}" 
-            name="{{ item.itemId }}_radioGroup" 
-            (change)="onRadioChange(item, j, i)" />
+            type="checkbox" 
+            id="{{ item.itemId }}_checkbox{{ j + 1 }}" 
+            (change)="onNestedRadioChange1(item, j, i)" 
+          />
         </div>
 
-        <!-- Nested child questions based on objr -->
+        <!-- Display child questions for multi_selection items -->
         <div *ngFor="let ob of objr; let k = index">
           <div *ngIf="ob.ffid === item.formfeild_id">
-            <span class="question-label">Question:</span>
+            <span class="question-label">Child Question:</span>
             {{ ob.field }}
 
             <!-- Inner single_selection (radio buttons) -->
@@ -1000,7 +1007,8 @@
                   type="radio" 
                   id="{{ ob.field }}_radio{{ j + 1 }}" 
                   name="{{ ob.field }}_radioGroup" 
-                  (change)="onNestedRadioChange(ob,j)"/>
+                  (change)="onNestedRadioChange(ob,j)" 
+                />
               </div>
             </div>
 
@@ -1022,58 +1030,26 @@
                 <i class="fas fa-calendar-alt" (click)="openDatePicker()"></i>
               </div>
             </div>
-
-            <!-- Nested child questions based on objp -->
-          <!-- Nested child questions based on objp -->
-<div *ngFor="let op of objp; let l = index">
-  <div *ngIf="op.ffid === ob.form_field_id1"> <!-- Adjust to match your logic -->
-    <span class="question-label">Question:</span>
-    {{ op.field }}
-
-    <!-- Inner single_selection (radio buttons) -->
-    <div *ngIf="op.datatype === 'single_selection'" class="answers">
-      <div *ngFor="let data of op.field_values.split(','); let m = index">
-        <label for="{{ op.field }}_radio{{ m + 1 }}" class="answer-label">{{ data }}</label>
-        <input type="radio" id="{{ op.field }}_radio{{ m + 1 }}" name="{{ op.field }}_radioGroup"/>
-      </div>
-    </div>
-
-    <!-- Inner multi_selection (checkboxes) -->
-    <div *ngIf="op.datatype === 'multi_selection'" class="answers">
-      <div *ngFor="let data of op.field_values.split(','); let m = index">
-        <label for="{{ op.field }}_checkbox{{ m + 1 }}" class="answer-label">{{ data }}</label>
-        <input type="checkbox" id="{{ op.field }}_checkbox{{ m + 1 }}" />
-      </div>
-    </div>
-
-    <!-- Inner other input types (text, image, date, form) -->
-    <div *ngIf="['text_field', 'image', 'form', 'date'].includes(op.datatype)" class="answers">
-      <input *ngIf="op.datatype === 'text_field'" type="text" placeholder="Enter Answer" />
-      <input *ngIf="op.datatype === 'image'" type="file" placeholder="Select Image" />
-      <button *ngIf="op.datatype === 'form'" type="submit">Submit</button>
-      <div *ngIf="op.datatype === 'date'" class="date-input-container">
-        <input type="date" />
-        <i class="fas fa-calendar-alt" (click)="openDatePicker()"></i>
-      </div>
-    </div>
-
-  </div>
-</div>
-
           </div>
         </div>
       </div>
 
-      <!-- For multi_selection (checkboxes) -->
-      <div *ngIf="item.datatype === 'multi_selection' && item.fieldtype === 'NORMAL'" class="answers">
-        <div *ngFor="let itemId of item.formvalue_titles; let j = index">
-          <label for="{{ item.itemId }}_checkbox{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
-          <input type="checkbox" id="{{ item.itemId }}_checkbox{{ j + 1 }}" />
+      <!-- Other input types (single selection, text, image, date, form) for normal fieldtypes -->
+      <div *ngIf="item.datatype !== 'multi_selection' && item.fieldtype === 'NORMAL'" class="answers">
+        <!-- Single selection (radio buttons) -->
+        <div *ngIf="item.datatype === 'single_selection'" class="answers">
+          <div *ngFor="let itemId of item.formvalue_titles; let j = index">
+            <label for="{{ item.itemId }}_radio{{ j + 1 }}" class="answer-label">{{ itemId }}</label>
+            <input 
+              type="radio" 
+              id="{{ item.itemId }}_radio{{ j + 1 }}" 
+              name="{{ item.itemId }}_radioGroup" 
+              (change)="onRadioChange(item, j, i)" 
+            />
+          </div>
         </div>
-      </div>
 
-      <!-- For other input types (text, image, date, form) -->
-      <div *ngIf="['text_field', 'image', 'form', 'date'].includes(item.datatype) && item.fieldtype === 'NORMAL'" class="answer-input">
+        <!-- Other input types (text, image, date, form) -->
         <input *ngIf="item.datatype === 'text_field'" type="text" placeholder="Enter Answer" />
         <input *ngIf="item.datatype === 'image'" type="file" placeholder="Select Image" />
         <button *ngIf="item.datatype === 'form'" type="submit">Submit</button>
@@ -1084,7 +1060,6 @@
     </ng-container>
   </div>
 </div>
-
 
 
                                             <!-- Submit Form  -->
