@@ -378,6 +378,11 @@ export class DashboardService {
     const url = this.ip + "merchandiserAttendanceDetail"; // -------> MerchandiserAttendanceDetailController
     return this.http.post(url, urlEncode, this.httpOptions);
   }
+  getGroomingData(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "groomingView";
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
   getBAList(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "BAList"; // ------> BAListController

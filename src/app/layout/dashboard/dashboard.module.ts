@@ -135,6 +135,7 @@ import { MerchandiserListPmidaComponent } from "./innerComponents/merchandiser-l
 import { DistributionAssetReportComponent } from "./distribution-asset-report/distribution-asset-report.component";
 import { DsrAuditListPmidaComponent } from "./innerComponents/merchandiser-list/dsraudit-list-pmida/dsraudit-list-pmida.component";
 import { DistributionAuditListPmidaComponent } from "./innerComponents/merchandiser-list/marketaudit-list-pmida/distributionaudit-list-pmida.component";
+import { GroomingViewComponent } from "src/app/grooming-view/grooming-view.component";
 
 
 
@@ -273,7 +274,8 @@ import { DistributionAuditListPmidaComponent } from "./innerComponents/merchandi
   MerchandiserListPmidaComponent,
   DistributionAssetReportComponent,
   DsrAuditListPmidaComponent,
-  DistributionAuditListPmidaComponent
+  DistributionAuditListPmidaComponent,
+  GroomingViewComponent
 
 
   

@@ -46,7 +46,7 @@ export class MerchandiserListComponent implements OnInit {
     this.userTypeId = localStorage.getItem("user_type");
     this.reEvaluatorRole = localStorage.getItem("ReEvaluator");
     console.log("re-evaluator-id ",this.reEvaluatorRole)
-    if (!["RECKITT_CENSUS", "PMI_CENSUS"].includes(localStorage.getItem("projectType"))){
+    if (!["RECKITT_CENSUS", "PMI_CENSUS", "PSO_CENSUS"].includes(localStorage.getItem("projectType"))){
     if (this.userTypeId == this.evaluatorRole || this.userTypeId == this.reEvaluatorRole) {
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.startDate.setDate(this.startDate.getDate() - 1);

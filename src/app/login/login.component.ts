@@ -124,7 +124,7 @@ pmitraining:boolean=false;
         localStorage.setItem("projectType", res.projectType);
         var storedProjectType = localStorage.getItem("projectType");
         debugger;
-        if (storedProjectType === 'RECKITT_CENSUS' || storedProjectType === 'PMI_CENSUS') {
+        if (storedProjectType === 'RECKITT_CENSUS' || storedProjectType === 'PMI_CENSUS' || storedProjectType === 'PSO_CENSUS') {
           debugger;
           localStorage.setItem("zoneId", res.user.zone_id);
           localStorage.setItem("regionId", res.user.regionId);
