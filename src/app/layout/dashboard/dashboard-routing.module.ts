@@ -89,6 +89,7 @@ import { DistributionAssetReportComponent } from "./distribution-asset-report/di
 import { DistributionAuditListPmidaComponent } from "./innerComponents/merchandiser-list/marketaudit-list-pmida/distributionaudit-list-pmida.component";
 import { DsrAuditListPmidaComponent } from "./innerComponents/merchandiser-list/dsraudit-list-pmida/dsraudit-list-pmida.component";
 import { AppComponent } from "src/app/app.component";
+import { GroomingViewComponent } from "src/app/grooming-view/grooming-view.component";
 
 
 
@@ -220,9 +221,11 @@ const routes: Routes = [
 
       { path: "payroll-process", component: PayrollProcessComponent },
       { path: "payroll-unprocess", component: PayrollUnprocessComponent },
-      // {path: 'app-admin-login-pmi', component:  AdminLoginPmiComponent},
       { path: "alert-view", component: AlertsViewComponent },
-      
+      {
+        path: "app-grooming-view",
+        component: GroomingViewComponent,
+      },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },
@@ -301,6 +304,7 @@ const routes: Routes = [
     path: "app-stock-management-summery",
     component: StockManagementSummeryComponent,
   },
+
   {
     path: "app-rm-distributor-summary",
     component: RmDistributorSummaryComponent,
